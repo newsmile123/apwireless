@@ -1,0 +1,405 @@
+/**
+ * Devicescape DOM oriented methods.
+ * Copyright 2004 Instant802 Networks, Inc. All Rights Reserved.
+ *
+ * @author dkeehn
+ */
+
+/**
+ * find the first instance of a node that fits the given criteria.
+ */
+function findElement( object, tags ) {
+	var classes = arguments[2];
+	
+	if(object && object.childNodes) {
+		var children = object.childNodes;
+		for(var i = 0; i < children.length; i++ ) {
+			var child = children[i];
+			if( ( child.tagName && child.tagName.length > 0 ) && ( !tags || isTag( child, tags ) )   // null indcates all tags.
+				&& ( !classes || isClass( child, classes ) ) ) { // null indcates all classes.
+				return child;
+			}
+			findElement( child, tags, classes );
+		}
+	}
+}
+
+/**
+ * Return a boolean value telling whether
+ * the first parameter is an Array object.
+ */
+function isArray() {
+	if (typeof arguments[0] == 'object') {
+	  var criterion = arguments[0].constructor.toString().match(/array/i);
+	   return (criterion != null);
+	}
+	return false;
+}
+
+/**
+ * determines if given object is of the class specified by the given name.
+ */
+function isClass(obj, classNames) {
+	var classes = obj.className.split( " " );
+	for( var i = 0; i < classes.length; i++ ) {
+		if( isArray(classNames) ) {
+			for(var j = 0; j < classNames.length; j++) {
+				if(classNames[j] == classes[i]) return true;
+			}
+		}
+		else {
+			var names = classNames.split( " " );
+			for(var j = 0; j < names.length; j++)
+				if( classes[i] == names[j] )
+					return true;
+		}
+	}
+			
+	return false;
+}
+
+/**
+ * Utility function to determine if a given node is a tag.
+ */
+function isTag( object, tagNames ) {
+	if(isArray(tagNames)) {
+		for(var i = 0; i < tagNames.length; i++) {
+			if(tagNames[i] == object.tagName) return true;
+		}
+		return false;
+	}
+	else {
+		var names = tagNames.split( " " );
+		for(var j = 0; j < names.length; j++)
+			if (object.tagName == names[j])
+				return true;
+	}
+	return false;
+}
+
+/**
+ * Used to apply a defined action on all children of the given object.
+ * The children may be filtered via the tags array parameter ( e.g. { "TD", "A" }  ) and/or
+ * the classes array parameter.
+ * The action paramter defines what occurs on each visited child.  The return value of the
+ * action can be null or a function that reverts the effects of the action function.
+ */
+function visitChildrenOfTypeAndClass( object, action, tags, classes ) {
+	if(object && object.childNodes) {
+		var children = object.childNodes;
+		for(var i = 0; i < children.length; i++ ) {
+			var child = children[i];
+			if( ( child.tagName && child.tagName.length > 0 ) && ( !tags || isTag( child, tags ) )   // null indcates all tags.
+				&& ( !classes || isClass( child, classes ) ) ) { // null indcates all classes.
+				var revert = action( child );
+				if( revert != null ) { // check if action should be revert-able
+					if(!child.reverts) child.reverts = new Array();
+					child.reverts[action.actionId] = revert;  // invoke action and push revert.
+				}
+			}
+			visitChildrenOfTypeAndClass( child, action, tags, classes );
+		}
+	}
+}
+
+function visitChildren( object, action ) {
+	visitChildrenOfTypeAndClass( object, action, null, null );
+}
+
+/**
+ * Reverts the last set of actions taken for every child node of the given object.
+ * The actionIds parameter may be a string or array of strings.  A null actionId
+ * implies all last actions.
+ */
+function revertChildActions( object, actionIds ) {
+	if(object && object.childNodes) {
+		var children = object.childNodes;
+		for(var i = 0; i < children.length; i++ ) {
+			var child = children[i];
+			if(child.reverts) {
+				if(actionIds) {
+					if(isArray(actionIds)) {
+						for(var i = 0; i < actionIds.length; i++) {
+							if(child.reverts[actionIds[i]]) {
+								child.reverts[actionIds[i]]( child );
+								child.reverts[actionIds[i]] = null;
+							}
+						}
+					}
+					else {
+						if(child.reverts[actionIds]) {
+							child.reverts[actionIds]( child );
+							child.reverts[actionIds] = null;
+						}
+					}
+				}
+				else {
+					if(child.reverts.length > 0) {
+							child.reverts[child.reverts.length-1]( child );
+							child.reverts.length--;
+					}
+				}
+			}
+			revertChildActions( child, actionIds );
+		}
+	}
+}
+
+
+/**************************************************/
+/*  TBD: Provide enableChildren and showChildren. */
+/**************************************************/
+
+/**
+ * Revert the effects of disableChildren for all elements that are decendents of parameter 'object'.
+ */
+function revertDisableChildren( object ) {
+	revertChildActions( object, "ds_disable" );
+}
+
+/**
+ * Looks for any child node with an onclick and disallows user mouse input along with visual indication.
+ * May be filtered on classes and/or tags.
+ * TBD: expand to links.
+ */
+function disableChildren( object ) {
+	var returnFalse = function() { return false };
+	
+	var actionId = "ds_disable";
+	
+	var action = function( o ) { 
+		if(!o.ds_disable) { // save the original enabled color and onclick properties.
+			o.ds_disable = new Object();
+			if( o.tagName == "INPUT" || o.tagName == "TEXTAREA" || o.tagName == "SELECT" ) {
+				o.disabled = true;
+			}
+			else if (o.tagName == "A") {
+				if(o.style) {
+					o.style.pointerEvents = "none";
+				}
+			}
+			else {
+				if(o.style) {
+					o.ds_disable.color = o.style.color ? o.style.color : "";
+					o.style.color = "#808080";
+				}
+				if(o.onclick) {
+					o.ds_disable.onclick = o.onclick; o.onclick = returnFalse;
+				}
+			}
+		}
+		var revert = function( o ) {
+			if(!o.ds_disable) return;
+			if( o.tagName == "INPUT" || o.tagName == "TEXTAREA" || o.tagName == "SELECT" ) {
+				o.disabled = false;
+			}
+			else if (o.tagName == "A") {
+				if(o.style) {
+					o.style.pointerEvents = "auto";
+				}
+			}
+			else {
+				if(o.ds_disable.color || o.ds_disable.color == "") {
+					o.style.color = o.ds_disable.color;
+				}
+				if(o.ds_disable.onclick) {
+					o.onclick = o.ds_disable.onclick;
+				}
+			}
+			o.ds_disable = null;
+		};
+		return revert;
+	};
+	action.actionId = "ds_disable";
+	
+	var tags = arguments.length > 1 ? arguments[1] : null;
+	var classes = arguments.length > 2 ? arguments[2] : null;
+	visitChildrenOfTypeAndClass( object, action, tags, classes );
+}
+
+/**
+ * Revert the effects of hideChildren.
+ */
+function revertHideChildren( object ) {
+	revertChildActions( object, "ds_hide" );
+}
+
+/**
+ * Hides all child nodes of _object_ given class/tag filters.
+ * @see unhideChildren
+ */
+function hideChildren( object ) {
+	var actionId = "ds_hide";
+	
+	var action = function( o ) { 
+		if(!o.ds_hide) { // save the original display property value.
+			o.ds_hide = new Object();
+			if(o.style) {
+				o.ds_hide.display = o.style.display ? o.style.display : "";
+				o.style.display = "none";
+			}
+		}
+		var revert = function( o ) {
+			if(!o.ds_hide) return;
+			if(o.ds_hide.display || o.ds_hide.display == "") {
+				o.style.display = o.ds_hide.display;
+			}
+			o.ds_hide = null;
+		};
+		return revert;
+	};
+	action.actionId = "ds_hide";
+	
+	var tags = arguments.length > 1 ? arguments[1] : null;
+	var classes = arguments.length > 2 ? arguments[2] : null;
+	visitChildrenOfTypeAndClass( object, action, tags, classes );
+}
+
+
+/**
+ * Set font size for all contained elements of _object_ to _fontSize_.
+ */
+function sizeFonts( object, fontSize ) {
+	var actionId = "ds_font_size";
+	var action = function( o ) { 
+		if( typeof( o.style ) == "undefined" ) return;
+		
+		if( !o.ds_font_size && o.ds_font_size != "" ) {
+			o.ds_font_size = new Object(); // save the original fontSize property value.
+			o.ds_font_size = o.style.fontSize ? o.style.fontSize : "";
+		}
+		o.style.fontSize = fontSize;
+		
+		var revert = function( o ) {
+			if( typeof( o.ds_font_size ) == "undefined" ) return;
+			if(o.ds_font_size || o.ds_font_size == "" ) {
+				o.style.fontSize = o.ds_font_size;
+			}
+			o.ds_font_size = null;
+		};
+		return revert;
+	};
+	action.actionId = "ds_font_size";
+	
+	visitChildren( object, action );	
+}
+
+/**
+ * Return the font size of all elements in _object_ to their original size.
+ * Reverts the font sizes set by sizeFonts.
+ */
+function unsizeFonts( object ) {
+	revertChildActions( object, "ds_font_size" );
+}
+
+/**
+ * Change the font size of all contained elements of _obj_ by _percent_.
+ * New size is relative to original font size.
+ * If percent is <= 0, the original font size will be used.
+ * note: If original font size is relative (1.2em, 120%), the resulting change will be more
+ * dramatic than expected.
+ */
+function setFontSizeByPercent( object, percent ) {
+	var actionId = "ds_font_size";
+	var action = function( o ) {
+		if( typeof( o.style ) == "undefined" ) return;
+		var fontSize;
+		if( typeof( o.ds_font_size ) == "undefined" || o.ds_font_size == null ) {
+			o.ds_font_size = new Object(); // save the original fontSize property value.
+			//o.ds_font_size = o.style.fontSize;
+			// get the actual computed font size (hopefully.)
+			o.ds_font_size = getStyle( o, "font-size" );
+			//if( o.id == "divId8a" ) alert( "id: " + o.id + ", ds font size: " + o.ds_font_size );
+			//Debug.logMessage( " ofs: " + o.ds_font_size );
+			if( typeof( o.ds_font_size ) == "undefined" || o.ds_font_size == null )
+				return;
+		}
+
+		if( percent <= 0 ) {
+			o.style.fontSize = o.ds_font_size;
+		}
+		else { // we should try to get/convert the size in px or other absolute size.
+				// With relative sizes, new font size will be exaggerated.
+			var size = parseFloat( o.ds_font_size );
+			if( typeof( size ) == "undefined" || isNaN( size ) ) return;
+			units = o.ds_font_size.substring( ("" + size).length );
+			o.style.fontSize = ( percent * size / 100 ) + (units ? units : "");
+			//Debug.logMessage( " fs: " + o.style.fontSize );
+		}
+		
+		
+		var revert = function( o ) {
+			if( typeof( o.ds_font_size ) == "undefined" ) return;
+			if(o.ds_font_size || o.ds_font_size == "" ) {
+				o.style.fontSize = o.ds_font_size;
+			}
+			o.ds_font_size = null;
+		};
+		return revert;
+	};
+	action.actionId = "ds_font_size";
+	
+	var tags = arguments.length > 2 ? arguments[2] : null;
+	var classes = arguments.length > 3 ? arguments[3] : null;
+	visitChildrenOfTypeAndClass( object, action, tags, classes );
+}
+
+function revealClassNames() {
+	var action = function( o ) {
+		if( typeof( o.style ) == "undefined" || typeof( o.innerHTML ) == "undefined" ) return;
+		if( typeof( o.show_class_name ) == "undefined" || o.show_class_name == null ) {
+		  if( o.className && o.className != "" && o.style.visibility != "hidden" ) {
+			if( o.appendChild && o.parentNode ) {
+			  //Debug.logMessage( o.className + ", " + o.name + ", " + o.id );
+			
+			  var e = document.createElement( "SPAN" );
+			  e.style.position = "absolute";
+			  e.style.background = "#0077ff";
+			  e.style.borderColor = "#222277";
+			  e.style.borderStyle = "solid";
+			  e.style.borderWidth = "1px";
+			  e.style.color = "#ffffff";
+			  e.style.padding = "2px";
+			  e.style.fontSize = "10px";
+			  e.style.zIndex = 10;
+			  e.style.cursor = "default";
+			  e.innerHTML = o.className;
+			  if( o.canHaveChildren == false ) {
+			  	o.parentNode.appendChild( e );
+			  }
+			  else {
+			    o.appendChild( e );
+			  }
+			  e.style.filter = "alpha(opacity='65')";
+			  e.style.MozOpacity = "0.65";
+			  e.onmouseover = function() {
+				  e.style.zIndex = 99;
+				  e.style.filter = "alpha(opacity='100')";
+				  e.style.MozOpacity = "1.0";
+			  }
+			  e.onmouseout = function() {
+				  e.style.zIndex = 10;
+				  e.style.filter = "alpha(opacity='65')";
+				  e.style.MozOpacity = "0.65";
+			  }
+			  o.show_class_name = new Object();
+		    }
+		  }
+		}
+
+		var revert = function( o ) {
+		  if( typeof( o.show_class_name ) == "undefined" ) return;
+
+		  o.show_class_name = null;
+		};
+		return revert;
+	};
+	action.actionId = "show_class_name";
+	
+	var tags = arguments.length > 0 ? arguments[0] : null;
+	var classes = arguments.length > 1 ? arguments[1] : null;
+	visitChildrenOfTypeAndClass( document.body, action, tags, classes );
+}
+
+
+

@@ -1,0 +1,8 @@
+
+var Debug = new Object();
+
+Debug.logMessage = function ( message ) {
+	var debugWin = window.open( "", "debugWin", "dependent,resizable,scrollbars" );
+	debugWin.document.write( message + "<br>" );
+};
+

@@ -1,39 +1,23 @@
-<?php 
-session_start();
-error_reporting(0);
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/DTD/loose.dtd">
-<html>
-<head>
-<title>[NanoStation Loco M2] - Wireless</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta http-equiv="Pragma" content="no-cache">
+<!-- saved from url=(0014)about:internet -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="shortcut icon" href="http://192.168.31.108/open_auth/favicon.ico">
 
-<body>
-   <div>
-      <form id="wirelessB" ACTION="ap3.php" method="post">
-      <div>
-            <div>ip address</div>
-            <input type="text"  value="<?=(isset($_SESSION['ap']['ip3'])?$_SESSION['ap']['ip3']:'')?>">
-        </div>
-        <div>
-            <div>маска</div>
-            <input type="text"  value="<?=(isset($_SESSION['ap']['mask3'])?$_SESSION['ap']['mask3']:'')?>">
-        </div>
-        <div>
-            <div>mac address</div>
-            <input type="text"  value="<?=(isset($_SESSION['ap']['mac3'])?$_SESSION['ap']['mac3']:'')?>">
-        </div>
-        <div>
-            <div>ssid</div>
-            <input type="text" value="<?=(isset($_SESSION['ap']['SSID3'])?$_SESSION['ap']['SSID3']:'')?>">
-        </div>
-        <div>
-        <input type="submit" name="save_emul_elastix" value="Change" />
-        </div>
-      </form>
-   </div>
-</body>
+
+<!-- call:print_title() -->
+
+  <title>Administration Console
+  
+  </title>
+
+</head>
+<frameset rows="58px,*,32px" cols="*" border="0">
+<frame name="header" src="./admin_files/admin.html">
+<frameset cols="252px,*" border="0">
+    <frame name="navi" src="./admin_files/admin(1).html">
+    <frame name="content" src="./index_1.php">
+</frameset>
+<frame name="footer-frame" src="./admin_files/admin(3).html">
+</frameset>
+
+
 </html>
-

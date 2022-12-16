@@ -1,0 +1,141 @@
+/* Copyright 2004 Instant802 Networks, Inc. All Rights Reserved. */
+/**
+ * poll.js - allow client to poll server-side objects (e.g. device manager, orchestrator, and config.xml) while avoiding page refresh.
+ *
+ * Poller allows client code to retrieve values from data services (e.g. device, cluster, config.)
+ * Values are returned via a callback since they may not be immediately available.
+ * An effort to retrieve a value will continue as long as
+ * a value has not been returned and the polling duration has not been exceeded.
+ * If the callback returns true prior to the duration being exceeded, polling
+ * will continue.  You would use this if you expect the value to
+ * change during the polling period (e.g. device.cluster.locally-modified.)
+ * Values are stored off of the current document object using the result path to
+ * build a DOM branch.  For instance if you polled for "device.cluster.locally-modified",
+ * the result would be assigned to "document.device.cluster.locally_modified".  Note the
+ * use of '_' in place of '-' (minus).
+ *
+ *
+ * Example of use:
+ *
+ * In your HTML say you have something like the following:
+ *
+ * ------------------------------
+ * function myFunction( value ) {
+ *   document.getElementById('pollResponse').innerHTML=document.device.cluster.locally_modified;
+ * }
+ *
+ * <p>The server, via the poll handler, tells me that the configuration locally-modified flag is: <span id="pollResponse"></span></p>
+ * <a href="javascript:void( (new Poller( 'device.cluster.locally-modified', myFunction, 1000, 60000 )).start() );">Start Polling!</a>;
+ * ------------------------------
+ *
+ * This will cause the writing of "0" or "1" within the span tag above.
+ */
+
+var _POLLERs = new Array();
+
+/**
+ * Reload script if value is not available or current Poller callback returns true.
+ * Function is timer invoked, thus 'this' == 'window'.
+ */
+function _reloadScript( scriptId ) {
+	
+	var head = document.getElementsByTagName('head').item(0);
+	var old  = document.getElementById(scriptId);
+
+	if (old) head.removeChild(old);
+
+	var p = _POLLERs[scriptId];
+	var delta = (new Date()).valueOf() - p.startTime;
+	if( delta >= p.duration ) {
+		window.clearInterval( p.timer );
+		// duration expired, send undefined.
+		if( p.callBack ) p.callBack( p.path, this.foo );
+		return;
+	}
+	
+	var exists = true;
+	var test = "document";
+	var parts = p.resultPath.split('.');
+	for( i = 0; tk = parts[i]; i++ ) {
+		test += "." + tk;
+		if( typeof( eval( test ) ) == "undefined" ) {
+			exists = false;
+			break;
+		}
+	}
+	var continuePolling = false;
+	if( exists ) {
+		if( p.callBack ) {
+			//Debug.logMessage( "Result for " + p.resultPath + " is " + eval( "document." + p.resultPath ) );
+			continuePolling = p.callBack( p.resultPath, eval( "document." + p.resultPath ) );
+		}
+	}
+	if( continuePolling || !exists ) {
+		script = document.createElement('script');
+	
+		var now= new Date();
+		script.src = "admin.cgi?poll=" + p.objectPath + "@" + now.valueOf();
+		script.type = 'text/javascript';
+		script.defer = true;
+		script.id = scriptId;
+	
+		void(head.appendChild(script));
+	}
+	else {
+		window.clearInterval( p.timer );
+	}
+}
+
+/**
+ * Every this.interval milliseconds poll the specified server script for the for the given object path.
+ */
+function _startPolling() {
+	this.startTime = (new Date()).valueOf();
+	_reloadScript( this.scriptId ); // poll at 0.
+	this.timer=setInterval("_reloadScript(" + this.scriptId + " )", this.interval ); // subsequent polls at intervals.
+}
+
+/**
+ * Unconditionally stop polling.
+ */
+function _stopPolling() {
+	window.clearInterval(this.timer);
+}
+
+/**
+ * Poller allows client code to retrieve values from data services (e.g. device, cluster, config.)
+ * Values are returned via a callback since they may not be immediately available.
+ * An effort to retrieve a value will continue as long as
+ * a value has not been returned and the polling duration has not been exceeded.
+ * If the callback returns true prior to the duration being exceeded, polling
+ * will continue.  You would use this if you expect the value to
+ * change during the polling period (e.g. device.cluster.locally-modified.)
+ * Values are stored off of the current document object using the result path to
+ * build a DOM branch.  For instance if you polled for "device.cluster.locally-modified",
+ * the result would be assigned to "document.device.cluster.locally_modified".  Note the
+ * use of '_' in place of '-' (hyphen).
+ *
+ * @param path - object path (e.g. "device.system.host".)
+ * @param cb - callback function invoked when an object or property value is available.
+ * @param interval - how often to query for value (half a second by default.)
+ * @param duration - how long to check for value (1.8 seconds by default.)
+ */
+function Poller( path, cb, interval, duration ) {
+	// properties
+	this.scriptId = (new Date()).valueOf();
+	this.timer = null;
+	this.objectPath = path;
+	var re = new RegExp('-','gi');
+	this.resultPath = path.replace( re, "_" );
+	this.callBack = cb;
+	this.interval = interval && interval > 0 ? interval : 500;
+	this.duration = duration && duration > 0 ? duration : 1800;
+	
+	// methods
+	this.start = _startPolling
+	this.halt = _stopPolling;
+	
+	_POLLERs[this.scriptId] = this;
+}
+
+

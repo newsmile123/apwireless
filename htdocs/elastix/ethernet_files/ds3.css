@@ -1,0 +1,122 @@
+/* Copyright 2004 Instant802 Networks, Inc. All Rights Reserved. */
+
+@import url(application.css); 
+
+/* override application.css */
+body {
+}
+
+div.page-divider {
+        background: #000000;
+}
+
+/* added property to match Eltex colors */
+a:link, a:visited {
+	color: #08C;
+}
+
+/* style for the header cells with child header below. */
+/* added color attribute to match Broadcom colors */
+td.section-header-super, tr.section-header-super {
+	background-color: #C3C3C3;
+}
+
+/* style for the header cells */
+/* added color attribute to match Broadcom colors */
+td.section-header, tr.section-header {
+	background-color: #C3C3C3;
+}
+
+/* style for odd numbered rows */
+/* added color attribute to match Eltex colors */
+tr.oddtablerow {
+	background-color: #DDDDDD;
+}
+
+.default-box {
+	background: transparent;
+}
+
+/* collapsable panel decoration */
+.drop-box-shade {
+	background-image: url(drop_shade.gif);
+}
+	
+/* override application.css */
+.header-links {
+}
+
+/* override navigation.css */
+.nav-content {
+}
+
+/* override navigation.css */
+.nav-content-container {
+}
+
+/* changed background #acb2c0 to match Eltex colors */
+.page-help {
+	background: #DDDDDD;
+}
+
+/* changed background #acb2c0 to match Eltex colors */
+.page-title {
+	background: #DDDDDD;
+	color: #000000;
+}
+
+/* override application.css */
+.product-title {
+}
+
+.status-block {
+}
+
+.status-region {
+}
+
+/* override navigation.css */
+/* changed background #C90016 to match Eltex colors */
+.tab1 {
+	background: #08C;
+	color: #FFFFFF;
+}
+
+/* override navigation.css */
+.tab1-selected {
+	font-weight: normal;
+}
+
+/* override navigation.css */
+/* changed background #C90016 to match Eltex colors */
+.tab2 {
+	background: #08C;
+	color: #FFFFFF;
+}
+
+/* override navigation.css */
+.tab2-selected {
+}
+
+/* override navigation.css */
+.tab-separator {
+}
+
+/* override navigation.css */
+.tabselected-separator {
+}
+
+/* override navigation.css */
+.tabgroup-separator {
+}
+
+/* override navigation.css */
+.top-separator {
+}
+
+/* override navigation.css */
+.bottom-separator {
+}
+
+.top-box {
+}

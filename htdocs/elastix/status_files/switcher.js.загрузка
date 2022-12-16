@@ -1,0 +1,289 @@
+/* Copyright 2004 Instant802 Networks, Inc. All Rights Reserved. */
+
+var mainForm = "";
+
+
+function Hide(name)
+{
+	var targetObject = document.getElementById(name);
+	if(!targetObject)
+	{
+		return;
+	}
+	if(parseInt(navigator.appVersion) >= 5 || navigator.appVersion.indexOf["MSIE 5"] != -1)
+	{
+		targetObject.style.display = "none"; // this must have no preceding whitespace due to a bug in Opera
+	}
+}
+
+
+// fails silently
+function Show(name)
+{
+	var targetObject = document.getElementById(name);
+	if(!targetObject)
+	{
+		return;
+	}
+	if(parseInt(navigator.appVersion) >= 5 || navigator.appVersion.indexOf["MSIE 5"] != -1)
+	{
+		targetObject.style.display = ""; // this must have no preceding whitespace due to a bug in Opera
+	}
+}
+
+
+function ChangeText(name, desired)
+{
+	var targetObject = document.getElementById(name);
+	if(!targetObject)
+	{
+		//alert( "can't find "+name+" to change text" )
+		return;
+	}
+	if(parseInt(navigator.appVersion) >= 5 || navigator.appVersion.indexOf["MSIE 5"] != -1)
+	{
+		//alert("object is: "+targetObject + " data is: "+targetObject.firstChild.data);
+		targetObject.firstChild.data = desired; // this must have no preceding whitespace due to a bug in Opera
+	}
+}
+
+
+function setImage(imageName, fileName)
+{
+	element = document.getElementById(imageName);
+	if(element)
+	{
+		element.src = fileName;
+	}
+}
+
+
+// functions for working with forms //
+function setMainForm(formName)
+{
+	mainForm = formName;
+}
+
+
+// You should set the main form value at the top of your script before you use the other functions //
+function getMainForm()
+{
+	var form = document.forms[mainForm];
+	if(!form)
+	{
+		alert("main form " + mainForm + " not found");
+	}
+
+	return form;
+}
+
+function disableAll()
+{
+	var form = getMainForm();
+	if( form ) {
+		for(var i = 0; i < form.elements.length; i++)
+		{
+			form.elements[i].disabled = true;
+		}
+	}
+}
+
+function disableAll( form )
+{
+	if( form ) {
+		for(var i = 0; i < form.elements.length; i++)
+		{
+			form.elements[i].disabled = true;
+		}
+	}
+}
+
+function enableAll()
+{
+	var form = getMainForm();
+	if( form ) {
+		for(var i = 0; i < form.elements.length; i++)
+		{
+			form.elements[i].disabled = false;
+		}
+	}
+}
+
+function enableAll( form )
+{
+	if( form ) {
+		for(var i = 0; i < form.elements.length; i++)
+		{
+			form.elements[i].disabled = false;
+		}
+	}
+}
+
+function disableFields(fieldarray)
+{
+	for(var i = 0; i < fieldarray.length; i++)
+	{
+		disableField(fieldarray[i]);
+	}
+}
+
+
+function enableFields(fieldarray)
+{
+	for(var i = 0; i < fieldarray.length; i++)
+	{
+		enableField(fieldarray[i]);
+	}
+}
+
+
+function disableField(fieldname)
+{
+	form = getMainForm();
+	if(form)
+	{
+		element = form.elements[fieldname];
+		if(element)
+		{
+			element.disabled = true;
+		}
+	}
+}
+
+
+function enableField(fieldname)
+{
+	form = getMainForm();
+	if(form)
+	{
+		element = form.elements[fieldname];
+		if(element)
+		{
+			element.disabled = false;
+		}
+	}
+}
+
+
+function formValue(elementName)
+{
+	form = getMainForm();
+	if(form)
+	{
+		element = form.elements[elementName];
+		if(element)
+		{
+			return element.value;
+		}
+	}
+}
+
+
+function setFormValue(elementName, value)
+{
+	form = getMainForm();
+	if(form)
+	{
+		element = form.elements[elementName];
+		if(element)
+		{
+			element.value = value;
+		}
+	}
+}
+
+
+// return true if any of the form fields are checked
+function fieldsChecked()
+{
+	form = getMainForm();
+	if(form)
+	{
+		var elements = form.elements;
+		for(var i = 0; i < elements.length; i++)
+		{
+			var element = elements[i];
+			if(element.type == "checkbox")
+			{
+				if(element.checked)
+				{
+					return true;
+				}
+			}
+		}
+	}
+}
+
+
+function allValues(fieldarray)
+{
+	for(var i = 0; i < fieldarray.length; i++)
+	{
+		value = formValue(fieldarray[i]);
+		if(value)
+		{
+			if(value.length <= 0)
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+
+function anyValues(fieldarray)
+{
+	for(var i = 0; i < fieldarray.length; i++)
+	{
+		value = formValue(fieldarray[i]);
+		if(value)
+		{
+			if(value.length > 0)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+
+function clearboxes(fieldarray)
+{
+	for(var i = 0; i < fieldarray.length; i++)
+	{
+		clearbox(fieldarray[i]);
+	}
+}
+
+
+function check(field)
+{
+	setImage("i_" + field.name, "bcheck.gif");
+}
+
+
+function cross(field)
+{
+	setImage("i_" + field.name, "bcross.gif");
+}
+
+
+function clearbox(fieldname)
+{
+	setImage("i_" + fieldname, "blanksquare.gif");
+}
+
+
+function validatefield(field)
+{
+	if(field.value.length > 0)
+	{
+		check(field);
+	}
+	else 
+	{
+		cross(field);
+	}
+}

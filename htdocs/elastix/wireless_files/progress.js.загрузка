@@ -1,0 +1,342 @@
+function imageList(width, height) {
+    var len = imageList.arguments.length - 2;
+    if (len > 0) {
+        this.list = new Array(len);
+        this.length = len;
+        this.width = width;
+        this.height = height;
+        var im;
+        for (var j=0; j<len; j++) {
+            im = new Image(width, height);
+            im.src = imageList.arguments[j + 2];
+            this.list[j] = im;
+        }
+    }
+}
+
+function progressInit(parent, name) {
+    this.parent = parent || self;
+    this.window = (parent && parent.window) || self;
+    this.document = (parent && parent.document) || self.document;
+    this.name = (parent && parent.name) ? (parent.name + "." + name) : ("self." + name);
+    this.id = "I";
+    var h = this.hash(this.name);
+    for (var j=0; j<8; j++) {
+        this.id += progress.HEXTABLE.charAt(h & 15);
+        h >>>= 4;
+    }
+}
+
+function progressHash(str) {
+    var h = 0;
+    if (str) {
+        for (var j=str.length-1; j>=0; j--) {
+            h ^= progress.ANTABLE.indexOf(str.charAt(j)) + 1;
+            for (var i=0; i<3; i++) {
+                var m = (h = h<<7 | h>>>25) & 150994944;
+                h ^= m ? (m == 150994944 ? 1 : 0) : 1;
+            }
+        }
+    }
+    return h;
+}
+
+function progressNop() {
+}
+
+function progressUpdate() {
+    with (this) {
+		if( !rendered ) {
+			alert("Progress component must be rendered before it can be updated");
+		}          
+        var i = low;
+        for (var j=0; j<size; j++) {
+            images[j].src = i < value ? imgsrc1 : imgsrc0;
+            i += delta;
+        }
+    }
+}
+
+function progressSet(value) 
+{
+    this.value = value + 0;
+    this.update();
+}
+
+function progressSetBounds(low, high) 
+{
+    this.low = Math.min(low, high);
+    this.high = Math.max(low, high);
+    this.delta = (this.high - this.low) / this.size;
+    this.update();
+}
+ 
+function progressRender() 
+{
+  with (this) {
+    var hor = this.style < 2;
+    var rev = this.style % 2;
+    document.write('<table class="progress" style="" border="0"  cellspacing="0" cellpadding="0" unselectable="on" ' +
+        (hor ? 'width="' + (size * res.width) + '" height="' + res.height + '"><tr>' : 'width="' + res.width +
+        '" height="' + (size * res.height) + '">'));
+
+    for (var j=0; j<size; j++) {
+        document.write((hor ? '' : '<tr>') + '<td width="' + res.width + '" height="' + res.height +
+            '" unselectable="on"><img name="' + id + (rev ? size - j - 1 : j) + '" src="' + res.list[0].src +
+            '" border="0" width="' + res.width + '" height="' + res.height + '"></td>' + (hor ? '' : '</tr>'));
+    }
+
+    document.write((hor ? '</tr>' : '') + '</table>');
+    for (var j=0; j<size; j++) {
+        images[j] = document.images[id + j] || new Image(1, 1);
+    }
+	rendered = true;
+}
+}
+
+function progress(parent, name, res, size, style) 
+{
+  this.init = progressInit;
+  this.hash = progressHash;
+  this.window = self;
+  this.document = self.document;
+  this.tag = null;  
+  if (!res) {
+    res = SEGS;
+  }   
+  this.res = res;
+  this.value = 0;
+  this.low = 0;
+  this.high = 100;
+  this.size = size || 10;
+  this.delta = 100 / this.size;
+  this.style = style || 0;
+  this.images = new Array(this.size);
+  this.imgsrc0 = res.list[0] && res.list[0].src;
+  this.imgsrc1 = res.list[1] && res.list[1].src;
+  this.set = progressSet;
+  this.update = progressUpdate;
+  this.setBounds = progressSetBounds;      
+  this.render = progressRender;
+  this.rendered = false;
+  this.done = false;
+  
+  this.init(parent, name);
+}
+
+progress.ANTABLE  = "w5Q2KkFts3deLIPg8Nynu_JAUBZ9YxmH1XW47oDpa6lcjMRfi0CrhbGSOTvqzEV";
+progress.HEXTABLE = "0123456789ABCDEF";
+progress.nop = progressNop;
+progress.event = progressNop;
+progress.NORMAL    = 0;
+progress.REVERSE   = 1;
+progress.FALL      = 2;
+progress.RISE      = 3;
+
+/**
+ * Defines class for handing a submit button that waits for local modifications to        -->
+ * be distributed before commiting to server.  The device.cluster.locally_modified flag is polled for    -->
+ * until it is equal to 0, otherwise if maxSconds is reached, displays a timeout message.  -->
+ * @see polling.js																			-->
+ */
+
+function UpdateProgress() 
+{
+  this.base = progress;
+  this.base(null, "i802UpProg", SEGS);
+  this.maxSeconds = 40;
+  this.high = this.maxSeconds;
+  this.delta = (this.high - this.low) / this.size;
+  this.onSubmitHandler; // original form submit handler.
+  this.form; // form to be submitted
+  this.cb = _cb; // callback for Poller instance.
+  this.handleSubmit = _handleSubmit;
+  this.handleSubmitUpdate = _handleSubmitUpdate;
+  this.handleResponse = _handleResponse;
+  this.incrementProgress = _incrementProgress;
+  this.handleSyncComplete = _handleSyncComplete;
+  this.submitForm = _submitForm;
+  this.progressCount; // how long to wait for update to complete before timing out.
+  this.updateOnTimeout = false;
+  this.responseWaitCount = 0; // wait for poll response time.
+  this.maxResponseWait = 4; // max wait for any response.
+  this.disabled; // original disabled state of form elements
+  this.enableAll = _enableAll; // enable all form fields and tabs.
+  this.disableAll = _disableAll; // disable all form fields and tabs.
+}
+
+var currentUpdate;
+
+function _handleSubmit(name, value) {
+	this.handleSubmitUpdate(name, value, false);
+}
+
+var returnFalseFunc = function() { return false; };
+
+function _handleSubmitUpdate(name, value, updateOnTimeoutIn) {
+	if( currentUpdate ) {
+		return false;
+	}
+	
+	currentUpdate = this;
+	
+	this.updateOnTimeout = updateOnTimeoutIn;
+	this.responseWaitCount = 0;
+	this.progressCount = 0;
+
+	if(this.disabled) this.disabled.length = 0; else this.disabled = new Array();
+	
+	var submitParam = document.getElementById("submitParam");
+	if( ! submitParam ) {
+		alert("Unable to find form parameter submitParam");
+		return true;
+	}
+	submitParam.name = name;
+	submitParam.value = value;
+	this.form = submitParam.form;
+	if( this.form ) {
+		if( this.form.onsubmit != returnFalseFunc ) {
+		  this.onSubmitHandler = this.form.onsubmit;
+			this.form.onsubmit = returnFalseFunc;
+		}
+		
+		if( this.onSubmitHandler ) {
+			var submitResult = this.onSubmitHandler();
+			if( !submitResult ) {
+				currentUpdate = null;
+				return false;
+			}
+		}
+	}
+	else {
+		alert("Unable to find main form");
+		return true;
+	}
+	
+	currentUpdate.value = 0;
+	
+	this.poller = new Poller( "device.cluster.locally-modified", this.cb, 1000, this.maxSeconds * 1000 );
+	this.poller.start();
+
+	this.responseTimerId = window.setTimeout('triggerHandleResponse()', 0);
+
+	return false;
+}
+
+function _cb( path, value ) {
+  // value could be null in the case clustering is not an installed feature.
+	if( value == "0" || value == null ) {
+		currentUpdate.done = true;
+		return false;
+	}
+	return true; // continue polling, locally-modified == 1
+}
+
+function triggerHandleResponse() {
+	currentUpdate.handleResponse();
+}
+
+function _handleResponse() {
+	if( typeof( document.cluster ) == "undefined" ) { // if not defined, server has yet to respond
+		if( this.responseWaitCount < this.maxResponseWait ) { // give it time to get a value						
+			this.responseWaitCount++;
+			window.setTimeout('triggerHandleResponse()', 250);
+			return;
+		}
+	}
+	
+	if(this.responseTimerId) window.clearTimeout(this.responseTimerId);
+	
+	this.disableAll(); // disable all form elements
+	
+	// if value of locally_modified is already 0 then do not show a progress bar.
+	if( this.done ) {
+		this.poller.halt();
+		this.submitForm();
+		return;
+	}
+	
+	// if the server has yet to respond or locally_modified == 1, start progress bar.
+	this.incrementProgressTimerId = window.setTimeout('triggerIncrementProgress()', 0);
+}
+
+function triggerIncrementProgress() {
+	currentUpdate.incrementProgress();
+}
+
+function _incrementProgress() {
+	var div = document.getElementById("page-progress-bar");
+
+	if( div ) {
+		div.style.visibility = "visible"; // show progress bar.
+	}
+
+	if( this.done ) {
+		if(this.incrementProgressTimerId) window.clearTimeout(this.incrementProgressTimerId);
+		this.poller.halt();
+		this.handleSyncComplete(true);
+		return;
+	}
+
+	if(this.progressCount >= this.maxSeconds) { // timeout after max seconds.
+		if(this.incrementProgressTimerId) window.clearTimeout(this.incrementProgressTimerId);
+		this.handleSyncComplete(false);
+		return;
+	}
+	
+	if(this.value >= this.maxSeconds) { // in case we want to wrap
+	  this.set(0);
+	}
+	else {
+	  this.set(this.value + 1);
+	}
+
+	this.progressCount++;
+
+	window.setTimeout('triggerIncrementProgress()', 1000);
+}
+
+function _handleSyncComplete( send ) {
+	var div = document.getElementById("page-progress-bar");
+	div.style.visibility = "hidden"; // hide progress bar.
+	this.poller.halt();
+	
+	if( send || this.updateOnTimeout) {
+		this.submitForm();
+	}
+	else {
+		alert( getResourceString("Messages.UpdtErr") );
+		this.enableAll(); // reenable all form elements
+	}
+	currentUpdate = null;
+}
+
+function _submitForm() {
+	this.enableAll(); // reenable all form elements
+	this.form.submit();
+}			  
+
+function _disableAll()
+{
+	if( this.form ) {
+		for(var i = 0; i < this.form.elements.length; i++)
+		{
+			this.disabled[i] = this.form.elements[i].disabled;
+			this.form.elements[i].disabled = true;
+		}
+	}
+	disableTabs();
+}
+
+function _enableAll()
+{
+	if( this.form ) {
+		for(var i = 0; i < this.form.elements.length; i++)
+		{
+			if( ! this.disabled[i] ) { // if previously disabled do not enable.
+				this.form.elements[i].disabled = false;
+			}
+		}
+	}
+	enableTabs();
+}

@@ -1,0 +1,186 @@
+/* Copyright 2004 Instant802 Networks, Inc. All Rights Reserved. */
+/**
+ * navigator.js
+ * Functions for the navigation widgets.  Disabling/Enabling and collapsing are provided
+ * for the tabbed style navigation.
+ */
+ 
+ /**
+  * Set the last collapsed state for tabbed navigation.
+  */
+function initNavigator() {
+	var cookies = document.cookie;
+
+	var index = cookies.indexOf("nav_collapsed");
+	
+	 var els = document.getElementsByTagName("_collapsable");
+	 
+	 for( i = 0; i < els.length; i++ ) {
+		//if( els[i].name ) alert("el: " + els[i].name);
+		var name = els[i].name;
+	 	if( name && name.indexOf( "_collapsable") != -1 ) {
+			var end = name.indexOf( "_collapsable");
+			if( end == name.length - 12 ) {
+				setCollapseValue(els[i].name.substring(0, end), true);
+			}
+		}
+	 }
+	
+	while( index != -1 ) {
+		cookies = cookies.substring(index + 13, cookies.length);
+		
+		var end_name = cookies.indexOf("=");
+		var name = cookies.substring(0, end_name);
+	    //alert("name: " + name);
+		var value = cookies.substring(end_name + 1, end_name + 2);
+
+		if(value == "y") {
+			setCollapseValue(name, true);
+		}
+		else {
+			setCollapseValue(name, false);
+		}
+
+		var start = cookies.indexOf(";") + 1;
+		if(start == 0) start = cookies.length;
+
+		cookies = cookies.substring(start);
+		index = cookies.indexOf("nav_collapsed");
+	}
+}
+
+/**
+ * Implements the collapse effect.
+ */
+/// scroll effect vars ->
+var objects;
+var index;
+var scrolling = false;
+/// <- scroll effect vars
+var collapsed;
+function collapse(name) {
+	if(scrolling) return;
+	
+	scrolling = true;
+	
+	objects = document.getElementsByName( name + "_collapsable" );
+	index = 0;
+	var image = document.getElementById( name + "_collapseImage" );
+	
+	if(objects && objects.length > 0) {
+			collapsed = objects[0].style.display == "none";
+			if(collapsed) {
+				image.src = "collapse.gif";
+				image.alt = "Collapse";
+				/// no scroll effect ->
+				//for( var i = 0; i < objects.length; i++ ) {
+				//	objects[i].style.display = "";
+				//	objects[i].style.visibility = "visible";
+				//}
+				/// <- no scroll effect
+				//document.cookie = "nav_collapsed" + name + "=n";
+				createCookie( "nav_collapsed" + name , "n", 360 );
+			}
+			else {
+				image.src = "expand.gif";
+				image.alt = "Expand";
+				/// no scroll effect ->
+				//for( var i = 0; i < objects.length; i++ ) {
+				//	objects[i].style.display = "none";
+				//	objects[i].style.visibility = "hidden";
+				//}
+				/// <- no scroll effect
+				//document.cookie = "nav_collapsed" + name + "=y";
+				createCookie( "nav_collapsed" + name , "y", 360 );
+			}
+			/// scroll effect ->
+			window.setTimeout('_setVisible()', 0);
+			/// <- scroll effect
+	}
+}
+
+function setCollapseValue(name, collapse) {
+	objects = document.getElementsByName( name + "_collapsable" );
+	var image = document.getElementById( name + "_collapseImage" );
+	
+	if(objects && objects.length > 0) {
+			if(!collapse) {
+				if( image ) {
+					image.src = "collapse.gif";
+					image.alt = "Collapse";
+				}
+				for( var i = 0; i < objects.length; i++ ) {
+					objects[i].style.display = "";
+					//objects[i].style.visibility = "visible";
+				}
+			}
+			else {
+				if( image ) {
+					image.src = "expand.gif";
+					image.alt = "Expand";
+				}
+				for( i = 0; i < objects.length; i++ ) {
+					objects[i].style.display = "none";
+					//objects[i].style.visibility = "hidden";
+				}
+			}
+	}
+}
+
+function _setVisible() {
+	if( index < objects.length ) {
+		if(objects[index].style.display == "none") {
+			objects[index].style.display = "";
+			//objects[index].style.visibility = "visible";
+		}
+		else {
+			objects[index].style.display = "none";
+			//objects[index].style.visibility = "hidden";
+		}
+		index++;
+		window.setTimeout('_setVisible()', 0);
+	}
+	else {
+		scrolling = false;
+		// Mozilla 1.5 fails to validate the layout after elements are visually removed, thus hack...
+		//layoutContent();
+		// to avoid using the above hack, use sytle.visibility in place of style.display
+	}
+}
+
+/**
+ * Disable all the tabs in the UI.
+ */
+function disableTabs() {
+	disableChildren( top.frames['navi'].document.getElementById( 'tabsId' ) );
+}
+
+/**
+ * Enable all the tabs in the UI.
+ */
+function enableTabs() {
+	revertDisableChildren( top.frames['navi'].document.getElementById( 'tabsId' ) );
+}
+
+/**
+ * Add an onLoad handler to the current document.
+ */
+//addOnLoadHandler(initNavigator);
+
+function selectTabInMenu(current) {
+	var object = top.frames['navi'].document.getElementById( 'tabsId' );
+	var action = function( o ) {
+		if (o.id == 'tab1' + current) {
+			o.className = 'tab1-selected';
+		}
+		else if (o.id == 'tab2' + current) {
+			o.className = 'tab2-selected';
+		}
+		else {
+			o.className = o.className.slice(0,4);
+		}
+	};
+	var tags = ["TD"];
+	var classes = ["tab1", "tab2", "tab1-selected", "tab2-selected"];
+	visitChildrenOfTypeAndClass( object, action, tags, classes );
+}
