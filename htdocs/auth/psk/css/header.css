@@ -1,0 +1,19 @@
+#header{
+  position: relative;
+  margin:0 auto;
+  width:100%;
+  height:50px;
+  background-image:url(../img/brushed.png);
+}
+
+.block{
+	float:right;
+	width:300px;
+	padding:auto;
+	text-align:left;	
+}
+#sub-header{
+	float:left;
+	padding:0;
+	margin:0;
+}

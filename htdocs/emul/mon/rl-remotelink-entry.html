@@ -1,0 +1,489 @@
+<HTML>
+<HEAD>
+<TITLE>Remote Link Test</TITLE><LINK rel="stylesheet" href="../orinoco/css/global.css">
+<SCRIPT src="../orinoco/scripts/library.js"></SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript">
+//Function definitions & color definitions
+//The below values determine when cautions 
+//and warnings are displayed
+
+var j = 0;
+var currentEntry = ""
+
+green = 79
+yellow = 39
+
+entries = new Array(0)
+
+
+window.onload = GetEntry
+
+function GetEntry() {
+	window.opener.GetCurrent()
+	self.focus()
+}
+
+
+function FindEntry(currentActive) {
+
+	for (var i=0;i<entries.length;i++) {
+				
+		var entry = entries[i]
+		if (entry.Station == currentActive) {
+			currentEntry = entry
+		}
+	}
+
+	ReVal(currentEntry)
+//	var timer = window.setTimeout(CallReval,2)	/* 50 */
+}
+
+function Entry(Station,MAC,Interfaces,RadioType,OurSNR,OurSignal,OurNoise,OurLowFrameCount,OurStandardFrameCount,OurMediumFrameCount,OurHighFrameCount,HisSNR,HisSignal,HisNoise,HisLowFrameCount,HisStandardFrameCount,HisMediumFrameCount,HisHighFrameCount,OurName,OurAddress,HisName,HisAddress) {
+		this.Station = Station
+		this.MAC = MAC
+		this.Interfaces = Interfaces
+		this.RadioType = RadioType
+		this.OurSNR = OurSNR
+		this.OurSignal = OurSignal
+		this.OurNoise = OurNoise
+		this.OurLowFrameCount = OurLowFrameCount
+		this.OurStandardFrameCount = OurStandardFrameCount
+		this.OurMediumFrameCount = OurMediumFrameCount
+		this.OurHighFrameCount = OurHighFrameCount
+		this.HisSNR = HisSNR
+		this.HisSignal = HisSignal
+		this.HisNoise = HisNoise
+		this.HisLowFrameCount = HisLowFrameCount
+		this.HisStandardFrameCount = HisStandardFrameCount
+		this.HisMediumFrameCount = HisMediumFrameCount
+		this.HisHighFrameCount = HisHighFrameCount
+		this.OurName = OurName
+		this.OurAddress = OurAddress
+		this.HisName = HisName
+		this.HisAddress = HisAddress
+	}
+
+
+	function CallReval() {
+		
+		ReVal(currentEntry)
+//		var timer = window.setTimeout(RefreshThis(),2)
+	}
+	
+	function RefreshThis() {
+		window.open("rl-remotelink-entry.html")
+	}
+		
+
+function ReVal(entry) {
+
+	AdjustStatusColor((100 *entry.OurSNR)/48, 1)
+	AdjustStatusColor((100 *entry.HisSNR)/48, 11)
+
+	var tempour = entry.OurSignal*-1
+	tempour = (102 - tempour)*100/55
+
+	var temphis = entry.HisSignal*-1
+	temphis = (102 - temphis)*100/55
+
+	AdjustStatusColor(tempour, 21)
+	AdjustStatusColor(temphis, 31)
+
+	var tempour = entry.OurNoise*-1
+	tempour = (102 - tempour)*100/55
+
+	var temphis = entry.HisNoise*-1
+	temphis = (102 - temphis)*100/55
+
+	AdjustStatusColor(tempour, 41)
+	AdjustStatusColor(temphis, 51)
+
+	with (document.forms[0]) { 
+		
+		oursnr.value = entry.OurSNR 
+		oursignal.value = entry.OurSignal 
+		ournoise.value = entry.OurNoise 
+		ourlowframecount.value = entry.OurLowFrameCount
+		ourstandardframecount.value = entry.OurStandardFrameCount
+		ourmediumframecount.value = entry.OurMediumFrameCount
+		ourhighframecount.value = entry.OurHighFrameCount
+		hissnr.value = entry.HisSNR
+		hissignal.value = entry.HisSignal
+		hisnoise.value = entry.HisNoise
+		hislowframecount.value = entry.HisLowFrameCount
+		hisstandardframecount.value = entry.HisStandardFrameCount
+		hismediumframecount.value = entry.HisMediumFrameCount
+		hishighframecount.value = entry.HisHighFrameCount
+		ourname.value = entry.OurName
+		hisname.value = entry.HisName
+		ouraddress.value = entry.OurAddress
+		hisaddress.value = entry.HisAddress
+	}
+}
+	
+function AdjustStatusColor(value,start) {
+	var greenimg = "../orinoco/images/color-green.gif"
+	var yellowimg = "../orinoco/images/color-yellow.gif"
+	var redimg = "../orinoco/images/color-red.gif"
+	var spacerimg = "../orinoco/images/spacer.gif"
+	
+	var max = start+10
+	var counter = 0
+	for (var i=start; i<max; i++) {
+
+		var name = "color" + i
+		counter++
+		var change = document.images[name].src
+		
+		if (value>green) {
+			color = greenimg
+		} else if (value>yellow) {
+			color = yellowimg
+		} else {
+			color = redimg
+		}
+
+		if ((value/10) < counter) 
+			color = spacerimg
+
+		document.images[name].src = color		
+	}
+}
+</SCRIPT>
+<STYLE>input { border:none;width:35px;height:20px }</STYLE>
+</HEAD>
+<BODY style="margin:0px" rightmargin="0" background="../orinoco/images/bg.gif">
+<TABLE width="100%" cellpadding="0" cellspacing="0" height="100%" border="0">
+	<TR><!-- The logo is in this cell! -->
+		<TD align="RIGHT"><IMG src="../orinoco/images/logo.gif" width="152" height="48" alt="" border="0"></TD>
+	</TR>
+	<TR><!-- This cell contains the title tab! -->
+		<TD background="../orinoco/images/tab_tile.gif" width="0"><IMG src="../orinoco/images/tab-linktest.gif" width="150" height="32" alt="" border="0"></TD>
+	</TR>
+	<TR bgcolor="white"><!-- The following cell contains the customized table! -->
+		<TD height="100%" valign="top">
+		<TABLE cellpadding="0" cellspacing="0" border="0" style="margin:25px; margin-top:5px">
+		<TR>
+			<TD class="verbiage" COLSPAN="3">
+				<P>This tab displays the remote link test results - statistics for the initiator station (this access point)
+				and the remote station (wireless client or another access point associated via WDS).  Quality is measured
+				in terms of Signal strength, Noise strength, and the Signal to Noise Ration (SNR).  In addition, the number of packets
+				received at different rates is displayed.</P>
+			</TD>
+		</TR>
+		<TR>
+			<TD COLSPAN="3">&nbsp;</TD>
+		</TR>
+			<TR><!-- Just some space! -->
+				<TD colspan="3"><IMG src="../orinoco/images/spacer.gif" width="340" height="30" alt="" border="0"></TD>
+				<TD width="100%" align="right"><a href="#" onclick="location.reload()"><IMG src="../orinoco/images/button-refresh.gif" width="32" height="32" alt="Refresh" border="0"></a></TD>
+			</TR>
+			<TR><!-- The top of the customized table is in this row! -->
+				<TD><IMG src="../orinoco/images/topleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+				<TD width="100%"><IMG src="../orinoco/images/top_line.gif" width="100%" height="25" alt="" border="0"></TD>
+				<TD><IMG src="../orinoco/images/topright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+			</TR>
+			<TR><!-- Left line! -->
+				<TD background="../orinoco/images/left_line.gif"><IMG src="../orinoco/images/spacer.gif" width="1" height="1" alt="" border="0"></TD>
+				<TD>
+				<TABLE cellpadding="0" cellspacing="0" border="0" width="100%">
+					<TR>
+						<TD><!-- *************Put the body here*************** -->
+						<FORM><!-- Begin Real Content //-->
+						<TABLE align="center" width="100%" cellpadding="0" cellspacing="0" border="0">
+							<TR>
+								<TD width="20%" >&nbsp;</TD>
+								<TD width="80%">
+								<TABLE width="100%" cellpadding="0" cellspacing="0">
+									<TR>
+										<TD align="left" width="50%" class="header">Initiator Station Info</TD>
+										<TD align="left" width="50%" class="header">Remote Station Info</TD>
+									</TR>
+								</TABLE></TD>
+							</TR>
+							<TR>
+								<TD width="20%" >Station Name</TD>
+								<TD width="80%">
+								<TABLE width="100%" cellpadding="0" cellspacing="0" BORDER="0">
+									<TR>
+										<TD width="50%">
+										<INPUT type="text" name="ourname" style="width:75%" class="readonly" readonly></TD>
+										<TD width="50%">
+										<INPUT type="text" name="hisname" readonly class="readonly" style="width:75%"></TD>
+									</TR>
+								</TABLE></TD>
+							</TR>
+							<TR>
+								<TD width="20%" >MAC Address</TD>
+								<TD width="80%">
+								<TABLE width="100%" cellpadding="0" cellspacing="0" BORDER="0">
+									<TR>
+										<TD width="50%">
+										<INPUT type="text" name="ouraddress" style="width:75%" class="readonly" readonly></TD>
+										<TD width="50%">
+										<INPUT type="text" name="hisaddress" style="width:75%" class="readonly" readonly></TD>
+									</TR>
+								</TABLE></TD>
+							</TR>
+							<TR>
+								<TD colspan="2"><IMG src="../orinoco/images/spacer.gif" width="1" height="25"></TD>
+							</TR>
+							<TR>
+								<TD width="20%" >SNR (dB)</TD>
+								<TD width="80%">
+								<TABLE width="100%" cellpadding="1" cellspacing="2" BORDER="0">
+									<TR>
+										<TD width="50%" align="center">
+										<TABLE width="100%" cellpadding="0" cellspacing="0" BORDER="0">
+											<TR>
+												<TD width="95%">
+												<TABLE width="95%"  style="border:1px inset" cellpadding="0" cellspacing="0" BORDER="0">
+													<TR>
+														<TD width="10%" height="100%"><IMG height="15" name="color1" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color2" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color3" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color4" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color5" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color6" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color7" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color8" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color9" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color10" src="../orinoco/images/spacer.gif" width="100%"></TD>
+													</TR>
+												</TABLE></TD>
+												<TD>
+												<INPUT type="text" name="oursnr" value="0" class="readonly" readonly></TD>
+											</TR>
+										</TABLE></TD>
+										<TD width="50%" align="center">
+										<TABLE width="100%" cellpadding="0" cellspacing="0" BORDER="0">
+											<TR>
+												<TD width="95%">
+												<TABLE width="95%"  style="border:1px inset" cellpadding="0" cellspacing="0" BORDER="0">
+													<TR>
+														<TD width="10%" height="100%"><IMG height="15" name="color11" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color12" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color13" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color14" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color15" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color16" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color17" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color18" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color19" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color20" src="../orinoco/images/spacer.gif" width="100%"></TD>
+													</TR>
+												</TABLE></TD>
+												<TD>
+												<INPUT type="text" name="hissnr" value="0" class="readonly" readonly></TD>
+											</TR>
+										</TABLE></TD>
+									</TR>
+								</TABLE></TD>
+							</TR>
+							<TR>
+								<TD width="20%" >Signal (dBm)</TD>
+								<TD width="80%">
+								<TABLE width="100%" cellpadding="1" cellspacing="2">
+									<TR>
+										<TD width="50%">
+										<TABLE width="100%" cellpadding="0" cellspacing="0">
+											<TR>
+												<TD width="95%">
+												<TABLE width="95%"  style="border:1px inset" cellpadding="0" cellspacing="0">
+													<TR>
+														<TD width="10%" height="100%"><IMG height="15" name="color21" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color22" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color23" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color24" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color25" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color26" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color27" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color28" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color29" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color30" src="../orinoco/images/spacer.gif" width="100%"></TD>
+													</TR>
+												</TABLE></TD>
+												<TD>
+												<INPUT type="text" name="oursignal" value="0" class="readonly" readonly></TD>
+											</TR>
+										</TABLE></TD>
+										<TD width="50%">
+										<TABLE width="100%" cellpadding="0" cellspacing="0">
+											<TR>
+												<TD width="95%">
+												<TABLE width="95%"  style="border:1px inset" cellpadding="0" cellspacing="0">
+													<TR>
+														<TD width="10%" height="100%"><IMG height="15" name="color31" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color32" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color33" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color34" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color35" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color36" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color37" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color38" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color39" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color40" src="../orinoco/images/spacer.gif" width="100%"></TD>
+													</TR>
+												</TABLE></TD>
+												<TD>
+												<INPUT type="text" name="hissignal" value="0" class="readonly" readonly></TD>
+											</TR>
+										</TABLE></TD>
+									</TR>
+								</TABLE></TD>
+							</TR>
+							<TR>
+								<TD width="20%" >Noise (dBm)</TD>
+								<TD width="80%">
+								<TABLE width="100%" cellpadding="1" cellspacing="2">
+									<TR>
+										<TD width="50%">
+										<TABLE width="100%" cellpadding="0" cellspacing="0">
+											<TR>
+												<TD width="95%">
+												<TABLE width="95%"  style="border:1px inset" cellpadding="0" cellspacing="0">
+													<TR>
+														<TD width="10%" height="100%"><IMG height="15" name="color41" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color42" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color43" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color44" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color45" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color46" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color47" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color48" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color49" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color50" src="../orinoco/images/spacer.gif" width="100%"></TD>
+													</TR>
+												</TABLE></TD>
+												<TD>
+												<INPUT type="text" name="ournoise" value="0" class="readonly" readonly></TD>
+											</TR>
+										</TABLE></TD>
+										<TD width="50%">
+										<TABLE width="100%" cellpadding="0" cellspacing="0">
+											<TR>
+												<TD width="95%">
+												<TABLE width="95%"  style="border:1px inset" cellpadding="0" cellspacing="0">
+													<TR>
+														<TD width="10%" height="100%"><IMG height="15" name="color51" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color52" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color53" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color54" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color55" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color56" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color57" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color58" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color59" src="../orinoco/images/spacer.gif" width="100%"></TD>
+														<TD width="10%" height="100%"><IMG height="15" name="color60" src="../orinoco/images/spacer.gif" width="100%"></TD>
+													</TR>
+												</TABLE></TD>
+												<TD>
+												<INPUT type="text" name="hisnoise" value="0" class="readonly" readonly></TD>
+											</TR>
+										</TABLE></TD>
+									</TR>
+								</TABLE></TD>
+							</TR>
+							<TR>
+								<TD width="20%" >11 Mbps (Pkts)</TD>
+								<TD width="80%">
+								<TABLE width="100%" cellpadding="1" cellspacing="2">
+									<TR>
+										<TD width="50%">
+										<TABLE width="100%" cellpadding="0" cellspacing="0">
+											<TR>
+												<TD ALIGN="center"><INPUT type="text" name="ourhighframecount" value="0" class="readonly" readonly></TD>
+											</TR>
+										</TABLE></TD>
+										<TD width="50%">
+										<TABLE width="100%" cellpadding="0" cellspacing="0">
+											<TR>
+												<TD ALIGN="center"><INPUT type="text" name="hishighframecount" value="0" class="readonly" readonly></TD>
+											</TR>
+										</TABLE></TD>
+									</TR>
+								</TABLE></TD>
+							</TR>
+							<TR>
+								<TD width="20%" >5.5 Mbps (Pkts)</TD>
+								<TD width="80%">
+								<TABLE width="100%" cellpadding="1" cellspacing="2">
+									<TR>
+										<TD width="50%">
+										<TABLE width="100%" cellpadding="0" cellspacing="0">
+											<TR>
+												<TD ALIGN="center"><INPUT type="text" name="ourmediumframecount" value="0" class="readonly" readonly></TD>
+											</TR>
+										</TABLE></TD>
+										<TD width="50%">
+										<TABLE width="100%" cellpadding="0" cellspacing="0">
+											<TR>
+												<TD ALIGN="center"><INPUT type="text" name="hismediumframecount" value="0" class="readonly" readonly></TD>
+											</TR>
+										</TABLE></TD>
+									</TR>
+								</TABLE></TD>
+							</TR>
+							<TR>
+								<TD width="20%" >2 Mbps (Pkts)</TD>
+								<TD width="80%">
+								<TABLE width="100%" cellpadding="1" cellspacing="2">
+									<TR>
+										<TD width="50%">
+										<TABLE width="100%" cellpadding="0" cellspacing="0">
+											<TR>
+												<TD ALIGN="center"><INPUT type="text" name="ourstandardframecount" value="0" class="readonly" readonly></TD>
+											</TR>
+										</TABLE></TD>
+										<TD width="50%">
+										<TABLE width="100%" cellpadding="0" cellspacing="0">
+											<TR>
+												<TD ALIGN="center"><INPUT type="text" name="hisstandardframecount" value="0" class="readonly" readonly></TD>
+											</TR>
+										</TABLE></TD>
+									</TR>
+								</TABLE></TD>
+							</TR>
+							<TR>
+								<TD width="20%" >1 Mbps (Pkts)</TD>
+								<TD width="80%">
+								<TABLE width="100%" cellpadding="1" cellspacing="2">
+									<TR>
+										<TD width="50%">
+										<TABLE width="100%" cellpadding="0" cellspacing="0">
+											<TR>
+												<TD ALIGN="center"><INPUT type="text" name="ourlowframecount" value="0" class="readonly" readonly></TD>
+											</TR>
+										</TABLE></TD>
+										<TD width="50%">
+										<TABLE width="100%" cellpadding="0" cellspacing="0">
+											<TR>
+												<TD ALIGN="center"><INPUT type="text" name="hislowframecount" value="0" class="readonly" readonly></TD>
+											</TR>
+										</TABLE></TD>
+									</TR>
+								</TABLE></TD>
+							</TR>
+						</TABLE>
+					</TD>
+					</TR>
+					<TR>
+						<TD></TD>
+					</TR>
+					<TR>
+						<TD colspan="3" align="center"><A href="#" onClick="callOK()"><IMG src="../orinoco/images/button-close.gif" width="95" height="27" border="0" alt="Close"></A></TD>
+					</TR>
+				</TABLE></TD>
+				<TD background="../orinoco/images/right_line.gif"><IMG src="../orinoco/images/spacer.gif" width="1" height="1" alt="" border="0"></TD>
+			</TR>
+			<TR>
+				<TD><IMG src="../orinoco/images/bottomleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+				<TD width="100%"><IMG src="../orinoco/images/bottom_line.gif" width="100%" height="25" alt="" border="0"></TD>
+				<TD><IMG src="../orinoco/images/bottomright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+			</TR>
+		</TABLE></FORM></TD>
+	</TR>
+</TABLE>
+</BODY>
+</HTML>

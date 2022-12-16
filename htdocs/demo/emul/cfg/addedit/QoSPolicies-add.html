@@ -1,0 +1,224 @@
+<HTML>
+<HEAD>
+<TITLE>QoS Policies - Add Table Configuration</TITLE><LINK rel="stylesheet" href="../../orinoco/css/global.css">
+<SCRIPT language="javascript" src="../../orinoco/scripts/library.js"></SCRIPT>
+<SCRIPT language="javascript" src="../../orinoco/scripts/test.js"></SCRIPT>
+<SCRIPT language="javascript">
+function modifyCheckBox(boxNumber) {
+    
+   var markingBoxObj = document.getElementById('markingStatusBox'+boxNumber);
+   var hiddenBoxObj=  document.getElementById('oriQoSPolicyMarkingStatus'+boxNumber);
+
+  if (markingBoxObj.checked == true)
+     hiddenBoxObj.value=1;
+  else
+     hiddenBoxObj.value==2;
+}
+ function findNextIndex(indexArray) {
+    var count=0;
+    var lastIndex=0;
+    var found=false;
+
+    while ((indexArray[count] != 0) && (found==false)){
+        if (lastIndex != indexArray[count]) {
+           if ((lastIndex + 1) != indexArray[count]) {
+              found=true;
+           }
+           else {
+  	    lastIndex=indexArray[count];
+           }
+        }
+        count=count+1;
+    }
+
+    return lastIndex+1;
+ }                        
+
+</script>
+</HEAD>
+<BODY style="margin:0px" rightmargin="0" background="../../orinoco/images/bg.gif">
+<SCRIPT language="javascript">	
+grp_live = 1;
+subgrp_live = 7;
+</SCRIPT>
+
+<SCRIPT language="javascript" src="../../orinoco/scripts/menu.js"></SCRIPT>
+
+<!-- Start Header -->
+<!-- <BODY style="margin:0px"> -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0">
+	<TR>
+		<TD>
+			<TABLE width="150" height="90" cellpadding="0" cellspacing="0">
+			<TR>
+			<TD valign="top"><IMG src="../../orinoco/images/logo.gif"></TD>
+			</TR>
+			<TR>
+			<TD align="right">&nbsp;</TD>
+			</TR>
+			</TABLE>
+		</TD>
+		<TD valign="bottom">
+			<TABLE cellpadding="0" cellspacing="0" width="100%"> <!-- For the table -->
+				<!-- For the first row -->
+				<TR>
+					<TD>
+						<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+							<SCRIPT language="javascript">
+		                            		var ProductId  = "1.3.6.1.4.1.11898.2.4.12";													
+                                                                var slotA = '4 ';
+		                            		        var slotB = '6 ';
+		                            		        var secModeA = '6';  
+		                            		        var secModeB = '1';  
+								InitMenu(ProductId, slotA, slotB, secModeA, secModeB);
+								var nbrTabs = subNumArray[grp_live];
+								if(nbrTabs>5)
+								{
+									var start,finish;
+									var nbrTabsDivbyTwo = (nbrTabs - (nbrTabs%2))/2;
+									if(subgrp_live >= (nbrTabsDivbyTwo + (nbrTabs%2)) )
+									{
+										start = 0;
+										finish = nbrTabsDivbyTwo -1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = nbrTabsDivbyTwo;
+											finish = nbrTabs-1;
+										}
+										else
+										{
+											start = nbrTabsDivbyTwo+1;
+										finish = nbrTabs-1;
+									}
+										
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,1,1);
+									document.write('<TD align="middle" background="../../orinoco/images/edge.gif">&nbsp;</TD>');
+									document.write('</TABLE>');
+									document.write('</TD>');
+									document.write('</TR>');
+									<!-- For the second row -->
+									document.write('<TR>');
+									document.write('<TD>');
+									document.write('<TABLE class="tabrow" cellpadding="0" cellspacing="0">');
+									if(subgrp_live >= (nbrTabsDivbyTwo+ (nbrTabs%2)))
+									{
+										start = nbrTabsDivbyTwo;
+										finish = nbrTabs-1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = 0;
+											finish = nbrTabsDivbyTwo-1;
+										}
+										else
+										{
+										start = 0;
+											finish = nbrTabsDivbyTwo;
+										}
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,2,0);
+									document.write('<TD align="middle" background="../../orinoco/images/iedge.gif">&nbsp;</TD>');
+								}
+								else
+								{
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,0,nbrTabs-1,0,0);
+									document.write('<TD align="middle" background="../../orinoco/images/edge.gif">&nbsp;</TD>');
+								}
+							</SCRIPT>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+
+	
+	<TR>
+		<TD valign="top">
+			<TABLE align="center" cellpadding="10" cellspacing="0">
+				<SCRIPT language="javascript">
+					drawButtons(grp,grp_live);
+				</SCRIPT>
+			</TABLE>
+		</TD>
+<!-- End Header -->
+
+				<TD colspan="2" bgcolor="white" height="100%" valign="top">
+					<TABLE cellpadding="0" cellspacing="0" border="0" width="50%" style="margin-left:50px; margin-bottom:25; margin-top:5px">
+					<TD>	
+					<TR>
+						<TD align="right" width="100%" colspan="2"><A href="javascript:window.history.back()"><IMG src="../../orinoco/images/back.gif" width="32" height="32" alt="Back" border="0"></A></TD>
+					</TR>
+						<TR>
+							<TD colspan="2" class="header">QoS Policies Table - Add Entries</TD>
+							
+							</TR>
+							<TR>
+							<TD class="verbiage">                                                 
+							   <p>This page is used to create QoS Policies.  By default when adding a QoS policy, all 5 QoS policy types are added.  For Layer 2 policies, a priority mapping index from the 802.1p to 802.1D mapping table should be specified.  For Layer 3 policies, a priority mapping index from the 802.1p to IP DSCP mapping table should be specified.  No priority mapping index is needed for SpectraLink QoS policy types.  You can also enable or disable QoS marking on each policy type and enable or disable the different types.</P>
+                               <P><i>Note: Changes to these parameters require access point reboot in order to take effect.</i></P></TD>
+							</TR>
+							<TR>
+							<TD>&nbsp;</TD>
+							</TR>	
+				<TD align="center"><!-- *************Put the body here*************** -->
+				<FORM method="post" ACTION="QoSPolicies-add.html/add">
+				<TABLE cellpadding="0" cellspacing="0" border="0" width="100%">            
+					<SCRIPT language="javascript">
+                    var typeText=new Array('inboundLayer2','inboundLayer3','outboundLayer2','outboundLayer3','spectralink');
+                                        var primaryIndexArray = new Array();
+                                        var count=0;
+
+
+                                        primaryIndexArray[count] =1;
+					count=count+1;
+                                        
+                                        primaryIndexArray[count] =1;
+					count=count+1;
+                                        
+                                        primaryIndexArray[count] =1;
+					count=count+1;
+                                        
+                                        primaryIndexArray[count] =1;
+					count=count+1;
+                                        
+                                        primaryIndexArray[count] =1;
+					count=count+1;
+                                          
+                                       primaryIndexArray[count]=0;
+
+				       newPrimaryIndex=findNextIndex(primaryIndexArray);                                                      
+                                       for (i=0; i<5; i++) {
+					   j=i+1;                                   
+					   document.write('<TR><TD>Policy Name</TD><TD><INPUT name="EmWeb_ns:snmp:39.'+newPrimaryIndex+'.'+j+'" value="" type="text" class="formtext" onchange="modify(this)"></TD></TR>');
+					   document.write('<TR><TD>Policy Type</TD><TD class="readonly"><INPUT name="EmWeb_ns:snmp:40.'+newPrimaryIndex+'.'+j+'" value="'+(j)+'" type="hidden">'+typeText[i]+'</TR>');               
+					   document.write('<TR><TD>Priority Mapping Index</TD><TD><INPUT onChange="modify(this)" type="text" value="" class="formtext" name="EmWeb_ns:snmp:41.'+newPrimaryIndex+'.'+j+'"></TD></TR>');               
+					   document.write('<TR><TD>Enable QoS Marking</TD><TD><INPUT id="oriQoSPolicyMarkingStatus'+j+'" name="EmWeb_ns:snmp:42.'+newPrimaryIndex+'.'+j+'.*s" value="2" type="hidden"><INPUT type="checkbox" id="markingStatusBox'+j+'" name="EmWeb_ns:snmp:44" UNCHECKED onclick="modifyCheckBox('+j+')"></TD></TR><TR><TD colspan="2">&nbsp;</TD></TR>');  
+                                           document.write('<INPUT name="EmWeb_ns:snmp:43.'+newPrimaryIndex+'.'+j+'.*s" value="1" type="hidden">');
+                    }
+					</SCRIPT>	
+						
+					<TR><TD colspan="2"><IMG src="../../orinoco/images/spacer.gif" width="340" height="30" alt="" border="0"></TD></TR>
+                    <TR><TD align="center"><A href="javascript:transmit()"><IMG src="../../orinoco/images/ok.gif" width="93" height="25" alt="OK" border="0"></A></TD>
+						<TD align="center"><A href="javascript:cancel()"><IMG src="../../orinoco/images/cancel.gif" width="93" height="25" alt="Cancel" border="0"></A></TD></TR>
+
+				</TABLE></FORM></TD>
+<!-- Start Footer -->
+	<FORM name="rebootform" method="post" ACTION="../../prototail.html">
+		<INPUT type="hidden" id="rebootflag" name="EmWeb_ns:snmp:568" value="0" class="formtext">
+	</FORM>
+
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
+<!-- End Footer -->
+
+</BODY>
+</HTML>							   

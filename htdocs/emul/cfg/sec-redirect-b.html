@@ -1,0 +1,45 @@
+<HTML>
+<HEAD> 
+	<TITLE>Wireless Interface - Slot B Security WNIC redirection</TITLE><LINK rel="stylesheet" href="../orinoco/css/global.css">
+	<SCRIPT language="javascript" src="../orinoco/scripts/library.js"></SCRIPT>
+</HEAD>
+
+<BODY>
+    <SCRIPT  LANGUAGE="JavaScript">   
+        var profileCode = 86
+        var enableSecurityStatus = 2;
+ 		var option= 6;
+        var supportedmodes = ' none,802.1x,mixed,wpa,wpa-psk,wep';   
+        
+        switch (profileCode){
+        case 1:
+        case 2:
+        case 3:
+        case 4: // Agere card found profileCode=1, 2, 3 or 4
+                location.href="sec-gen-b.html";
+                break;
+
+        case 85: //1st gen card, profileCode=85  
+                 location.href="sec-gen-b.html";
+                break;
+
+        case 86: //2nd or 3rd gen card 
+
+                if(enableSecurityStatus==0){ 
+                   // 2nd gen card, profileCode=86, enableSecurityStatus=0
+                   location.href="sec-gen12-b.html";
+                } 
+                else { 
+                   // 3rd gen card, profileCode=86, enableSecurityStatus=1 or 2 
+                   location.href="sec-gen34-b.html";
+                }
+                break;
+
+        default: // unrecognized card
+                   location.href="sec-gen-na-b.html";
+                break;
+        }
+        
+	</SCRIPT>   
+</BODY>
+</HTML>

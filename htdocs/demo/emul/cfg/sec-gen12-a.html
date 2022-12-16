@@ -1,0 +1,525 @@
+<HTML>
+<HEAD>
+	<TITLE>SSID, VLAN, and Security Configuration - Wireless A.</TITLE><LINK rel="stylesheet" href="../orinoco/css/global.css">
+	<SCRIPT language="javascript" src="../orinoco/scripts/library.js"></SCRIPT>
+	<SCRIPT language="javascript" src="../orinoco/scripts/test.js"></SCRIPT>
+</HEAD>
+
+<SCRIPT language="javascript">
+	grp_live = 1;
+	subgrp_live = 9;
+	tri_grp_live = 16;
+   
+    var slotA = '4 ';
+	var slotB = '6 ';
+	                    		        
+	grp_live = 1;
+	subgrp_live = 9;
+	tri_grp_live = 16;
+
+    if ((slotA != ' ') && (slotB != ' ')) {
+       tri_subgrp_live = 3;
+    }
+    else if ((slotA == ' ') && (slotB == ' ')) {
+       tri_subgrp_live = 0;
+    }
+    else {
+       tri_subgrp_live = 3;   
+    }
+   
+
+
+</SCRIPT>
+
+<BODY style="margin:0px" background="../orinoco/images/bg.gif" rightmargin="0" >
+
+<SCRIPT language="javascript" src="../orinoco/scripts/menu.js"></SCRIPT>
+
+<!-- Start Header -->
+<!-- <BODY style="margin:0px"> -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0">
+	<TR>
+		<TD>
+			<TABLE width="150" height="90" cellpadding="0" cellspacing="0">
+			<TR>
+			<TD valign="top"><IMG src="../orinoco/images/logo.gif"></TD>
+			</TR>
+			<TR>
+			<TD align="right">&nbsp;</TD>
+			</TR>
+			</TABLE>
+		</TD>
+		<TD valign="bottom">
+			<TABLE cellpadding="0" cellspacing="0" width="100%"> <!-- For the table -->
+				<!-- For the first row -->
+				<TR>
+					<TD>
+						<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+							<SCRIPT language="javascript">
+		                            		var ProductId  = "1.3.6.1.4.1.11898.2.4.12";													
+                                                                var slotA = '4 ';
+		                            		        var slotB = '6 ';
+		                            		        var secModeA = '6';  
+		                            		        var secModeB = '1';  
+								InitMenu(ProductId, slotA, slotB, secModeA, secModeB);
+								var nbrTabs = subNumArray[grp_live];
+								if(nbrTabs>5)
+								{
+									var start,finish;
+									var nbrTabsDivbyTwo = (nbrTabs - (nbrTabs%2))/2;
+									if(subgrp_live >= (nbrTabsDivbyTwo + (nbrTabs%2)) )
+									{
+										start = 0;
+										finish = nbrTabsDivbyTwo -1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = nbrTabsDivbyTwo;
+											finish = nbrTabs-1;
+										}
+										else
+										{
+											start = nbrTabsDivbyTwo+1;
+										finish = nbrTabs-1;
+									}
+										
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,1,1);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+									document.write('</TABLE>');
+									document.write('</TD>');
+									document.write('</TR>');
+									<!-- For the second row -->
+									document.write('<TR>');
+									document.write('<TD>');
+									document.write('<TABLE class="tabrow" cellpadding="0" cellspacing="0">');
+									if(subgrp_live >= (nbrTabsDivbyTwo+ (nbrTabs%2)))
+									{
+										start = nbrTabsDivbyTwo;
+										finish = nbrTabs-1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = 0;
+											finish = nbrTabsDivbyTwo-1;
+										}
+										else
+										{
+										start = 0;
+											finish = nbrTabsDivbyTwo;
+										}
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,2,0);
+									document.write('<TD align="middle" background="../orinoco/images/iedge.gif">&nbsp;</TD>');
+								}
+								else
+								{
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,0,nbrTabs-1,0,0);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+								}
+							</SCRIPT>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+
+	
+	<TR>
+		<TD valign="top">
+			<TABLE align="center" cellpadding="10" cellspacing="0">
+				<SCRIPT language="javascript">
+					drawButtons(grp,grp_live);
+				</SCRIPT>
+			</TABLE>
+		</TD>
+<!-- End Header -->
+
+<TD bgcolor="white" height="95%" valign="top">
+<TABLE bgcolor="white" style="margin-left:25px; margin-bottom:25; margin-top: 5px" cellspacing="0" cellpadding="0" border="0" width="588">
+<!-- Start Subtabs -->
+
+	<TR>
+		<TD>
+			<TABLE cellpadding="0" cellspacing="0" width="95%">
+				<TR>
+					<TD>&nbsp;</TD>
+				</TR>
+				<TR>
+					<TD>
+						<TABLE cellpadding="0" cellspacing="0" width="100%">
+							<TR>
+								<TD>
+									<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+										<SCRIPT language="javascript">
+											var nbrTabs = subNumArray[tri_grp_live];
+											drawTabRow(subgrpArray[tri_grp_live],tri_grp_live,tri_subgrp_live,0,nbrTabs-1,4,0);
+										</SCRIPT>
+										<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>
+									</TABLE>
+								</TD>
+								<TD align="right" class="subtab-corner">&nbsp;</TD>
+							</TR>
+						</TABLE>
+					</TD>
+				</TR>
+				<!-- End Subtabs -->
+				<TR>					
+					<TD>
+						<TABLE bgcolor="white" cellpadding="0" cellspacing="0" border="0">
+						<TR>
+							<TD background="../orinoco/images/left_line.gif">&nbsp;</TD>
+
+
+
+<!-- BEGIN CONTENT  //-->
+<TD bgcolor="white" height="95%" valign="top">
+<FORM method="post" id="secAtheros" name="securityEncryption" ACTION="sec-gen12-a.html">
+	<TABLE cellpadding="1" cellspacing="0" width="100%" border="0">
+        <TR>
+			         <TD>&nbsp;</TD>
+                     <TD>&nbsp;</TD>
+		</TR>      
+        <TR>         
+            <TD class="header"><P>SSID, VLAN, and Security Data Configuration - Wireless A</P></TD> 
+        </TR>
+        <TR>
+             <TD class="verbiage">
+             <P>This page is used to configure multiple SSIDs (Wireless Network Names), 
+                VLAN IDs, Security Profiles and RADIUS Server Profiles.  
+
+				In order to support VLAN functionality,
+                VLAN Status must be enabled <A href ="vlanGroups.html">(Mgmt VLAN)</A>.
+             </P>
+	     <P>The user must specify unique SSIDs and VLAN IDs values (only a single untagged
+                VLAN ID can be configured).</P>
+             <P> <A href ="sec-Profiles.html">Security Profiles </A> are used to configure the allowed 
+             	       security modes. If RADIUS MAC, 802.1x, WPA or RADIUS accounting is enabled in the SSID's security profile 
+             	       then the respective <A href ="rad-radius.html"> RADIUS server profiles </A> should be configured 
+             	       and assigned to this SSID.
+             </P>
+             </TD>
+        </TR>
+            <TR>
+                <TD class="verbiage">
+                    <P><I>Note: Changes to these parameters require access 
+                          point reboot in order to take effect.</I></P>
+                </TD>
+            </TR>
+           
+            <TR>
+           <TD>            
+           <TABLE >
+           <SCRIPT  LANGUAGE="JavaScript" >
+		var acctStatus = 2;
+		var radAuthStatus = 2;
+   	    var macACLStatus = 2;	
+
+	        document.write('<TR>');
+	        document.write('<TD>Accounting Status</TD>');
+	        document.write('<TD>');
+	        document.write('<SELECT class="formdropdown" onChange="modify(this)" name="EmWeb_ns:snmp:130.3.1">');
+	        document.write('<OPTION VALUE="1" ');
+	        if (acctStatus == 1) { 
+		       document.write("  selected"); 
+	        }
+	        document.write('>Enable');                        
+      
+	        document.write('<OPTION VALUE="2" ');
+	        if (acctStatus == 2) {
+		        document.write("  selected"); 
+	        }
+	        document.write('>Disable');                           
+	        document.write('</SELECT>');
+	        document.write('&nbsp;'); 
+	        document.write('</TD>');
+	        document.write('</TR>');
+	    document.write('<TD>RADIUS MAC Authentication Status</TD>');
+	    document.write('<TD>');
+	    document.write('<SELECT class="formdropdown" onChange="modify(this)" name="EmWeb_ns:snmp:132.3.1">');
+	    document.write('<OPTION VALUE="1" ');
+	    if (radAuthStatus == 1) { 
+		   document.write("  selected"); 
+	    }
+	    document.write('>Enable');                        
+  
+	    document.write('<OPTION VALUE="2" ');
+	    if (radAuthStatus == 2) {
+		    document.write("  selected"); 
+	    }
+	    document.write('>Disable');                           
+	    document.write('</SELECT>');
+	    document.write('&nbsp;'); 
+	    document.write('</TD>');
+	    document.write('</TR>');
+
+	    document.write('<TR>');
+	    document.write('<TD>MAC ACL Status</TD>');
+	    document.write('<TD>');
+	    document.write('<SELECT class="formdropdown" onChange="modify(this)" name="EmWeb_ns:snmp:133.3.1">');
+	    document.write('<OPTION VALUE="1" ');
+	    if (macACLStatus == 1) { 
+		   document.write("  selected"); 
+	    }
+	    document.write('>Enable');                        
+  
+	    document.write('<OPTION VALUE="2" ');
+	    if (macACLStatus == 2) {
+		    document.write("  selected"); 
+	    }
+	    document.write('>Disable');                           
+	    document.write('</SELECT>');
+	    document.write('&nbsp;'); 
+	    document.write('</TD>');
+	    document.write('</TR>');
+
+	  	   document.write('<TR>');
+	          document.write('<TD> Rekeying Interval (seconds) </TD>');
+	          document.write('<TD>');
+	          document.write('<INPUT name="EmWeb_ns:snmp:134.3.1" ');
+	          document.write(' id="rekeyId" ' );
+	          document.write(' value="900" ');
+	          document.write(' onChange="modify(this)" ');
+	          document.write(' type="text" align=LEFT class="formtext">');                         
+	          document.write('&nbsp;'); 
+        
+	          document.write('</TD>');
+	          document.write('</TR>');
+
+        
+	        document.write('<TR>');
+	        document.write('<TD>Security Profile</TD>');
+	        document.write('<TD>');
+	        document.write('<INPUT name="EmWeb_ns:snmp:135.3.1" ');
+	        document.write(' id="secProfileId" ' );
+	        document.write(' value="1" ');
+	        document.write(' onChange="modify(this)" ');
+	        document.write(' type="text" align=LEFT class="formtext">');                         
+	        document.write('&nbsp;'); 
+      
+	        document.write('</TD>');
+	        document.write('</TR>');
+      
+	        document.write('<TR>');
+	        document.write('<TD>RADIUS MAC Authentication Profile</TD>');
+	        document.write('<TD>');
+	        document.write('<INPUT name="EmWeb_ns:snmp:136.3.1" ');
+	        document.write(' id="RadMacAuthProfileId" ' );
+	        document.write(' value="MAC Authentication" ');
+	        document.write(' onChange="modify(this)" ');
+	        document.write(' type="text" align=LEFT class="formtext">');                         
+	        document.write('&nbsp;'); 
+      
+	        document.write('<TR>');
+	        document.write('<TD>RADIUS EAP Authentication Profile</TD>');
+	        document.write('<TD>');
+	        document.write('<INPUT name="EmWeb_ns:snmp:137.3.1" ');
+	        document.write(' id="RadMacEapAuthProfileId" ' );
+	        document.write(' value="EAP Authentication" ');
+	        document.write(' onChange="modify(this)" ');
+	        document.write(' type="text" align=LEFT class="formtext">');                         
+	        document.write('&nbsp;'); 
+      
+	        document.write('<TR>');
+	        document.write('<TD>RADIUS Accounting Profile</TD>');
+	        document.write('<TD>');
+	        document.write('<INPUT name="EmWeb_ns:snmp:138.3.1" ');
+	        document.write(' id="RadMacAcctProfileId" ' );
+	        document.write(' value="Accounting" ');
+	        document.write(' onChange="modify(this)" ');
+	        document.write(' type="text" align=LEFT class="formtext">');                         
+	        document.write('&nbsp;'); 
+
+            var qosCapabilities='00:01:01:00:00:01:01:00:01:01:01:00:00:01:01:01';
+            if ((qosCapabilities.length>=44) && (qosCapabilities.charAt(43)=="1")) {               
+                  // QoS supported
+                  document.write('<TR>');
+                  document.write('<TD>QoS Profile</TD>');
+                  document.write('<TD>');
+                  document.write('<INPUT name="EmWeb_ns:snmp:121.3.1" ');
+                  document.write(' id="QoSProfile" ' );
+                  document.write(' value="1" ');
+                  document.write(' onChange="modify(this)" ');
+                  document.write(' type="text" align=LEFT class="formtext">'); 
+                  document.write('&nbsp;'); 
+                  document.write('</TD>');
+                  document.write('</TR>'); 
+            }     
+            document.write('</TABLE>');
+         
+            document.write('</TD>');
+            document.write('</TR>');
+
+            document.write('<TR>');
+            document.write('<TD>');
+            document.write('<TABLE align="center" cellpadding="0" cellspacing="0" width="270">');            
+            document.write('<TR>');
+            document.write('<TD colspan="2">');
+            document.write('<IMG src="../orinoco/images/spacer.gif" width="270" height="10" alt="" border="0">');
+            document.write('</TD>');
+            document.write('</TR>');
+            document.write('<TR>');
+           document.write('<TD align="center">');
+           document.write('<A href="javascript:transmit()">');
+           document.write('<IMG src="../orinoco/images/ok.gif" width="93" height="25" alt="OK" border="0">');
+           document.write('</A>');
+           document.write('</TD>');
+           document.write('<TD align="center">');
+           document.write('<A href="javascript:cancel()">');
+           document.write('<IMG src="../orinoco/images/cancel.gif" width="93" height="25" alt="Cancel" border="0">');
+           document.write('</A>');
+           document.write('</TD>');
+           document.write('</TR>');
+           document.write('</TABLE>');
+           document.write('</TD>'); 
+           document.write('</TR>'); 
+           document.write('<TR>');
+           document.write('<TD>&nbsp;</TD>');
+           document.write('</TR>'); 
+         
+            </SCRIPT>  
+        <TR>
+			<TD class="tableheader">SSID, and VLAN Data Table</TD>         
+		</TR>      
+        <TR>
+			<TD colspan="2">
+			    <TABLE cellpadding="0" cellspacing="0" border="0">
+	<TR>
+		<TD><IMG src="../orinoco/images/topleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+		<TD width="100%"><IMG src="../orinoco/images/top_line.gif" width="100%" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/topright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+	</TR>
+	<TR>
+		<TD background="../orinoco/images/left_line.gif">&nbsp;</TD>
+
+
+                    <TD valign="middle">
+                        <TABLE cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
+						    <TR>
+                                <TD colspan="5">
+								    <TABLE align="center" cellpadding="0" cellspacing="0" width="270">
+									    <TR>
+										    <TD align="center"><A href="addedit/ssid12A-add.html"><IMG src="../orinoco/images/button-add.gif" border="0"></A></TD>                              
+										    <TD align="center"><A href="addedit/ssid12A-edit.html"><IMG src="../orinoco/images/button-edit.gif" border="0"></A></TD>
+									    </TR>
+									    <TR>
+										    <TD colspan="2"><IMG src="../orinoco/images/spacer.gif" width="100%" height="15"></TD>
+									    </TR>                           
+								    </TABLE>
+							    </TD>                     
+                            </TR>
+                            <TR>
+                                <TD class="tableheader">Index</TD>
+							    <TD class="tableheader">Network Name (SSID)</TD>
+							    <TD class="tableheader">VLAN ID</TD>                     
+							    <TD class="tableheader">Status</TD>
+                            </TR>
+                            
+                            
+							<SCRIPT  LANGUAGE="JavaScript" >
+								var id = -1
+								var index = "3.1"
+								var ssid = "its65"
+
+								if (index.charAt(0) == "3") 
+								{
+									document.write('<TR><TD>1</TD>');
+									document.write('<TD>'+ssid+'</TD>');
+
+                                    document.write('<TD>');
+									if (id == -1) {
+										document.write('untagged');
+									}
+									else {
+										document.write(id);
+									}
+                                    document.write('</TD>');
+                                    
+                                    document.write('<TD>');
+                                    tableStatus(1);
+									document.write('</TD></TR>');
+								}
+							</SCRIPT>
+						    
+							<SCRIPT  LANGUAGE="JavaScript" >
+								var id = -1
+								var index = "4.1"
+								var ssid = "its62"
+
+								if (index.charAt(0) == "3") 
+								{
+									document.write('<TR><TD>1</TD>');
+									document.write('<TD>'+ssid+'</TD>');
+
+                                    document.write('<TD>');
+									if (id == -1) {
+										document.write('untagged');
+									}
+									else {
+										document.write(id);
+									}
+                                    document.write('</TD>');
+                                    
+                                    document.write('<TD>');
+                                    tableStatus(1);
+									document.write('</TD></TR>');
+								}
+							</SCRIPT>
+						                      
+                        </TABLE>
+                    </TD>     
+			   		<TD background="../orinoco/images/right_line.gif">&nbsp;</TD>
+	</TR>
+	<TR>
+		<TD><IMG src="../orinoco/images/bottomleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/bottom_line.gif" width="100%" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/bottomright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+	</TR>
+</TABLE>
+
+			</TD>
+		</TR>          
+    </TABLE>
+	</FORM>
+</TD>
+
+
+							<TD background="../orinoco/images/right_line.gif">&nbsp;</TD>
+						</TR>
+						<TR>
+							<TD><IMG src="../orinoco/images/bottomleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+							<TD><IMG src="../orinoco/images/bottom_line.gif" width="100%" height="25" alt="" border="0"></TD>
+							<TD><IMG src="../orinoco/images/bottomright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+						</TR>
+
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+
+
+		</TD>
+	</TR>
+</TR>
+</TABLE>
+
+<!-- Start Footer -->
+	<FORM name="rebootform" method="post" ACTION="../prototail.html">
+		<INPUT type="hidden" id="rebootflag" name="EmWeb_ns:snmp:568" value="0" class="formtext">
+	</FORM>
+
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
+<!-- End Footer -->
+
+
+
+</BODY>
+</HTML>

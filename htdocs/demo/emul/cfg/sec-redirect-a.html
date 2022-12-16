@@ -1,0 +1,43 @@
+<HTML>
+<HEAD> 
+	<TITLE>Wireless Interface - Slot A WNIC redirection</TITLE><LINK rel="stylesheet" href="../orinoco/css/global.css">
+	<SCRIPT language="javascript" src="../orinoco/scripts/library.js"></SCRIPT>
+</HEAD>
+
+<BODY>
+    <SCRIPT  LANGUAGE="JavaScript">  
+        var profileCode = 86
+        var enableSecurityStatus = 2;
+        
+        switch (profileCode){
+        case 1:
+        case 2:
+        case 3:
+        case 4: // Agere card found 
+                location.href="sec-gen-a.html";
+                break;
+
+        case 85: //1st gen card 
+                 location.href="sec-gen-a.html" ;
+                break;
+
+        case 86: //2nd or 3rd gen card 
+
+                if(enableSecurityStatus==0){ 
+                   // 2nd gen card, enableSecurityStatus=0
+                   location.href="sec-gen12-a.html";
+                } 
+                else { 
+                   // 3rd gen card, enableSecurityStatus=1 or 2 
+                   location.href="sec-gen34-a.html";
+                }
+                break;
+
+        default: // unrecognized card
+                location.href="sec-gen-na-a.html";
+                break;
+        }
+        
+	</SCRIPT>   
+</BODY>
+</HTML>

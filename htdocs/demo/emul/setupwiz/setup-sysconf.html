@@ -1,0 +1,231 @@
+<HTML>
+<HEAD>
+	<SCRIPT language="javascript" src="../orinoco/scripts/menu.js"></SCRIPT>
+	<TITLE>Setup Wizard - System Configuration</TITLE>
+	<LINK rel="stylesheet" href="../orinoco/css/global.css">
+	<SCRIPT language="javascript" src="../orinoco/scripts/library.js"></SCRIPT>
+	<SCRIPT language="javascript" src="../orinoco/scripts/test.js"></SCRIPT>
+</HEAD>
+
+<BODY style="margin:0px" background="../orinoco/images/bg.gif" rightmargin="0" >
+
+<SCRIPT language="javascript" src="../orinoco/scripts/menu.js"></SCRIPT>
+<script language="javascript">
+	function processSubmit()
+	{
+		transmit();
+		location.href="setup-ip.html";
+	}
+</SCRIPT>
+
+<!-- Start Header -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0">
+	<TR height="90">
+		<TD colspan=2>
+			<TABLE width="155" height="90" cellpadding="0" cellspacing="0">
+				<TR>
+					<TD valign="top"><IMG src="../orinoco/images/logo.gif"></TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>	
+	<TR>
+		<TD width=10>&nbsp;</TD>
+		<TD valign="top" width=100>
+			<H5>
+				<A href="setup-intro.html" STYLE="color:#3c5580">Step 1:<br>Introduction</a>
+				<br><br>
+				<font color="#ff6600">Step 2:<br>System Configuration</FONT>
+				<br><Br>
+				<a href="setup-ip.html" STYLE="color:#3c5580">Step 3:<Br>IP Configuration</a>
+				<BR><BR>
+				<a href="setup-pass.html" STYLE="color:#3c5580">Step 4:<Br>Password Configuration</a>
+				<BR><BR>
+				<a href="setup-opmode.html" STYLE="color:#3c5580">Step 5:<Br>Wireless Interfaces Configuration</a>
+				<BR><BR>
+				<a href="setup-summary.html" STYLE="color:#3c5580">Step 6:<br>Summary</a>
+			</H5>
+		</TD>
+		<!-- End Header -->
+		<TD  bgcolor="white" valign="top" width=100%>
+			<TABLE STYLE="margin:15px" CELLPADDING="0" CELLSPACING="0" BORDER="0" width="550">
+			<TR>
+				<TD class="verbiage" valign="top">
+					
+					<P>This page is used to configure the device's system unique parameters and 
+					contact information.  The system information is used to uniquely identify 
+					the wireless access point on the network.  System administrators may want 
+					to record this information for future reference.</p>
+
+					<p>Note: Clicking the <b>Save & Next</b> button will save any changes you 
+					made on this screen and take you to the next Setup Wizard configuration page.</p>
+					
+					<FORM method="post" ACTION="setup-sysconf.html">
+					<TABLE cellpadding="2" cellspacing="0" width="100%" border="0">
+						<TR>
+							<TD>Name</TD>
+							<TD><INPUT onChange="modifys(this)" class="formtext" type="text" name="EmWeb_ns:snmp:357" VALUE="AP6-P-4000MR"></TD>
+						</TR>
+						<SCRIPT LANGUAGE="JavaScript" >
+						var option1 = 0
+
+							if( option1 == 1 ) {		
+								document.write('<TR>');
+								document.write('<td>Country</td>');
+								document.write('<td><SELECT class="formdropdownwide" name="EmWeb_ns:snmp:358.0" onChange="modify(this)" id="WorldCountryCodeBoxA">');
+								document.write('<OPTION VALUE=INV SELECTED>Select Country<OPTION VALUE=AT1>Austria - indoor (AT1)<OPTION VALUE=AT2>Austria - outdoor (AT2)<OPTION VALUE=BE1>Belgium - indoor (BE1)<OPTION VALUE=BE2>Belgium - outdoor (BE2)<OPTION VALUE=CA1>Canada (CA1)<OPTION VALUE=CY1>Cyprus - indoor (CY1)<OPTION VALUE=CY2>Cyprus - outdoor (CY2)<OPTION VALUE=CZ1>Czech Republic - indoor (CZ1)<OPTION VALUE=CZ2>Czech Republic - outdoor (CZ2)<OPTION VALUE=DK1>Denmark - indoor (DK1)<OPTION VALUE=DK2>Denmark - outdoor (DK2)<OPTION VALUE=EE1>Estonia - indoor (EE1)<OPTION VALUE=EE2>Estonia - outdoor (EE2)<OPTION VALUE=FI1>Finland - indoor (FI1)<OPTION VALUE=FI2>Finland - outdoor (FI2)<OPTION VALUE=FR1>France - indoor (FR1)<OPTION VALUE=FR2>France - outdoor (FR2)<OPTION VALUE=DE1>Germany - indoor (DE1)<OPTION VALUE=DE2>Germany - outdoor (DE2)<OPTION VALUE=GR1>Greece - indoor (GR1)<OPTION VALUE=GR2>Greece - outdoor (GR2)<OPTION VALUE=HU1>Hungary - indoor (HU1)<OPTION VALUE=HU2>Hungary - outdoor (HU2)<OPTION VALUE=IE1>Ireland - indoor (IE1)<OPTION VALUE=IE2>Ireland - outdoor (IE2)<OPTION VALUE=IT1>Italy - indoor (IT1)<OPTION VALUE=IT2>Italy - outdoor (IT2)<OPTION VALUE=LV1>Latvia - indoor (LV1)<OPTION VALUE=LV2>Latvia - outdoor (LV2)<OPTION VALUE=LT1>Lithuania - indoor (LT1)<OPTION VALUE=LT2>Lithuania - outdoor (LT2)<OPTION VALUE=LU1>Luxembourg - indoor (LU1)<OPTION VALUE=LU2>Luxembourg - outdoor (LU2)<OPTION VALUE=MT1>Malta - indoor (MT1)<OPTION VALUE=MT2>Malta - outdoor (MT2)<OPTION VALUE=NL1>Netherlands - indoor (NL1)<OPTION VALUE=NL2>Netherlands - outdoor (NL2)<OPTION VALUE=NO1>Norway - indoor (NO1)<OPTION VALUE=NO2>Norway - outdoor (NO2)<OPTION VALUE=PL1>Poland - indoor (PL1)<OPTION VALUE=PL2>Poland - outdoor (PL2)<OPTION VALUE=PT1>Portugal - indoor (PT1)<OPTION VALUE=PT2>Portugal - outdoor (PT2)<OPTION VALUE=RU>Russia (RU)<OPTION VALUE=ES1>Spain - indoor (ES1)<OPTION VALUE=ES2>Spain - outdoor (ES2)<OPTION VALUE=SE1>Sweden - indoor (SE1)<OPTION VALUE=SE2>Sweden - outdoor (SE2)<OPTION VALUE=CH1>Switzerland - indoor (CH1)<OPTION VALUE=CH2>Switzerland - outdoor (CH2)<OPTION VALUE=GB1>United Kingdom - indoor  (GB1)<OPTION VALUE=GB2>United Kingdom - outdoor (GB2)<OPTION VALUE=GB3>United Kingdom - 5.8  (GB3)');
+								document.write('</SELECT>');
+								document.write('</td></TR>');
+							}
+							
+						</SCRIPT>
+						<TR>
+							<TD>Location</TD>
+							<TD><INPUT onChange="modifys(this)" class="formtext" type="text" name="EmWeb_ns:snmp:359" VALUE="its"></TD>
+						</TR>
+						<TR>
+							<TD>Contact Name</TD>
+							<TD><INPUT onChange="modifys(this)" class="formtext" type="text" name="EmWeb_ns:snmp:363" VALUE="itsmanager"></TD>
+						</TR>
+						<TR>
+							<TD>Contact Email</TD>
+							<TD><INPUT onChange="modifys(this)" class="formtext" type="text" name="EmWeb_ns:snmp:364" VALUE="itsmanader@wt.ifmo.ru"></TD>
+						</TR>
+						<TR>
+							<TD>Contact Phone</TD>
+							<TD><INPUT onChange="modifys(this)" class="formtext" type="text" name="EmWeb_ns:snmp:365" VALUE="+78124045406"></TD>
+						</TR>
+					<TR>
+						<TD>Software Version</TD>
+						<TD class="readonly">
+							<SCRIPT LANGUAGE="JavaScript">
+								
+									if (( 4210 == 89) || (4210 == 4097) || (4210 == 4115) || (4210 == 4118)  )  //fix for alpha - component IDs vary from AP2k jkm
+									{
+										document.write( 1 + '.' + 0 + '.' + 0 )
+									}
+								
+									if (( 4212 == 89) || (4212 == 4097) || (4212 == 4115) || (4212 == 4118)  )  //fix for alpha - component IDs vary from AP2k jkm
+									{
+										document.write( 1 + '.' + 0 + '.' + 0 )
+									}
+								
+									if (( 4115 == 89) || (4115 == 4097) || (4115 == 4115) || (4115 == 4118)  )  //fix for alpha - component IDs vary from AP2k jkm
+									{
+										document.write( 3 + '.' + 6 + '.' + 3 )
+									}
+								
+									if (( 4114 == 89) || (4114 == 4097) || (4114 == 4115) || (4114 == 4118)  )  //fix for alpha - component IDs vary from AP2k jkm
+									{
+										document.write( 1 + '.' + 0 + '.' + 0 )
+									}
+								
+									if (( 4120 == 89) || (4120 == 4097) || (4120 == 4115) || (4120 == 4118)  )  //fix for alpha - component IDs vary from AP2k jkm
+									{
+										document.write( 3 + '.' + 1 + '.' + 0 )
+									}
+								
+									if (( 122 == 89) || (122 == 4097) || (122 == 4115) || (122 == 4118)  )  //fix for alpha - component IDs vary from AP2k jkm
+									{
+										document.write( 3 + '.' + 71 + '.' + 0 )
+									}
+								
+									if (( 4116 == 89) || (4116 == 4097) || (4116 == 4115) || (4116 == 4118)  )  //fix for alpha - component IDs vary from AP2k jkm
+									{
+										document.write( 0 + '.' + 1 + '.' + 1 )
+									}
+								
+									if (( 0 == 89) || (0 == 4097) || (0 == 4115) || (0 == 4118)  )  //fix for alpha - component IDs vary from AP2k jkm
+									{
+										document.write( 0 + '.' + 0 + '.' + 0 )
+									}
+								
+									if (( 123 == 89) || (123 == 4097) || (123 == 4115) || (123 == 4118)  )  //fix for alpha - component IDs vary from AP2k jkm
+									{
+										document.write( 1 + '.' + 1 + '.' + 1 )
+									}
+								
+							</SCRIPT>
+						</TD>
+					</TR>
+					<TR>
+						<TD>Boot Loader Version</TD>
+						<TD class="readonly">
+							<SCRIPT LANGUAGE="JavaScript">
+								
+									if ( (4210 == 111) || (4210 == 4099) || (4210 == 4120)  )
+									{
+										document.write( 1 + '.' + 0 + '.' + 0 )
+									}
+								
+									if ( (4212 == 111) || (4212 == 4099) || (4212 == 4120)  )
+									{
+										document.write( 1 + '.' + 0 + '.' + 0 )
+									}
+								
+									if ( (4115 == 111) || (4115 == 4099) || (4115 == 4120)  )
+									{
+										document.write( 3 + '.' + 6 + '.' + 3 )
+									}
+								
+									if ( (4114 == 111) || (4114 == 4099) || (4114 == 4120)  )
+									{
+										document.write( 1 + '.' + 0 + '.' + 0 )
+									}
+								
+									if ( (4120 == 111) || (4120 == 4099) || (4120 == 4120)  )
+									{
+										document.write( 3 + '.' + 1 + '.' + 0 )
+									}
+								
+									if ( (122 == 111) || (122 == 4099) || (122 == 4120)  )
+									{
+										document.write( 3 + '.' + 71 + '.' + 0 )
+									}
+								
+									if ( (4116 == 111) || (4116 == 4099) || (4116 == 4120)  )
+									{
+										document.write( 0 + '.' + 1 + '.' + 1 )
+									}
+								
+									if ( (0 == 111) || (0 == 4099) || (0 == 4120)  )
+									{
+										document.write( 0 + '.' + 0 + '.' + 0 )
+									}
+								
+									if ( (123 == 111) || (123 == 4099) || (123 == 4120)  )
+									{
+										document.write( 1 + '.' + 1 + '.' + 1 )
+									}
+								
+							</SCRIPT>
+						</TD>
+					</TR>
+						<TR>
+							<TD>Ethernet MAC Address</TD>
+							<TD class="readonly">00:20:A6:5A:6D:29</TD>
+						</TR>
+						<TR>
+							<TD>&nbsp;</TD>
+						</TR>
+						<TR>
+							<TD align="center" colspan="2" class="header">
+								<TABLE cellpadding="0" cellpadding="0" border="0" width="250">
+									<TR>
+										<TD ALIGN="left"><a href="setup-intro.html"><IMG SRC="../orinoco/images/button-back.gif" BORDER="0" ALT="Back"></a></TD>
+										<TD ALIGN="right"><A  href="javascript:transmit()" ><IMG SRC="../orinoco/images/button-save_next.gif" BORDER="0" ALt="Next"></a></TD>
+									</TR>
+								</TABLE>						
+							</TD>
+						</TR>
+					</TABLE>
+					</FORM>
+				</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
+<!-- End Footer -->

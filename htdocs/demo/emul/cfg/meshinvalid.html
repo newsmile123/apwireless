@@ -1,0 +1,210 @@
+<HTML>
+<HEAD>
+	<TITLE>Mesh Interface Configuration</TITLE>
+	<LINK rel="stylesheet" href="../orinoco/css/global.css">
+	<SCRIPT language="javascript" src="../orinoco/scripts/library.js"></SCRIPT>
+	<SCRIPT language="javascript" src="../orinoco/scripts/test.js"></SCRIPT>		
+</HEAD>
+
+<BODY style="margin:0px" background="../orinoco/images/bg.gif" rightmargin="0">
+
+<SCRIPT language="javascript">
+var objId  = "1.3.6.1.4.1.11898.2.4.12";						
+	grp_live = 1;
+	subgrp_live = 2;
+	tri_grp_live = 7;
+	var interfaceA = '4 ';
+    var interfaceB = '6 ';
+    tri_subgrp_live=2;
+    if(interfaceA!=' ') tri_subgrp_live++;
+    if(interfaceB!=' ') tri_subgrp_live++;
+</SCRIPT>
+    
+<SCRIPT language="javascript" src="../orinoco/scripts/menu.js"></SCRIPT>
+
+<!-- Start Header -->
+<!-- <BODY style="margin:0px"> -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0">
+	<TR>
+		<TD>
+			<TABLE width="150" height="90" cellpadding="0" cellspacing="0">
+			<TR>
+			<TD valign="top"><IMG src="../orinoco/images/logo.gif"></TD>
+			</TR>
+			<TR>
+			<TD align="right">&nbsp;</TD>
+			</TR>
+			</TABLE>
+		</TD>
+		<TD valign="bottom">
+			<TABLE cellpadding="0" cellspacing="0" width="100%"> <!-- For the table -->
+				<!-- For the first row -->
+				<TR>
+					<TD>
+						<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+							<SCRIPT language="javascript">
+		                            		var ProductId  = "1.3.6.1.4.1.11898.2.4.12";													
+                                                                var slotA = '4 ';
+		                            		        var slotB = '6 ';
+		                            		        var secModeA = '6';  
+		                            		        var secModeB = '1';  
+								InitMenu(ProductId, slotA, slotB, secModeA, secModeB);
+								var nbrTabs = subNumArray[grp_live];
+								if(nbrTabs>5)
+								{
+									var start,finish;
+									var nbrTabsDivbyTwo = (nbrTabs - (nbrTabs%2))/2;
+									if(subgrp_live >= (nbrTabsDivbyTwo + (nbrTabs%2)) )
+									{
+										start = 0;
+										finish = nbrTabsDivbyTwo -1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = nbrTabsDivbyTwo;
+											finish = nbrTabs-1;
+										}
+										else
+										{
+											start = nbrTabsDivbyTwo+1;
+										finish = nbrTabs-1;
+									}
+										
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,1,1);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+									document.write('</TABLE>');
+									document.write('</TD>');
+									document.write('</TR>');
+									<!-- For the second row -->
+									document.write('<TR>');
+									document.write('<TD>');
+									document.write('<TABLE class="tabrow" cellpadding="0" cellspacing="0">');
+									if(subgrp_live >= (nbrTabsDivbyTwo+ (nbrTabs%2)))
+									{
+										start = nbrTabsDivbyTwo;
+										finish = nbrTabs-1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = 0;
+											finish = nbrTabsDivbyTwo-1;
+										}
+										else
+										{
+										start = 0;
+											finish = nbrTabsDivbyTwo;
+										}
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,2,0);
+									document.write('<TD align="middle" background="../orinoco/images/iedge.gif">&nbsp;</TD>');
+								}
+								else
+								{
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,0,nbrTabs-1,0,0);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+								}
+							</SCRIPT>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+
+	
+	<TR>
+		<TD valign="top">
+			<TABLE align="center" cellpadding="10" cellspacing="0">
+				<SCRIPT language="javascript">
+					drawButtons(grp,grp_live);
+				</SCRIPT>
+			</TABLE>
+		</TD>
+<!-- End Header -->
+
+<TD bgcolor="white" height="95%" valign="top">
+<TABLE bgcolor="white" style="margin-left:25px; margin-bottom:25; margin-top: 5px" cellspacing="0" cellpadding="0" border="0" width="588">
+<!-- Start Subtabs -->
+
+	<TR>
+		<TD>
+			<TABLE cellpadding="0" cellspacing="0" width="95%">
+				<TR>
+					<TD>&nbsp;</TD>
+				</TR>
+				<TR>
+					<TD>
+						<TABLE cellpadding="0" cellspacing="0" width="100%">
+							<TR>
+								<TD>
+									<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+										<SCRIPT language="javascript">
+											var nbrTabs = subNumArray[tri_grp_live];
+											drawTabRow(subgrpArray[tri_grp_live],tri_grp_live,tri_subgrp_live,0,nbrTabs-1,4,0);
+										</SCRIPT>
+										<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>
+									</TABLE>
+								</TD>
+								<TD align="right" class="subtab-corner">&nbsp;</TD>
+							</TR>
+						</TABLE>
+					</TD>
+				</TR>
+				<!-- End Subtabs -->
+				<TR>					
+					<TD>
+						<TABLE bgcolor="white" cellpadding="0" cellspacing="0" border="0">
+						<TR>
+							<TD background="../orinoco/images/left_line.gif">&nbsp;</TD>
+
+
+
+<!-- BEGIN CONTENT //-->
+<TD width="100%">
+	<TABLE><TR><TD class="verbiage">
+	       <P>Mesh functionality is not available on this AP. No Mesh parameters can be configured</p>
+    </TD></TR></TABLE>
+	
+</TD>
+<!-- END CONTENT //-->
+
+							<TD background="../orinoco/images/right_line.gif">&nbsp;</TD>
+						</TR>
+						<TR>
+							<TD><IMG src="../orinoco/images/bottomleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+							<TD><IMG src="../orinoco/images/bottom_line.gif" width="100%" height="25" alt="" border="0"></TD>
+							<TD><IMG src="../orinoco/images/bottomright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+						</TR>
+
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+
+
+		</TD>
+	</TR>
+</TR>
+</TABLE>
+
+<!-- Start Footer -->
+	<FORM name="rebootform" method="post" ACTION="../prototail.html">
+		<INPUT type="hidden" id="rebootflag" name="EmWeb_ns:snmp:568" value="0" class="formtext">
+	</FORM>
+
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
+<!-- End Footer -->
+
+
+
+</BODY>
+</HTML>
+

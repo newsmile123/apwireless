@@ -1,0 +1,278 @@
+<HTML>
+<HEAD>
+    <TITLE>SSID and VLAN Table - Wireless A - Add Entries.</TITLE>
+    <LINK rel="stylesheet" href="../../orinoco/css/global.css">
+    <SCRIPT src="../../orinoco/scripts/library.js"></SCRIPT>
+    <SCRIPT src="../../orinoco/scripts/test.js"></SCRIPT>
+    <SCRIPT>
+    window.onload = setField
+
+    function setField(){
+       modify(document.forms[0].ssid);
+    }
+    </SCRIPT>
+</HEAD>
+
+<BODY style="margin:0px" rightmargin="0" background="../../orinoco/images/bg.gif">
+    <SCRIPT language="javascript">
+    grp_live = 1;
+    subgrp_live = 9;
+    </SCRIPT>
+    
+    <SCRIPT language="javascript" src="../../orinoco/scripts/menu.js"></SCRIPT>
+
+<!-- Start Header -->
+<!-- <BODY style="margin:0px"> -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0">
+	<TR>
+		<TD>
+			<TABLE width="150" height="90" cellpadding="0" cellspacing="0">
+			<TR>
+			<TD valign="top"><IMG src="../../orinoco/images/logo.gif"></TD>
+			</TR>
+			<TR>
+			<TD align="right">&nbsp;</TD>
+			</TR>
+			</TABLE>
+		</TD>
+		<TD valign="bottom">
+			<TABLE cellpadding="0" cellspacing="0" width="100%"> <!-- For the table -->
+				<!-- For the first row -->
+				<TR>
+					<TD>
+						<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+							<SCRIPT language="javascript">
+		                            		var ProductId  = "1.3.6.1.4.1.11898.2.4.12";													
+                                                                var slotA = '4 ';
+		                            		        var slotB = '6 ';
+		                            		        var secModeA = '6';  
+		                            		        var secModeB = '1';  
+								InitMenu(ProductId, slotA, slotB, secModeA, secModeB);
+								var nbrTabs = subNumArray[grp_live];
+								if(nbrTabs>5)
+								{
+									var start,finish;
+									var nbrTabsDivbyTwo = (nbrTabs - (nbrTabs%2))/2;
+									if(subgrp_live >= (nbrTabsDivbyTwo + (nbrTabs%2)) )
+									{
+										start = 0;
+										finish = nbrTabsDivbyTwo -1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = nbrTabsDivbyTwo;
+											finish = nbrTabs-1;
+										}
+										else
+										{
+											start = nbrTabsDivbyTwo+1;
+										finish = nbrTabs-1;
+									}
+										
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,1,1);
+									document.write('<TD align="middle" background="../../orinoco/images/edge.gif">&nbsp;</TD>');
+									document.write('</TABLE>');
+									document.write('</TD>');
+									document.write('</TR>');
+									<!-- For the second row -->
+									document.write('<TR>');
+									document.write('<TD>');
+									document.write('<TABLE class="tabrow" cellpadding="0" cellspacing="0">');
+									if(subgrp_live >= (nbrTabsDivbyTwo+ (nbrTabs%2)))
+									{
+										start = nbrTabsDivbyTwo;
+										finish = nbrTabs-1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = 0;
+											finish = nbrTabsDivbyTwo-1;
+										}
+										else
+										{
+										start = 0;
+											finish = nbrTabsDivbyTwo;
+										}
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,2,0);
+									document.write('<TD align="middle" background="../../orinoco/images/iedge.gif">&nbsp;</TD>');
+								}
+								else
+								{
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,0,nbrTabs-1,0,0);
+									document.write('<TD align="middle" background="../../orinoco/images/edge.gif">&nbsp;</TD>');
+								}
+							</SCRIPT>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+
+	
+	<TR>
+		<TD valign="top">
+			<TABLE align="center" cellpadding="10" cellspacing="0">
+				<SCRIPT language="javascript">
+					drawButtons(grp,grp_live);
+				</SCRIPT>
+			</TABLE>
+		</TD>
+<!-- End Header -->
+
+    <TD colspan="2" bgcolor="white" height="100%" valign="top">
+        <FORM method="post" NAME="securityEncryption" ACTION="ssid12A-add.html">
+            <TABLE cellpadding="0" cellspacing="0" 
+                   border="0" width="588" 
+                   style="margin-left:50px; margin-bottom:25; margin-top:5px">
+                <TR>
+                    <TD align="right" width="100%">
+                        <A href="javascript:window.history.back()">
+                        <IMG src="../../orinoco/images/back.gif" width="32" height="32" alt="Back" border="0">
+                        </A>
+                    </TD>
+                </TR>
+                <TR>
+                    <TD colspan="2" class="header">
+                        SSID and VLAN Table - Wireless A - Add Entries.
+                    </TD>
+                </TR>
+                <TR>
+                    <TD>
+                        <TABLE>
+                            <TR>
+                                <TD colspan="2" class="verbiage">
+                                    <P>This page is used to configure additional SSIDs, 
+                                    and VLANs. Each table entry requires a unique SSID 
+                                    and VLAN ID.
+                                    </P>
+                                </TD>
+                            </TR>
+                            <TR>
+                                <TD class="verbiage">
+                                    <P><I>Note: Changes to these parameters require access 
+                                          point reboot in order to take effect.</I></P>
+                                </TD>
+                            </TR>
+                        </TABLE>
+                    </TD>
+                </TR> 
+                <TR>
+                    <TD>
+                    <TABLE style="margin-left:50px; margin-bottom:25; margin-top:5px" width="80%">
+                        <TR>
+                            <TD width="15%"><b>&nbsp;</b></TD>
+                            <TD width="30%"><b>&nbsp;</b></TD>
+                        </TR>
+                        <TR>
+                            <TD>Network name (SSID)</TD>
+                            <TD>
+                                <INPUT name="EmWeb_ns:snmp:119.3.0" id="ssid" value="" type="text" class="formtext" onChange="modify(this)">
+                            </TD>
+                        </TR>
+                        <TR>
+                            <INPUT name="EmWeb_ns:snmp:120.3.0" id="hiddenVlanId" value="-1" type="hidden">
+                            <SCRIPT language="javascript"> modify(document.forms[0].hiddenVlanId); </SCRIPT>       
+                            <TD>VLAN ID (0-4094, untagged)</TD>
+                            <TD>
+                                <INPUT id="vlanid" value="untagged" onChange="vlanid_change(this,hiddenVlanId)" type="text" class="formtext">
+                            </TD>
+                        </TR>
+                        <SCRIPT LANGUAGE="JavaScript">
+                         var qosCapabilities='00:01:01:00:00:01:01:00:01:01:01:00:00:01:01:01';
+                         if ((qosCapabilities.length>=44) && (qosCapabilities.charAt(43)=="1")) {               
+                            document.write('<TR>');
+                            document.write('<TD>QoS Profile</TD>');
+                            document.write('<TD><INPUT onChange="modify(this)" class="formtext" type="text" name="EmWeb_ns:snmp:121.3.0" id="oriWirelessIfSSIDTableQoSPolicy" VALUE=""></TD>');
+                            document.write('</TR>'); 
+                         }
+                         </script> 
+				<SCRIPT LANGUAGE="JavaScript">
+						 // Default dot1p priority
+                            document.write('<TR>');
+							document.write('<TD>802.1p priority</TD>');
+                            document.write('<TD><INPUT onChange="modify(this)" class="formtext" type="text" name="EmWeb_ns:snmp:122.3.0" id="oriWirelessIfSSIDTableDefaultDot1pPriority" VALUE="255"></TD>');
+                            document.write('</TR>'); 
+                         </script> 
+				<SCRIPT LANGUAGE="JavaScript">
+						 // Tx Bandwidth Limit
+                            document.write('<TR>');
+							document.write('<TD>Max Tx Bandwidth(Kbps unit)</TD>');
+                            document.write('<TD><INPUT onChange="modify(this)" class="formtext" type="text" name="EmWeb_ns:snmp:123.3.0" id="oriWirelessIfSSIDTableTxBandwidth" VALUE=""></TD>');
+                            document.write('</TR>'); 
+                         </script> 
+				<SCRIPT LANGUAGE="JavaScript">
+						 // Rx Bandwidth Limit
+                            document.write('<TR>');
+							document.write('<TD>Max Rx Bandwidth(Kbps unit)</TD>');
+                            document.write('<TD><INPUT onChange="modify(this)" class="formtext" type="text" name="EmWeb_ns:snmp:124.3.0" id="oriWirelessIfSSIDTableRxBandwidth" VALUE=""></TD>');
+                            document.write('</TR>'); 
+                         </script> 
+                        <TR>
+                            	<TD>Closed System</TD>
+                            	<TD>
+                         		<SELECT class="formdropdown" id="oriWirelessIfSSIDTableClosedSystem" name="EmWeb_ns:snmp:125.3.0" onChange="modify(this)">
+            		                    <OPTION VALUE="2">Disable</OPTION> 
+                        		        <OPTION VALUE="1" SELECTED>Enable</OPTION> 
+		                                <OPTION VALUE="3">Partial</OPTION> 
+            		            </SELECT>
+					</TD>
+                        </TR>
+                        <TR>
+                            	<TD>Broadcast Unique Beacon</TD>
+                           	<TD>
+		                         <SELECT class="formdropdown" id="oriWirelessIfSSIDTableBroadcastSSID" name="EmWeb_ns:snmp:126.3.0" onChange="modify(this)">
+		                                <OPTION VALUE="2" SELECTED>Disable</OPTION> 
+            		                    <OPTION VALUE="1">Enable</OPTION> 
+		                        </SELECT>
+					</TD>
+                        </TR>
+
+                    </TABLE>
+                    </TD>
+                </TR>
+                <TR>
+                    <TD>
+                        <TABLE align="center" cellpadding="0" cellspacing="0" width="270">
+                            <TR>
+                                <TD colspan="2">
+                                    <IMG src="../../orinoco/images/spacer.gif" width="270" height="30" alt="" border="0">
+                                </TD>
+                            </TR>
+                            <TR>
+                                <TD align="center">
+                                   <A href="javascript:transmit()">
+                                   <IMG src="../../orinoco/images/ok.gif" width="93" height="25" alt="OK" border="0">
+                                   </A>
+                                </TD>
+                                <TD align="center">
+                                   <A href="javascript:cancel()">
+                                   <IMG src="../../orinoco/images/cancel.gif" width="93" height="25" alt="Cancel" border="0">
+                                   </A>
+                                </TD>
+                            </TR>
+                        </TABLE>
+                    </TD>
+                </TR>
+            </TABLE>
+        </FORM>
+    </td>
+    <!-- Start Footer -->
+	<FORM name="rebootform" method="post" ACTION="../../prototail.html">
+		<INPUT type="hidden" id="rebootflag" name="EmWeb_ns:snmp:568" value="0" class="formtext">
+	</FORM>
+
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
+<!-- End Footer -->
+
+    </BODY>
+</HTML>

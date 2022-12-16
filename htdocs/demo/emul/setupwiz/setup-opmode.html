@@ -1,0 +1,280 @@
+<!-- BEGIN CONTENT  //-->
+<HTML>
+<HEAD>
+	<SCRIPT language="javascript" src="../orinoco/scripts/menu.js"></SCRIPT>
+	<TITLE>Setup Wizard - Wireless Operational Mode</TITLE>
+	<LINK rel="stylesheet" href="../orinoco/css/global.css">
+	<SCRIPT language="javascript" src="../orinoco/scripts/library.js"></SCRIPT>
+	<SCRIPT language="javascript" src="../orinoco/scripts/test.js"></SCRIPT>
+</HEAD>
+
+<BODY style="margin:0px" background="../orinoco/images/bg.gif" rightmargin="0" >
+
+<SCRIPT language="javascript" src="../orinoco/scripts/menu.js"></SCRIPT>
+<script language="javascript">
+	function doNothing() {
+	}
+	function processSubmit()
+	{
+		transmit();
+		
+	}
+
+	
+	function UpdateOpMode()
+	{
+		window.setTimeout("doNothing();", 1000);
+		transmit();
+	}
+	
+        function parseString(parseData)
+{
+var splitArray=new Array(); 
+var startIndex = 0;
+var endIndex = findDelimiter(parseData,startIndex);
+
+var count = 0;
+while (endIndex > 0)
+{
+    splitArray[count] = parseData.substring(startIndex,endIndex);
+    startIndex = endIndex + 1;
+    endIndex = findDelimiter(parseData, startIndex);
+    count = count +1;
+}
+
+if (parseData.length>0)
+{
+    splitArray[count] = parseData.substring(startIndex,parseData.length);
+}
+
+return splitArray;
+}
+
+function findDelimiter(parseData, startIndex)
+{
+var tempString = parseData.substring(startIndex, parseData.length);
+var endIndex = tempString.indexOf(' ');
+var tempIndex = tempString.indexOf(',');
+var index
+
+if ((endIndex == -1) && (tempIndex != -1 )) {
+    endIndex=tempIndex;
+
+}
+else if ((tempIndex != -1) && (tempIndex < endIndex)) {
+     endIndex=tempIndex;
+} 
+
+if (endIndex != -1) {
+   endIndex = startIndex+endIndex;
+}
+
+return endIndex;    
+}
+
+</SCRIPT>
+
+<!-- Start Header -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0" BORDER="0">
+	<TR height="90">
+		<TD colspan=2>
+			<TABLE width="155" height="90" cellpadding="0" cellspacing="0" BORDER="0">
+				<TR>
+					<TD valign="top"><IMG src="../orinoco/images/logo.gif"></TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD width=10>&nbsp;</TD>
+		<TD valign="top" width=100>
+			<H5>
+				<A href="setup-intro.html" STYLE="color:#3c5580">Step 1:<br>Introduction</a>
+				<br><br>
+				<a href="setup-sysconf.html" STYLE="color:#3c5580">Step 2:<br>System Configuration</a>
+				<br><Br>
+				<a href="setup-ip.html" STYLE="color:#3c5580">Step 3:<Br>IP Configuration</a>
+				<BR><BR>
+				<a href="setup-pass.html" STYLE="color:#3c5580">Step 4:<Br>Password Configuration</a>
+				<BR><BR>
+				<font color="#ff6600">Step 5:<Br>Wireless Interfaces Configuration</FONT>
+				<BR><BR>
+				<a href="setup-summary.html" STYLE="color:#3c5580">Step 6:<br>Summary</a>
+			</H5>
+		</TD>
+		<!-- End Header -->
+		<TD bgcolor="white" valign="top" width=100%>
+			<TABLE STYLE="margin:15px" CELLPADDING="0" CELLSPACING="0" BORDER="0" width="550">
+				<TR>
+					<TD class="verbiage" valign="top">
+						<p>This page is used to configure the operational mode of the wireless interfaces.
+						These settings determine the characteristics of the wireless medium and how wireless clients will 
+						communicate with the access point. </p>
+
+						<p>Note: Clicking the <b>Save & Next</b> button will save any changes you 
+						made on this screen and take you to the next Setup Wizard configuration page.</p>
+			
+						<FORM method="post" ACTION="setup-opmode.html">
+						<TABLE  width="100%" cellpadding="2" cellspacing="0" border="0">
+			<SCRIPT  LANGUAGE="JavaScript" >
+			var phyType = '4 ';
+			if(phyType!=' ') {
+				document.write('<TR><TD class="tableheader">Wireless - A </TD></TR>');
+				var option = '4';
+				var supportedmodes = ' dot11a-only';                                                   
+                                var opMode = '4';
+                                
+				if(option != 0) {
+						document.write('<TR>');
+						document.write('<td>Operational Mode</td>');
+						document.write('<TD>');
+						document.write('<SELECT class="formdropdownwide" name="EmWeb_ns:snmp:223.3" onChange="modify(this)" id="operModeBoxA">');
+
+						if((supportedmodes.indexOf("dot11b-only"))!=-1) {
+							document.write('<OPTION VALUE=1 ');
+							if(option == 1) {
+								document.write(' SELECTED ');
+							}
+							document.write('>802.11b only');
+						}
+
+						if((supportedmodes.indexOf("dot11g-only"))!=-1) {
+							document.write('<OPTION VALUE=2 ');
+							if(option == 2) {
+								document.write(' SELECTED ');
+							}
+							document.write('>802.11g only');
+						}
+
+						if((supportedmodes.indexOf("dot11bg"))!=-1) {
+							document.write('<OPTION VALUE=3 ');
+							if(option == 3) {
+								document.write(' SELECTED ');
+							}
+							document.write('>802.11bg');
+						}
+
+						if((supportedmodes.indexOf("dot11a-only"))!=-1) {
+							document.write('<OPTION VALUE=4 ');
+							if(option == 4) {
+								document.write(' SELECTED ');
+							}
+							document.write('>802.11a only');
+						}
+						
+						if((supportedmodes.indexOf("dot11g-wifi(Test-Only)"))!=-1) {
+							document.write('<OPTION VALUE=5 ');
+							if(option == 5) {
+								document.write(' SELECTED ');
+							}
+							document.write('>802.11g-wifi(Test-Only)');
+						}
+
+                                                 if((supportedmodes.indexOf("publicsafety"))!=-1) {    
+                                                        document.write('<OPTION VALUE=6 ');             
+                                                        if(option == 6) {                              
+                                                                document.write(' SELECTED ');          
+                                                        }                                              
+                                                        document.write('>4.9 Ghz Public Safety');      
+                                                }                                                      
+
+					document.write('</SELECT></TD></TR>');
+                              }	
+
+			}
+			</SCRIPT>
+			<TR>
+				<TD colspan="2">&nbsp;</TD>
+			</TR>
+
+			<SCRIPT  LANGUAGE="JavaScript" >
+			var phyType = '6 ';
+			if(phyType!=' ') {
+				document.write('<TR><TD class="tableheader">Wireless - B</TD></TR>');
+				var option = '3';
+				var supportedmodes = ' dot11bg,dot11g-wifi(Test-Only),dot11g-only,dot11b-only'
+				if(option != 0) {
+						document.write('<TR>');
+						document.write('<td>Operational Mode</td>');
+						document.write('<TD>');
+						document.write('<SELECT class="formdropdownwide" name="EmWeb_ns:snmp:223.4" onChange="modify(this)" id="operModeBoxB">');
+
+						if((supportedmodes.indexOf("dot11b-only"))!=-1) {
+							document.write('<OPTION VALUE=1 ');
+							if(option == 1) {
+								document.write(' SELECTED ');
+							}
+							document.write('>802.11b only');
+						}
+
+						if((supportedmodes.indexOf("dot11g-only"))!=-1) {
+							document.write('<OPTION VALUE=2 ');
+							if(option == 2) {
+								document.write(' SELECTED ');
+							}
+							document.write('>802.11g only');
+						}
+
+						if((supportedmodes.indexOf("dot11bg"))!=-1) {
+							document.write('<OPTION VALUE=3 ');
+							if(option == 3) {
+								document.write(' SELECTED ');
+							}
+							document.write('>802.11bg');
+						}
+
+						if((supportedmodes.indexOf("dot11a-only"))!=-1) {
+							document.write('<OPTION VALUE=4 ');
+							if(option == 4) {
+								document.write(' SELECTED ');
+							}
+							document.write('>802.11a only');
+						}
+						
+						if((supportedmodes.indexOf("dot11g-wifi(Test-Only)"))!=-1) {
+							document.write('<OPTION VALUE=5 ');
+							if(option == 5) {
+								document.write(' SELECTED ');
+							}
+							document.write('>802.11g-wifi(Test-Only)');
+						}
+
+                                                 if((supportedmodes.indexOf("publicsafety"))!=-1) {    
+                                                        document.write('<OPTION VALUE=6 ');             
+                                                        if(option == 6) {                              
+                                                                document.write(' SELECTED ');          
+                                                        }                                              
+                                                        document.write('>4.9 Ghz Public Safety');      
+                                                }                                                      
+					document.write('</SELECT>');
+					document.write('</TD>');
+					document.write('</TR>');
+				}	
+				
+			}
+
+			</SCRIPT>
+							<TR>
+								<TD>&nbsp;</TD>
+							</TR>
+							<TR>
+								<TD align="center" colspan="2" class="header">
+									<TABLE cellpadding="0" cellpadding="0" border="0" width="250">
+										<TR>
+											<TD ALIGN="left"><a href="setup-pass.html"><IMG SRC="../orinoco/images/button-back.gif" BORDER="0" ALT="Back"></a></TD>
+											<TD ALIGN="right"><A href="javascript:processSubmit()"><IMG SRC="../orinoco/images/button-save_next.gif" BORDER="0" ALt="Next"></a></TD>
+										</TR>
+									</TABLE>						
+								</TD>
+							</TR>
+						</TABLE>
+						</FORM>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
+<!-- End Footer -->

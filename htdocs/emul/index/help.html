@@ -1,0 +1,17 @@
+<HTML>
+<HEAD></HEAD>
+<TITLE>Redirecting to Help Link</TITLE>
+<body>
+<SCRIPT LANGUAGE="JavaScript">
+
+var helppath = new String("../Local Files/Program Files/ORiNOCO/AP4000/HTML/home.htm");
+var a = new Array();
+a = helppath.split("\\");
+helppath = a.join("default.htm");
+var newwin = window.open(helppath);
+window.history.back();
+
+</SCRIPT>
+
+</BODY>
+</HTML>

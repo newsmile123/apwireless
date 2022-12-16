@@ -1,0 +1,14 @@
+table {
+	border-collapse:collapse;
+}
+td {
+    font-family: 'Hammersmith One', sans-serif;
+    font-size: 14px;
+    color: rgb(60, 85, 128);
+	font-weight:normal;
+}
+input, select, option {
+	margin-left: 0px;
+	border-width: 1px;
+	border-style: inset solid solid inset;
+}

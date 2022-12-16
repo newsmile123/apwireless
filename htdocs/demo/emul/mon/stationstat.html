@@ -1,0 +1,349 @@
+<?php
+session_start();
+?>
+<HTML>
+<HEAD>
+	<TITLE>Monitoring Station Statistics</TITLE><LINK rel="stylesheet" href="../orinoco/css/global.css">
+	<SCRIPT language="javascript" src="../orinoco/scripts/library.js"></SCRIPT>
+	<SCRIPT language="javascript" src="../orinoco/scripts/test.js"></SCRIPT>
+</HEAD>
+
+<BODY style="margin:0px" background="../orinoco/images/bg.gif" rightmargin="0">
+
+<SCRIPT language="javascript">
+	grp_live = 2;
+	subgrp_live = 7;
+
+function getSelectedRadio(buttonGroup) {
+   // returns the array number of the selected radio button or -1 if no button is selected
+   if (buttonGroup[0]) { // if the button group is an array (one button is not an array)
+      for (var i=0; i<buttonGroup.length; i++) {
+         if (buttonGroup[i].checked) {
+            return i
+         }
+      }
+   } else {
+      if (buttonGroup.checked) { return 0; } // if the one button is checked, return zero
+   }
+   // if we get to this point, no radio button is selected
+   return -1;
+} 
+
+function getButtonValue()
+{
+   // returns the value of the selected radio button or "" if no button is selected
+	var buttonGroup = document.forms[0].StationStatTableIndex;
+   if(buttonGroup == "") {
+		window.alert("No Station Selected.");
+		return;
+		}
+
+  var i = getSelectedRadio(buttonGroup);
+
+   if (i == -1) {
+      return "";
+   } else {
+      if (buttonGroup[i]) { // Make sure the button group is an array (not just one button)
+         return buttonGroup[i].value;
+      } else { // The button group is just the one button, and it is checked
+         return buttonGroup.value;
+      }
+   }
+}
+
+
+function openDetailPage() {
+   // returns the value of the selected radio button or "" if no button is selected
+	var editURL = "stationstat-detail.html#";
+   var buttonValue = getButtonValue();
+
+	if(buttonValue == "") {
+		window.alert("No station has been selected for detail statistics.");
+		return;
+		}
+
+	editURL = editURL+buttonValue;
+	window.location.href = editURL;
+
+} 
+
+var noofClients=0;
+
+</SCRIPT>
+
+<SCRIPT language="javascript" src="../orinoco/scripts/menu.js"></SCRIPT>
+
+<!-- Start Header -->
+<!-- <BODY style="margin:0px"> -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0">
+	<TR>
+		<TD width="100">
+			<TABLE width="150" height="90" cellpadding="0" cellspacing="0">
+			<TR>
+			<TD valign="top"><IMG src="../orinoco/images/logo.gif"></TD>
+			</TR>
+			<TR>
+			<TD align="right">&nbsp;</TD>
+			</TR>
+			</TABLE>
+		</TD>
+		<TD valign="bottom">
+			<TABLE cellpadding="0" cellspacing="0" width="100%"> <!-- For the table -->
+				<!-- For the first row -->
+				<TR>
+					<TD>
+						<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+							<SCRIPT language="javascript">
+		                            		var ProductId  = "1.3.6.1.4.1.11898.2.4.12";													
+                                                                var slotA = '4 ';
+		                            		        var slotB = '6 ';
+		                            		        var secModeA = '6';  
+		                            		        var secModeB = '1';  
+								InitMenu(ProductId, slotA, slotB, secModeA, secModeB);
+								var nbrTabs = subNumArray[grp_live];
+								if(nbrTabs>5)
+								{
+									var start,finish;
+									var nbrTabsDivbyTwo = (nbrTabs - (nbrTabs%2))/2;
+									if(subgrp_live >= (nbrTabsDivbyTwo + (nbrTabs%2)) )
+									{
+										start = 0;
+										finish = nbrTabsDivbyTwo -1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = nbrTabsDivbyTwo;
+											finish = nbrTabs-1;
+										}
+										else
+										{
+											start = nbrTabsDivbyTwo+1;
+										finish = nbrTabs-1;
+									}
+										
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,1,1);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+									document.write('</TABLE>');
+									document.write('</TD>');
+									document.write('</TR>');
+									<!-- For the second row -->
+									document.write('<TR>');
+									document.write('<TD>');
+									document.write('<TABLE class="tabrow" cellpadding="0" cellspacing="0">');
+									if(subgrp_live >= (nbrTabsDivbyTwo+ (nbrTabs%2)))
+									{
+										start = nbrTabsDivbyTwo;
+										finish = nbrTabs-1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = 0;
+											finish = nbrTabsDivbyTwo-1;
+										}
+										else
+										{
+										start = 0;
+											finish = nbrTabsDivbyTwo;
+										}
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,2,0);
+									document.write('<TD align="middle" background="../orinoco/images/iedge.gif">&nbsp;</TD>');
+								}
+								else
+								{
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,0,nbrTabs-1,0,0);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+								}
+							</SCRIPT>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+
+	
+	<TR>
+		<TD valign="top">
+			<TABLE align="center" cellpadding="10" cellspacing="0">
+				<SCRIPT language="javascript">
+					drawButtons(grp,grp_live);
+				</SCRIPT>
+			</TABLE>
+		</TD>
+<!-- End Header -->
+
+
+<TD bgcolor="white" height="95%" valign="top">
+	<TABLE cellpadding="0" cellspacing="0" width="588" style="margin-left:25px; margin-bottom:25;margin-top:5px" border="0">
+	<FORM method="post" ACTION="/mon/stationstat.html">
+		<TR>
+			<TD class="verbiage">	  				 
+  			</TD>		
+         </TR>	
+		 <TR>
+			<TD valign="center">
+				
+				<TABLE cellpadding="0" cellspacing="0" border="0" width="100%" align="left">
+				<TR>
+					<TD colspan="3">&nbsp;  </TD>
+					<TD align="left">
+							<INPUT type="hidden" id="stationstats" name="EmWeb_ns:snmp:384" VALUE="1">
+							<SCRIPT  LANGUAGE="JavaScript" >
+								var option = 1;
+								createCBS('Monitoring Station Statistics','stationstats',option);
+							</SCRIPT>
+					</TD>				
+				</TR>
+				<TR>
+				</TR>	
+				</TABLE>
+				
+
+			</TD>
+ 	    <TR>
+ 	    <TR>
+			<TD colspan=4 width=100% align="right"><a href="#" onclick="location.reload()"><img src="../orinoco/images/button-refresh.gif" width="32" height="32" alt="Refresh" border="0"></a></TD>			
+		</TR>
+		<TR>
+				<TD colspan="2" class="header">
+				<TABLE cellpadding="0" cellspacing="0" border="0">
+	<TR>
+		<TD><IMG src="../orinoco/images/topleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+		<TD width="100%"><IMG src="../orinoco/images/top_line.gif" width="100%" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/topright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+	</TR>
+	<TR>
+		<TD background="../orinoco/images/left_line.gif">&nbsp;</TD>
+
+
+				<!-- Dump Contents Here! -- If someone told me you'd be here...-->
+				<TD valign="middle">
+					<TABLE width="100%" cellpadding="0" cellspacing="0" BORDER="0">
+						<TR>
+							<TD align="left" class="tableheader"> </TD>
+							<TD align="left" class="tableheader">MAC Address</TD>
+							<TD align="left" class="tableheader">IP Address</TD>
+							<TD align="middle" class="tableheader">Interface</TD>
+							<TD align="middle" class="tableheader">Type</TD>
+							<TD align="middle" class="tableheader">Protocol</TD>	
+							<TD align="middle" class="tableheader">SNR</TD>
+							<TD align="middle" class="tableheader">TSLF</TD>
+						</TR>
+						<TR>
+							
+							<!--<SCRIPT language="JavaScript">
+								var StatTblIdx = "1";
+								var type="2";							
+								if ((type==1) || (type==2)) {
+									document.write('<TD>');
+									document.write('<INPUT type="radio" id="StationStatTableIndex" name="EmWeb_ns:snmp:588" value=');
+									document.write(StatTblIdx);
+									document.write('>');
+									document.write('</TD>');
+									document.write('<TD>00:20:A6:5A:6D:16</TD>');
+									document.write('<TD>0.0.0.0</TD>');
+									document.write('<TD>');
+									MSSInterface(4);
+									document.write('</TD>');
+									document.write('<TD>');
+									MSSStationType(2);
+									document.write('</TD>');
+									document.write('<TD>');
+									MSSStationProt(5);
+									document.write('</TD>');
+									document.write('<TD>44</TD>');
+									document.write('<TD class="readonly">');
+									timeDisplay(30);
+									document.write('</TD>');
+									noofClients++;
+								}
+							</SCRIPT>-->
+                            
+                            </TR>
+                            <tr>
+                            <?php if (isset($_SESSION['success']) && ($_SESSION['success'] == '1')){?>
+                            <SCRIPT language="JavaScript">
+								var StatTblIdx = "1";
+								var type="2";							
+								if ((type==1) || (type==2)) {
+									document.write('<TD>');
+									document.write('<INPUT type="radio" id="StationStatTableIndex" name="EmWeb_ns:snmp:588" value=');
+									document.write(StatTblIdx);
+									document.write('>');
+									document.write('</TD>');
+								}
+							</SCRIPT>
+                            <td><?php echo $_SESSION['ClientMAC'];?></td>
+                            <td><?php echo $_SESSION['ClientIP'];?></td>
+                            <SCRIPT language="JavaScript">
+                            document.write('<TD>');
+									MSSInterface(4);
+									document.write('</TD>');
+									document.write('<TD>');
+									MSSStationType(1);
+									document.write('</TD>');
+                            </script>
+                            <td><?php echo $_SESSION['ap']['mode'];?></td>
+                            <SCRIPT language="JavaScript">
+									document.write('<TD>44</TD>');
+									document.write('<TD class="readonly">');
+									timeDisplay(30);
+									document.write('</TD>');
+									noofClients++;
+							</script>
+                            <?php }?>
+                            </TR>
+						<TR>
+								<TD colspan="8"><IMG src="../orinoco/images/spacer.gif" width="100%" height="15"></TD>
+						</TR>
+						<TR>
+								<TD colspan=2 align="left"><A href="javascript:openDetailPage()"><IMG src="../orinoco/images/selectone.gif" border="0" alt="Detail"></A></TD>
+								<TD colspan="6">&nbsp;</TD>
+						</TR>
+					</TABLE>
+				</TD>
+				<!-- End customized table -->
+					<TD background="../orinoco/images/right_line.gif">&nbsp;</TD>
+	</TR>
+	<TR>
+		<TD><IMG src="../orinoco/images/bottomleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/bottom_line.gif" width="100%" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/bottomright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+	</TR>
+</TABLE>
+
+			</TD>
+		</TR>
+		<TR>
+		<SCRIPT language="JavaScript">
+			document.write('<TD valign="left"> <P>Number of stations and WDS links : ');
+			document.write(noofClients);
+			document.write('</P></TD>');
+		</SCRIPT>
+		</TR>
+
+</FORM>
+	</TABLE>
+</TD>
+
+<!-- Start Footer -->
+	<FORM name="rebootform" method="post" ACTION="/prototail.html">
+		<INPUT type="hidden" id="rebootflag" name="EmWeb_ns:snmp:568" value="0" class="formtext">
+	</FORM>
+
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
+<!-- End Footer -->
+
+
+</BODY>
+</HTML>
+

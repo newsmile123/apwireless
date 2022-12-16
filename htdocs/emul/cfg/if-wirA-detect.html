@@ -1,0 +1,27 @@
+<HTML>
+<HEAD> 
+	<TITLE>Wireless Interface - Slot A Configuration</TITLE><LINK rel="stylesheet" href="../orinoco/css/global.css">
+	<SCRIPT language="javascript" src="../orinoco/scripts/library.js"></SCRIPT>
+	<SCRIPT  LANGUAGE="JavaScript">
+		var agr=0;
+ 		var option=-1;
+		option = '4 '
+		if(option==' ')
+			location.href="if-wirA-na.html"
+		else if (option == 4 )
+			location.href="if-wirA-11ag.html"
+		else if(option == 2)  {
+			agr = '86 '
+			if ((agr == 2) ||(agr == 3) )
+				location.href="if-wirA-11b.html"
+			else
+				location.href="if-wirA-11ag.html"
+		}
+		else if (option == 6 )
+			location.href="if-wirA-11ag.html"
+		else
+			document.write('<H1>Card modulation type not supported.  Please press the Back button on your browser and select again.</h1>');
+	</SCRIPT>
+		<!-- new /-->
+</HEAD>
+</HTML>

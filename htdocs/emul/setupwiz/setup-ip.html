@@ -1,0 +1,126 @@
+<HTML>
+<HEAD>
+<SCRIPT language="javascript" src="../orinoco/scripts/menu.js"></SCRIPT>
+	<TITLE>Setup Wizard - IP Configuration</TITLE>
+	<LINK rel="stylesheet" href="../orinoco/css/global.css">
+	<SCRIPT language="javascript" src="../orinoco/scripts/library.js"></SCRIPT>
+	<SCRIPT language="javascript" src="../orinoco/scripts/test.js"></SCRIPT>
+</HEAD>
+
+<BODY style="margin:0px" background="../orinoco/images/bg.gif" rightmargin="0" >
+
+<SCRIPT language="javascript" src="../orinoco/scripts/menu.js"></SCRIPT>
+<script language="javascript">
+	function ProcessSubmit()
+	{
+		modifys(document.forms[0].ipBox);
+		modifys(document.forms[0].subnetBox);
+		modifys(document.forms[0].gatewayBox);
+		transmit();
+		
+	}
+</SCRIPT>
+
+<!-- Start Header -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0">
+	<TR height="90">
+		<TD colspan=2>
+			<TABLE width="155" height="90" cellpadding="0" cellspacing="0">
+				<TR>
+					<TD valign="top"><IMG src="../orinoco/images/logo.gif"></TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD width=10>&nbsp;</TD>
+		<TD valign="top" width=100>
+			<H5>
+				<A href="setup-intro.html" STYLE="color:#3c5580">Step 1:<br>Introduction</a>
+				<br><br>
+				<a href="setup-sysconf.html" STYLE="color:#3c5580">Step 2:<br>System Configuration</a>
+				<br><Br>
+                <font color="#ff6600">Step 3:<Br>IP Configuration</FONT>
+				<BR><BR>
+				<a href="setup-pass.html" STYLE="color:#3c5580">Step 4:<Br>Password Configuration</a>
+				<BR><BR>
+				<a href="setup-opmode.html" STYLE="color:#3c5580">Step 5:<Br>Wireless Interfaces Configuration</a>
+				<BR><BR>
+				<a href="setup-summary.html" STYLE="color:#3c5580">Step 6:<br>Summary</a>
+			</H5>
+		</TD>
+		<!-- End Header -->
+		<TD bgcolor="white" valign="top" width=100%>
+			<TABLE STYLE="margin:15px" CELLPADDING="0" CELLSPACING="0" BORDER="0" width="550">
+			<TR>
+				<TD class="verbiage" valign="top">
+					
+					<P>This page is used to configure the (TCP/IP) settings for the access point.
+					These settings can be either entered manually (static IP address, subnet mask, 
+					and gateway IP address) or obtained automatically (dynamic). Consult your network 
+					administrator for information on static and automatic IP configuration </P>
+
+					<p>Note: Clicking the <b>Save & Next</b> button will save any changes you 
+					made on this screen and take you to the next Setup Wizard configuration page.</p>
+					
+					<FORM method="post" ACTION="setup-ip.html">
+					<TABLE cellpadding="2" cellspacing="0" width="100%" border="0">
+						<TR>
+							<TD>IP Address Assignment Type</TD>
+							<TD><SELECT class="formdropdown" name="EmWeb_ns:snmp:256" onChange="modifys(this);SetupWizHandleIPbox(this)" id="ipAddrTypeBox">
+								<SCRIPT  LANGUAGE="JavaScript">
+									var option = 1
+									document.write('<OPTION VALUE=1 ');
+									if(option == 1) {
+										document.write(' SELECTED ');
+									}
+									document.write('>Static<OPTION VALUE=2 ');
+									if(option == 2) {
+										document.write(' SELECTED ');
+									}
+									document.write('>Dynamic');
+								</SCRIPT>
+								</SELECT>
+							</TD>
+						</TR>	
+						<TR>
+							<TD>IP Address</TD>
+							<TD><INPUT class="formtext" type="text" name="EmWeb_ns:snmp:297.1" id="ipBox" VALUE="172.170.2.56"></TD>
+						</TR>
+						<TR>
+							<TD>Subnet Mask</TD>
+							<TD><INPUT class="formtext" type="text" name="EmWeb_ns:snmp:291.1" id="subnetBox" VALUE="255.255.0.0"></TD>
+						</TR>
+						<TR>
+							<TD>Gateway IP Address</TD>
+							<TD><INPUT class="formtext" onChange="modifys(this)" type="text" name="EmWeb_ns:snmp:298" id="gatewayBox" VALUE="172.170.1.1"></TD>
+						</TR>
+						<!-- Handle default case -->
+						<script>
+						var ipObj = document.getElementById("ipAddrTypeBox");
+						SetupWizHandleIPbox(ipObj);
+						</script>
+						<TR>
+							<TD>&nbsp;</TD>
+						</TR>
+						<TR>
+							<TD align="center" colspan="2" class="header">
+								<TABLE cellpadding="0" cellpadding="0" border="0" width="250">
+									<TR>
+										<TD ALIGN="left"><a href="setup-sysconf.html"><IMG SRC="../orinoco/images/button-back.gif" BORDER="0" ALT="Back"></a></TD>
+										<TD ALIGN="right"><A href="javascript:ProcessSubmit()"><IMG SRC="../orinoco/images/button-save_next.gif" BORDER="0" ALt="Next"></a></TD>
+									</TR>
+								</TABLE>
+							</TD>
+						</TR>
+					</TABLE>
+					</FORM>	
+				</TD>
+			</TR>
+			</TABLE>
+		</TD>
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
+<!-- End Footer -->

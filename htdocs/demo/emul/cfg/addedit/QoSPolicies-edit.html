@@ -1,0 +1,556 @@
+<HTML>
+<HEAD>
+<TITLE>QoS Policies - Edit Table Configuration</TITLE><LINK rel="stylesheet" href="../../orinoco/css/global.css">
+<SCRIPT language="javascript" src="../../orinoco/scripts/library.js"></SCRIPT>
+<SCRIPT language="javascript" src="../../orinoco/scripts/test.js"></SCRIPT>
+<SCRIPT language="javascript">
+
+function transmitQoSOld() {
+
+	for ( var i=0; i<document.forms[0].elements.length; i++ ) {
+		var obj1 = document.forms[0].elements[i];
+	   		
+		if(( obj1.type=="select-one")&&(obj1.value==6)) { 
+          // select box with delete selected
+         var s=obj1.name.indexOf(".");
+         var e=obj1.name.indexOf(".",s+1);
+         var iStr=obj1.name.substring(s+1,e);
+
+         for ( var j=0; j<document.forms[0].elements.length; j++ ) {
+              var obj2 = document.forms[0].elements[j];
+              var s2=obj2.name.indexOf(".");
+              var e2=obj2.name.indexOf(".",s2+1);
+              var iStr2=obj2.name.substring(s2+1,e2);
+              
+              if(( obj2.type=="select-one")&&(iStr==iStr2)) { 
+                 // select box with same primary index
+                 if (obj2.options.length < 3){
+                    var opt = new Option("delete","6");
+                    obj2.options[2]=opt;
+                 }
+
+				 obj2.value=6;
+                 if (obj2.name.indexOf("*s")==-1) {
+                     // mark as changed 
+                     modify(obj2);
+                 }
+              }
+              else if( iStr==iStr2) {
+                 // clear changed mark
+                 var cFlgFnd = obj2.name.indexOf("*s")
+                 if (cFlgFnd!=-1) {
+                    obj2.name=obj2.name.substring(0,cFlgFnd-1);  
+                 }
+              }
+         }
+		}
+	}
+
+   document.forms[0].submit();
+
+}
+
+function transmitQoS() {
+   document.forms[0].submit();
+}
+</script>
+
+
+</HEAD>
+<BODY style="margin:0px" rightmargin="0" background="../../orinoco/images/bg.gif" >
+<SCRIPT language="javascript">
+grp_live = 1;
+subgrp_live = 7;  
+dataAvail='1';
+</SCRIPT>
+                                                       
+<SCRIPT language="javascript">
+         if (dataAvail != ''){
+            dataAvail='1';
+         }
+ </SCRIPT>
+
+<SCRIPT language="javascript" src="../../orinoco/scripts/menu.js"></SCRIPT>
+
+<!-- Start Header -->
+<!-- <BODY style="margin:0px"> -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0">
+	<TR>
+		<TD>
+			<TABLE width="150" height="90" cellpadding="0" cellspacing="0">
+			<TR>
+			<TD valign="top"><IMG src="../../orinoco/images/logo.gif"></TD>
+			</TR>
+			<TR>
+			<TD align="right">&nbsp;</TD>
+			</TR>
+			</TABLE>
+		</TD>
+		<TD valign="bottom">
+			<TABLE cellpadding="0" cellspacing="0" width="100%"> <!-- For the table -->
+				<!-- For the first row -->
+				<TR>
+					<TD>
+						<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+							<SCRIPT language="javascript">
+		                            		var ProductId  = "1.3.6.1.4.1.11898.2.4.12";													
+                                                                var slotA = '4 ';
+		                            		        var slotB = '6 ';
+		                            		        var secModeA = '6';  
+		                            		        var secModeB = '1';  
+								InitMenu(ProductId, slotA, slotB, secModeA, secModeB);
+								var nbrTabs = subNumArray[grp_live];
+								if(nbrTabs>5)
+								{
+									var start,finish;
+									var nbrTabsDivbyTwo = (nbrTabs - (nbrTabs%2))/2;
+									if(subgrp_live >= (nbrTabsDivbyTwo + (nbrTabs%2)) )
+									{
+										start = 0;
+										finish = nbrTabsDivbyTwo -1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = nbrTabsDivbyTwo;
+											finish = nbrTabs-1;
+										}
+										else
+										{
+											start = nbrTabsDivbyTwo+1;
+										finish = nbrTabs-1;
+									}
+										
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,1,1);
+									document.write('<TD align="middle" background="../../orinoco/images/edge.gif">&nbsp;</TD>');
+									document.write('</TABLE>');
+									document.write('</TD>');
+									document.write('</TR>');
+									<!-- For the second row -->
+									document.write('<TR>');
+									document.write('<TD>');
+									document.write('<TABLE class="tabrow" cellpadding="0" cellspacing="0">');
+									if(subgrp_live >= (nbrTabsDivbyTwo+ (nbrTabs%2)))
+									{
+										start = nbrTabsDivbyTwo;
+										finish = nbrTabs-1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = 0;
+											finish = nbrTabsDivbyTwo-1;
+										}
+										else
+										{
+										start = 0;
+											finish = nbrTabsDivbyTwo;
+										}
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,2,0);
+									document.write('<TD align="middle" background="../../orinoco/images/iedge.gif">&nbsp;</TD>');
+								}
+								else
+								{
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,0,nbrTabs-1,0,0);
+									document.write('<TD align="middle" background="../../orinoco/images/edge.gif">&nbsp;</TD>');
+								}
+							</SCRIPT>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+
+	
+	<TR>
+		<TD valign="top">
+			<TABLE align="center" cellpadding="10" cellspacing="0">
+				<SCRIPT language="javascript">
+					drawButtons(grp,grp_live);
+				</SCRIPT>
+			</TABLE>
+		</TD>
+<!-- End Header -->
+
+<TD colspan="2" bgcolor="white" height="100%" valign="top">            
+	<TABLE cellpadding="0" cellspacing="0" border="0" width="580" style="margin-left:50px; margin-bottom:25; margin-top:5px">
+			
+	<TR>
+		<TD align="right" width="100%"><A href="javascript:window.history.back()"><IMG src="../../orinoco/images/back.gif" width="32" height="32" alt="Back" border="0"></A></TD>
+	</TR>
+	<TR>
+	    <TD class="header">QoS Policies Table - Edit Entries</TD>
+	</TR>
+	<TR>
+	    <TD class="verbiage">
+		    <SCRIPT language="javascript">
+            if (dataAvail=='1'){
+                document.write('<p>This page is used to edit QoS Policies.  Here you can edit the characteristics of the 5 QoS policy types.  You can also enable, disable, or delete QoS policies using the status object.  Keep in mind that if you delete a QoS policy, all 5 QoS policy types that make up that overall QoS policy are deleted.  If you do not wish to use a specific QoS policy type, simply disable it.</p>');
+                document.write('<p><i>Note: Changes to these parameters require access point reboot in order to take effect.</i></p>');
+            }
+            else {
+               document.write('<p><i>No data entries are available. Press the back button to return to DHCP Server</p>');  
+            } 
+            </SCRIPT>
+		</TD>
+	</TR>
+	<TR>
+		<TD>&nbsp;</TD>
+	</TR>
+	<FORM method="post" ACTION="QoSPolicies-edit.html/add">   
+	<tr>	
+		<TD align="center">                                       
+			<TABLE cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
+				<TR>
+					<TD width= "60" class="tableheader">Index</TD>
+					<TD width="110" class="tableheader">Policy Name</TD>
+					<TD width="105" class="tableheader">Policy Type</TD>
+					<TD ALIGN="CENTER" width="110" class="tableheader">Priority</TD>
+					<TD ALIGN="CENTER" width= "80" class="tableheader">QoS</TD>
+					<TD ALIGN="CENTER" width="120" class="tableheader">Row</TD>
+				</TR>
+				<TR>
+					<TD class="tableheader">&nbsp;</TD>
+					<TD class="tableheader">&nbsp;</TD>
+					<TD class="tableheader">&nbsp;</TD>
+					<TD ALIGN="CENTER" class="tableheader">Mapping</TD>
+					<TD ALIGN="CENTER" class="tableheader">Marking</TD>
+					<TD ALIGN="CENTER" class="tableheader">Status</TD>
+				</TR>
+
+				<SCRIPT language="JavaScript"> 
+                oldPrimaryIndex=' ';
+				count=0;
+				</script>
+				   
+				
+				   
+				<SCRIPT language="JavaScript">
+				   	currentPrimaryIndex=1
+				   	if ((oldPrimaryIndex!=" ") &&(currentPrimaryIndex!=oldPrimaryIndex)) {
+				   	   document.write('<TR><TD colspan="6" >&nbsp;</TD></TR>');                                                   
+                       }
+                </script>
+				   <TR>
+					   <TD class="readonly">1.1</TD>                                                                                                
+					   <TD><INPUT name="EmWeb_ns:snmp:39.1.1" value="Default" type="text" class="formtext" onchange="modify(this)"></TD>
+					   <TD class="readonly"><SCRIPT language="JavaScript">var option = 1;
+                           switch (option)
+                           {
+                           case 1: document.write('inboundLayer2'); break; 
+                           case 2: document.write('inboundLayer3'); break;
+                           case 3: document.write('outboundLayer2'); break;
+                           case 4: document.write('outboundLayer3'); break;
+                           case 5: document.write('spectralink');   break;
+                           default: document.write("&nbsp;"); break;
+                           }
+                           </script>
+                       </TD>
+					   <TD><INPUT onChange="modify(this)" type="text" class="formtextmini" name="EmWeb_ns:snmp:41.1.1" VALUE="1"></TD>
+					   <TD ALIGN="CENTER">
+					   <SCRIPT LANGUAGE="JAVASCRIPT">
+                    var option = 1; 
+                    document.write('<INPUT type="hidden" id="policyMarking'+count+'" name="EmWeb_ns:snmp:42.1.1" VALUE="1">');  
+                    document.write('<INPUT type="checkbox" id="fakePolicyMarking'+count+'" onClick="doCB(this,document.forms[0].policyMarking'+count+')" ');
+                    if(option==1){ document.write(' CHECKED '); }                                                                   
+                    document.write('>');            
+                       </script>
+                       </TD>
+					   <TD> 
+					        <SCRIPT language="javascript">                              
+							    document.write('<SELECT class="formdropdownmicro" name="EmWeb_ns:snmp:43.1.1" onchange="modify(this)">');
+                               //if (currentPrimaryIndex==1){
+                               //    document.write('disabled');
+                               // }
+                               // document.write('>');
+							
+							    var option = 1;
+                                             
+							    document.write('<OPTION VALUE=1 '); if(option == 1) { document.write(' SELECTED '); } document.write('>Enable');
+                                document.write('<OPTION VALUE=2 '); if(option == 2) { document.write(' SELECTED '); } document.write('>Disable');
+
+                                if ((oldPrimaryIndex!=" ") &&(currentPrimaryIndex!=oldPrimaryIndex)) {
+                                   document.write('<OPTION VALUE=6 '); if(option == 6) { document.write(' SELECTED '); } document.write('>Delete');
+                                }
+
+                                document.write('</SELECT>');
+                               </SCRIPT>
+					   </TD>                     
+					   <SCRIPT language="javascript">
+                                oldPrimaryIndex=currentPrimaryIndex;
+								count=count+1;</script>               
+				   </TR>
+				   
+				   
+				<SCRIPT language="JavaScript">
+				   	currentPrimaryIndex=1
+				   	if ((oldPrimaryIndex!=" ") &&(currentPrimaryIndex!=oldPrimaryIndex)) {
+				   	   document.write('<TR><TD colspan="6" >&nbsp;</TD></TR>');                                                   
+                       }
+                </script>
+				   <TR>
+					   <TD class="readonly">1.2</TD>                                                                                                
+					   <TD><INPUT name="EmWeb_ns:snmp:39.1.2" value="Default" type="text" class="formtext" onchange="modify(this)"></TD>
+					   <TD class="readonly"><SCRIPT language="JavaScript">var option = 2;
+                           switch (option)
+                           {
+                           case 1: document.write('inboundLayer2'); break; 
+                           case 2: document.write('inboundLayer3'); break;
+                           case 3: document.write('outboundLayer2'); break;
+                           case 4: document.write('outboundLayer3'); break;
+                           case 5: document.write('spectralink');   break;
+                           default: document.write("&nbsp;"); break;
+                           }
+                           </script>
+                       </TD>
+					   <TD><INPUT onChange="modify(this)" type="text" class="formtextmini" name="EmWeb_ns:snmp:41.1.2" VALUE="1"></TD>
+					   <TD ALIGN="CENTER">
+					   <SCRIPT LANGUAGE="JAVASCRIPT">
+                    var option = 1; 
+                    document.write('<INPUT type="hidden" id="policyMarking'+count+'" name="EmWeb_ns:snmp:42.1.2" VALUE="1">');  
+                    document.write('<INPUT type="checkbox" id="fakePolicyMarking'+count+'" onClick="doCB(this,document.forms[0].policyMarking'+count+')" ');
+                    if(option==1){ document.write(' CHECKED '); }                                                                   
+                    document.write('>');            
+                       </script>
+                       </TD>
+					   <TD> 
+					        <SCRIPT language="javascript">                              
+							    document.write('<SELECT class="formdropdownmicro" name="EmWeb_ns:snmp:43.1.2" onchange="modify(this)">');
+                               //if (currentPrimaryIndex==1){
+                               //    document.write('disabled');
+                               // }
+                               // document.write('>');
+							
+							    var option = 1;
+                                             
+							    document.write('<OPTION VALUE=1 '); if(option == 1) { document.write(' SELECTED '); } document.write('>Enable');
+                                document.write('<OPTION VALUE=2 '); if(option == 2) { document.write(' SELECTED '); } document.write('>Disable');
+
+                                if ((oldPrimaryIndex!=" ") &&(currentPrimaryIndex!=oldPrimaryIndex)) {
+                                   document.write('<OPTION VALUE=6 '); if(option == 6) { document.write(' SELECTED '); } document.write('>Delete');
+                                }
+
+                                document.write('</SELECT>');
+                               </SCRIPT>
+					   </TD>                     
+					   <SCRIPT language="javascript">
+                                oldPrimaryIndex=currentPrimaryIndex;
+								count=count+1;</script>               
+				   </TR>
+				   
+				   
+				<SCRIPT language="JavaScript">
+				   	currentPrimaryIndex=1
+				   	if ((oldPrimaryIndex!=" ") &&(currentPrimaryIndex!=oldPrimaryIndex)) {
+				   	   document.write('<TR><TD colspan="6" >&nbsp;</TD></TR>');                                                   
+                       }
+                </script>
+				   <TR>
+					   <TD class="readonly">1.3</TD>                                                                                                
+					   <TD><INPUT name="EmWeb_ns:snmp:39.1.3" value="Default" type="text" class="formtext" onchange="modify(this)"></TD>
+					   <TD class="readonly"><SCRIPT language="JavaScript">var option = 3;
+                           switch (option)
+                           {
+                           case 1: document.write('inboundLayer2'); break; 
+                           case 2: document.write('inboundLayer3'); break;
+                           case 3: document.write('outboundLayer2'); break;
+                           case 4: document.write('outboundLayer3'); break;
+                           case 5: document.write('spectralink');   break;
+                           default: document.write("&nbsp;"); break;
+                           }
+                           </script>
+                       </TD>
+					   <TD><INPUT onChange="modify(this)" type="text" class="formtextmini" name="EmWeb_ns:snmp:41.1.3" VALUE="1"></TD>
+					   <TD ALIGN="CENTER">
+					   <SCRIPT LANGUAGE="JAVASCRIPT">
+                    var option = 1; 
+                    document.write('<INPUT type="hidden" id="policyMarking'+count+'" name="EmWeb_ns:snmp:42.1.3" VALUE="1">');  
+                    document.write('<INPUT type="checkbox" id="fakePolicyMarking'+count+'" onClick="doCB(this,document.forms[0].policyMarking'+count+')" ');
+                    if(option==1){ document.write(' CHECKED '); }                                                                   
+                    document.write('>');            
+                       </script>
+                       </TD>
+					   <TD> 
+					        <SCRIPT language="javascript">                              
+							    document.write('<SELECT class="formdropdownmicro" name="EmWeb_ns:snmp:43.1.3" onchange="modify(this)">');
+                               //if (currentPrimaryIndex==1){
+                               //    document.write('disabled');
+                               // }
+                               // document.write('>');
+							
+							    var option = 1;
+                                             
+							    document.write('<OPTION VALUE=1 '); if(option == 1) { document.write(' SELECTED '); } document.write('>Enable');
+                                document.write('<OPTION VALUE=2 '); if(option == 2) { document.write(' SELECTED '); } document.write('>Disable');
+
+                                if ((oldPrimaryIndex!=" ") &&(currentPrimaryIndex!=oldPrimaryIndex)) {
+                                   document.write('<OPTION VALUE=6 '); if(option == 6) { document.write(' SELECTED '); } document.write('>Delete');
+                                }
+
+                                document.write('</SELECT>');
+                               </SCRIPT>
+					   </TD>                     
+					   <SCRIPT language="javascript">
+                                oldPrimaryIndex=currentPrimaryIndex;
+								count=count+1;</script>               
+				   </TR>
+				   
+				   
+				<SCRIPT language="JavaScript">
+				   	currentPrimaryIndex=1
+				   	if ((oldPrimaryIndex!=" ") &&(currentPrimaryIndex!=oldPrimaryIndex)) {
+				   	   document.write('<TR><TD colspan="6" >&nbsp;</TD></TR>');                                                   
+                       }
+                </script>
+				   <TR>
+					   <TD class="readonly">1.4</TD>                                                                                                
+					   <TD><INPUT name="EmWeb_ns:snmp:39.1.4" value="Default" type="text" class="formtext" onchange="modify(this)"></TD>
+					   <TD class="readonly"><SCRIPT language="JavaScript">var option = 4;
+                           switch (option)
+                           {
+                           case 1: document.write('inboundLayer2'); break; 
+                           case 2: document.write('inboundLayer3'); break;
+                           case 3: document.write('outboundLayer2'); break;
+                           case 4: document.write('outboundLayer3'); break;
+                           case 5: document.write('spectralink');   break;
+                           default: document.write("&nbsp;"); break;
+                           }
+                           </script>
+                       </TD>
+					   <TD><INPUT onChange="modify(this)" type="text" class="formtextmini" name="EmWeb_ns:snmp:41.1.4" VALUE="1"></TD>
+					   <TD ALIGN="CENTER">
+					   <SCRIPT LANGUAGE="JAVASCRIPT">
+                    var option = 1; 
+                    document.write('<INPUT type="hidden" id="policyMarking'+count+'" name="EmWeb_ns:snmp:42.1.4" VALUE="1">');  
+                    document.write('<INPUT type="checkbox" id="fakePolicyMarking'+count+'" onClick="doCB(this,document.forms[0].policyMarking'+count+')" ');
+                    if(option==1){ document.write(' CHECKED '); }                                                                   
+                    document.write('>');            
+                       </script>
+                       </TD>
+					   <TD> 
+					        <SCRIPT language="javascript">                              
+							    document.write('<SELECT class="formdropdownmicro" name="EmWeb_ns:snmp:43.1.4" onchange="modify(this)">');
+                               //if (currentPrimaryIndex==1){
+                               //    document.write('disabled');
+                               // }
+                               // document.write('>');
+							
+							    var option = 1;
+                                             
+							    document.write('<OPTION VALUE=1 '); if(option == 1) { document.write(' SELECTED '); } document.write('>Enable');
+                                document.write('<OPTION VALUE=2 '); if(option == 2) { document.write(' SELECTED '); } document.write('>Disable');
+
+                                if ((oldPrimaryIndex!=" ") &&(currentPrimaryIndex!=oldPrimaryIndex)) {
+                                   document.write('<OPTION VALUE=6 '); if(option == 6) { document.write(' SELECTED '); } document.write('>Delete');
+                                }
+
+                                document.write('</SELECT>');
+                               </SCRIPT>
+					   </TD>                     
+					   <SCRIPT language="javascript">
+                                oldPrimaryIndex=currentPrimaryIndex;
+								count=count+1;</script>               
+				   </TR>
+				   
+				   
+				<SCRIPT language="JavaScript">
+				   	currentPrimaryIndex=1
+				   	if ((oldPrimaryIndex!=" ") &&(currentPrimaryIndex!=oldPrimaryIndex)) {
+				   	   document.write('<TR><TD colspan="6" >&nbsp;</TD></TR>');                                                   
+                       }
+                </script>
+				   <TR>
+					   <TD class="readonly">1.5</TD>                                                                                                
+					   <TD><INPUT name="EmWeb_ns:snmp:39.1.5" value="Default" type="text" class="formtext" onchange="modify(this)"></TD>
+					   <TD class="readonly"><SCRIPT language="JavaScript">var option = 5;
+                           switch (option)
+                           {
+                           case 1: document.write('inboundLayer2'); break; 
+                           case 2: document.write('inboundLayer3'); break;
+                           case 3: document.write('outboundLayer2'); break;
+                           case 4: document.write('outboundLayer3'); break;
+                           case 5: document.write('spectralink');   break;
+                           default: document.write("&nbsp;"); break;
+                           }
+                           </script>
+                       </TD>
+					   <TD><INPUT onChange="modify(this)" type="text" class="formtextmini" name="EmWeb_ns:snmp:41.1.5" VALUE="1"></TD>
+					   <TD ALIGN="CENTER">
+					   <SCRIPT LANGUAGE="JAVASCRIPT">
+                    var option = 1; 
+                    document.write('<INPUT type="hidden" id="policyMarking'+count+'" name="EmWeb_ns:snmp:42.1.5" VALUE="1">');  
+                    document.write('<INPUT type="checkbox" id="fakePolicyMarking'+count+'" onClick="doCB(this,document.forms[0].policyMarking'+count+')" ');
+                    if(option==1){ document.write(' CHECKED '); }                                                                   
+                    document.write('>');            
+                       </script>
+                       </TD>
+					   <TD> 
+					        <SCRIPT language="javascript">                              
+							    document.write('<SELECT class="formdropdownmicro" name="EmWeb_ns:snmp:43.1.5" onchange="modify(this)">');
+                               //if (currentPrimaryIndex==1){
+                               //    document.write('disabled');
+                               // }
+                               // document.write('>');
+							
+							    var option = 1;
+                                             
+							    document.write('<OPTION VALUE=1 '); if(option == 1) { document.write(' SELECTED '); } document.write('>Enable');
+                                document.write('<OPTION VALUE=2 '); if(option == 2) { document.write(' SELECTED '); } document.write('>Disable');
+
+                                if ((oldPrimaryIndex!=" ") &&(currentPrimaryIndex!=oldPrimaryIndex)) {
+                                   document.write('<OPTION VALUE=6 '); if(option == 6) { document.write(' SELECTED '); } document.write('>Delete');
+                                }
+
+                                document.write('</SELECT>');
+                               </SCRIPT>
+					   </TD>                     
+					   <SCRIPT language="javascript">
+                                oldPrimaryIndex=currentPrimaryIndex;
+								count=count+1;</script>               
+				   </TR>
+				               
+			</TABLE>
+		</TD>
+	</TR> 
+	<TR>
+		<TD>&nbsp;</TD>
+	</TR>         
+	<TR>
+        <TD>
+		    <TABLE cellpadding="0" cellpadding="0" border="0" width="270">
+			    <TR>         
+			     <SCRIPT language="javascript">
+                        if (dataAvail=='1'){
+						document.write('<TD align="center"><A href="javascript:transmitQoS()"><IMG src="../../orinoco/images/ok.gif" width="93" height="25" alt="OK" border="0"></A></TD>');
+						document.write('<TD align="center"><A href="javascript:cancel()"><IMG src="../../orinoco/images/cancel.gif" width="93" height="25" alt="Cancel" border="0"></A></TD>');
+                        }
+                        else {
+                        document.write('<TD colspan="6">&nbsp</TD>');
+                        }
+                        </script>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>		
+    </FORM>
+	</TD>
+	</TR>
+	</TD>
+<!-- Start Footer -->
+	<FORM name="rebootform" method="post" ACTION="../../prototail.html">
+		<INPUT type="hidden" id="rebootflag" name="EmWeb_ns:snmp:568" value="0" class="formtext">
+	</FORM>
+
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
+<!-- End Footer -->
+
+</BODY>
+</HTML>

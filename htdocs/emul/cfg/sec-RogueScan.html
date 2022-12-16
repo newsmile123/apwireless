@@ -1,0 +1,484 @@
+<HTML>
+<HEAD>
+	<TITLE>Rogue Scan</TITLE><LINK rel="stylesheet" href="../orinoco/css/global.css">
+	<SCRIPT language="javascript" src="../orinoco/scripts/library.js"></SCRIPT>
+	<SCRIPT language="javascript" src="../orinoco/scripts/test.js"></SCRIPT>
+</HEAD>
+
+<SCRIPT language="javascript">
+	grp_live = 1;
+	subgrp_live = 5;
+	tri_grp_live = 10;
+	tri_subgrp_live = 3;
+	var objId  = "1.3.6.1.4.1.11898.2.4.12";						
+	var	Is_cardin_slotb = '6 ';
+	var	Is_cardin_slota = '4 ';
+	var secModeA= '6';  
+	var secModeB = '1';  
+	if(((secModeA==5) || (secModeA==2) || (secModeA==4)|| (secModeA=='')) &&((secModeB==5) || (secModeB==2) || (secModeB==4)|| (secModeB=='')))
+		tri_subgrp_live=2;
+	
+</SCRIPT>
+
+<BODY style="margin:0px" background="../orinoco/images/bg.gif" rightmargin="0" onload="commanHandleRogueScanModeChange(0)">
+
+<SCRIPT language="javascript" src="../orinoco/scripts/menu.js"></SCRIPT>
+
+<!-- Start Header -->
+<!-- <BODY style="margin:0px"> -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0">
+	<TR>
+		<TD>
+			<TABLE width="150" height="90" cellpadding="0" cellspacing="0">
+			<TR>
+			<TD valign="top"><IMG src="../orinoco/images/logo.gif"></TD>
+			</TR>
+			<TR>
+			<TD align="right">&nbsp;</TD>
+			</TR>
+			</TABLE>
+		</TD>
+		<TD valign="bottom">
+			<TABLE cellpadding="0" cellspacing="0" width="100%"> <!-- For the table -->
+				<!-- For the first row -->
+				<TR>
+					<TD>
+						<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+							<SCRIPT language="javascript">
+		                            		var ProductId  = "1.3.6.1.4.1.11898.2.4.12";													
+                                                                var slotA = '4 ';
+		                            		        var slotB = '6 ';
+		                            		        var secModeA = '6';  
+		                            		        var secModeB = '1';  
+								InitMenu(ProductId, slotA, slotB, secModeA, secModeB);
+								var nbrTabs = subNumArray[grp_live];
+								if(nbrTabs>5)
+								{
+									var start,finish;
+									var nbrTabsDivbyTwo = (nbrTabs - (nbrTabs%2))/2;
+									if(subgrp_live >= (nbrTabsDivbyTwo + (nbrTabs%2)) )
+									{
+										start = 0;
+										finish = nbrTabsDivbyTwo -1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = nbrTabsDivbyTwo;
+											finish = nbrTabs-1;
+										}
+										else
+										{
+											start = nbrTabsDivbyTwo+1;
+										finish = nbrTabs-1;
+									}
+										
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,1,1);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+									document.write('</TABLE>');
+									document.write('</TD>');
+									document.write('</TR>');
+									<!-- For the second row -->
+									document.write('<TR>');
+									document.write('<TD>');
+									document.write('<TABLE class="tabrow" cellpadding="0" cellspacing="0">');
+									if(subgrp_live >= (nbrTabsDivbyTwo+ (nbrTabs%2)))
+									{
+										start = nbrTabsDivbyTwo;
+										finish = nbrTabs-1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = 0;
+											finish = nbrTabsDivbyTwo-1;
+										}
+										else
+										{
+										start = 0;
+											finish = nbrTabsDivbyTwo;
+										}
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,2,0);
+									document.write('<TD align="middle" background="../orinoco/images/iedge.gif">&nbsp;</TD>');
+								}
+								else
+								{
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,0,nbrTabs-1,0,0);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+								}
+							</SCRIPT>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+
+	
+	<TR>
+		<TD valign="top">
+			<TABLE align="center" cellpadding="10" cellspacing="0">
+				<SCRIPT language="javascript">
+					drawButtons(grp,grp_live);
+				</SCRIPT>
+			</TABLE>
+		</TD>
+<!-- End Header -->
+
+<TD bgcolor="white" height="95%" valign="top">
+<TABLE bgcolor="white" style="margin-left:25px; margin-bottom:25; margin-top: 5px" cellspacing="0" cellpadding="0" border="0" width="588">
+<!-- Start Subtabs -->
+
+	<TR>
+		<TD>
+			<TABLE cellpadding="0" cellspacing="0" width="95%">
+				<TR>
+					<TD>&nbsp;</TD>
+				</TR>
+				<TR>
+					<TD>
+						<TABLE cellpadding="0" cellspacing="0" width="100%">
+							<TR>
+								<TD>
+									<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+										<SCRIPT language="javascript">
+											var nbrTabs = subNumArray[tri_grp_live];
+											drawTabRow(subgrpArray[tri_grp_live],tri_grp_live,tri_subgrp_live,0,nbrTabs-1,4,0);
+										</SCRIPT>
+										<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>
+									</TABLE>
+								</TD>
+								<TD align="right" class="subtab-corner">&nbsp;</TD>
+							</TR>
+						</TABLE>
+					</TD>
+				</TR>
+				<!-- End Subtabs -->
+				<TR>					
+					<TD>
+						<TABLE bgcolor="white" cellpadding="0" cellspacing="0" border="0">
+						<TR>
+							<TD background="../orinoco/images/left_line.gif">&nbsp;</TD>
+
+
+<!-- BEGIN CONTENT -  I don't believe in the sun...//-->
+<TD>
+	<FORM method="post" ACTION="/cfg/sec-RogueScan.html">
+		<TABLE cellpadding="1" cellspacing="1" border="0" width="100%">
+			<TR>
+				<TD colspan=2>
+					<TABLE cellpadding="1" cellspacing="1"  border="0"  width="100%">
+						<TR><TD class="verbiage">
+							<p>
+								Rogue Scan uses the selected wireless interface for scanning its coverage area for Access Points and Clients.
+								To dedicate the AP’s wireless interface to scanning set the scan mode to continuous scan. Note that while the
+								wireless interface is in continuous scan mode it does not perform normal AP operations.
+								To enable the AP’s wireless interface to scan in the background while still performing normal AP operations, 
+								set the scan cycle time in minutes and set the scan mode to background scanning mode. Note that AP throughput 
+								decreases with an increase in scanning efficiency.
+							</p>
+							<p><i>Note1: When Rogue Scan is enabled, the <A HREF="alarm-groups.html">Security Alarm Group</A> must also be enabled and a <A HREF="alarm-traphost.html">Trap Host</A> configured to receive the list of access points and clients detected during the scan. </i></p>
+							<p><i>Note2: The scan parameter scan interval time can only be modified for background scanning mode. </i></p>
+						</TD></TR>
+					 </TABLE>
+				 </TD>
+			</TR>
+
+			<TR>
+				<TD>&nbsp;</TD>
+			</TR>
+
+			<TR>
+				<TD>
+					<TABLE cellpadding="0" cellspacing="0" border="0" width="100%">
+
+						<SCRIPT  LANGUAGE="JavaScript" >
+							var scanMode= '1 ';
+							var scanStatus = '2 ';
+							var	Is_cardin_slota = '4 ';
+								
+							if(Is_cardin_slota != ' ')
+							{
+								document.write('<TR><TD class="tableheader">Wireless - A </TD></TR>');
+
+								document.write('<TR>');
+								document.write('<TD>Scan Mode</TD>');
+								document.write('<TD>');
+								document.write('<SELECT class="formdropdownwide" name="EmWeb_ns:snmp:333.3" onChange="modify(this);commanHandleRogueScanModeChange(3)" id="RogueScanModeA">');
+
+								document.write('<OPTION VALUE=1 ');
+								if(scanMode == 1) {
+									document.write(' SELECTED ');
+								}
+								document.write('>Background');
+
+								document.write('<OPTION VALUE=2 ');
+								if(scanMode == 2) {
+									document.write(' SELECTED ');
+								}
+								document.write('>Continuous');
+
+								document.write('</SELECT>');
+								document.write('</TD>');
+								document.write('</TR>');
+
+								document.write('<TR>');
+								document.write('<TD>Scan Interval (1-1440 minutes)</TD>');
+								document.write('<TD><INPUT onChange="modifys(this)" id="RogueScanCycleA" type="text" class="formtext" name="EmWeb_ns:snmp:335.3" VALUE="15"></TD>');
+								document.write('</TR>');
+								
+								document.write('<TR>');
+								document.write('<INPUT type="hidden" id="RogueScanStatusA" name="EmWeb_ns:snmp:334.3" VALUE="2">');
+								createCB('Rogue Scan','RogueScanStatusA',scanStatus);
+								document.write('</TR>');
+
+								document.write('<TR>');
+								document.write('<TD>Number of New Stations detected in last scan </TD>');
+								document.write('<TD class="readonly">0</TD>');
+								document.write('</TR>');
+							}
+						</SCRIPT>
+
+						<TR>
+							<TD>&nbsp;</TD>
+						</TR>
+
+						<SCRIPT  LANGUAGE="JavaScript" >
+							var scanMode = '1 ';
+							var scanStatus = '2 ';
+							var	Is_cardin_slotb = '6 ';								
+
+							if(Is_cardin_slotb != ' ')
+							{
+								document.write('<TR><TD class="tableheader">Wireless - B </TD></TR>');
+
+								document.write('<TR>');
+								document.write('<TD>Scan Mode</TD>');
+								document.write('<TD>');
+								document.write('<SELECT class="formdropdownwide" name="EmWeb_ns:snmp:333.4" onChange="modify(this);commanHandleRogueScanModeChange(4)" id="RogueScanModeB">');
+
+								document.write('<OPTION VALUE=1 ');
+								if(scanMode == 1) {
+									document.write(' SELECTED ');
+								}
+								document.write('>Background');
+
+								document.write('<OPTION VALUE=2 ');
+								if(scanMode == 2) {
+									document.write(' SELECTED ');
+								}
+								document.write('>Continuous');
+
+								document.write('</SELECT>');
+								document.write('</TD>');
+								document.write('</TR>');
+
+
+								document.write('<TR>');
+								document.write('<TD>Scan Interval (1-1440 minutes)</TD>');
+								document.write('<TD><INPUT onChange="modifys(this)" id="RogueScanCycleB" type="text" class="formtext" name="EmWeb_ns:snmp:335.4" VALUE="15"></TD>');
+								document.write('</TR>');
+
+								document.write('<TR>');
+								document.write('<INPUT type="hidden" id="RogueScanStatusB" name="EmWeb_ns:snmp:334.4" VALUE="2">');
+								createCB('Rogue Scan','RogueScanStatusB',scanStatus);
+								document.write('</TR>');
+								
+								document.write('<TR>');
+								document.write('<TD>Number of New Stations detected in last scan </TD>');
+								document.write('<TD class="readonly">0</TD>');
+								document.write('</TR>');
+							}
+						</SCRIPT>
+
+						<TR>
+							<TD>&nbsp;</TD>
+						</TR>
+							
+						<SCRIPT  LANGUAGE="JavaScript" >
+							document.write('<TR><TD class="tableheader">Scan Result Table</TD></TR>');
+
+							document.write('<TR>');
+							document.write('<TD>Ageing time (60-7200 minutes)</TD>');
+							document.write('<TD><INPUT onChange="modifys(this)" id="RogueScanAgeingTime" type="text" class="formtext" name="EmWeb_ns:snmp:338.0" VALUE="60"></TD>');
+							document.write('</TR>');
+						</SCRIPT>
+
+						<TR>
+							<TD>&nbsp;</TD>
+						</TR>
+							
+						<SCRIPT  LANGUAGE="JavaScript" >
+							var notifyMode = '4 ';
+							var reportStyle = '1 ';
+						
+							document.write('<TR><TD class="tableheader">Scan Result Notification</TD></TR>');
+
+							document.write('<TR>');
+							document.write('<TD>Scan results trap notification mode</TD>');
+							document.write('<TD>');
+							document.write('<SELECT class="formdropdownwide" name="EmWeb_ns:snmp:339.0" onChange="modify(this)" id="oriRogueScanResultsNotificationMode">');
+
+							document.write('<OPTION VALUE=1 ');
+							if(notifyMode == 1) {
+								document.write(' SELECTED ');
+							}
+							document.write('>No Notification');
+
+							document.write('<OPTION VALUE=2 ');
+							if(notifyMode == 2) {
+								document.write(' SELECTED ');
+							}
+							document.write('>Notify AP');
+
+							document.write('<OPTION VALUE=3 ');
+							if(notifyMode == 3) {
+								document.write(' SELECTED ');
+							}
+							document.write('>Notify Client');
+
+							document.write('<OPTION VALUE=4 ');
+							if(notifyMode == 4) {
+								document.write(' SELECTED ');
+							}
+							document.write('>Notify All');
+
+							document.write('</SELECT>');
+							document.write('</TD>');
+							document.write('</TR>');
+
+							document.write('<TR>');
+							document.write('<TD>Scan results trap report style</TD>');
+							document.write('<TD>');
+							document.write('<SELECT class="formdropdownwide" name="EmWeb_ns:snmp:340.0" onChange="modify(this)" id="oriRogueScanResultsTrapReportType">');
+
+							document.write('<OPTION VALUE=1 ');
+							if(reportStyle == 1) {
+								document.write(' SELECTED ');
+							}
+							document.write('>Report Since Last Scan');
+
+							document.write('<OPTION VALUE=2 ');
+							if(reportStyle == 2) {
+								document.write(' SELECTED ');
+							}
+							document.write('>Report Since Start Of Scan');
+
+							document.write('</SELECT>');
+							document.write('</TD>');
+							document.write('</TR>');
+						</SCRIPT>
+						<TR>
+			<TD colspan="2"><IMG src="../orinoco/images/spacer.gif" width="100%" height="15"></TD>
+		</TR>
+					<TR>
+						<TD colspan="2" align="center">
+						<TABLE cellpadding="0" cellpadding="0" border="0" width="270">
+								<TR>
+						<TD align="center"><A href="javascript:transmit()"><IMG src="../orinoco/images/ok.gif" width="93" height="25" alt="Ok" border="0"></A></TD>
+						<TD align="center"><A href="javascript:cancel()"><IMG src="../orinoco/images/cancel.gif" width="93" height="25" alt="Cancel" border="0"></A></TD>
+								</TR>
+							</TABLE>
+						</TD>
+						</TR>
+						
+					</TABLE>
+				</TD>
+			</TR>
+		</TABLE>
+
+		<SCRIPT language="JavaScript" type="text/javascript">
+			function commanHandleRogueScanModeChange(ifIndex)
+			{
+				var	Is_cardin_slotb = '6 ';								
+				if(ifIndex == 3)
+				{
+					if(document.forms[0].RogueScanModeA.value == 1)
+					{
+						document.forms[0].RogueScanCycleA.disabled = 0;
+					}
+					else
+					{
+						document.forms[0].RogueScanCycleA.disabled = 1;	
+					}
+				}
+				else if(ifIndex == 4)
+				{
+					if(document.forms[0].RogueScanModeB.value == 1)
+					{
+						document.forms[0].RogueScanCycleB.disabled = 0;
+					}
+					else
+					{
+						document.forms[0].RogueScanCycleB.disabled = 1;	
+					}
+				}
+				else if(ifIndex == 0)
+				{
+					if(document.forms[0].RogueScanModeA.value == 1)
+					{
+						document.forms[0].RogueScanCycleA.disabled = 0;
+					}
+					else
+					{
+						document.forms[0].RogueScanCycleA.disabled = 1;	
+					}
+
+					if(Is_cardin_slotb != ' ')
+					{
+						if(document.forms[0].RogueScanModeB.value == 1)
+						{
+							document.forms[0].RogueScanCycleB.disabled = 0;
+						}
+						else
+						{
+							document.forms[0].RogueScanCycleB.disabled = 1;	
+						}
+					}
+				}
+			}
+		</SCRIPT>
+	</FORM>
+</TD>
+<!-- END CONTENT //-->
+
+
+							<TD background="../orinoco/images/right_line.gif">&nbsp;</TD>
+						</TR>
+						<TR>
+							<TD><IMG src="../orinoco/images/bottomleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+							<TD><IMG src="../orinoco/images/bottom_line.gif" width="100%" height="25" alt="" border="0"></TD>
+							<TD><IMG src="../orinoco/images/bottomright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+						</TR>
+
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+
+
+		</TD>
+	</TR>
+</TR>
+</TABLE>
+
+<!-- Start Footer -->
+	<FORM name="rebootform" method="post" ACTION="/prototail.html">
+		<INPUT type="hidden" id="rebootflag" name="EmWeb_ns:snmp:568" value="0" class="formtext">
+	</FORM>
+
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
+<!-- End Footer -->
+
+
+
+
+</BODY>
+</HTML>

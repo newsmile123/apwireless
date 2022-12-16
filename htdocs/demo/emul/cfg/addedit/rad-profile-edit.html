@@ -1,0 +1,948 @@
+<HTML>
+<HEAD>
+<TITLE>Edit RADIUS Profile</TITLE><LINK rel="stylesheet" href="../../orinoco/css/global.css">
+	<SCRIPT language="javascript" src="../../orinoco/scripts/library.js"></SCRIPT><!--onload="radiusPageDefaults()"!-->
+</HEAD>
+<BODY style="margin:0px" rightmargin="0" background="../../orinoco/images/bg.gif">
+<SCRIPT language="javascript">
+	grp_live = 1;
+	subgrp_live = 8;
+</SCRIPT>
+
+
+<SCRIPT LANGUAGE="javascript">
+var SelProfndx=1;
+var vlanStatus = "1";
+var dnsStatus =  "2";
+
+var PrimaryFound = 0;
+var SecondaryFound = 0;
+
+var PriProfileName;
+var PriMacAddrFormat = 1;
+var PriUpdateInterval;
+var PriInactivityTimer;
+var PriAuthLifeTime;
+var PriAddrFormat = 1;
+var PriNameOrIp;
+var PriDestPort;
+var PriVLANId = -1;
+var PriResponseTime;
+var PriMaxReTx;
+var PriRowStatus = 3;
+
+var SecAddrFormat = 1;
+var SecNameOrIp;
+var SecDestPort;
+var SecVLANId = -1;
+var SecResponseTime;
+var SecMaxReTx;
+var SecRowStatus = 3;
+
+var hashValue = window.location.hash.split('#');
+var radiusPage = "../rad-radius.html"; // Return to list of profiles if no profile is selected
+
+if(vlanStatus=="") vlanStatus="1";
+if(dnsStatus=="") dnsStatus="1";
+
+if(hashValue == "") {
+	window.location.href = radiusPage;
+}
+
+if((hashValue[1] == "") || (hashValue[1] == "0")) {
+	window.location.href = radiusPage;
+}
+
+SelProfndx = hashValue[1];
+
+
+
+	var radTblInst = "1.1";
+	var RadProfIndex = radTblInst.split(".");
+	
+	if(SelProfndx == RadProfIndex[0])
+	{
+		if(RadProfIndex[1] == 1) /* Primary Index */
+		{
+			PriProfileName = "MAC Authentication";
+			PriMacAddrFormat = "1";
+			PriUpdateInterval = "0";
+			if(!PriUpdateInterval) 
+			{
+				PriUpdateInterval=-1;
+			}
+			PriInactivityTimer = "5";
+			PriAuthLifeTime = "0";
+			PriAddrFormat = "1";
+			PriNameOrIp = "0.0.0.0";
+			PriDestPort = "1812";
+			PriVLANId = "-1";
+			if(PriVLANId == -1)
+			{
+				PriVLANId = "untagged";
+			}
+			PriResponseTime = "3";
+			PriMaxReTx = "3";
+			PriRowStatus = "3";
+			PrimaryFound = 1;
+		}
+		else if(RadProfIndex[1] == 2) /* Secondary Index */
+		{
+			SecAddrFormat = "1";
+			SecNameOrIp = "0.0.0.0";
+			SecDestPort = "1812";
+			SecVLANId = "-1";
+			if(SecVLANId == -1)
+			{
+				SecVLANId = "untagged";
+			}
+			SecResponseTime = "3";
+			SecMaxReTx = "3";
+			SecRowStatus = "3";
+			SecondaryFound = 1;
+		}
+	}
+
+
+
+	var radTblInst = "1.2";
+	var RadProfIndex = radTblInst.split(".");
+	
+	if(SelProfndx == RadProfIndex[0])
+	{
+		if(RadProfIndex[1] == 1) /* Primary Index */
+		{
+			PriProfileName = "MAC Authentication";
+			PriMacAddrFormat = "1";
+			PriUpdateInterval = "0";
+			if(!PriUpdateInterval) 
+			{
+				PriUpdateInterval=-1;
+			}
+			PriInactivityTimer = "5";
+			PriAuthLifeTime = "0";
+			PriAddrFormat = "1";
+			PriNameOrIp = "0.0.0.0";
+			PriDestPort = "1812";
+			PriVLANId = "-1";
+			if(PriVLANId == -1)
+			{
+				PriVLANId = "untagged";
+			}
+			PriResponseTime = "3";
+			PriMaxReTx = "3";
+			PriRowStatus = "3";
+			PrimaryFound = 1;
+		}
+		else if(RadProfIndex[1] == 2) /* Secondary Index */
+		{
+			SecAddrFormat = "1";
+			SecNameOrIp = "0.0.0.0";
+			SecDestPort = "1812";
+			SecVLANId = "-1";
+			if(SecVLANId == -1)
+			{
+				SecVLANId = "untagged";
+			}
+			SecResponseTime = "3";
+			SecMaxReTx = "3";
+			SecRowStatus = "3";
+			SecondaryFound = 1;
+		}
+	}
+
+
+
+	var radTblInst = "2.1";
+	var RadProfIndex = radTblInst.split(".");
+	
+	if(SelProfndx == RadProfIndex[0])
+	{
+		if(RadProfIndex[1] == 1) /* Primary Index */
+		{
+			PriProfileName = "EAP Authentication";
+			PriMacAddrFormat = "1";
+			PriUpdateInterval = "0";
+			if(!PriUpdateInterval) 
+			{
+				PriUpdateInterval=-1;
+			}
+			PriInactivityTimer = "5";
+			PriAuthLifeTime = "0";
+			PriAddrFormat = "1";
+			PriNameOrIp = "172.170.2.72";
+			PriDestPort = "1812";
+			PriVLANId = "-1";
+			if(PriVLANId == -1)
+			{
+				PriVLANId = "untagged";
+			}
+			PriResponseTime = "3";
+			PriMaxReTx = "3";
+			PriRowStatus = "1";
+			PrimaryFound = 1;
+		}
+		else if(RadProfIndex[1] == 2) /* Secondary Index */
+		{
+			SecAddrFormat = "1";
+			SecNameOrIp = "172.170.2.72";
+			SecDestPort = "1812";
+			SecVLANId = "-1";
+			if(SecVLANId == -1)
+			{
+				SecVLANId = "untagged";
+			}
+			SecResponseTime = "3";
+			SecMaxReTx = "3";
+			SecRowStatus = "1";
+			SecondaryFound = 1;
+		}
+	}
+
+
+
+	var radTblInst = "2.2";
+	var RadProfIndex = radTblInst.split(".");
+	
+	if(SelProfndx == RadProfIndex[0])
+	{
+		if(RadProfIndex[1] == 1) /* Primary Index */
+		{
+			PriProfileName = "EAP Authentication";
+			PriMacAddrFormat = "1";
+			PriUpdateInterval = "0";
+			if(!PriUpdateInterval) 
+			{
+				PriUpdateInterval=-1;
+			}
+			PriInactivityTimer = "5";
+			PriAuthLifeTime = "0";
+			PriAddrFormat = "1";
+			PriNameOrIp = "172.170.2.73";
+			PriDestPort = "1812";
+			PriVLANId = "-1";
+			if(PriVLANId == -1)
+			{
+				PriVLANId = "untagged";
+			}
+			PriResponseTime = "3";
+			PriMaxReTx = "3";
+			PriRowStatus = "3";
+			PrimaryFound = 1;
+		}
+		else if(RadProfIndex[1] == 2) /* Secondary Index */
+		{
+			SecAddrFormat = "1";
+			SecNameOrIp = "172.170.2.73";
+			SecDestPort = "1812";
+			SecVLANId = "-1";
+			if(SecVLANId == -1)
+			{
+				SecVLANId = "untagged";
+			}
+			SecResponseTime = "3";
+			SecMaxReTx = "3";
+			SecRowStatus = "3";
+			SecondaryFound = 1;
+		}
+	}
+
+
+
+	var radTblInst = "3.1";
+	var RadProfIndex = radTblInst.split(".");
+	
+	if(SelProfndx == RadProfIndex[0])
+	{
+		if(RadProfIndex[1] == 1) /* Primary Index */
+		{
+			PriProfileName = "Accounting";
+			PriMacAddrFormat = "1";
+			PriUpdateInterval = "0";
+			if(!PriUpdateInterval) 
+			{
+				PriUpdateInterval=-1;
+			}
+			PriInactivityTimer = "5";
+			PriAuthLifeTime = "0";
+			PriAddrFormat = "1";
+			PriNameOrIp = "0.0.0.0";
+			PriDestPort = "1813";
+			PriVLANId = "-1";
+			if(PriVLANId == -1)
+			{
+				PriVLANId = "untagged";
+			}
+			PriResponseTime = "3";
+			PriMaxReTx = "3";
+			PriRowStatus = "3";
+			PrimaryFound = 1;
+		}
+		else if(RadProfIndex[1] == 2) /* Secondary Index */
+		{
+			SecAddrFormat = "1";
+			SecNameOrIp = "0.0.0.0";
+			SecDestPort = "1813";
+			SecVLANId = "-1";
+			if(SecVLANId == -1)
+			{
+				SecVLANId = "untagged";
+			}
+			SecResponseTime = "3";
+			SecMaxReTx = "3";
+			SecRowStatus = "3";
+			SecondaryFound = 1;
+		}
+	}
+
+
+
+	var radTblInst = "3.2";
+	var RadProfIndex = radTblInst.split(".");
+	
+	if(SelProfndx == RadProfIndex[0])
+	{
+		if(RadProfIndex[1] == 1) /* Primary Index */
+		{
+			PriProfileName = "Accounting";
+			PriMacAddrFormat = "1";
+			PriUpdateInterval = "0";
+			if(!PriUpdateInterval) 
+			{
+				PriUpdateInterval=-1;
+			}
+			PriInactivityTimer = "5";
+			PriAuthLifeTime = "0";
+			PriAddrFormat = "1";
+			PriNameOrIp = "0.0.0.0";
+			PriDestPort = "1813";
+			PriVLANId = "-1";
+			if(PriVLANId == -1)
+			{
+				PriVLANId = "untagged";
+			}
+			PriResponseTime = "3";
+			PriMaxReTx = "3";
+			PriRowStatus = "3";
+			PrimaryFound = 1;
+		}
+		else if(RadProfIndex[1] == 2) /* Secondary Index */
+		{
+			SecAddrFormat = "1";
+			SecNameOrIp = "0.0.0.0";
+			SecDestPort = "1813";
+			SecVLANId = "-1";
+			if(SecVLANId == -1)
+			{
+				SecVLANId = "untagged";
+			}
+			SecResponseTime = "3";
+			SecMaxReTx = "3";
+			SecRowStatus = "3";
+			SecondaryFound = 1;
+		}
+	}
+
+
+
+	var radTblInst = "4.1";
+	var RadProfIndex = radTblInst.split(".");
+	
+	if(SelProfndx == RadProfIndex[0])
+	{
+		if(RadProfIndex[1] == 1) /* Primary Index */
+		{
+			PriProfileName = "Management Access";
+			PriMacAddrFormat = "1";
+			PriUpdateInterval = "0";
+			if(!PriUpdateInterval) 
+			{
+				PriUpdateInterval=-1;
+			}
+			PriInactivityTimer = "5";
+			PriAuthLifeTime = "0";
+			PriAddrFormat = "1";
+			PriNameOrIp = "0.0.0.0";
+			PriDestPort = "1812";
+			PriVLANId = "-1";
+			if(PriVLANId == -1)
+			{
+				PriVLANId = "untagged";
+			}
+			PriResponseTime = "3";
+			PriMaxReTx = "3";
+			PriRowStatus = "3";
+			PrimaryFound = 1;
+		}
+		else if(RadProfIndex[1] == 2) /* Secondary Index */
+		{
+			SecAddrFormat = "1";
+			SecNameOrIp = "0.0.0.0";
+			SecDestPort = "1812";
+			SecVLANId = "-1";
+			if(SecVLANId == -1)
+			{
+				SecVLANId = "untagged";
+			}
+			SecResponseTime = "3";
+			SecMaxReTx = "3";
+			SecRowStatus = "3";
+			SecondaryFound = 1;
+		}
+	}
+
+
+
+	var radTblInst = "4.2";
+	var RadProfIndex = radTblInst.split(".");
+	
+	if(SelProfndx == RadProfIndex[0])
+	{
+		if(RadProfIndex[1] == 1) /* Primary Index */
+		{
+			PriProfileName = "Management Access";
+			PriMacAddrFormat = "1";
+			PriUpdateInterval = "0";
+			if(!PriUpdateInterval) 
+			{
+				PriUpdateInterval=-1;
+			}
+			PriInactivityTimer = "5";
+			PriAuthLifeTime = "0";
+			PriAddrFormat = "1";
+			PriNameOrIp = "0.0.0.0";
+			PriDestPort = "1812";
+			PriVLANId = "-1";
+			if(PriVLANId == -1)
+			{
+				PriVLANId = "untagged";
+			}
+			PriResponseTime = "3";
+			PriMaxReTx = "3";
+			PriRowStatus = "3";
+			PrimaryFound = 1;
+		}
+		else if(RadProfIndex[1] == 2) /* Secondary Index */
+		{
+			SecAddrFormat = "1";
+			SecNameOrIp = "0.0.0.0";
+			SecDestPort = "1812";
+			SecVLANId = "-1";
+			if(SecVLANId == -1)
+			{
+				SecVLANId = "untagged";
+			}
+			SecResponseTime = "3";
+			SecMaxReTx = "3";
+			SecRowStatus = "3";
+			SecondaryFound = 1;
+		}
+	}
+
+
+
+if((PrimaryFound == 0) || (SecondaryFound == 0)){
+	window.location.href = radiusPage;
+}	
+
+function radiusCancel() {
+
+	document.forms[0].reset();
+}
+
+</SCRIPT>
+
+<SCRIPT language="javascript" src="../../orinoco/scripts/menu.js"></SCRIPT>
+
+<!-- Start Header -->
+<!-- <BODY style="margin:0px"> -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0">
+	<TR>
+		<TD>
+			<TABLE width="150" height="90" cellpadding="0" cellspacing="0">
+			<TR>
+			<TD valign="top"><IMG src="../../orinoco/images/logo.gif"></TD>
+			</TR>
+			<TR>
+			<TD align="right">&nbsp;</TD>
+			</TR>
+			</TABLE>
+		</TD>
+		<TD valign="bottom">
+			<TABLE cellpadding="0" cellspacing="0" width="100%"> <!-- For the table -->
+				<!-- For the first row -->
+				<TR>
+					<TD>
+						<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+							<SCRIPT language="javascript">
+		                            		var ProductId  = "1.3.6.1.4.1.11898.2.4.12";													
+                                                                var slotA = '4 ';
+		                            		        var slotB = '6 ';
+		                            		        var secModeA = '6';  
+		                            		        var secModeB = '1';  
+								InitMenu(ProductId, slotA, slotB, secModeA, secModeB);
+								var nbrTabs = subNumArray[grp_live];
+								if(nbrTabs>5)
+								{
+									var start,finish;
+									var nbrTabsDivbyTwo = (nbrTabs - (nbrTabs%2))/2;
+									if(subgrp_live >= (nbrTabsDivbyTwo + (nbrTabs%2)) )
+									{
+										start = 0;
+										finish = nbrTabsDivbyTwo -1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = nbrTabsDivbyTwo;
+											finish = nbrTabs-1;
+										}
+										else
+										{
+											start = nbrTabsDivbyTwo+1;
+										finish = nbrTabs-1;
+									}
+										
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,1,1);
+									document.write('<TD align="middle" background="../../orinoco/images/edge.gif">&nbsp;</TD>');
+									document.write('</TABLE>');
+									document.write('</TD>');
+									document.write('</TR>');
+									<!-- For the second row -->
+									document.write('<TR>');
+									document.write('<TD>');
+									document.write('<TABLE class="tabrow" cellpadding="0" cellspacing="0">');
+									if(subgrp_live >= (nbrTabsDivbyTwo+ (nbrTabs%2)))
+									{
+										start = nbrTabsDivbyTwo;
+										finish = nbrTabs-1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = 0;
+											finish = nbrTabsDivbyTwo-1;
+										}
+										else
+										{
+										start = 0;
+											finish = nbrTabsDivbyTwo;
+										}
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,2,0);
+									document.write('<TD align="middle" background="../../orinoco/images/iedge.gif">&nbsp;</TD>');
+								}
+								else
+								{
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,0,nbrTabs-1,0,0);
+									document.write('<TD align="middle" background="../../orinoco/images/edge.gif">&nbsp;</TD>');
+								}
+							</SCRIPT>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+
+	
+	<TR>
+		<TD valign="top">
+			<TABLE align="center" cellpadding="10" cellspacing="0">
+				<SCRIPT language="javascript">
+					drawButtons(grp,grp_live);
+				</SCRIPT>
+			</TABLE>
+		</TD>
+<!-- End Header -->
+
+<TD bgcolor="white" height="95%" valign="top">
+	<FORM method="post" name="radiusprofileedit" ACTION="rad-profile-edit.html"> 
+		<TABLE cellpadding="0" cellspacing="0" border="0" width="588" style="margin-left:50px; margin-bottom:25; margin-top:5px">
+
+		<TR>
+			<TD align="right" width="100%"><A href="javascript:window.history.back()"><IMG src="../../orinoco/images/back.gif" width="32" height="32" alt="Back" border="0"></A></TD>
+		</TR>
+
+		<TR>
+			<TD>
+				<TABLE>
+					<TR>
+						<TD class="verbiage">
+							<p>This page is used to edit the selected RADIUS Server Profile. A RADIUS server Profile consists of a Primary and a Secondary RADIUS server.</p>
+							<p><i>Note: Changes to the RADIUS Server Profiles will not require a reboot of the device.</i></font></p>
+							<script>
+							if(dnsStatus != 1)
+							{
+								document.write('<p><i>DNS is <font color="#ff6600"><b>disabled</b></font>. For configuring server names in the RADIUS profile, enable <a href="../net-ipconf.html">DNS client</a> first.</i></p>');
+							}
+							if(vlanStatus != 1)
+							{
+								document.write('<p><i>VLAN is <font color="#ff6600"><b>disabled</b></font>. For configuring VLAN IDs in the RADIUS profile, enable <a href="../vlanGroups.html">VLAN</a> first.</i></p>');
+							}
+							</script>
+						</TD>
+					<TR>
+				</TABLE>
+			</TD>
+		</TR>
+
+		<TR>
+			<TD><IMG src="../../orinoco/images/spacer.gif" width="100%" height="10"></TD>
+		</TR>
+
+		<!-- Custom table head start! -->
+		<TR>
+		<TD>
+		<TABLE cellpadding="0" cellspacing="0" border="0">
+	<TR>
+		<TD><IMG src="../../orinoco/images/topleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+		<TD width="100%"><IMG src="../../orinoco/images/top_line.gif" width="100%" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../../orinoco/images/topright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+	</TR>
+	<TR>
+		<TD background="../../orinoco/images/left_line.gif">&nbsp;</TD>
+
+
+		<TD valign="middle">
+		<TABLE width="100%" cellpadding="0" cellspacing="0" BORDER="0">
+		<!-- Custom table head end! -->
+		
+		<!-- Dump Contents Here! -->
+			<TR>
+				<TD class="header">Server Profile Name</TD>
+				<TD align="left" colspan="2">
+					<script>
+					document.write('<INPUT class="formtext" id="profile" type="text" name="EmWeb_ns:snmp:89" onChange="modifyEntry(this, SelProfndx,1)" value="'+PriProfileName+'">');
+					</script>
+				</TD>
+			</TR>
+
+			<TR>
+				<TD>MAC Address Format Type (format/password)</TD>
+				<TD  align="left" colspan="2">
+					<SELECT id="macAddrFmt" name="EmWeb_ns:snmp:90" class="formdropdown" onChange="modifyEntry(this, SelProfndx,1)" style="width: 120px">
+						<script language="javascript">
+							var option = PriMacAddrFormat;
+							document.write('<OPTION VALUE=1 ');
+							if(option == 1)
+							{
+								document.write( ' SELECTED ');
+							}
+							document.write('>DashDelimited/SS<OPTION VALUE=2 ');
+							if(option == 2)
+							{
+								document.write(' SELECTED ');
+							}
+							document.write('>Colon Delimited/SS<OPTION VALUE=3 ');
+							if(option == 3)
+							{
+								document.write(' SELECTED ');
+							}
+							document.write('>Single Dash Delimited/SS<OPTION VALUE=4 ');
+							if(option == 4)
+							{
+								document.write(' SELECTED ');
+							}
+							document.write('>No Delimiter/SS<OPTION VALUE=5 ')
+							if(option == 5)
+							{
+								document.write(' SELECTED ');
+							}
+							document.write('>DashDelimited/MAC<OPTION VALUE=6 ')
+							if(option == 6)
+							{
+								document.write(' SELECTED ');
+							}
+							document.write('>Colon Delimited/MAC<OPTION VALUE=7 ')
+							if(option == 7)
+							{
+								document.write(' SELECTED ');
+							}
+							document.write('>Single Dash Delimited/MAC<OPTION VALUE=8 ')
+							if(option == 8)
+							{
+								document.write(' SELECTED ');
+							}
+							document.write('>No Delimiter/MAC')
+								
+								
+						</script>
+					</SELECT>
+				</TD>
+			</TR>
+
+			<script language="javascript">
+				// Show Accounting update interval only for AP4000 and AP700
+				if((ProductId == "1.3.6.1.4.1.11898.2.4.12") || (ProductId == "1.3.6.1.4.1.11898.2.4.13")|| (ProductId == "1.3.6.1.4.1.11898.2.4.14"))
+				{
+					document.write('<TR>');
+					document.write('<TD>Accounting update interval (minutes)</TD>');
+					document.write('<TD align="left" colspan="2">');
+					document.write('<INPUT class="formtext" id="updtInterval" type="text" name="EmWeb_ns:snmp:91" onChange="modifyEntry(this, SelProfndx,1)" value="'+PriUpdateInterval+'">');
+					document.write('</TD>');
+					document.write('</TR>');
+				}
+			</script>
+			<TR>
+				<TD>Accounting inactivity timer (minutes)</TD>
+				<TD align="left" colspan="2">
+					<script>
+					document.write('<INPUT class="formtext" id="inactivityTimer" type="text" name="EmWeb_ns:snmp:92" onChange="modifyEntry(this, SelProfndx,1)" value="'+PriInactivityTimer+'">');
+					</script>
+				</TD>
+			</TR>
+
+			<TR>
+				<TD>Authorization lifetime (seconds)</TD>
+				<TD align="left" colspan="2">
+					<script>
+					document.write('<INPUT class="formtext" id="authLifeTime" type="text" name="EmWeb_ns:snmp:93" onChange="modifyEntry(this, SelProfndx,1)" value="'+PriAuthLifeTime+'">');
+					</script>
+				</TD>
+			</TR>
+
+			<TR>
+				<TD colspan="3"><IMG src="../../orinoco/images/spacer.gif" width="100%" height="15"></TD>
+			</TR>
+
+			<TR>
+				<TD><b>Server Parameter</b></TD>
+				<TD><b>Primary</b></TD>
+				<TD><b>Backup</b></TD>
+			</TR>
+
+			<TR>
+				<TD>Server Addressing Format</TD>
+				<TD>
+					<SELECT class="formdropdown" id="addr1" name="EmWeb_ns:snmp:94" onChange="checkDnsStatus(dnsStatus, this, SelProfndx, 1, 2);">
+						<SCRIPT language="JavaScript">
+							var option = PriAddrFormat;
+							
+							document.write('<OPTION VALUE=1 ');
+							if(option == 1) {
+								document.write( ' SELECTED ');
+							}
+							document.write('>IP Address <OPTION VALUE=2 ');
+							if(option == 2) {
+								document.write( ' SELECTED ');
+							}
+							document.write('>Name');
+						</SCRIPT>
+					</SELECT>
+				</TD>
+				<TD>
+					<SELECT class="formdropdown" id="addr2" name="EmWeb_ns:snmp:94" onChange="checkDnsStatus(dnsStatus, this, SelProfndx, 2, 2);">
+						<SCRIPT language="JavaScript">
+							var option = SecAddrFormat;
+							
+							document.write('<OPTION VALUE=1 ');
+							if(option == 1) {
+								document.write( ' SELECTED ');
+							}
+							document.write('>IP Address <OPTION VALUE=2 ');
+							if(option == 2) {
+								document.write( ' SELECTED ');
+							}
+							document.write('>Name');
+						</SCRIPT>
+					</SELECT>
+				</TD>
+			</TR>
+
+			<TR>
+				<TD>Server Name/IP Address</TD>
+				<TD>
+					<script>
+					document.write('<INPUT class="formtext" id="nameOrIp1" type="text" name="EmWeb_ns:snmp:95" onChange="modifyEntry(this, SelProfndx,1)" value="'+PriNameOrIp+'">');
+					</script>
+				</TD>
+				<TD>
+					<script>
+					document.write('<INPUT class="formtext" id="nameOrIp2" type="text" name="EmWeb_ns:snmp:95" onChange="modifyEntry(this, SelProfndx,2)" value="'+SecNameOrIp+'">');
+					</script>
+				</TD>
+			</TR>
+
+			<TR>
+				<TD>Destination Port</TD>
+				<TD>
+					<script>
+					document.write('<INPUT class="formtext" id="port1" type="text" name="EmWeb_ns:snmp:96" onChange="modifyEntry(this, SelProfndx,1)" value="'+PriDestPort+'">');
+					</script>
+				</TD>
+				<TD>
+					<script>
+					document.write('<INPUT class="formtext" id="port2" type="text" name="EmWeb_ns:snmp:96" onChange="modifyEntry(this, SelProfndx,2)" value="'+SecDestPort+'">');
+					</script>
+				</TD>
+			</TR>
+
+			<TR>
+				<TD><INPUT id="hiddenvlan1" type="hidden" name="EmWeb_ns:snmp:98" VALUE=""></TD>
+				<TD colspan="2"><INPUT id="hiddenvlan2" type="hidden" name="EmWeb_ns:snmp:98" VALUE=""></TD>
+			</TR>
+
+			<TR>
+				<TD>
+					<script>
+						document.write('Server VLAN ID ');
+						if(vlanStatus != 1)
+						{
+							document.write('<font color="#ff6600">(VLAN is disabled)</font>');
+						}
+						else
+						{
+							document.write('(0-4094, untagged)');
+						}
+					</script>
+				</TD>
+
+				<TD>
+					<script>
+						document.write('<INPUT class="formtext" id="vlan1" type="text" onChange="vlanidChangeEntry(this, \'hiddenvlan1\', SelProfndx,1)" value="'+PriVLANId+'">');
+						if(vlanStatus != 1)
+						{
+							var obj1 = document.getElementById("vlan1");
+							obj1.disabled = 1;
+						}
+					</script>
+				</TD>
+				<TD>
+					<script>
+						document.write('<INPUT class="formtext" id="vlan2" type="text" onChange="vlanidChangeEntry(this, \'hiddenvlan2\', SelProfndx,2)" value="'+SecVLANId+'">');
+						if(vlanStatus != 1)
+						{
+							var obj2 = document.getElementById("vlan2");
+							obj2.disabled = 1;
+						}
+					</script>
+				</TD>
+			</TR>
+
+			<TR>
+				<TD>Shared Secret</TD>
+				<TD><INPUT class="formtext" id="secret1" type="password" name="EmWeb_ns:snmp:99" value="******" onChange="modifyEntry(this, SelProfndx,1)"></TD>
+				<TD><INPUT class="formtext" id="secret2" type="password" name="EmWeb_ns:snmp:99" value="******" onChange="modifyEntry(this, SelProfndx,2)"></TD>
+			</TR>
+
+			<TR>
+				<TD>Confirm Shared Secret</TD>
+				<TD><INPUT class="formtext" id="secret1c" type="password" value="******"></TD>
+				<TD><INPUT class="formtext" id="secret2c" type="password" value="******"></TD>
+			</TR>
+			
+			<TR>
+				<TD>Response Time (seconds)</TD>
+				<TD>
+					<script>
+					document.write('<INPUT class="formtext" id="resp1" type="text" name="EmWeb_ns:snmp:100" onChange="modifyEntry(this, SelProfndx,1)" value="'+PriResponseTime+'">');
+					</script>
+				</TD>
+				<TD>
+					<script>
+					document.write('<INPUT class="formtext" id="resp2" type="text" name="EmWeb_ns:snmp:100" onChange="modifyEntry(this, SelProfndx,2)" value="'+SecResponseTime+'">');
+					</script>
+				</TD>
+			</TR>
+			
+			<TR>
+				<TD>Maximum Retransmissions (0-4)</TD>
+				<TD>
+					<script>
+					document.write('<INPUT class="formtext" id="retrans1" type="text" name="EmWeb_ns:snmp:101" onChange="modifyEntry(this, SelProfndx,1)" value="'+PriMaxReTx+'">');
+					</script>
+				</TD>
+				<TD>
+					<script>
+					document.write('<INPUT class="formtext" id="retrans2" type="text" name="EmWeb_ns:snmp:101" onChange="modifyEntry(this, SelProfndx,2)" value="'+SecMaxReTx+'">');
+					</script>
+				</TD>
+			</TR>	
+			
+			<TR>
+				<TD>Server Status</TD>
+				<TD>
+					<SELECT class="formdropdown" id="server1" name="EmWeb_ns:snmp:102" onChange="modifyEntry(this, SelProfndx,1)">
+						<SCRIPT language="JavaScript">
+							var option = PriRowStatus;
+							
+							document.write('<OPTION VALUE=1 ');
+							if(option == 1) {
+								document.write( ' SELECTED ');
+							}
+							document.write('>Enable <OPTION VALUE=3 ');
+							if(option != 1) {
+								document.write( ' SELECTED ');
+							}
+							document.write('>Disable');
+						</SCRIPT>
+					</SELECT>
+				</TD>
+				<TD>
+					<SELECT class="formdropdown" id="server2" name="EmWeb_ns:snmp:102" onChange="modifyEntry(this, SelProfndx,2)">
+						<SCRIPT language="JavaScript">
+							var option = SecRowStatus;
+
+							document.write('<OPTION VALUE=1 ');
+							if(option == 1) {
+								document.write( ' SELECTED ');
+							}
+							document.write('>Enable <OPTION VALUE=3 ');
+							if(option != 1) {
+								document.write( ' SELECTED ');
+							}
+							document.write('>Disable');
+						</SCRIPT>
+					</SELECT>
+				</TD>
+			</TR>		
+
+			<TR>
+				<TD colspan="3"><IMG src="../../orinoco/images/spacer.gif" width="100%" height="15"></TD>
+			</TR>
+
+			<TR>
+				<TD colspan="3" align="center">
+					<TABLE cellpadding="0" cellpadding="0" border="0" width="270">
+						<TR>
+							<TD><a href="javascript:transmitRadius()"><IMG src="../../orinoco/images/ok.gif" width="93" height="25" alt="Ok" border="0"></a></TD>
+							<TD><A href="javascript:radiusCancel()"><IMG src="../../orinoco/images/cancel.gif" width="93" height="25" alt="Cancel" border="0"></A></TD>
+						</TR>
+					</TABLE>
+				</TD>
+			</TR>
+			<!-- End dump contents -->
+
+			<!-- Custom table tail start -->
+			</TABLE>
+			</TD>
+					<TD background="../../orinoco/images/right_line.gif">&nbsp;</TD>
+	</TR>
+	<TR>
+		<TD><IMG src="../../orinoco/images/bottomleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../../orinoco/images/bottom_line.gif" width="100%" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../../orinoco/images/bottomright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+	</TR>
+</TABLE>
+
+			</TD>
+			</TR>
+			<!-- Custom table tail end -->
+		</TABLE>   
+	</FORM> 
+</TD>
+<!-- Start Footer -->
+	<FORM name="rebootform" method="post" ACTION="../../prototail.html">
+		<INPUT type="hidden" id="rebootflag" name="EmWeb_ns:snmp:568" value="0" class="formtext">
+	</FORM>
+
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
+<!-- End Footer -->
+

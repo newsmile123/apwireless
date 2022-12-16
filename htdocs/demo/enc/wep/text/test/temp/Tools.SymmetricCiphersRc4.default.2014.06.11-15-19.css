@@ -1,0 +1,182 @@
+/* new file */
+
+.odt-tool-wrapper .spec-table {
+        border-width: 1px;
+        border-style: solid;
+        border-spacing: 2px;
+        margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
+}
+
+.odt-tool-wrapper .spec-table th {
+        font-weight: bold;
+}
+
+.odt-tool-wrapper .spec-table td, .odt-tool-wrapper .spec-table th  {
+        border-width: 1px;
+        border-style: solid;
+        padding: 3px;
+}
+
+.odt-tool-wrapper .spec-table-label {
+        display:block;
+        text-align: center;
+}
+
+.odt-tool-wrapper .cursor {
+        cursor: pointer;
+}
+
+.odt-tool-wrapper #autodetect .highlighted {
+        color: red;
+}
+
+.odt-tool-wrapper #frm-text-radios {
+        position:relative;
+}
+
+.odt-tool-wrapper #autodetect {
+        position:absolute;
+        right: 0;
+        display:inline-block;
+}
+
+.odt-tool-wrapper #autodetect .options {
+        font-weight:bold;
+}
+
+/* new file */
+
+#hex-editor {
+        margin-top: 20px;
+        padding:1px;
+        position: relative;
+}
+
+/*#hex-editor.highlighted {
+        padding:0px;
+        border: 1px solid lightgray;
+}*/
+
+
+#hex-editor .hex-editor-status {
+        color: #8C9292;
+}
+
+#hex-editor .hex-table-container > tbody > tr > td {
+        vertical-align: top;
+}
+
+#hex-editor .hex-view-container {
+        min-width: 300px;
+        padding-left: 10px;
+}
+
+#hex-editor td {
+        height: 20px;
+        line-height: 20px;
+        padding: 1px;
+}
+
+#hex-editor td.empty {
+        width:auto;
+}
+
+#hex-editor .hex-view-container td{
+        width: 23px;
+        text-align: center;
+        cursor: pointer;
+}
+
+#hex-editor .plaintext-view-container td{
+        cursor: pointer;
+        width: 13px;
+        text-align: center;
+}
+
+
+#hex-editor table {
+        border-spacing: 0px;
+        width: 100%;
+}
+
+#hex-editor td {
+        font-family: monospace;
+}
+
+#hex-editor .linesNo td {
+        width: 60px;
+        background: lightgray;
+        text-align: right;
+        padding-right: 5px;
+}
+
+#hex-editor .r {
+        border-right: 1px solid dimGray;
+}
+
+#hex-editor ::-moz-selection{
+        background: #0065CB;
+        color:white;
+}
+
+#hex-editor ::-webkit-selection{
+        background: #0079F3;
+        color:white;
+}
+
+#hex-editor ::selection{
+        background: #0079F3;
+        color:white;
+}
+
+#hex-editor .selected {
+        background: #0065CB;
+        color: white;
+}
+
+#hex-editor td.selected-row {
+        color: black;
+        font-weight: bold;
+}
+
+/* Toolbar */
+
+
+#hex-editor .hex-editor-status {
+        position: absolute;
+        right: 0px;
+        bottom: 0px;
+}
+
+#hex-editor #hex-editor-help-text {
+        display: none;
+}
+
+
+.hex-editor-help-window {
+        font-size: 14px;
+        width: 500px;
+}
+
+.hex-editor-help-window h4 {
+        margin: 10px 0;
+        font-weight:bold;
+}
+
+.hex-editor-help-window p {
+        text-align:justify;
+        margin-bottom: 10px;
+}
+
+.hex-editor-help-window kbd {
+        padding: 2px 4px;
+        white-space: nowrap;
+        color: black;
+        background: #EEE;
+        border-width: 1px 3px 3px 1px;
+        border-style: solid;
+        border-color: #CCC #AAA #888 #BBB;
+}
+

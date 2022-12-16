@@ -1,0 +1,44 @@
+150530  0:11:24 [Note] Plugin 'InnoDB' is disabled.
+150530  0:11:24 [Note] Plugin 'FEDERATED' is disabled.
+150530  0:11:25 [Note] Event Scheduler: Loaded 0 events
+150530  0:11:25 [Note] D:\server\TWAMP_cleared_em2015\app\bin\mysqld.exe: ready for connections.
+Version: '5.1.36-community'  socket: ''  port: 3306  MySQL Community Server (GPL)
+150530  0:49:38 [Note] D:\server\TWAMP_cleared_em2015\app\bin\mysqld.exe: Normal shutdown
+
+150530  0:49:38 [Note] Event Scheduler: Purging the queue. 0 events
+150530  0:49:38 [Warning] Forcing shutdown of 2 plugins
+150530  0:49:38 [Note] D:\server\TWAMP_cleared_em2015\app\bin\mysqld.exe: Shutdown complete
+
+151105 17:22:04 [Note] Plugin 'InnoDB' is disabled.
+151105 17:22:04 [Note] Plugin 'FEDERATED' is disabled.
+151105 17:22:05 [Note] Event Scheduler: Loaded 0 events
+151105 17:22:05 [Note] D:\server\TWAMP_cleared_em20151105\app\bin\mysqld.exe: ready for connections.
+Version: '5.1.36-community'  socket: ''  port: 3306  MySQL Community Server (GPL)
+151105 17:45:00 [Note] D:\server\TWAMP_cleared_em20151105\app\bin\mysqld.exe: Normal shutdown
+
+151105 17:45:00 [Note] Event Scheduler: Purging the queue. 0 events
+151105 17:45:00 [Warning] Forcing shutdown of 2 plugins
+151105 17:45:00 [Note] D:\server\TWAMP_cleared_em20151105\app\bin\mysqld.exe: Shutdown complete
+
+151106 23:53:57 [Note] Plugin 'InnoDB' is disabled.
+151106 23:53:57 [Note] Plugin 'FEDERATED' is disabled.
+151106 23:53:58 [Note] Event Scheduler: Loaded 0 events
+151106 23:53:58 [Note] D:\server\emulTWAMP20151106\app\bin\mysqld.exe: ready for connections.
+Version: '5.1.36-community'  socket: ''  port: 3306  MySQL Community Server (GPL)
+151107  0:28:58 [Note] D:\server\emulTWAMP20151106\app\bin\mysqld.exe: Normal shutdown
+
+151107  0:28:58 [Note] Event Scheduler: Purging the queue. 0 events
+151107  0:28:58 [Warning] Forcing shutdown of 2 plugins
+151107  0:28:58 [Note] D:\server\emulTWAMP20151106\app\bin\mysqld.exe: Shutdown complete
+
+161007 23:11:23 [Note] Plugin 'InnoDB' is disabled.
+161007 23:11:23 [Note] Plugin 'FEDERATED' is disabled.
+161007 23:11:24 [Note] Event Scheduler: Loaded 0 events
+161007 23:11:24 [Note] F:\!BKP_Аспир_Разложить\emulTWAMP20151106\emulTWAMP20151106\app\bin\mysqld.exe: ready for connections.
+Version: '5.1.36-community'  socket: ''  port: 3306  MySQL Community Server (GPL)
+161007 23:26:27 [Note] F:\!BKP_Аспир_Разложить\emulTWAMP20151106\emulTWAMP20151106\app\bin\mysqld.exe: Normal shutdown
+
+161007 23:26:27 [Note] Event Scheduler: Purging the queue. 0 events
+161007 23:26:27 [Warning] Forcing shutdown of 2 plugins
+161007 23:26:27 [Note] F:\!BKP_Аспир_Разложить\emulTWAMP20151106\emulTWAMP20151106\app\bin\mysqld.exe: Shutdown complete
+

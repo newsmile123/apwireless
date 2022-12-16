@@ -1,0 +1,431 @@
+<HTML>
+<HEAD>
+	<TITLE>Mesh Interface Configuration</TITLE>
+	<LINK rel="stylesheet" href="../orinoco/css/global.css">
+	<SCRIPT language="javascript" src="../orinoco/scripts/library.js"></SCRIPT>
+	<SCRIPT language="javascript" src="../orinoco/scripts/test.js"></SCRIPT>
+
+
+ 	<SCRIPT language="javascript">
+		function setmeshtype(){
+	      		var meshMode = parseInt('1');      
+
+		 	   if (meshMode==1) {
+			       document.forms[0].meshlinks.disabled=true;	
+			       document.forms[0].hopcost.disabled=true;	
+			       document.forms[0].rssicost.disabled=true;	
+			       document.forms[0].medoccupancycost.disabled=true;	
+			       document.forms[0].rssicutoff.disabled=true;	
+			       document.forms[0].maxhopstoportal.disabled=true;	
+			       //document.forms[0].medoccavgfactor.disabled=true;	
+			       //document.forms[0].neighrssismooth.disabled=true;	
+			       document.forms[0].roamingthreshold.disabled=true;
+			       document.forms[0].fake_autoswitchmode.disabled=true;
+			       // document.forms[0].fake_beaconnouplink.disabled=true;
+			       // document.forms[0].fake_sendclideauthmsgnouplink.disabled=true;
+		           }
+		           else {
+			       document.forms[0].meshlinks.disabled=false;	
+			       document.forms[0].hopcost.disabled=false;	
+			       document.forms[0].rssicost.disabled=false;	
+			       document.forms[0].medoccupancycost.disabled=false;	
+			       document.forms[0].rssicutoff.disabled=false;	
+			       document.forms[0].maxhopstoportal.disabled=false;	
+			       //document.forms[0].medoccavgfactor.disabled=false;	
+			       //document.forms[0].neighrssismooth.disabled=false;	
+			       document.forms[0].roamingthreshold.disabled=false;	
+			       if (meshMode==2)
+			       {
+			             document.forms[0].fake_autoswitchmode.disabled=false;
+			             // document.forms[0].fake_beaconnouplink.disabled=true;
+			            //  document.forms[0].fake_sendclideauthmsgnouplink.disabled=true;
+			       }
+			       else
+			       {
+			             document.forms[0].fake_autoswitchmode.disabled=true;
+			             // document.forms[0].fake_beaconnouplink.disabled=false;
+			             // document.forms[0].fake_sendclideauthmsgnouplink.disabled=false;
+			             document.forms[0].autoswitchmode.value=2;
+			       }
+		           }
+		}
+				
+		function MeshAdvParamReset()
+		{
+			//oriMeshConfigMeshAdvResetToDefault		
+			document.forms[0].MeshResetToDefault.value = 2;
+			modifys(document.getElementById("MeshResetToDefault"));
+			transmit();
+		}
+
+function checkAutoModeSwitch()
+{
+	var fake_autoSwitchModeObj = document.getElementById("fake_autoswitchmode");
+	if (fake_autoSwitchModeObj.checked == true)
+		document.forms[0].autoswitchmode.value = 1;
+	else
+		document.forms[0].autoswitchmode.value = 2;
+	modifys(document.forms[0].autoswitchmode);
+}
+
+function checkBeaconNoUplink()
+{
+	var fake_BeaconNoUplinkObj = document.getElementById("fake_beaconnouplink");
+	if (fake_BeaconNoUplinkObj.checked == true)
+		document.forms[0].beaconnouplink.value = 1;
+	else
+		document.forms[0].beaconnouplink.value = 2;
+	modifys(document.forms[0].beaconnouplink);
+}
+
+function checkSendCliDeauthMsgNoUplink()
+{
+	var fake_SendCliDeauthMsgNoUplinkObj = document.getElementById("fake_sendclideauthmsgnouplink");
+	if (fake_SendCliDeauthMsgNoUplinkObj.checked == true)
+		document.forms[0].sendclideauthmsgnouplink.value = 1;
+	else
+		document.forms[0].sendclideauthmsgnouplink.value = 2;
+	modifys(document.forms[0].sendclideauthmsgnouplink);
+}
+
+	</SCRIPT>
+	
+</HEAD>
+
+<BODY  style="margin:0px" background="../orinoco/images/bg.gif" rightmargin="0">
+
+<SCRIPT language="javascript">
+   
+        
+var AP2000 = "1.3.6.1.4.1.11898.2.4.6";
+	var AP600  = "1.3.6.1.4.1.11898.2.4.10";
+	var AP4000 = "1.3.6.1.4.1.11898.2.4.12";
+    var AP700  = "1.3.6.1.4.1.11898.2.4.13";
+	var domain = '48';
+
+    var MeshLicensed = 1;
+    if (MeshLicensed == 0) {
+        location.href="noMeshLicense.html";
+    }
+
+	// check product is mesh capable
+    var ProductId  = "1.3.6.1.4.1.11898.2.4.12";	
+	if((ProductId.indexOf(AP2000) !=-1) || (ProductId.indexOf(AP600) !=-1) ||
+       (ProductId.indexOf(AP700) != -1)) 
+	     location.href="meshinvalid.html";
+
+    // check product is mesh enabled
+	var meshMode = parseInt('1');            
+    if (meshMode == 0){
+	   // mesh not supported	
+	   location.href="meshinvalid.html";
+    }
+	   
+    if( domain == 0x81 ) {		
+			location.href="CountryError3.html";
+	}
+	   
+    var objId  = "1.3.6.1.4.1.11898.2.4.12";						
+	grp_live = 1;
+	subgrp_live = 2;
+	tri_grp_live = 7;
+	var interfaceA = '4 ';
+    var interfaceB = '6 ';
+    tri_subgrp_live=2;
+    if(interfaceA!=' ') tri_subgrp_live++;
+    if(interfaceB!=' ') tri_subgrp_live++;
+</SCRIPT>
+<SCRIPT language="javascript" src="../orinoco/scripts/menu.js"></SCRIPT>
+
+<!-- Start Header -->
+<!-- <BODY style="margin:0px"> -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0">
+	<TR>
+		<TD>
+			<TABLE width="150" height="90" cellpadding="0" cellspacing="0">
+			<TR>
+			<TD valign="top"><IMG src="../orinoco/images/logo.gif"></TD>
+			</TR>
+			<TR>
+			<TD align="right">&nbsp;</TD>
+			</TR>
+			</TABLE>
+		</TD>
+		<TD valign="bottom">
+			<TABLE cellpadding="0" cellspacing="0" width="100%"> <!-- For the table -->
+				<!-- For the first row -->
+				<TR>
+					<TD>
+						<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+							<SCRIPT language="javascript">
+		                            		var ProductId  = "1.3.6.1.4.1.11898.2.4.12";													
+                                                                var slotA = '4 ';
+		                            		        var slotB = '6 ';
+		                            		        var secModeA = '6';  
+		                            		        var secModeB = '1';  
+								InitMenu(ProductId, slotA, slotB, secModeA, secModeB);
+								var nbrTabs = subNumArray[grp_live];
+								if(nbrTabs>5)
+								{
+									var start,finish;
+									var nbrTabsDivbyTwo = (nbrTabs - (nbrTabs%2))/2;
+									if(subgrp_live >= (nbrTabsDivbyTwo + (nbrTabs%2)) )
+									{
+										start = 0;
+										finish = nbrTabsDivbyTwo -1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = nbrTabsDivbyTwo;
+											finish = nbrTabs-1;
+										}
+										else
+										{
+											start = nbrTabsDivbyTwo+1;
+										finish = nbrTabs-1;
+									}
+										
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,1,1);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+									document.write('</TABLE>');
+									document.write('</TD>');
+									document.write('</TR>');
+									<!-- For the second row -->
+									document.write('<TR>');
+									document.write('<TD>');
+									document.write('<TABLE class="tabrow" cellpadding="0" cellspacing="0">');
+									if(subgrp_live >= (nbrTabsDivbyTwo+ (nbrTabs%2)))
+									{
+										start = nbrTabsDivbyTwo;
+										finish = nbrTabs-1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = 0;
+											finish = nbrTabsDivbyTwo-1;
+										}
+										else
+										{
+										start = 0;
+											finish = nbrTabsDivbyTwo;
+										}
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,2,0);
+									document.write('<TD align="middle" background="../orinoco/images/iedge.gif">&nbsp;</TD>');
+								}
+								else
+								{
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,0,nbrTabs-1,0,0);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+								}
+							</SCRIPT>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+
+	
+	<TR>
+		<TD valign="top">
+			<TABLE align="center" cellpadding="10" cellspacing="0">
+				<SCRIPT language="javascript">
+					drawButtons(grp,grp_live);
+				</SCRIPT>
+			</TABLE>
+		</TD>
+<!-- End Header -->
+
+<TD bgcolor="white" height="95%" valign="top">
+<TABLE bgcolor="white" style="margin-left:25px; margin-bottom:25; margin-top: 5px" cellspacing="0" cellpadding="0" border="0" width="588">
+<!-- Start Subtabs -->
+
+	<TR>
+		<TD>
+			<TABLE cellpadding="0" cellspacing="0" width="95%">
+				<TR>
+					<TD>&nbsp;</TD>
+				</TR>
+				<TR>
+					<TD>
+						<TABLE cellpadding="0" cellspacing="0" width="100%">
+							<TR>
+								<TD>
+									<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+										<SCRIPT language="javascript">
+											var nbrTabs = subNumArray[tri_grp_live];
+											drawTabRow(subgrpArray[tri_grp_live],tri_grp_live,tri_subgrp_live,0,nbrTabs-1,4,0);
+										</SCRIPT>
+										<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>
+									</TABLE>
+								</TD>
+								<TD align="right" class="subtab-corner">&nbsp;</TD>
+							</TR>
+						</TABLE>
+					</TD>
+				</TR>
+				<!-- End Subtabs -->
+				<TR>					
+					<TD>
+						<TABLE bgcolor="white" cellpadding="0" cellspacing="0" border="0">
+						<TR>
+							<TD background="../orinoco/images/left_line.gif">&nbsp;</TD>
+
+
+
+<!-- BEGIN CONTENT //-->
+<TD width="100%">
+	<TABLE>
+	   <TR><TD class="verbiage"><P>The parameters on this page are preconfigured with default settings that optimize the type of network you identified in the Mesh Mobility parameter on the previous page. Proxim recommends changing these values only if you have advanced knowledge of Mesh Networking. See the User Guide for parameter descriptions. </p></TD></TR>
+	   <TR><TD class="verbiage"><P>This page is used to configure Mesh advanced functionality on the access point. </p></TD></TR>
+	   <TR><TD align="right" width="100%"><A href="javascript:window.history.back()"><IMG src="../orinoco/images/back.gif" width="32" height="32" alt="Back" border="0"></A></TD></TR>
+	</TABLE>
+	<FORM method="post" ACTION="if-mesh-adv.html">
+	<TABLE cellpadding="1" cellspacing="1"  width="90%" border="0" style="margin-top:10px">			
+		<SCRIPT  LANGUAGE="JavaScript" >		       	      			
+			   
+      		      var meshMode = parseInt('1');      		       
+      		      var ifNum = parseInt('4');
+      		      var secMode = parseInt('2');				  	      		                                         
+      		      var maxLinks = parseInt('6');				  	      		                                         
+      		      var maxHops = parseInt('4');				  	      		                                         
+      		      var roamingThresholdVal = parseInt('40');				  	      		                                         
+				 
+                  document.write('<TR><td>Maximum Active Mesh Links</td><TD><INPUT onChange="modifys(this)" type="text" class="formtext" name="EmWeb_ns:snmp:202" id="meshlinks" VALUE="6">');
+		    if(meshMode==2) document.write (' (Range 1 to 32)</TD></TR>');				  
+		    else if(meshMode==3) document.write (' (Range 1 to 6)</TD></TR>');	
+		    else document.write (' (Range 1 to 32)</TD></TR>');	
+                  document.write('<TR><td>Maximum Hops to Portal</td><TD><INPUT onChange="modifys(this)" type="text" class="formtext" name="EmWeb_ns:snmp:203" id="maxhopstoportal" VALUE="4"> (Range 1 to 4)</TD></TR>');				  
+                  document.write('<TR><td>Hop Factor</td><TD><INPUT onChange="modifys(this)" type="text" class="formtext" name="EmWeb_ns:snmp:205" id="hopcost" VALUE="2"> (Level 0 to 10)</TD></TR>');				  
+                  document.write('<TR><td>RSSI Factor</td><TD><INPUT onChange="modifys(this)" type="text" class="formtext" name="EmWeb_ns:snmp:206" id="rssicost" VALUE="5"> (Level 0 to 10)</TD></TR>');				  
+                  document.write('<TR><td>Medium Occupancy Factor</td><TD><INPUT onChange="modifys(this)" type="text" class="formtext" name="EmWeb_ns:snmp:207" id="medoccupancycost" VALUE="0"> (Level 0 to 10)</TD></TR>');				  
+                  document.write('<TR><td>Receive Signal Strength Cut-Off</td><TD><INPUT onChange="modifys(this)" type="text" class="formtext" name="EmWeb_ns:snmp:208" id="rssicutoff" VALUE="7"> (Range 0 to 26)</TD></TR>');				  
+                  document.write('<TR><td>Roaming Threshold</td><TD><INPUT onChange="modifys(this)" type="text" class="formtext" name="EmWeb_ns:snmp:204" id="roamingthreshold" VALUE="40"> (Range 1 to 100)</TD></TR>');	
+                  document.write('<TR><td>User Defined Cost</td><TD><INPUT onChange="modifys(this)" type="text" class="formtext" name="EmWeb_ns:snmp:209" id="userdefcost" VALUE="0"> (Range 0 to 800)</TD></TR>');	
+				  //setmeshtype();
+ 			</SCRIPT> 					
+		<TR><TD colspan="2"><IMG src="../orinoco/images/spacer.gif" width="100%" height="15"></TD></TR>
+		<TR><TD><INPUT type="hidden" class="formtext" name="EmWeb_ns:snmp:210" id="MeshResetToDefault" VALUE="1"></TD></TR>
+		<TR><TD colspan="2" align="right"><img src="../orinoco/images/default.gif" onclick="MeshAdvParamReset()" border="0" ></TD></TR>
+		<TR><TD colspan="2"><IMG src="../orinoco/images/spacer.gif" width="100%" height="15"></TD></TR>
+		<TR>
+			<br><hr align="left" color="#B4C3D" width="560" size="1"><br>
+			<TD colspan="2" align="center">
+				<TABLE cellpadding="0" border="0" width="270">
+					<TR><TD><br><hr align="left" color="#B4C3D" width="560" size="1"><br></TD></TR>
+
+					<TR><TD class="verbiage" align="left"><P>Note: Auto Switch Mode is applicable only for a Portal.  Depending on the Ethernet connection, if the Auto Switch Mode is enabled, the Current Mesh Mode may be different from the configured mode.</P></TD></TR>
+
+					<SCRIPT  LANGUAGE="JavaScript" >		       	      			
+
+						var meshMode = parseInt('1');      		       
+						var autoswitch = parseInt('2');
+						var currentMode = parseInt('1');
+						var beaconNoUplink = parseInt('0');
+						var sendClientDeauthMsg = parseInt('2');
+
+						document.write('<TR>');
+						document.write('<INPUT type="hidden" id="autoswitchmode" name="EmWeb_ns:snmp:211" VALUE="2">');
+						document.write('<TD>Enable Auto Switch Mesh Mode</TD>');
+						document.write('<TD><INPUT type="checkbox" id="fake_autoswitchmode" onClick="checkAutoModeSwitch();" ');
+						if(autoswitch==1){ document.write(' CHECKED '); }
+						document.write('></TD>');
+						document.write('</TR>');
+
+						document.write('<TR>');
+						document.write('<td>Current Mesh Mode</td>');
+						document.write('<TD align="left" class="readonly">');
+						if (autoswitch == 1)	// enable
+						{
+							if(currentMode == 1) { document.write('Disable'); }
+							else if(currentMode == 2) { document.write('Mesh Portal'); }
+							else if(currentMode == 3) { document.write('Mesh AP'); }
+							else { document.write('Not Applicable'); }
+						}
+						else // disable, display the meshMode rather than the currentMode
+						{ 
+							if(meshMode == 1) { document.write('Disable'); }
+							else if(meshMode == 2) { document.write('Mesh Portal'); }
+							else if(meshMode == 3) { document.write('Mesh AP'); }
+							else { document.write('Not Applicable'); }
+						}
+						document.write('</TD>');
+						document.write('</TR>');
+
+						document.write('<TR>');
+						document.write('<INPUT type="hidden" id="beaconnouplink" name="EmWeb_ns:snmp:213" VALUE="0">');
+						document.write('<TD>Disable Client Access on No Uplink Connection</TD>');
+						document.write('<TD><INPUT type="checkbox" id="fake_beaconnouplink" onClick="checkBeaconNoUplink();" ');
+						if(beaconNoUplink==1){ document.write(' CHECKED '); }
+						document.write('></TD>');
+						document.write('</TR>');
+
+						document.write('<TR>');
+						document.write('<INPUT type="hidden" id="sendclideauthmsgnouplink" name="EmWeb_ns:snmp:214" VALUE="2">');
+						document.write('<TD>Notify Clients  On Uplink Change </TD>');
+						document.write('<TD><INPUT type="checkbox" id="fake_sendclideauthmsgnouplink" onClick="checkSendCliDeauthMsgNoUplink();" ');
+						if(sendClientDeauthMsg==1){ document.write(' CHECKED '); }
+						document.write('></TD>');
+						document.write('</TR>');
+
+						//setmeshtype();
+
+					</SCRIPT> 					
+					<TR><TD><br><hr align="left" color="#B4C3D" width="560" size="1"><br></TD></TR>
+					<TR>
+						<TD><A href="javascript:transmit()"><IMG src="../orinoco/images/ok.gif" width="93" height="25" alt="Ok" border="0"></A></TD>
+						<TD><A href="javascript:cancel()"><IMG src="../orinoco/images/cancel.gif" width="93" height="25" alt="Cancel" border="0"></A></TD>
+					</TR>
+				</TABLE>
+			</TD>
+		</TR>
+		<SCRIPT  LANGUAGE="JavaScript" >
+			setmeshtype();
+		</SCRIPT>
+		</TABLE>
+	</FORM>
+</TD>
+<!-- END CONTENT //-->
+
+
+
+							<TD background="../orinoco/images/right_line.gif">&nbsp;</TD>
+						</TR>
+						<TR>
+							<TD><IMG src="../orinoco/images/bottomleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+							<TD><IMG src="../orinoco/images/bottom_line.gif" width="100%" height="25" alt="" border="0"></TD>
+							<TD><IMG src="../orinoco/images/bottomright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+						</TR>
+
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+
+
+		</TD>
+	</TR>
+</TR>
+</TABLE>
+
+<!-- Start Footer -->
+	<FORM name="rebootform" method="post" ACTION="../prototail.html">
+		<INPUT type="hidden" id="rebootflag" name="EmWeb_ns:snmp:568" value="0" class="formtext">
+	</FORM>
+
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
+<!-- End Footer -->
+
+
+
+</BODY>
+</HTML>

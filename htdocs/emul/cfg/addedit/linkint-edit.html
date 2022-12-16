@@ -1,0 +1,392 @@
+<HTML>
+<HEAD>
+<TITLE>Link Integrity Target IP Address Table Configuration</TITLE><LINK rel="stylesheet" href="../../orinoco/css/global.css">
+<SCRIPT src="../../orinoco/scripts/library.js">
+</SCRIPT>
+</HEAD>
+<BODY style="margin:0px" rightmargin="0" background="../../orinoco/images/bg.gif">
+<SCRIPT language="javascript">
+grp_live = 1;
+subgrp_live = 1;
+</SCRIPT>
+<SCRIPT language="javascript" src="../../orinoco/scripts/menu.js"></SCRIPT>
+
+<!-- Start Header -->
+<!-- <BODY style="margin:0px"> -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0">
+	<TR>
+		<TD>
+			<TABLE width="150" height="90" cellpadding="0" cellspacing="0">
+			<TR>
+			<TD valign="top"><IMG src="../../orinoco/images/logo.gif"></TD>
+			</TR>
+			<TR>
+			<TD align="right">&nbsp;</TD>
+			</TR>
+			</TABLE>
+		</TD>
+		<TD valign="bottom">
+			<TABLE cellpadding="0" cellspacing="0" width="100%"> <!-- For the table -->
+				<!-- For the first row -->
+				<TR>
+					<TD>
+						<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+							<SCRIPT language="javascript">
+		                            		var ProductId  = "1.3.6.1.4.1.11898.2.4.12";													
+                                                                var slotA = '4 ';
+		                            		        var slotB = '6 ';
+		                            		        var secModeA = '6';  
+		                            		        var secModeB = '1';  
+								InitMenu(ProductId, slotA, slotB, secModeA, secModeB);
+								var nbrTabs = subNumArray[grp_live];
+								if(nbrTabs>5)
+								{
+									var start,finish;
+									var nbrTabsDivbyTwo = (nbrTabs - (nbrTabs%2))/2;
+									if(subgrp_live >= (nbrTabsDivbyTwo + (nbrTabs%2)) )
+									{
+										start = 0;
+										finish = nbrTabsDivbyTwo -1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = nbrTabsDivbyTwo;
+											finish = nbrTabs-1;
+										}
+										else
+										{
+											start = nbrTabsDivbyTwo+1;
+										finish = nbrTabs-1;
+									}
+										
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,1,1);
+									document.write('<TD align="middle" background="../../orinoco/images/edge.gif">&nbsp;</TD>');
+									document.write('</TABLE>');
+									document.write('</TD>');
+									document.write('</TR>');
+									<!-- For the second row -->
+									document.write('<TR>');
+									document.write('<TD>');
+									document.write('<TABLE class="tabrow" cellpadding="0" cellspacing="0">');
+									if(subgrp_live >= (nbrTabsDivbyTwo+ (nbrTabs%2)))
+									{
+										start = nbrTabsDivbyTwo;
+										finish = nbrTabs-1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = 0;
+											finish = nbrTabsDivbyTwo-1;
+										}
+										else
+										{
+										start = 0;
+											finish = nbrTabsDivbyTwo;
+										}
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,2,0);
+									document.write('<TD align="middle" background="../../orinoco/images/iedge.gif">&nbsp;</TD>');
+								}
+								else
+								{
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,0,nbrTabs-1,0,0);
+									document.write('<TD align="middle" background="../../orinoco/images/edge.gif">&nbsp;</TD>');
+								}
+							</SCRIPT>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+
+	
+	<TR>
+		<TD valign="top">
+			<TABLE align="center" cellpadding="10" cellspacing="0">
+				<SCRIPT language="javascript">
+					drawButtons(grp,grp_live);
+				</SCRIPT>
+			</TABLE>
+		</TD>
+<!-- End Header -->
+
+				<TD colspan="2" bgcolor="white" height="100%" valign="top">
+					<TABLE cellpadding="0" cellspacing="0" border="0" width="50%" style="margin-left:50px; margin-bottom:25; margin-top:5px">
+					<TD>	
+				<TR>
+						<TD align="right" width="100%"><A href="javascript:window.history.back()"><IMG src="../../orinoco/images/back.gif" width="32" height="32" alt="Back" border="0"></A></TD>
+					</TR>
+						<TR>
+							<TD colspan="2" class="header">Link Integrity Target IP Table - Edit Entries</TD>
+							</TR>							
+							<TR><TD class="verbiage">
+							<SCRIPT language="javascript">
+						var meshMode = parseInt('1'); 							
+				        if (meshMode == 3) { //mesh AP
+							document.write('<TR><TD colspan="2" class="verbiage">');
+						    document.write('<P>Mesh is currently enabled on this wireless interface. Link integrity cannot be configured when the AP is configured to function as a Mesh AP.</P>');	
+							document.write('</TD></TR><TR><TD>&nbsp;</TD></TR>');
+				        }
+						</SCRIPT>
+							
+				<FORM method="post" ACTION="linkint-edit.html/add">
+
+					
+						<TR><!-- *************Put the body here*************** -->
+							<TD>Target IP Address</TD>							
+							<SCRIPT language="javascript">
+							     document.write('<TD><INPUT onchange="modify(this)" name="EmWeb_ns:snmp:78.1" value="0.0.0.0" type="text" class="formtext" ');
+							     if (meshMode == 3) { 
+								 	document.write(' DISABLED ');
+							     }
+								 document.write('></TD>');
+								 
+							</SCRIPT>
+						</TR>
+						<TR>
+							<TD>Comment</TD>														
+							<SCRIPT language="javascript">
+							     document.write('<TD><INPUT onchange="modify(this)" name="EmWeb_ns:snmp:79.1" value="" type="text" class="formtext" ');
+							     if (meshMode == 3) { 
+								 	document.write(' DISABLED ');
+							     }
+								 document.write('></TD>');									 
+							</SCRIPT>							
+						</TR>
+						<TR>
+							<TD>Status</TD>														
+							<SCRIPT language="javascript">
+							    var option = 2;
+
+							    document.write('<TD><SELECT class="formdropdown" name="EmWeb_ns:snmp:81.1" onchange="modify(this)" ');
+								if (meshMode == 3) { 
+								 	document.write(' DISABLED ');
+							     }
+								
+								document.write('><OPTION VALUE=1 ');
+								if(option == 1) {
+									document.write(' SELECTED ');
+								}		
+								document.write('>Enable<OPTION VALUE=2 ');
+								if(option == 2) {
+									document.write(' SELECTED ');
+								}	
+								document.write('>Disable</SELECT></TD>');
+							   
+							</SCRIPT>								
+						</TR>
+						<TR>
+							<TD colspan="2"><IMG src="../../orinoco/images/spacer.gif" width="340" height="30" alt="" border="0"></TD>
+					</TR>
+						<TR><!-- *************Put the body here*************** -->
+							<TD>Target IP Address</TD>							
+							<SCRIPT language="javascript">
+							     document.write('<TD><INPUT onchange="modify(this)" name="EmWeb_ns:snmp:78.2" value="0.0.0.0" type="text" class="formtext" ');
+							     if (meshMode == 3) { 
+								 	document.write(' DISABLED ');
+							     }
+								 document.write('></TD>');
+								 
+							</SCRIPT>
+						</TR>
+						<TR>
+							<TD>Comment</TD>														
+							<SCRIPT language="javascript">
+							     document.write('<TD><INPUT onchange="modify(this)" name="EmWeb_ns:snmp:79.2" value="" type="text" class="formtext" ');
+							     if (meshMode == 3) { 
+								 	document.write(' DISABLED ');
+							     }
+								 document.write('></TD>');									 
+							</SCRIPT>							
+						</TR>
+						<TR>
+							<TD>Status</TD>														
+							<SCRIPT language="javascript">
+							    var option = 2;
+
+							    document.write('<TD><SELECT class="formdropdown" name="EmWeb_ns:snmp:81.2" onchange="modify(this)" ');
+								if (meshMode == 3) { 
+								 	document.write(' DISABLED ');
+							     }
+								
+								document.write('><OPTION VALUE=1 ');
+								if(option == 1) {
+									document.write(' SELECTED ');
+								}		
+								document.write('>Enable<OPTION VALUE=2 ');
+								if(option == 2) {
+									document.write(' SELECTED ');
+								}	
+								document.write('>Disable</SELECT></TD>');
+							   
+							</SCRIPT>								
+						</TR>
+						<TR>
+							<TD colspan="2"><IMG src="../../orinoco/images/spacer.gif" width="340" height="30" alt="" border="0"></TD>
+					</TR>
+						<TR><!-- *************Put the body here*************** -->
+							<TD>Target IP Address</TD>							
+							<SCRIPT language="javascript">
+							     document.write('<TD><INPUT onchange="modify(this)" name="EmWeb_ns:snmp:78.3" value="0.0.0.0" type="text" class="formtext" ');
+							     if (meshMode == 3) { 
+								 	document.write(' DISABLED ');
+							     }
+								 document.write('></TD>');
+								 
+							</SCRIPT>
+						</TR>
+						<TR>
+							<TD>Comment</TD>														
+							<SCRIPT language="javascript">
+							     document.write('<TD><INPUT onchange="modify(this)" name="EmWeb_ns:snmp:79.3" value="" type="text" class="formtext" ');
+							     if (meshMode == 3) { 
+								 	document.write(' DISABLED ');
+							     }
+								 document.write('></TD>');									 
+							</SCRIPT>							
+						</TR>
+						<TR>
+							<TD>Status</TD>														
+							<SCRIPT language="javascript">
+							    var option = 2;
+
+							    document.write('<TD><SELECT class="formdropdown" name="EmWeb_ns:snmp:81.3" onchange="modify(this)" ');
+								if (meshMode == 3) { 
+								 	document.write(' DISABLED ');
+							     }
+								
+								document.write('><OPTION VALUE=1 ');
+								if(option == 1) {
+									document.write(' SELECTED ');
+								}		
+								document.write('>Enable<OPTION VALUE=2 ');
+								if(option == 2) {
+									document.write(' SELECTED ');
+								}	
+								document.write('>Disable</SELECT></TD>');
+							   
+							</SCRIPT>								
+						</TR>
+						<TR>
+							<TD colspan="2"><IMG src="../../orinoco/images/spacer.gif" width="340" height="30" alt="" border="0"></TD>
+					</TR>
+						<TR><!-- *************Put the body here*************** -->
+							<TD>Target IP Address</TD>							
+							<SCRIPT language="javascript">
+							     document.write('<TD><INPUT onchange="modify(this)" name="EmWeb_ns:snmp:78.4" value="0.0.0.0" type="text" class="formtext" ');
+							     if (meshMode == 3) { 
+								 	document.write(' DISABLED ');
+							     }
+								 document.write('></TD>');
+								 
+							</SCRIPT>
+						</TR>
+						<TR>
+							<TD>Comment</TD>														
+							<SCRIPT language="javascript">
+							     document.write('<TD><INPUT onchange="modify(this)" name="EmWeb_ns:snmp:79.4" value="" type="text" class="formtext" ');
+							     if (meshMode == 3) { 
+								 	document.write(' DISABLED ');
+							     }
+								 document.write('></TD>');									 
+							</SCRIPT>							
+						</TR>
+						<TR>
+							<TD>Status</TD>														
+							<SCRIPT language="javascript">
+							    var option = 2;
+
+							    document.write('<TD><SELECT class="formdropdown" name="EmWeb_ns:snmp:81.4" onchange="modify(this)" ');
+								if (meshMode == 3) { 
+								 	document.write(' DISABLED ');
+							     }
+								
+								document.write('><OPTION VALUE=1 ');
+								if(option == 1) {
+									document.write(' SELECTED ');
+								}		
+								document.write('>Enable<OPTION VALUE=2 ');
+								if(option == 2) {
+									document.write(' SELECTED ');
+								}	
+								document.write('>Disable</SELECT></TD>');
+							   
+							</SCRIPT>								
+						</TR>
+						<TR>
+							<TD colspan="2"><IMG src="../../orinoco/images/spacer.gif" width="340" height="30" alt="" border="0"></TD>
+					</TR>
+						<TR><!-- *************Put the body here*************** -->
+							<TD>Target IP Address</TD>							
+							<SCRIPT language="javascript">
+							     document.write('<TD><INPUT onchange="modify(this)" name="EmWeb_ns:snmp:78.5" value="0.0.0.0" type="text" class="formtext" ');
+							     if (meshMode == 3) { 
+								 	document.write(' DISABLED ');
+							     }
+								 document.write('></TD>');
+								 
+							</SCRIPT>
+						</TR>
+						<TR>
+							<TD>Comment</TD>														
+							<SCRIPT language="javascript">
+							     document.write('<TD><INPUT onchange="modify(this)" name="EmWeb_ns:snmp:79.5" value="" type="text" class="formtext" ');
+							     if (meshMode == 3) { 
+								 	document.write(' DISABLED ');
+							     }
+								 document.write('></TD>');									 
+							</SCRIPT>							
+						</TR>
+						<TR>
+							<TD>Status</TD>														
+							<SCRIPT language="javascript">
+							    var option = 2;
+
+							    document.write('<TD><SELECT class="formdropdown" name="EmWeb_ns:snmp:81.5" onchange="modify(this)" ');
+								if (meshMode == 3) { 
+								 	document.write(' DISABLED ');
+							     }
+								
+								document.write('><OPTION VALUE=1 ');
+								if(option == 1) {
+									document.write(' SELECTED ');
+								}		
+								document.write('>Enable<OPTION VALUE=2 ');
+								if(option == 2) {
+									document.write(' SELECTED ');
+								}	
+								document.write('>Disable</SELECT></TD>');
+							   
+							</SCRIPT>								
+						</TR>
+						<TR>
+							<TD colspan="2"><IMG src="../../orinoco/images/spacer.gif" width="340" height="30" alt="" border="0"></TD>
+					</TR>
+															<tr>
+						<TD align="center"><A href="javascript:transmit()"><IMG src="../../orinoco/images/ok.gif" width="93" height="25" alt="OK" border="0"></A></TD>
+																<TD align="center"><A href="javascript:cancel()"><IMG src="../../orinoco/images/cancel.gif" width="93" height="25" alt="Cancel" border="0"></A></TD>
+															</TR>
+														</table></td>
+
+
+</FORM>
+</TD>
+<!-- Start Footer -->
+	<FORM name="rebootform" method="post" ACTION="../../prototail.html">
+		<INPUT type="hidden" id="rebootflag" name="EmWeb_ns:snmp:568" value="0" class="formtext">
+	</FORM>
+
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
+<!-- End Footer -->
+
+</BODY>
+</HTML>

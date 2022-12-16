@@ -1,0 +1,916 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" class="no-js">
+    <head>
+        <title>RC4 Encryption &ndash; Easily encrypt or decrypt strings or files</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="Content-Style-Type" content="text/css">
+
+        <meta name="description" content="Online interface for RC4 encryption algorithm, also known as ARCFOUR, an algorithm that is used within popular cryptographic protocols such as SSL or WEP.">
+        <meta name="keywords" content="symmetric,cipher,symmetric key,AES,3DES,BLOWFISH,symmetric algorithm,cryptography,symetric,key,shared key,encryption,decryption">
+        <meta name="author" content="Online Domain Tools Team">
+
+
+        
+
+        <!-- Application CSS -->
+                <link rel="stylesheet" media="screen,projection,tv" href="/temp/application.min.css?2.0.3.07" type="text/css">
+        <!-- </Application CSS> -->
+
+        <!-- <Application JS> -->
+                <script type="text/javascript" src="/temp/application.min.js?2.0.3.07"></script>
+        <!-- </Application JS> -->
+
+        <link rel="alternate" type="application/rss+xml" title="Online Domain Tools RSS" href="http://online-domain-tools.com/rss">
+
+        
+
+                <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+            
+            
+
+                    <link rel="stylesheet" href="/css/modules/Tools.css?v=2.0.3.07" type="text/css" media="all">
+
+
+
+        <link rel="stylesheet" href="/js/vendor/chosen/chosen.css" type="text/css" media="all">
+
+        <!-- <PageJS> -->
+                        <script type="text/javascript" src="/temp/Tools.SymmetricCiphersRc4.default.2014.06.11-15-19.js?2.0.3.07"></script>
+        <!-- </PageJS> -->
+
+
+        <!-- <PageCSS> -->
+                        <link rel="stylesheet" media="screen,projection,tv" href="/temp/Tools.SymmetricCiphersRc4.default.2014.06.11-15-19.css?2.0.3.07" type="text/css">
+        <!-- </PageCSS> -->
+
+        
+
+        <!--[if !IE 7]>
+                <style type="text/css">
+                        #wrap { display:table;height:100%}
+                </style>
+        <![endif]-->
+
+        <!--[if lte IE 7]>
+        <script language="javascript" type="text/javascript">
+                if (window.location.href != 'http://online- domain- tools.com/information/supported- browsers') {
+                        window.location.href = 'http://online- domain- tools.com/information/supported- browsers';
+                }
+        </script>
+        <![endif]-->
+
+        <!--[if IE 8]>
+        <script src="/js/compatibility/IE8.js"></script>
+        <![endif]-->
+
+                <noscript>
+                <style type="text/css">
+                        #odt-tool-login-form.hidden {
+                                display: block !important;
+                        }
+
+                        #odt-tool-form #signup-table {
+                                display: block !important;
+                        }
+                </style>
+        </noscript>
+
+
+
+    </head>
+        <body class="js-off ajaxify env-prod" data-version="www">
+        <script type="text/javascript">
+              $(document.body).addClass('js-on').removeClass('js-off');
+        </script>
+
+        <div id="wrap">
+
+
+<div id="header-bar" class="header-bar">
+                <div class="banner">
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- odt - leaderboard top -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:728px;height:90px"
+                         data-ad-client="ca-pub-4053170099196177"
+                         data-ad-slot="4798471871"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+
+    <div id="header" class="header">
+        <div id="header-odt-logo">
+            <a id="odt-logo" href="http://online-domain-tools.com/"><img alt="Online-Domain-Tools.com" src="http://rc4.online-domain-tools.com/css/general/img/logos/odt-60p.png"></a>
+        </div>
+        <div class="banner-upper">
+<div id="odt-userbar" class="odt-userbar" style="">
+    <div class="content" style="position:relative;">
+<div id="snippet-userBar-userbarMain">            <div id="odt.account-balance" class="hidden">3.70</div>
+            <div id="odt.account.green-credits" class="hidden">0.7</div>
+            <div id="odt.account.blue-credits" class="hidden">3</div>
+            <div id="odt.account.daily-credits" class="hidden">0.8</div>
+
+
+            <table id="odt-userbar.table" class="table">
+                <tr>
+                    <td style="text-align: right;">
+                            <span class="name right-margin">Anonymous user / 91.238.231.238</span>
+
+                            <a class="right-margin" href="https://secured.online-domain-tools.com/user.login/?destination=http%3A%2F%2Frc4.online-domain-tools.com">Log In</a>
+
+                            <a href="https://secured.online-domain-tools.com/user.sign-up.step1/">Register</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;">
+                        <a id="odt.userbar.hint" href="" style="display: block;position: absolute; right: -14px;top:22px;font-weight:bold;font-size:13px;">?</a>
+                        <a href="https://secured.online-domain-tools.com/user.accounts.credits-and-orders.overview/" class="no-hover odt-userbar-shop-link">
+                            <div style="margin-right: 20px;display:inline-block;">
+                                <span class="black">Wallet:</span>
+                                <span class="odt-blue-credits">3.00</span>
+                            </div>
+                            <div style="display:inline-block;">
+                                <span class="black">Daily Credits:</span>
+                                <div style="display:inline-block;" id="odt.userbar.daily.credits">
+                                    <span class="odt-green-credits">0.70</span> / <span class="odt-green-credits">0.80</span>
+                                </div>
+                            </div>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+
+</div>
+        <div style="display:none;" id="odt.userbar.hint.window.html">
+            <div style="width: 600px;">
+                <b style="font-size: 18px; display: inline-block;margin-bottom: 15px;">Credits</b>
+                (<a href="http://online-domain-tools.com/information/pricing">see the full information about pricing</a>)
+
+                <p style="text-align:justify;">This is your credit balance. Even if you are an anonymous user, you are given
+                some credits to spend. Every IP address has its own account and it is provided with free credits that can be
+                used to pay for Online Domain Tools services. Moreover, credit balance is reset every day. This is why we call
+                them <b>Daily Credits</b>. Registered users have higher Daily Credits amounts and can even increase them by purchasing
+                subscriptions.</p>
+                <br>
+                <p style="text-align:justify;">Besides Daily Credits, all accounts, including IP address accounts of anonymous
+                users, have their credit <b>Wallet</b>. Wallet credits are not reset on a daily basis, but they are only spent when a
+                user has not enough Daily Credits. Registered users can buy credits to their wallets. All IP address accounts
+                are created with an initial Wallet balance of
+                <span class="odt-blue-credits">3.00</span>. Once IP address account spends
+                credits from its Wallet, it can not be charged again. This should allow new users to try most of Online Domain
+                Tools services without registration.</p>
+            </div>
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+</div><div id="menu-bar">
+        <div id="menu-wrapper">
+                <div id="menu">
+                        <div class="menu-icon nt-menu-icon first">
+                                <a class="open-popup" href="http://online-domain-tools.com/information/about-project">Network Tools</a>
+
+
+
+
+<div class="menu-options wide" style="margin-left:-25px;width: 300px;">
+        
+
+
+        <ul class="borderCol">
+                <li><a class="menu-item" href="http://nmap.online-domain-tools.com/">Nmap</a></li>
+                <li><a class="menu-item" href="http://nping.online-domain-tools.com/">Nping</a></li>
+                <li><a class="menu-item" href="http://ping.online-domain-tools.com/">Ping</a></li>
+        </ul>
+        <ul>
+                <li><a class="menu-item" href="http://server-monitoring.online-domain-tools.com/">Server Monitoring</a></li>
+                <li><a class="menu-item" href="http://traceroute.online-domain-tools.com/">Traceroute</a></li>
+                <li><a class="menu-item" href="http://whois.online-domain-tools.com/">Whois</a></li>
+        </ul>
+
+
+        <a href="#" class="close">&times;</a>
+</div>                        </div>
+
+                        <div class="menu-icon wbt-menu-icon" style="left:-2px;">
+                                <a class="open-popup" href="http://online-domain-tools.com/information/about-project">Web and Browser Tools</a>
+
+
+
+
+<div class="menu-options wide" style="margin-left:-30px;width: 360px;">
+        
+
+        <ul class="borderCol">
+                <li><a class="menu-item" href="http://browser-information.online-domain-tools.com/">Browser Information</a></li>
+                <li><a class="menu-item" href="http://http-headers.online-domain-tools.com/">HTTP Headers</a></li>
+                <li><a class="menu-item" href="http://server-monitoring.online-domain-tools.com/">Server Monitoring</a></li>
+        </ul>
+        <ul>
+                <li><a class="menu-item" href="http://sitemap-generator.online-domain-tools.com/">Sitemap Generator</a></li>
+                <li><a class="menu-item" href="http://website-link-checker.online-domain-tools.com/">Website Link Checker</a></li>
+        </ul>
+
+
+        <a href="#" class="close">&times;</a>
+</div>                        </div>
+
+                        <div class="menu-icon dt-menu-icon" style="left:-4px;">
+                                <a class="open-popup" href="http://online-domain-tools.com/information/about-project">Domain Tools</a>
+
+
+
+
+<div class="menu-options wide" style="margin-left:-30px;width: 390px;">
+        
+
+        <ul class="borderCol">
+                <li><a class="menu-item" href="http://mail-blacklist-checker.online-domain-tools.com/">Blacklist Checker</a></li>
+                <li><a class="menu-item" href="http://dns-record-viewer.online-domain-tools.com/">DNS Record Viewer</a></li>
+                <li><a class="menu-item" href="http://domain-availability-checker.online-domain-tools.com/">Domain Availability Checker</a></li>
+                <li><a class="menu-item" href="http://domain-monitor.online-domain-tools.com/">Domain Monitor</a></li>
+                <li><a class="menu-item" href="http://mxlookup.online-domain-tools.com/">MX Lookup</a></li>
+        </ul>
+        <ul>
+                <li><a class="menu-item" href="http://pagerank-checker.online-domain-tools.com/">PageRank Checker</a>
+                <li><a class="menu-item" href="http://server-monitoring.online-domain-tools.com/">Server Monitoring</a></li>
+                <li><a class="menu-item" href="http://webscore.online-domain-tools.com/">Webscore</a></li>
+                <li><a class="menu-item" href="http://whois.online-domain-tools.com/">Whois</a>
+        </ul>
+
+
+        <a href="#" class="close">&times;</a>
+</div>                        </div>
+
+                        <div class="menu-icon spt-menu-icon" style="left:-6px;">
+                                <a class="open-popup" href="http://online-domain-tools.com/information/about-project">Security and Privacy Tools</a>
+
+
+
+
+<div class="menu-options wide" style="margin-left:-30px;width: 370px;">
+        
+
+        <ul class="borderCol">
+                <li><a class="menu-item" href="http://mail-blacklist-checker.online-domain-tools.com/">Blacklist Checker</a></li>
+                <li><a class="menu-item" href="http://hash-functions.online-domain-tools.com/">Hash Functions</a></li>
+                <li><a class="menu-item" href="http://heartbleed-checker.online-domain-tools.com/">Heartbleed Checker</a></li>
+                <li><a class="menu-item" href="http://nmap.online-domain-tools.com/">Nmap</a></li>
+        </ul>
+        <ul>
+                <li><a class="menu-item" href="http://password-generator.online-domain-tools.com/">Password Generator</a></li>
+                <li><a class="menu-item" href="http://password-checker.online-domain-tools.com/">Password Checker</a></li>
+                <li><a class="menu-item" href="http://reverse-hash-lookup.online-domain-tools.com/">Reverse Hash Lookup</a></li>
+                <li><a class="menu-item" href="http://symmetric-ciphers.online-domain-tools.com/">Symmetric Ciphers</a></li>
+        </ul>
+
+
+        <a href="#" class="close">&times;</a>
+</div>                        </div>
+
+                        <div class="menu-icon dct-menu-icon" style="left:-8px;">
+                                <a class="open-popup" href="http://online-domain-tools.com/information/about-project">Data and Conversion Tools</a>
+
+
+
+
+<div class="menu-options narrow" style="margin-left:-68px;width: 200px;">
+        
+
+        <ul>
+                <li><a class="menu-item" href="http://encoders-decoders.online-domain-tools.com/">Encoders and Decoders</a></li>
+        </ul>
+
+        <a href="#" class="close">&times;</a>
+</div>                        </div>
+
+                        <div class="menu-icon ct-menu-icon last" style="left:-10px;">
+                                <a class="open-popup" href="http://online-domain-tools.com/information/about-project">Coders Tools</a>
+
+
+
+
+<div class="menu-options narrow" style="margin-left:-152px;width: 200px;">
+        
+
+        <ul>
+                <li><a class="menu-item" href="http://encoders-decoders.online-domain-tools.com/">Encoders and Decoders</a></li>
+                <li><a class="menu-item" href="http://php-functions.online-domain-tools.com/">PHP Functions</a></li>
+                        </ul>
+
+        <a href="#" class="close">&times;</a>
+</div>                        </div>
+
+                </div>
+
+        </div>
+</div>                    <div style="width:950px;height: 1px;position:relative;margin: 0 auto;" id="ad-area">
+
+            
+            <div class="skyscrapper" id="skyscrapper-left" style="left:-150px;" data-offset="-150">
+
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <!-- odt - wide skyscraper - left -->
+                <script>
+
+                if ($(window).width() > 1350) {
+                        $('<ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" ' +
+                          'data-ad-client="ca-pub-4053170099196177" data-ad-slot="7751938273"></ins>').appendTo('#skyscrapper-left');
+                        $('#skyscrapper-left').css('left', '-190px');
+                        $('#skyscrapper-left').data('offset', '-190');
+                } else {
+                        $('<ins class="adsbygoogle" style="display:inline-block;width:120px;height:600px" ' +
+                          'data-ad-client="ca-pub-4053170099196177" data-ad-slot="8132491542"></ins>').appendTo('#skyscrapper-left');
+                }
+
+                (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
+            <div class="skyscrapper" id="skyscrapper-right" style="left:980px;" data-offset="980">
+
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <!-- odt - wide skyscraper - left -->
+                <script>
+
+                if ($(window).width() > 1350) {
+                        $('<ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" ' +
+                          'data-ad-client="ca-pub-4053170099196177" data-ad-slot="1705404675"></ins>').appendTo('#skyscrapper-right');
+                } else {
+                        $('<ins class="adsbygoogle" style="display:inline-block;width:120px;height:600px" ' +
+                          'data-ad-client="ca-pub-4053170099196177" data-ad-slot="2553928798"></ins>').appendTo('#skyscrapper-right');
+                }
+
+                (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+    </div>
+
+<div id="main" class="main container">
+
+    <div class="span-17 main-area" style="width:630px;margin-right:25px;">
+
+                                            
+                                                                                
+                    <div style="text-align: center;
+                                color: #387f0e;
+                                padding: 1px;
+                                text-align: justify;
+                                margin-bottom: 20px;
+                                text-align:center;
+                                border-top: 1px solid #ddd;
+                                border-bottom: 1px solid #ddd;">
+
+                                <b>Tip:</b> Did you know that <a style="font-weight:bold;" href="https://secured.online-domain-tools.com/user.sign-up.step1/?ref=ht">registered users</a> have more FREE daily credits?
+                    </div>
+
+<div id="snippet--odtNotifications"><div id="odt-notifications" class="odt-notifications">
+</div></div>
+
+    <div id="odt-tool-wrapper" class="odt-tool-wrapper"><!-- originally 'odt-tool' -->
+
+<a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Frc4.online-domain-tools.com"
+           style="float:right;"
+           onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Frc4.online-domain-tools.com','newwindow','menubar=0,resizable=1,width=500,height=350');return false;"
+        ><img border=0 src="/images/fb-recommend.png"></a><h1 class="odt-tool-name" style=""><a class="no-effect" href="http://rc4.online-domain-tools.com/">RC4 &ndash; Symmetric Ciphers Online</a></h1>
+
+        <div class="odt-tool-output"><!-- originally 'tool-output' -->
+<div id="snippet--toolForm"><div id="snippet--formError">                    </div>
+            <div id="odt-tool-form">
+
+
+
+<div id="odt-security-encryption" data-enabled="yes" class="hidden">
+		<div id="odt-security-encryption-publicKey">
+				<span data-key="e" data-value="10001">
+</span>							<span data-key="n" data-value="8f5d620622f7483a49e52ff8fc540bfc3bb9849b210c0de579c4b3f1beb0d047af819b2744590edcbbf80e83ac571729c36f039971be1807d566f687c8cc3bb23e05e18c51830d985fe4a64663ee78079bcc80eb7b3af906c16ae64ed9142d92019cc5dfd54f45ba8e2c4adc02f614151350ed71717e0123b51e53f5ecf0ace7">
+</span>							<span data-key="maxdigits" data-value="131">
+</span>			
+		</div>
+		<span id="odt-security-encryption-communicationKey" data-value="hMz4VPGbmB">
+</span>		<span id="odt-security-encryption-handshake-link" data-value="/?do=encryption-handshake">
+</span></div>
+
+<noscript>
+        <div class="box-notice">
+                Symmetric Ciphers Online does not work with disabled Javascript. Please enable it and reload the page.
+        </div>
+</noscript>
+
+<form action="/?do=form-submit" method="post" id="frm-tool-form" class="odt-form odt-form-custom-init ajax" enctype="multipart/form-data" data-run-price="0.05">        <table class="fixed-layout" style="border-collapse:collapse;">
+                <tr><td style="width:80px;"><label for="inputType">Input type:</label></td><td><select name="inputType" id="inputType" required data-nette-rules='[{"op":":filled","msg":"Please choose input type."}]'><option value="frm-text" selected>Text</option><option value="file">File</option></select></td></tr>
+                <tr id="row-frm-text">
+                        <td style="vertical-align:top;">
+                            <div style="padding-top: 3px;">
+                                <label for="frm-text">Input text:</label><br>
+                                <span id="frm-text_type-status">(plain)</span>
+                            </div>
+                        </td>
+                        <td><textarea name="text" id="frm-text" data-nette-rules='[{"op":":equal","rules":[{"op":":filled","msg":"A text has to be filled in."},{"op":":maxLength","msg":"Maximum size of the input text is 131072 characters.","arg":131072}],"control":"inputType","arg":"frm-text"}]' style="height: 50px"></textarea></td></tr>
+                <tr id="row-frm-text-type" class="row-frm-text">
+                        <td style="vertical-align:top;"><div style="padding-top: 3px;"><label></label></div></td>
+                        <td>
+                            <div id="frm-text-radios">
+                            <input type="radio" name="text_type" id="frm-text_type-plain" class="odt-validation-do-not-run-form-validation" checked value="plain"><label for="frm-text_type-plain"> Plaintext</label>&nbsp;
+                            <input type="radio" name="text_type" id="frm-text_type-hex" class="odt-validation-do-not-run-form-validation" value="hex"><label for="frm-text_type-hex"> Hex</label>
+
+                                <div id="autodetect">Autodetect:
+                                    <span id="frm-autodetect-on" class="highlighted cursor options">ON</span> |
+                                    <span id="frm-autodetect-off" class="cursor options">OFF</span>
+                                </div>
+                            </div>
+                        </td></tr>
+                <tr id="row-file" class="hiddenField"><td><label for="file">File:</label></td><td><input type="file" name="file" id="file" class="dont-show-when-valid" data-nette-rules='[{"op":":equal","rules":[{"op":":filled","msg":"Please select a file."},{"op":":fileSize","msg":"Maximum file size is 2 MB.","arg":2097152}],"control":"inputType","arg":"file"}]'></td></tr>
+                <tr><td><label for="frmform-function">Function:</label></td><td><select name="function" id="frmform-function" data-is-subtool-changer="yes" required data-nette-rules='[{"op":":filled","msg":"Function must be filled in."}]'><option value="aes">AES</option><option value="des">DES</option><option value="tripledes">3DES</option><option value="blowfish">BLOWFISH</option><option value="blowfish-compat">BLOWFISH-compat</option><option value="rijndael-256">RIJNDAEL_256</option><option value="arcfour" selected>RC4 (ARCFOUR)</option><option value="serpent">SERPENT</option><option value="twofish">TWOFISH</option></select></td></tr>
+                <tr><td><label for="frm-mode">Mode:</label></td><td><select name="mode" id="frm-mode" required data-nette-rules='[{"op":":filled","msg":"Mode must be filled in."},{"op":":equal","rules":[{"op":"~:equal","msg":"AES does not support NOFB mode.","arg":"nofb"}],"control":"function","arg":"aes"},{"op":":equal","rules":[{"op":"~:equal","msg":"AES does not support stream mode.","arg":"stream"}],"control":"function","arg":"aes"},{"op":":equal","rules":[{"op":"~:equal","msg":"DES does not support stream mode.","arg":"stream"}],"control":"function","arg":"des"},{"op":":equal","rules":[{"op":"~:equal","msg":"3DES does not support stream mode.","arg":"stream"}],"control":"function","arg":"tripledes"},{"op":":equal","rules":[{"op":"~:equal","msg":"BLOWFISH does not support stream mode.","arg":"stream"}],"control":"function","arg":"blowfish"},{"op":":equal","rules":[{"op":"~:equal","msg":"BLOWFISH-compat does not support stream mode.","arg":"stream"}],"control":"function","arg":"blowfish-compat"},{"op":":equal","rules":[{"op":"~:equal","msg":"RIJNDAEL_256 does not support stream mode.","arg":"stream"}],"control":"function","arg":"rijndael-256"},{"op":":equal","rules":[{"op":"~:equal","msg":"RC4 (ARCFOUR) does not support ECB (electronic codebook).","arg":"ecb"}],"control":"function","arg":"arcfour"},{"op":":equal","rules":[{"op":"~:equal","msg":"RC4 (ARCFOUR) does not support CBC (cipher block chaining).","arg":"cbc"}],"control":"function","arg":"arcfour"},{"op":":equal","rules":[{"op":"~:equal","msg":"RC4 (ARCFOUR) does not support CFB (cipher feedback).","arg":"cfb"}],"control":"function","arg":"arcfour"},{"op":":equal","rules":[{"op":"~:equal","msg":"RC4 (ARCFOUR) does not support OFB (output feedback, in 8bit).","arg":"ofb"}],"control":"function","arg":"arcfour"},{"op":":equal","rules":[{"op":"~:equal","msg":"RC4 (ARCFOUR) does not support NOFB (output feedback, in nbit).","arg":"nofb"}],"control":"function","arg":"arcfour"},{"op":":equal","rules":[{"op":"~:equal","msg":"SERPENT does not support stream mode.","arg":"stream"}],"control":"function","arg":"serpent"},{"op":":equal","rules":[{"op":"~:equal","msg":"TWOFISH does not support stream mode.","arg":"stream"}],"control":"function","arg":"twofish"}]'><option value="ecb" selected>ECB (electronic codebook)</option><option value="cbc">CBC (cipher block chaining)</option><option value="cfb">CFB (cipher feedback)</option><option value="ofb">OFB (output feedback, in 8bit)</option><option value="nofb">NOFB (output feedback, in nbit)</option><option value="stream">Stream</option></select></td></tr>
+                <tr>
+                    <td><label title="Key for encryption/decryption. When the key is changed prefix of sha1(key) function is automatically filled in IV field. You still may change IV. The feature is intended only for your convenience." for="frmform-key">Key:</label><br>
+                        <span id="frm-key_type-status">(plain)</span>
+                    </td>
+                    <td><input type="text" name="key" id="frmform-key" class="odt-validation-exception_whitespace-means-filled" required data-nette-rules='[{"op":":filled","msg":"Please choose a key."},{"op":":pattern","msg":"The key must be composed of: a-z, A-Z, 0-9 and characters: !, \", #, $, %, &amp;, &#39;, (, ), *, +, ,, ., \/, :, ;, <, =, >, ?, &#64;, ^, _ ,`, {, |, }, ~, -,\\","arg":"^[a-zA-Z0-9\\]\\[ \\!\\\"\\#\\$\\%\\&amp;&#39;\\(\\)\\*\\+\\,\\.\\\/\\:\\;\\<\\=\\>\\?\\&#64;\\^\\_\\`\\{\\|\\}\\~\\-\\\\]+$"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Key length can be at most 32 bytes (256 bits).","arg":"^.{1,32}$"}],"control":"key_type","arg":"plain"},{"op":":equal","rules":[],"control":"key_type","arg":"hex"}],"control":"function","arg":"aes"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Key length must be between 1 and 8 bytes (8 to 64 bits).","arg":"^.{1,8}$"}],"control":"key_type","arg":"plain"},{"op":":equal","rules":[],"control":"key_type","arg":"hex"}],"control":"function","arg":"des"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Key length must be between 1 and 24 bytes (8 to 192 bits).","arg":"^.{1,24}$"}],"control":"key_type","arg":"plain"},{"op":":equal","rules":[],"control":"key_type","arg":"hex"}],"control":"function","arg":"tripledes"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Key length must be between 1 and 56 bytes (8 to 448 bits).","arg":"^.{1,56}$"}],"control":"key_type","arg":"plain"},{"op":":equal","rules":[],"control":"key_type","arg":"hex"}],"control":"function","arg":"blowfish"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Key length must be between 1 and 56 bytes (8 to 448 bits).","arg":"^.{1,56}$"}],"control":"key_type","arg":"plain"},{"op":":equal","rules":[],"control":"key_type","arg":"hex"}],"control":"function","arg":"blowfish-compat"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Key length must be between 1 and 32 bytes (8 to 256 bits).","arg":"^.{1,32}$"}],"control":"key_type","arg":"plain"},{"op":":equal","rules":[],"control":"key_type","arg":"hex"}],"control":"function","arg":"rijndael-256"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Key length must be between 1 and 256 bytes (8 to 2048 bits).","arg":"^.{1,256}$"}],"control":"key_type","arg":"plain"},{"op":":equal","rules":[],"control":"key_type","arg":"hex"}],"control":"function","arg":"arcfour"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Key length must be between 1 and 32 bytes (8 to 256 bits).","arg":"^.{1,32}$"}],"control":"key_type","arg":"plain"},{"op":":equal","rules":[],"control":"key_type","arg":"hex"}],"control":"function","arg":"serpent"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Key length must be between 1 and 32 bytes (8 to 256 bits).","arg":"^.{1,32}$"}],"control":"key_type","arg":"plain"},{"op":":equal","rules":[],"control":"key_type","arg":"hex"}],"control":"function","arg":"twofish"}]' pattern='^[a-zA-Z0-9\]\[ \!\"\#\$\%\&amp;&#39;\(\)\*\+\,\.\/\:\;\<\=\>\?\&#64;\^\_\`\{\|\}\~\-\\]+$' value=""></td>
+                </tr>
+                <tr><td><label></label></td>
+                    <td>
+                        <div id="frm-key-radios">
+                            <input type="radio" name="key_type" id="frm-key_type-plain" class="odt-validation-do-not-run-form-validation" checked value="plain"><label for="frm-key_type-plain"> Plaintext</label>&nbsp;
+                            <input type="radio" name="key_type" id="frm-key_type-hex" class="odt-validation-do-not-run-form-validation" value="hex"><label for="frm-key_type-hex"> Hex</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr><td><label title="Initialization vector. The input has to be in hexadecimal form. It is strongly recommended to use any other value than the default one for increasing security." for="frmform-iv">Init. vector:</label></td><td><input type="text" name="iv" id="frmform-iv" data-nette-rules='[{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"ecb"}],"control":"function","arg":"des"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"cbc"}],"control":"function","arg":"des"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"cfb"}],"control":"function","arg":"des"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"ofb"}],"control":"function","arg":"des"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"nofb"}],"control":"function","arg":"des"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"ecb"}],"control":"function","arg":"tripledes"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"cbc"}],"control":"function","arg":"tripledes"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"cfb"}],"control":"function","arg":"tripledes"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"ofb"}],"control":"function","arg":"tripledes"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"nofb"}],"control":"function","arg":"tripledes"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"ecb"}],"control":"function","arg":"blowfish"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"cbc"}],"control":"function","arg":"blowfish"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"cfb"}],"control":"function","arg":"blowfish"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"ofb"}],"control":"function","arg":"blowfish"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"nofb"}],"control":"function","arg":"blowfish"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"ecb"}],"control":"function","arg":"blowfish-compat"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"cbc"}],"control":"function","arg":"blowfish-compat"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"cfb"}],"control":"function","arg":"blowfish-compat"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"ofb"}],"control":"function","arg":"blowfish-compat"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 16 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,23})$"}],"control":"mode","arg":"nofb"}],"control":"function","arg":"blowfish-compat"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 64 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,95})$"}],"control":"mode","arg":"ecb"}],"control":"function","arg":"rijndael-256"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 64 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,95})$"}],"control":"mode","arg":"cbc"}],"control":"function","arg":"rijndael-256"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 64 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,95})$"}],"control":"mode","arg":"cfb"}],"control":"function","arg":"rijndael-256"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 64 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,95})$"}],"control":"mode","arg":"ofb"}],"control":"function","arg":"rijndael-256"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 64 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,95})$"}],"control":"mode","arg":"nofb"}],"control":"function","arg":"rijndael-256"},{"op":":equal","rules":[{"op":":equal","msg":"RC4 does not support an initialize vector as input. Please leave the field empty.","arg":""}],"control":"function","arg":"arcfour"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 32 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,47})$"}],"control":"mode","arg":"ecb"}],"control":"function","arg":"serpent"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 32 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,47})$"}],"control":"mode","arg":"cbc"}],"control":"function","arg":"serpent"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 32 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,47})$"}],"control":"mode","arg":"cfb"}],"control":"function","arg":"serpent"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 32 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,47})$"}],"control":"mode","arg":"ofb"}],"control":"function","arg":"serpent"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 32 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,47})$"}],"control":"mode","arg":"nofb"}],"control":"function","arg":"serpent"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 32 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,47})$"}],"control":"mode","arg":"ecb"}],"control":"function","arg":"twofish"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 32 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,47})$"}],"control":"mode","arg":"cbc"}],"control":"function","arg":"twofish"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 32 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,47})$"}],"control":"mode","arg":"cfb"}],"control":"function","arg":"twofish"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 32 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,47})$"}],"control":"mode","arg":"ofb"}],"control":"function","arg":"twofish"},{"op":":equal","rules":[{"op":":equal","rules":[{"op":":pattern","msg":"Initialization vector maximum length is 32 in HEX form.","arg":"^([0-9a-fA-F \\_]{0,47})$"}],"control":"mode","arg":"nofb"}],"control":"function","arg":"twofish"}]' value=""></td></tr>
+                <tr>
+                	<td>&nbsp;</td>
+                	<td>
+				<div style="display:inline-block;float:right;">
+<div id="snippet-toolLinks-toolLinks">	<div style="float:right;">
+<a href="#" id="task-runlink"
+    data-domain="online-domain-tools.com"
+    data-subdomain="rc4"
+    data-protocol="http"
+    data-path=""
+    title="Runlink"
+    class="task-runlink tool-links-sprite tool-links-sprite-runlink-active"></a>
+        <a href="#" id="task-permalink" title="Permalink"
+            data-problem-message=""
+            data-window="dialog_permalinkValidityForm_"
+        	class="task-permalink tool-links-sprite tool-links-sprite-permalink-disabled"></a>
+
+
+                    </div>
+</div>	    			</div>
+
+	                        <noscript><div class="hidden"></noscript>
+	                                <input type="submit" name="encrypt" id="frm-form-encrypt" value="> Encrypt!"> <input type="submit" name="decrypt" id="frm-form-decrypt" value="> Decrypt!">
+	                        <noscript></div></noscript>
+
+	                        <noscript>
+	                                <input type="submit" name="encrypt" id="frm-form-encrypt" disabled="disabled" value="> Encrypt!" class="disabled-button">
+	                                <input type="submit" name="decrypt" id="frm-form-decrypt" disabled="disabled" value="> Decrypt!" class="disabled-button">
+	                        </noscript>
+
+                                            	</td>
+                </tr>
+                <tr><td colspan="2"><div id="ODT_upload_placeholder-frm-tool-form" style="display:none;" class="info ODT-upload-placeholder"></div>
+
+
+<iframe id="ODT_iframe_frm-tool-form" name="ODT_iframe_frm-tool-form" style="visibility:hidden; width: 500px;height: 500px; position: absolute;"></iframe>
+
+<script>
+        $(document).ready(function() {
+                var settings = {
+                        maxFileSize: 2097152,
+                        trackLink: "\/?do=progressBar-updateInfo"
+                }
+
+                ODT.UI.Forms.UploadTracking.setup($('#'+ 'frm-tool-form'), settings);
+
+                ODT.Tools.properties.added('uploadProgress');
+        });
+</script>
+
+
+</td></tr>
+        </table>
+                <input type="hidden" name="phone" data-runlink-preference="exclude" id="frm-form-phone" value="1402592400">
+</form>
+
+<script type="text/javascript">
+    <!--
+
+	ODT.Tools.functionDerivedFromSubdomain = 'arcfour';
+	ODT.Tools.isDefaultSubdomain = '';
+	ODT.Tools.properties.added('functionDerivedFromSubdomain');
+
+	ODT.Tools.domainName = 'online-domain-tools.com';
+	ODT.Tools.properties.added('domainName');
+
+	ODT.Tools.subdomainMapping = {"aes":"aes","des":"des","tripledes":"tripledes","blowfish":"blowfish","blowfish-compat":"blowfish-compat","rijndael-256":"rijndael","arcfour":"rc4","serpent":"serpent","twofish":"twofish"};
+	ODT.Tools.properties.added('subdomainMapping');
+
+	var IV_sizes = {"aes":32,"des":16,"tripledes":16,"blowfish":16,"blowfish-compat":16,"rijndael":64,"rc4":0,"serpent":32,"twofish":32};
+
+	function setMaskedInputForIV()
+	{
+	        // defined in Tool.Form.latte
+	        var len = IV_sizes[$('#frmform-function').val()];
+
+	        if (len > 0) {
+	                var s = "";
+	                for (var i = 0; i < len; i++) {
+	                        if (i % 2 === 0 && i > 0) {
+	                                s += " ";
+	                        }
+	                        s += "h";
+	                }
+
+	                $('#frmform-iv').mask(s, { autoclear: false, placeholder: '0' });
+	        }
+	}
+
+
+
+    -->
+</script></div>
+
+</div><div id="snippet--toolOutput"></div>    <div class="odt-tool-checkout">
+<h2 id="toc-checkout" class="toc-section">Checkout <a id="odt.tool.checkout.help_link" href="">?</a> <a class="toc-anchor" href="#toc-checkout">#</a></h2>
+
+<div style="display:none;" id="odt.tool.checkout.help_html">
+        <div style="width: 600px;">
+        <b style="font-size: 18px; display: inline-block;margin-bottom: 15px;">Checkout</b>
+        (<a href="http://online-domain-tools.com/information/pricing">see the full information about pricing</a>)
+
+        <p style="text-align:justify;">The table in Checkout section clearly summarizes prices that are associated with options you choose
+        in the tool's form.</p>
+        <br>
+        <p style="text-align:justify;">Your credit balance is displayed on the right side above the main menu. Even if you are an anonymous user,
+        you are given some credits to spend. Every IP address has its own account and it is provided with free credits that can be used to
+        pay for Online Domain Tools services. Moreover, credit balance is reset every day. This is why we call them <b>Daily Credits</b>.
+        Accounts of registered users have higher Daily Credits amounts and can even increase them by purchasing subscriptions.</p>
+        <br>
+        <p style="text-align:justify;">Besides Daily Credits, all accounts, including IP address accounts of anonymous users, have their credit
+        <b>Wallet</b>. Wallet credits are not reset on a daily basis, but they are only spent when a user has not enough Daily Credits. Registered users
+        can buy credits to their wallets. All IP address accounts are created with an initial Wallet balance of
+        <span class="odt-blue-credits">3.00</span>. Once IP address account spends credits from its Wallet, it can not be charged again.
+        This should allow new users to try most of Online Domain Tools services without registration.</p>
+
+        </div>
+</div>
+
+<div>
+    <table id="odt-tool-checkout" class="odt-table" style="margin-top:15px;" data-account-balance="5.1">
+        <thead>
+            <tr>
+                <th class="column" style="text-align:center;">Item Description</th>
+                <th class="column" style="width: 110px; text-align:center;">Item Price</th>
+                <th class="column" style="width: 110px; text-align:center;">Your Price</th>
+            </tr>
+        </thead>
+        <tbody class="records">
+        </tbody>
+        <tfoot class="total" style="border-top: 2px solid lightgray;">
+            <tr>
+                <td>Total</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+</div>
+    <div class="odt-tool-examples">    <h2 id="toc-examples" class="toc-section">Examples <a class="toc-anchor" href="#toc-examples">#</a></h2>
+    <blockquote>Try a few example inputs:<br>
+        <ul class="examples">
+            <li>
+                    [<a href="http://blowfish.online-domain-tools.com/example/?exampleId=1">TRY</a>]
+                    String 'Online Domain Tools' encrypted with BLOWFISH (EBC mode) and key 'All-in-1 tools on the Internet'
+            </li>
+            <li>
+                    [<a href="http://tripledes.online-domain-tools.com/example/?exampleId=2">TRY</a>]
+                    Decrypt string 'd0ff2d67d042926d1db7e428c35f9bea8713866250cab36f' with 3DES (CBC mode) and IV '45 6e 69 67 6d 61' ('Enigma' in hex form)
+            </li>
+        </ul>
+    </blockquote>
+</div>
+    <div class="odt-tool-specification"><div class="tool-specification">
+
+        
+
+                <h2 id="toc-description" class="toc-section">Description <a class="toc-anchor" href="#toc-description">#</a></h2>
+                <div class="typography-text">
+                        <p>Symmetric Ciphers Online allows you to encrypt or decrypt arbitrary message
+using several well known
+<a class="external" href="http://en.wikipedia.org/wiki/Symmetric-key_algorithm">symmetric encryption algorithms</a>
+such as AES, 3DES, or BLOWFISH.</p>
+
+<p>Symmetric ciphers use the same (or very similar from the algorithmic point of
+view) keys for both encryption and decryption of a message. They are designed to
+be easily computable and able to process even large messages in real time.
+Symmetric ciphers are thus convenient for usage by a single entity that knows
+the secret key used for the encryption and required for the decryption of its
+private data – for example file system encryption algorithms are based on
+symmetric ciphers. If symmetric ciphers are to be used for secure communication
+between two or more parties problems related to the management of symmetric keys
+arise. Such problems can be solved using a
+<a class="external" href="http://en.wikipedia.org/wiki/Hybrid_cryptosystem">hybrid approach</a>
+that includes using
+<a class="external" href="http://en.wikipedia.org/wiki/Public-key_cryptography">asymmetric ciphers</a>.
+Symmetric ciphers are basic blocks of many cryptography systems and are
+often used with other cryptography mechanisms that compensate their
+shortcomings.</p>
+
+<p>Symmetric ciphers can operate either in the
+<a class="external" href="http://en.wikipedia.org/wiki/Block_cipher">block mode</a> or in the
+<a class="external" href="http://en.wikipedia.org/wiki/Stream_cipher">stream mode</a>.
+Some algorithms support both modes, others support only one mode.
+In the block mode, the cryptographic algorithm splits the input message into an
+array of small fixed-sized blocks and then encrypts or decrypts the blocks
+one by one. In the stream mode, every digit (usually one bit) of the input
+message is encrypted separately.</p>
+
+<p>In the block mode processing, if the blocks were encrypted completely
+independently the encrypted message might be vulnerable to some trivial attacks.
+Obviously, if there were two identical blocks encrypted without any additional
+context and using the same function and key, the corresponding encrypted blocks
+would also be identical. This is why block ciphers are usually used in various
+<a class="external" href="http://en.wikipedia.org/wiki/Block_cipher_modes_of_operation">modes of operation</a>.
+Operation modes introduce an additional variable into the function that holds
+the state of the calculation. The state is changed during the encryption/decryption
+process and combined with the content of every block. This approach mitigates the
+problems with identical blocks and may also serve for other purposes. The
+initialization value of the additional variable is called the
+<a class="external" href="http://en.wikipedia.org/wiki/Initialization_vector">initialization vector</a>. The
+differences between block ciphers operating modes are in the way they combine
+the state (initialization) vector with the input block and the way the vector
+value is changed during the calculation. The stream ciphers hold and change
+their internal state by design and usually do not support explicit input vector
+values on their input.</p>
+
+<div class="box-warning">
+Security note: Data are transmitted over the network in an <b>unencrypted form</b>!
+Please do not enter any sensitive information into the form above
+as we cannot guarantee you that your data won't be compromised.
+</div>
+
+
+                </div>
+
+<h2 id="toc-usage" class="toc-section">Usage <a class="toc-anchor" href="#toc-usage">#</a></h2>
+
+<div class="typography-text">
+<p>Using the <i>Input type</i> selection, choose the type of input –
+a text string or a file. In case of the text string input, enter your input
+into the <i>Input text</i> textarea<sup>1,2</sup>.
+Otherwise, use the "Browse" button to select the input file to upload. Then select the cryptographic function you
+want to use in the <i>Function</i> field.
+Depending on the selected function the <i>Initialization vector</i> (IV) field is
+shown or hidden. Initialization vector is always a sequence of bytes, each byte
+has to be represented in hexadecimal form.
+</p>
+
+<p>Select the operation mode in the <i>Mode</i> field and enter a key in
+the <i>Key</i> field. The permitted lengths of keys for particular cryptographic functions
+are listed below. If you don't specify a key with permitted length the key is prolonged with
+the proper number of null bytes at the end. When the key is changed the prefix of sha1(key) function is
+automatically filled in the IV field. You still may change the IV.
+The feature is intended only for your convenience. Using the radio buttons under the
+<i>Key</i> input field, you can specify whether the entered key value
+should be interpreted as a plain text or a hexadecimal value.</p>
+
+<p>Finally, click the "Encrypt!" button or the "Decrypt!" button
+depending on whether you want the input message to be encrypted or decrypted.</p>
+
+<p>The output message is displayed in a hex view and can also be downloaded as
+a binary file. The format of output file is simply a dump of binary data.
+The initialization vector is added to the file name for convenience.
+</p>
+
+<table class="spec-table">
+        <tr><th rowspan="2">Cryptographic function</th><th colspan="2">Key lengths</th><th colspan="2">Initialization vector lengths (all modes)</th></tr>
+        <tr><th>In bytes</th><th>In bits</th><th>In bytes</th><th>In bits</th></tr>
+        <tr><td>AES</td><td>16, 24 or 32</td><td>128, 192 or 256</td>
+                        <td>16</td><td>128</td></tr>
+        <tr><td>DES</td><td>1 to 8 bytes</td><td>8 to 64</td>
+                        <td>16</td><td>128</td></tr>
+        <tr><td>TRIPLEDES</td><td>1 to 24</td><td>8 to 192</td>
+                        <td>16</td><td>128</td></tr>
+        <tr><td>BLOWFISH</td><td>1 to 56</td><td>8 to 448</td>
+                        <td>16</td><td>128</td></tr>
+        <tr><td>BLOWFISH-compat</td><td>1 to 56</td><td>8 to 448</td>
+                        <td>16</td><td>128</td></tr>
+        <tr><td>RIJNDAEL-256</td><td>1 to 32</td><td>8 to 256</td>
+                        <td>64</td><td>512</td></tr>
+        <tr><td>R4</td><td>1 to 256</td><td>8 to 2048</td>
+                        <td>-</td><td>-</td></tr>
+        <tr><td>SERPENT</td><td>1 to 32</td><td>8 to 256</td>
+                        <td>32</td><td>256</td></tr>
+        <tr><td>TWOFISH</td><td>1 to 32</td><td>8 to 256</td>
+                        <td>32</td><td>256</td></tr>
+</table>
+<label class="spec-table-label">Table 1. Supported key lengths and IV lengths</label>
+<br>
+<sup>1</sup> You can use only hexadecimal characters, newlines, tabulators and new line characters if you decrypt a string.<br>
+<sup>2</sup> Input text has an autodetect feature at your disposal.
+The autodetect detects for you if the content of <i>Input text</i> field is in
+form of a plain text or a hexadecimal string. You can turn off the feature by
+clicking on 'OFF' or by changing current type of input under the <i>Input text</i>
+field.
+
+</div>
+
+        
+
+                <h2 id="toc-limits" class="toc-section">Limits <a class="toc-anchor" href="#toc-limits">#</a></h2>
+                <div class="typography-text">
+                                <p>The maximal size of the the text string input is 131,072 characters.
+        The maximal size of the input file is 2,097,152 bytes.</p>
+
+                </div>
+
+
+
+
+        <h2 id="toc-see-also" class="toc-section">See Also <a class="toc-anchor" href="#toc-see-also">#</a></h2>
+        <div class="typography-text">
+<ul>
+<li><a href="http://hash-functions.online-domain-tools.com/">Hash Functions Online</a></li>
+<li><a href="http://encoders-decoders.online-domain-tools.com/">Online Encoders and Decoders</a></li>
+</ul>
+        </div>
+
+</div></div>
+
+
+<script>
+//<![CDATA[
+        $(document).ready(function() {
+
+                ODT.log("[InitJs]document.ready()");
+
+                    ODT.warn("(): Daemon updater was NOT initialized.");
+
+
+                var URLs = {
+                    eshop: "https:\/\/secured.online-domain-tools.com\/user.accounts.credits-and-orders.overview\/"
+                };
+
+                ODT.Tool.init(URLs);
+
+                ODT.log("(-)");
+        });
+//]]>
+</script>
+
+        </div>
+    </div>
+
+
+    </div>
+
+    <div class="odt-sidebar span-7 last" style="width: 280px;">
+        <div class="wrapper">
+            <div class="content">
+
+
+                            <div class="heading">TOP 10 Tools</div><hr>
+                            <div class="section" style="">
+<ol class="top10" style="margin-bottom:0;">
+    <li>
+        <a href="http://symmetric-ciphers.online-domain-tools.com/"><span class="top">Symmetric Ciphers (581096x)</span></a>
+    </li>
+    <li>
+        <a href="http://dns-record-viewer.online-domain-tools.com/"><span>DNS Record Viewer (415203x)</span></a>
+    </li>
+    <li>
+        <a href="http://encoders-decoders.online-domain-tools.com/"><span>Encoders and Decoders (410799x)</span></a>
+    </li>
+    <li>
+        <a href="http://mail-blacklist-checker.online-domain-tools.com/"><span>Blacklist Checker (203793x)</span></a>
+    </li>
+    <li>
+        <a href="http://nmap.online-domain-tools.com/"><span>Nmap (191716x)</span></a>
+    </li>
+    <li>
+        <a href="http://reverse-hash-lookup.online-domain-tools.com/"><span>Reverse Hash Lookup (121137x)</span></a>
+    </li>
+    <li>
+        <a href="http://mxlookup.online-domain-tools.com/"><span>MX Lookup (118305x)</span></a>
+    </li>
+    <li>
+        <a href="http://whois.online-domain-tools.com/"><span>Whois (48457x)</span></a>
+    </li>
+    <li>
+        <a href="http://password-checker.online-domain-tools.com/"><span>Password Checker (39095x)</span></a>
+    </li>
+    <li>
+        <a href="http://website-link-checker.online-domain-tools.com/"><span>Website Link Checker (36435x)</span></a>
+    </li>
+</ol>                            </div>
+
+                                        <div class="heading">Advertisement</div><hr>
+
+                                        <div class="section sidebar-ads">
+                                                        <div style="width: 200px;height:90px;">
+                                                        <script type="text/javascript"><!--
+                                                                google_ad_client = "ca-pub-4053170099196177";
+                                                                /* odt - unit menu - wide */
+                                                                google_ad_slot = "4968706309";
+                                                                google_ad_width = 200;
+                                                                google_ad_height = 90;
+                                                        //-->
+                                                        </script>
+                                                        <script type="text/javascript"
+                                                                src="//pagead2.googlesyndication.com/pagead/show_ads.js">
+                                                        </script>
+                                                        </div>
+                                        </div>
+
+                            <div class="heading">News</div><hr>
+
+                            <div class="section">
+
+
+    <ul class="news-list">
+            <li>
+                <div class="piece">
+                    <b class="date">12.06.2014</b> &ndash;
+                    We have revealed a bug in our support system configuration which prevented users to access it and submit tickets. The problem is r… <a href="http://online-domain-tools.com/news">&gt;&gt;</a>
+                </div>
+            </li>
+            <li class="last">
+                <div class="piece">
+                    <b class="date">12.06.2014</b> &ndash;
+                    Good news! All newly registered users now get 15 credits to their wallet! <a href="https://secured.online-domain-tools.com/user.sign-up.step1/">Create your free account now!</a> <a href="http://online-domain-tools.com/news">&gt;&gt;</a>
+                </div>
+            </li>
+    </ul>
+
+                            </div>
+
+                            <a href="http://blog.online-domain-tools.com/2014/06/01/server-monitoring-for-bitcoins/?ref=bb" style="display: block;margin-bottom:15px;"><img border="0" src="https://en.bitcoin.it/w/images/en/7/74/BC_Rnd_64px.png" width="168" height="64"></a>
+
+                            <div class="heading">Social Networks</div><hr>
+
+                                <div class="section socialNets">
+
+                                        <iframe src="//www.facebook.com/plugins/like.php?locale=en_US&amp;href=https%3A%2F%2Fwww.facebook.com%2FOnlineDomainTools&amp;send=false&amp;layout=button_count&amp;width=255&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:91px; float: left; height:35px;" allowTransparency="true"></iframe>
+
+                                        <!-- Place this code where you want the badge to render. -->
+                                        <a href="//plus.google.com/+Online-domain-tools" rel="publisher" style="text-decoration:none;">
+                                        <img src="//ssl.gstatic.com/images/icons/gplus-16.png" alt="Google+" style="border:0;width:16px;height:16px;margin-bottom:2px;margin-right:10px;"></a>
+
+                                        <a href="https://twitter.com/OnlineWebTools" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @OnlineWebTools</a>
+                                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        </div>
+        <div id="footer">
+                <div class="inner-footer">
+                       <div id="footer_anchors">
+                       <div class="left">
+
+                               <a href="http://online-domain-tools.com/information/about-project">About</a> |
+                               <a href="http://online-domain-tools.com/information/pricing">Pricing</a> |
+                               <a href="http://blog.online-domain-tools.com">Blog</a> |
+                               <a href="http://online-domain-tools.com/news">News</a> |
+                               <a href="http://online-domain-tools.com/information/contact-us">Contact</a> |
+                               <a href="http://online-domain-tools.com/information/privacy-policy-and-tos">Privacy & TOS</a>
+
+                       </div>
+                       <div class="right">
+                                Copyright 2014 <a href="http://online-domain-tools.com/">Online-Domain-Tools.com</a>. All rights reserved.
+                       </div>
+                       </div>
+                </div>
+        </div>
+        <script>
+                ODT.initialize();
+        </script>
+
+
+                    <script>
+                      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                      ga('create', 'UA-34189994-1', 'online-domain-tools.com');
+                      ga('send', 'pageview');
+                    </script>
+
+    <!-- GoogleAnalyticsEvents: No events. -->
+
+
+
+
+    </body>
+</html>

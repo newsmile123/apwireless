@@ -1,0 +1,110 @@
+html, body {
+background: #fafafa;
+font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+font-size: 1em;
+font-style: normal;
+line-height: 1em;
+}
+
+table {
+	border-collapse:collapse;
+}
+td {
+    font-family: Courier;
+    font-size: 12px;
+}
+input, select, option {
+	margin-left: 0px;
+	border-width: 1px;
+	border-style: inset solid solid inset;
+}
+
+header.global {
+	border-bottom: 1px solid #8a8c8f;
+	box-shadow: 0 1px 5px 0 rgba(0,0,0,0.1);
+	background: #fff;
+	height: 105px;
+	position: relative;
+	width: 1134px;
+	z-index: 10;
+	margin:auto;
+}
+header.global .logo {
+float: left;
+padding: 11px 0px 0px 50px;
+position: relative;
+left:5%;
+}
+
+header.global .block{
+float:left;
+font-size:30px;
+font-family: 'Forum', cursive;
+padding: 10px 0px 0px 50px;
+position: relative;
+left:5%;
+}
+
+.nav-menu{
+	border-bottom: 1px solid #8a8c8f;
+	box-shadow: 0 1px 5px 0 rgba(0,0,0,0.1);
+	background-color: #f1f4f4;
+	height: 50px;
+	position: relative;
+	width: 1134px;
+	z-index: 10;
+	margin:auto;
+}
+
+.nav-menu ol.menu{
+	margin:auto;
+	list-style: none;
+	width:650px;
+}
+
+.nav-menu li{
+display: inline-block;
+margin: 0 21px 0 0;
+font-size: 0.875em;
+font-weight: 600;
+text-transform: uppercase;
+letter-spacing: 0 !important;
+}
+
+.nav-menu li a {
+display: block;
+padding: 5px;
+color: #646464;
+font-weight: 600;
+}
+
+.nav-menu li a:hover {
+color:#1d9dd9;
+}
+
+.nav-menu ol>li a {
+letter-spacing: 1px;
+vertical-align: middle;
+}
+
+a:link, a:visited {
+color: #1d9dd9;
+font: normal 1em/1em "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+text-decoration: none;
+-webkit-transition: all 0.1s linear 0s;
+-moz-transition: all 0.1s linear 0s;
+transition: all 0.1s linear 0s;
+}
+
+#paper{
+width: 1134px;
+margin: 0 auto;
+position: relative;
+}
+
+
+#menu {
+	padding-top:20px;
+	width: 240px;
+	border: medium none;
+}

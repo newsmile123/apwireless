@@ -1,0 +1,778 @@
+<HTML>
+<HEAD>
+	<TITLE>Wireless Interface -  Slot B Configuration</TITLE><LINK rel="stylesheet" href="../orinoco/css/global.css">
+	<SCRIPT language="javascript" src="../orinoco/scripts/library.js"></SCRIPT>
+	<SCRIPT language="javascript" src="../orinoco/scripts/test.js"></SCRIPT>
+</HEAD>
+
+<SCRIPT language="javascript">
+	grp_live = 1;
+	subgrp_live = 2;
+	tri_grp_live = 7;
+    var interfaceA = '4 ';
+    var interfaceB = '6 ';
+    tri_subgrp_live=0;
+    if(interfaceA!=' ') tri_subgrp_live++;
+    if(interfaceB!=' ') tri_subgrp_live++;
+	
+
+</SCRIPT>
+
+<BODY style="margin:0px" background="../orinoco/images/bg.gif" rightmargin="0"  onload="detectCheck();fillWlpageDefaults11b('1 2 3 4 5 6 7 8 9 10 11 12 13 ','6','3')">
+
+<SCRIPT  LANGUAGE="JavaScript">
+function detectCheck(){
+		var option=-1;
+		option = '6 '
+		if(option==' ')
+			location.href="if-wirB-na.html";
+		else if (option == 4 )
+				location.href="if-wirB-11ag.html";
+		else if (option == 6 )
+				location.href="if-wirB-11ag.html";
+		else if(option == 2)
+				option='2';
+		else
+			document.write('<H1>Card modulation type not supported.  Please press the Back button on your browser and select again.</h1>');
+}
+</SCRIPT>	
+
+<SCRIPT language="javascript" src="../orinoco/scripts/menu.js"></SCRIPT>
+
+<!-- Start Header -->
+<!-- <BODY style="margin:0px"> -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0">
+	<TR>
+		<TD>
+			<TABLE width="150" height="90" cellpadding="0" cellspacing="0">
+			<TR>
+			<TD valign="top"><IMG src="../orinoco/images/logo.gif"></TD>
+			</TR>
+			<TR>
+			<TD align="right">&nbsp;</TD>
+			</TR>
+			</TABLE>
+		</TD>
+		<TD valign="bottom">
+			<TABLE cellpadding="0" cellspacing="0" width="100%"> <!-- For the table -->
+				<!-- For the first row -->
+				<TR>
+					<TD>
+						<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+							<SCRIPT language="javascript">
+		                            		var ProductId  = "1.3.6.1.4.1.11898.2.4.12";													
+                                                                var slotA = '4 ';
+		                            		        var slotB = '6 ';
+		                            		        var secModeA = '6';  
+		                            		        var secModeB = '1';  
+								InitMenu(ProductId, slotA, slotB, secModeA, secModeB);
+								var nbrTabs = subNumArray[grp_live];
+								if(nbrTabs>5)
+								{
+									var start,finish;
+									var nbrTabsDivbyTwo = (nbrTabs - (nbrTabs%2))/2;
+									if(subgrp_live >= (nbrTabsDivbyTwo + (nbrTabs%2)) )
+									{
+										start = 0;
+										finish = nbrTabsDivbyTwo -1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = nbrTabsDivbyTwo;
+											finish = nbrTabs-1;
+										}
+										else
+										{
+											start = nbrTabsDivbyTwo+1;
+										finish = nbrTabs-1;
+									}
+										
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,1,1);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+									document.write('</TABLE>');
+									document.write('</TD>');
+									document.write('</TR>');
+									<!-- For the second row -->
+									document.write('<TR>');
+									document.write('<TD>');
+									document.write('<TABLE class="tabrow" cellpadding="0" cellspacing="0">');
+									if(subgrp_live >= (nbrTabsDivbyTwo+ (nbrTabs%2)))
+									{
+										start = nbrTabsDivbyTwo;
+										finish = nbrTabs-1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = 0;
+											finish = nbrTabsDivbyTwo-1;
+										}
+										else
+										{
+										start = 0;
+											finish = nbrTabsDivbyTwo;
+										}
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,2,0);
+									document.write('<TD align="middle" background="../orinoco/images/iedge.gif">&nbsp;</TD>');
+								}
+								else
+								{
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,0,nbrTabs-1,0,0);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+								}
+							</SCRIPT>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+
+	
+	<TR>
+		<TD valign="top">
+			<TABLE align="center" cellpadding="10" cellspacing="0">
+				<SCRIPT language="javascript">
+					drawButtons(grp,grp_live);
+				</SCRIPT>
+			</TABLE>
+		</TD>
+<!-- End Header -->
+
+<TD bgcolor="white" height="95%" valign="top">
+<TABLE bgcolor="white" style="margin-left:25px; margin-bottom:25; margin-top: 5px" cellspacing="0" cellpadding="0" border="0" width="588">
+<!-- Start Subtabs -->
+
+	<TR>
+		<TD>
+			<TABLE cellpadding="0" cellspacing="0" width="95%">
+				<TR>
+					<TD>&nbsp;</TD>
+				</TR>
+				<TR>
+					<TD>
+						<TABLE cellpadding="0" cellspacing="0" width="100%">
+							<TR>
+								<TD>
+									<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+										<SCRIPT language="javascript">
+											var nbrTabs = subNumArray[tri_grp_live];
+											drawTabRow(subgrpArray[tri_grp_live],tri_grp_live,tri_subgrp_live,0,nbrTabs-1,4,0);
+										</SCRIPT>
+										<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>
+									</TABLE>
+								</TD>
+								<TD align="right" class="subtab-corner">&nbsp;</TD>
+							</TR>
+						</TABLE>
+					</TD>
+				</TR>
+				<!-- End Subtabs -->
+				<TR>					
+					<TD>
+						<TABLE bgcolor="white" cellpadding="0" cellspacing="0" border="0">
+						<TR>
+							<TD background="../orinoco/images/left_line.gif">&nbsp;</TD>
+
+
+
+<!-- BEGIN CONTENT //-->
+<TD>
+	<TABLE>
+		<TR>
+			<TD class="verbiage">
+				<P>Wireless interface properties determine the characteristics of the wireless medium as well as how wireless clients will 
+				communicate with the access point.</P>
+				<p><i><font color="#ff6600">Warning: If WDS is enabled, then automatic channel selection should be disabled.</i></font></p>
+                        <P><I>Note: This page allows configuration of a single SSID (Wireless Network Name); 
+                              in order to configure more than one SSID, please visit the <A href ="vlanGroups.html">SSID/VLAN/Security</A> page.</I></P>
+						<P><i>Note: Changes to these parameters except Wireless Service Status require access point reboot in order to take 
+								effect.</i></P>
+					</TD>
+		</TR>
+	</TABLE>
+	<FORM method="post" onReset="location.reload()" ACTION="if-wirB-11b.html">
+	<TABLE cellpadding="1" cellspacing="1" width="100%" style="margin-top:20px" border="0">
+		<TR> 
+			<TD>Wireless Interface Type</TD>
+			<TD class="readonly">
+				<SCRIPT  LANGUAGE="JavaScript" >
+					var option =  6
+                                        var supportedmodes = 'dot11bg,dot11g-wifi(Test-Only),dot11g-only,dot11b-only';
+                                        var opMode = '3';
+
+                                        if(((supportedmodes.indexOf("publicsafety"))!=-1) && (opMode == 6)) {
+                                           document.write('Public Safety (OFDM 4.9 GHz)');
+                                        }
+                                        else {
+					if(option == 1) {
+						document.write('FHSS');}
+					if(option == 2) {
+						document.write('802.11b (DSSS 2.4 GHz)');}
+					if(option ==3) {
+						document.write('IRBaseBand');}
+					if(option==4){
+						document.write('802.11a (OFDM 5 GHz)');	}
+                                        }
+				</SCRIPT>
+			</TD>
+		</TR>
+		<TR>
+			<TD>MAC Address</TD>
+			<TD class="readonly">00:20:A6:5A:6D:28</TD>
+		</TR>
+		<TR>
+			<TD>Regulatory Domain</TD>
+			<TD class="readonly">Europe (ETSI)</TD>
+		</TR>
+		<TR>
+			<TD>Network Name (SSID)</TD>
+			<TD> <INPUT class="formtext" type="text" onChange="modify(this)" name="EmWeb_ns:snmp:237.4" id="Text1" VALUE="its62"></TD>                                             
+		</TR>
+		<INPUT type="hidden" id="ACSbox" name="EmWeb_ns:snmp:238.4" VALUE="2">
+			<SCRIPT  LANGUAGE="JavaScript" >
+				var option = 2;
+				var objarray = new Array('FreqChanSelect');
+				var numobjs = 1;
+				var polarity = 1;
+				createInterCB('Auto Channel Select','ACSbox',option,objarray,numobjs,polarity);
+			</SCRIPT>
+
+		<TR>
+			<TD>Frequency Channel</TD>
+			<TD><SELECT onChange="modify(this)" class="formdrop" name="EmWeb_ns:snmp:236.4" id="FreqChanSelect">
+				<SCRIPT SCRIPT LANGUAGE="JavaScript" >
+					var option = 6;
+					var allowedfrequencies = '31:20:32:20:33:20:34:20:35:20:36:20:37:20:38:20:39:20:31:30:20:31:31:20:31:32:20:31:33:20';
+					displayFrequency( allowedfrequencies, option );
+				</SCRIPT>
+				</SELECT>
+			</TD>
+		</TR>
+		<TR>
+			<TD>Distance Between APs</TD>
+			<TD align="top"><SELECT ID="distAPbox" class="formdrop" NAME="EmWeb_ns:snmp:252.4" onChange="fillAPandRateArray(this.form.mcastRateBox,APandRateArray[this.form.distAPbox.selectedIndex]);modify(this);modify(this.form.mcastRateBox);">
+				<SCRIPT  LANGUAGE="JavaScript" >
+					var option = 1;
+					document.write('<OPTION VALUE=1 ');
+					if(option==1){
+						document.write(' SELECTED ');
+					}
+					document.write('>Large<OPTION VALUE=2 ');
+					if(option==2){
+						document.write(' SELECTED ');
+					}
+					document.write('>Medium<OPTION VALUE=3 ');
+					if(option==3){
+						document.write(' SELECTED ');
+					}
+					document.write('>Small<OPTION VALUE=4 ');
+					if(option==4){
+						document.write(' SELECTED ');
+					}
+					document.write('>Minicell<OPTION VALUE=5 ');
+					if(option==5){
+						document.write(' SELECTED ');
+					}
+					document.write('>Microcell');
+				</Script>
+				</SELECT><br>
+		</TR>
+		<TR>
+			<TD>Multicast Rate</TD>
+			<td><SELECT ID="mcastRateBox" class="formdrop" NAME="EmWeb_ns:snmp:253.4" onChange="modify(this);">
+				<SCRIPT  LANGUAGE="JavaScript" >
+					var option = 4;
+					document.write('<OPTION VALUE=2 ');
+					if(option==2){
+						document.write(' SELECTED ');
+					}
+					document.write('>1 Mbit/sec<OPTION VALUE=4 ');
+					if(option==4){
+						document.write(' SELECTED ');
+					}
+						document.write('>2 Mbit/sec<OPTION VALUE=11 ');
+					if(option==11){
+						document.write(' SELECTED ');
+					}
+					document.write('>5.5 Mbit/sec<OPTION VALUE=22 ');
+					if(option==22){
+						document.write(' SELECTED ');
+					}
+					document.write('>11 Mbit/sec');
+				</Script>
+				</SELECT>
+			</td>
+		</tr>
+		
+		<TR>
+			<TD>DTIM Period (1-255 )</TD>
+			<TD><INPUT onChange="modify(this)" type="text" class="formtext" name="EmWeb_ns:snmp:241.4" id="Text3" VALUE="1"></TD>
+		</TR>
+		<TR>
+			<TD>RTS/CTS Medium Reservation (2347=off)</TD>
+			<TD><INPUT onChange="modify(this)" class="formtext" type="text" name="EmWeb_ns:snmp:242.4" id="Text2" VALUE="2347"></TD>
+		</TR>
+		<INPUT type="hidden" id="IfRobustBox" name="EmWeb_ns:snmp:247.4" VALUE="0">
+			<SCRIPT  LANGUAGE="JavaScript" >
+				var option = 0
+				createCB('Interference Robustness','IfRobustBox',option);
+			</SCRIPT>
+		<INPUT type="hidden" id="ClosedSysBox" name="EmWeb_ns:snmp:254.4" VALUE="2">
+			<SCRIPT  LANGUAGE="JavaScript" >
+				var option = 2;
+				createCB('Closed System','ClosedSysBox',option);
+			</SCRIPT>
+
+		<INPUT type="hidden" id="LoadBalanceBox" name="EmWeb_ns:snmp:248.4" VALUE="0">
+			<SCRIPT  LANGUAGE="JavaScript" >
+				var option = 0;
+				createCB('Load Balancing','LoadBalanceBox',option);
+			</SCRIPT>	
+
+		<INPUT type="hidden" id="MDDvalueBox" name="EmWeb_ns:snmp:249.4" VALUE="0">
+			<SCRIPT  LANGUAGE="JavaScript" >
+				var option = 0;
+				createCB('Medium Density Distribution','MDDvalueBox',option);
+			</SCRIPT>
+		<TR>
+						<TD>Wireless Service Status</TD>
+						<TD>
+							<SELECT name="EmWeb_ns:snmp:243.4" type="text" onChange="modify(this)" class="formdrop">
+							<SCRIPT LANGUAGE="JavaScript">var option=1
+							document.write('<OPTION VALUE=1 ')
+							if(option ==1) {
+								document.write(' SELECTED ');
+							}
+							document.write('>Resume<OPTION VALUE=2 ')
+							if(option ==2) {
+								document.write(' SELECTED ');
+							}
+							document.write('>ShutDown')
+							</SCRIPT>
+							</SELECT>
+						</TD>
+					</TR>               
+		<TR>
+			<TD colspan="2"><IMG src="../orinoco/images/spacer.gif" width="100%" height="15"></TD>
+		</TR>
+		<TR>
+			<TD colspan="2" align="center">
+				<TABLE cellpadding="0" cellpadding="0" border="0" width="270">
+					<TR>
+						<TD><A href="javascript:transmit()"><IMG src="../orinoco/images/ok.gif" width="93" height="25" alt="Ok" border="0"></TD>
+						<TD><A href="javascript:cancel()"><IMG src="../orinoco/images/cancel.gif" width="93" height="25" alt="Cancel" border="0"></A></TD>
+					</TR>
+				</TABLE>
+			</TD>
+		</TR>
+		<TR>
+			<TD colspan="2">&nbsp;</TD>
+		</TR>
+		<!--- BLACKLIST CHANNELS -->
+		<TR>
+			<TD colspan="2" class="header">Channel Blacklist Table</TD>
+		</TR>
+		<TR>
+			<TD colspan="2">
+				<TABLE cellpadding="0" cellspacing="0" border="0" align="center" width="100%">
+									<TR>
+						<TD class="verbiage">
+						<P>This table is used to configure blacklist channels.  A channel can  be blacklisted automatically if radar is detected on the operating  
+channel (this is applicable only to specific regulatory domains).  If  radar is detected on a channel, that channel will be blacklisted for  
+30 minutes.  A channel can also be blacklisted by the administrator in case that channel is not to be used when ACS is enabled.</P>
+						</TD>
+				</TR>
+
+				</TABLE>
+			</TD>
+		</TR>
+		<TR>
+			<TD colspan="2">
+			<TABLE cellpadding="0" cellspacing="0" border="0">
+	<TR>
+		<TD><IMG src="../orinoco/images/topleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+		<TD width="100%"><IMG src="../orinoco/images/top_line.gif" width="100%" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/topright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+	</TR>
+	<TR>
+		<TD background="../orinoco/images/left_line.gif">&nbsp;</TD>
+
+
+				<TD valign="middle">
+				<TABLE cellpadding="0" cellspacing="0" border="0" align="center" width="100%">
+						<TR>
+							<TD colspan="3">
+								<TABLE width="100%" cellpadding="0" cellspacing="0">
+									<TR>
+										<TD align="center"><A href="addedit/blcB-edit.html"><IMG src="../orinoco/images/button-edit.gif" border="0"></A></A></TD>
+									</TR>
+									<TR>
+										<TD><IMG src="../orinoco/images/spacer.gif" width="100%" height="15"></TD>
+									</TR>
+								</TABLE>
+							</TD>
+						</TR>
+						<TR>
+							<TD class="tableheader">Channel</TD>
+							<TD class="tableheader">Radar Detected</TD>
+							<TD class="tableheader">Elapsed Time (Minutes)</TD>
+							<TD class="tableheader">Blacklist Status</TD>
+						</TR>
+						
+						<TR>
+							<TD>1</TD>
+							
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									radarListStatus(2)
+								</SCRIPT>
+							</TD>		
+							<TD>0</TD>
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									blackListStatus(2)
+								</SCRIPT>
+							</TD>
+						</TR>
+						
+						<TR>
+							<TD>2</TD>
+							
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									radarListStatus(2)
+								</SCRIPT>
+							</TD>		
+							<TD>0</TD>
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									blackListStatus(2)
+								</SCRIPT>
+							</TD>
+						</TR>
+						
+						<TR>
+							<TD>3</TD>
+							
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									radarListStatus(2)
+								</SCRIPT>
+							</TD>		
+							<TD>0</TD>
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									blackListStatus(2)
+								</SCRIPT>
+							</TD>
+						</TR>
+						
+						<TR>
+							<TD>4</TD>
+							
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									radarListStatus(2)
+								</SCRIPT>
+							</TD>		
+							<TD>0</TD>
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									blackListStatus(2)
+								</SCRIPT>
+							</TD>
+						</TR>
+						
+						<TR>
+							<TD>5</TD>
+							
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									radarListStatus(2)
+								</SCRIPT>
+							</TD>		
+							<TD>0</TD>
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									blackListStatus(2)
+								</SCRIPT>
+							</TD>
+						</TR>
+						
+						<TR>
+							<TD>6</TD>
+							
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									radarListStatus(2)
+								</SCRIPT>
+							</TD>		
+							<TD>0</TD>
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									blackListStatus(2)
+								</SCRIPT>
+							</TD>
+						</TR>
+						
+						<TR>
+							<TD>7</TD>
+							
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									radarListStatus(2)
+								</SCRIPT>
+							</TD>		
+							<TD>0</TD>
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									blackListStatus(2)
+								</SCRIPT>
+							</TD>
+						</TR>
+						
+						<TR>
+							<TD>8</TD>
+							
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									radarListStatus(2)
+								</SCRIPT>
+							</TD>		
+							<TD>0</TD>
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									blackListStatus(2)
+								</SCRIPT>
+							</TD>
+						</TR>
+						
+						<TR>
+							<TD>9</TD>
+							
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									radarListStatus(2)
+								</SCRIPT>
+							</TD>		
+							<TD>0</TD>
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									blackListStatus(2)
+								</SCRIPT>
+							</TD>
+						</TR>
+						
+						<TR>
+							<TD>10</TD>
+							
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									radarListStatus(2)
+								</SCRIPT>
+							</TD>		
+							<TD>0</TD>
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									blackListStatus(2)
+								</SCRIPT>
+							</TD>
+						</TR>
+						
+						<TR>
+							<TD>11</TD>
+							
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									radarListStatus(2)
+								</SCRIPT>
+							</TD>		
+							<TD>0</TD>
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									blackListStatus(2)
+								</SCRIPT>
+							</TD>
+						</TR>
+						
+						<TR>
+							<TD>12</TD>
+							
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									radarListStatus(2)
+								</SCRIPT>
+							</TD>		
+							<TD>0</TD>
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									blackListStatus(2)
+								</SCRIPT>
+							</TD>
+						</TR>
+						
+						<TR>
+							<TD>13</TD>
+							
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									radarListStatus(2)
+								</SCRIPT>
+							</TD>		
+							<TD>0</TD>
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									blackListStatus(2)
+								</SCRIPT>
+							</TD>
+						</TR>
+						
+				</TABLE>
+				</TD>
+					<TD background="../orinoco/images/right_line.gif">&nbsp;</TD>
+	</TR>
+	<TR>
+		<TD><IMG src="../orinoco/images/bottomleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/bottom_line.gif" width="100%" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/bottomright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+	</TR>
+</TABLE>
+
+			</TD>
+		</TR>
+		<TR>
+			<TD colspan="2" class="header">Wireless Distribution System (WDS)</TD>
+		</TR>
+		<TR>
+			<TD colspan="2">
+				<TABLE cellpadding="0" cellspacing="0" border="0" align="center" width="100%">
+					<TR>
+						<TD class="verbiage">
+							<P>WDS can be used to establish point-to-point (i.e. wireless backhaul) connections with other access 
+							points.  This table is used to configure WDS partner access points.</P>
+						</TD>
+					</TR>
+				</TABLE>
+			</TD>
+		</TR>
+		<TR>
+			<TD colspan="2">
+			<TABLE cellpadding="0" cellspacing="0" border="0">
+	<TR>
+		<TD><IMG src="../orinoco/images/topleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+		<TD width="100%"><IMG src="../orinoco/images/top_line.gif" width="100%" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/topright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+	</TR>
+	<TR>
+		<TD background="../orinoco/images/left_line.gif">&nbsp;</TD>
+
+
+				<!-- Dump Contents Here! -->
+				<TD valign="middle">
+					<TABLE cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
+						<TR>
+							<TD colspan="3">
+								<TABLE width="100%" cellpadding="0" cellspacing="0">
+									<TR>
+										<TD align="center"><A href="addedit/wds-b-edit.html"><IMG src="../orinoco/images/button-edit.gif" border="0"></A></A></TD>
+									</TR>
+									<TR>
+										<TD><IMG src="../orinoco/images/spacer.gif" width="100%" height="15"></TD>
+									</TR>
+								</TABLE>
+							</TD>
+						</TR>
+						<TR>
+							<TD class="tableheader">Port Index</TD>
+							<TD class="tableheader">Partner MAC Address</TD>
+							<TD class="tableheader">Status</TD>
+						</TR>
+						
+						<TR>
+							<TD>1</TD>
+							<TD>00:20:A6:5A:6D:16</TD>
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									tableStatus(1)
+								</SCRIPT>
+							</TD>
+						</TR>
+						
+						<TR>
+							<TD>2</TD>
+							<TD>00:00:00:00:00:00</TD>
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									tableStatus(2)
+								</SCRIPT>
+							</TD>
+						</TR>
+						
+						<TR>
+							<TD>3</TD>
+							<TD>00:00:00:00:00:00</TD>
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									tableStatus(2)
+								</SCRIPT>
+							</TD>
+						</TR>
+						
+						<TR>
+							<TD>4</TD>
+							<TD>00:00:00:00:00:00</TD>
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									tableStatus(2)
+								</SCRIPT>
+							</TD>
+						</TR>
+						
+						<TR>
+							<TD>5</TD>
+							<TD>00:00:00:00:00:00</TD>
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									tableStatus(2)
+								</SCRIPT>
+							</TD>
+						</TR>
+						
+						<TR>
+							<TD>6</TD>
+							<TD>00:00:00:00:00:00</TD>
+							<TD><SCRIPT LANGUAGE="JavaScript">
+									tableStatus(2)
+								</SCRIPT>
+							</TD>
+						</TR>
+						
+					</TABLE>
+				</TD>
+				<!-- End customized table -->
+					<TD background="../orinoco/images/right_line.gif">&nbsp;</TD>
+	</TR>
+	<TR>
+		<TD><IMG src="../orinoco/images/bottomleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/bottom_line.gif" width="100%" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/bottomright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+	</TR>
+</TABLE>
+
+			</TD>
+		</TR>
+	</TABLE>
+	</FORM>
+</TD>
+<!-- END CONTENT -->
+
+
+							<TD background="../orinoco/images/right_line.gif">&nbsp;</TD>
+						</TR>
+						<TR>
+							<TD><IMG src="../orinoco/images/bottomleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+							<TD><IMG src="../orinoco/images/bottom_line.gif" width="100%" height="25" alt="" border="0"></TD>
+							<TD><IMG src="../orinoco/images/bottomright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+						</TR>
+
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+
+
+		</TD>
+	</TR>
+</TR>
+</TABLE>
+
+<!-- Start Footer -->
+	<FORM name="rebootform" method="post" ACTION="../prototail.html">
+		<INPUT type="hidden" id="rebootflag" name="EmWeb_ns:snmp:568" value="0" class="formtext">
+	</FORM>
+
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
+<!-- End Footer -->
+
+
+
+</BODY>
+</HTML>

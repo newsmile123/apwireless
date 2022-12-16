@@ -1,0 +1,360 @@
+<HTML>
+<HEAD>
+	<SCRIPT language="javascript" src="../orinoco/scripts/menu.js"></SCRIPT>
+	<TITLE>Setup Wizard - Configuration Summary</TITLE>
+	<LINK rel="stylesheet" href="../orinoco/css/global.css">
+	<SCRIPT language="javascript" src="../orinoco/scripts/library.js"></SCRIPT>
+	<SCRIPT language="javascript" src="../orinoco/scripts/test.js"></SCRIPT>
+	<SCRIPT language="javascript">
+    
+		function finishedYet(mibobj)
+		{
+			if(mibobj=='1')
+				location.href="rebooting.html"
+			else  {
+				modifys(document.forms[0].finishedWizzing);
+				modifys(document.forms[0].rebootflag);
+			}
+		}
+
+        function displayCardType(cardType, supportedmodes, opMode) {
+           if(((supportedmodes.indexOf("publicsafety"))!=-1) && (opMode == 6)) {
+               document.write('Public Safety (OFDM 4.9 GHz)');
+           }
+           else { 
+           switch(cardType) {
+           case 1:  document.write('FHSS'); break;
+           case 2:  document.write('802.11b (DSSS 2.4 GHz)'); break; 
+           case 3:  document.write('IRBaseBand'); break;
+           case 4:  document.write('802.11a (OFDM 5 GHz)'); break;
+           case 6:  document.write('802.11g (OFDM / DSSS 2.4 GHz)'); break;
+           default: document.write(' No Card Present'); break;
+           }
+        }
+        }
+
+        function displayCardOperationalMode(mode) {
+          switch(mode) {
+          case 1:  document.write('802.11b'); break;
+          case 2:  document.write('802.11g'); break; 
+          case 3:  document.write('802.11bg'); break;
+          case 4:  document.write('802.11a'); break;
+          case 5:  document.write('802.11g-wifi(Test-Only)'); break;
+          case 6:  document.write('publicsafety');break;
+          default: document.write('undefined'); break;
+          }
+       }
+
+
+        function displayACS(acsEnabled){
+           switch (acsEnabled) {
+           case 1: document.write('Enabled'); break;
+           case 2: document.write('Disabled'); break;
+           default: document.write('Undefined'); break;
+           }
+        }
+
+        function displayDistanceBetweenAPs(APdist) {
+           switch(APdist) {
+           case 1:  document.write('Large'); break;
+           case 2:  document.write('Medium'); break;
+           case 3:  document.write('Small'); break; 
+           case 4:  document.write('Mini'); break; 
+           case 5:  document.write('Micro'); break;
+           default: document.write('undefined'); break;
+           }  
+        }
+
+        function displayMulticastRate(mcastrate) {
+           switch(mcastrate) {
+           case 2:  document.write('1 Mbit/sec'); break;
+           case 4:  document.write('2 Mbit/sec'); break;
+           case 11: document.write('5.5 Mbit/sec'); break;  
+           case 22: document.write('11 Mbit/sec'); break; 
+           default: document.write('undefined'); break;
+           }  
+        }
+
+        function displayTxRate(txrate) {
+           switch(txrate) {
+           case 0: document.write('Auto FallBack'); break;
+           case  2:
+           case  4:
+           case 11:
+           case 12:
+           case 18:
+           case 22:
+           case 24:
+           case 36:
+           case 48:
+           case 72:
+           case 96:
+           case 108:
+                    document.write( txrate/2);
+                    document.write(' Mbit/sec');
+                    break
+           default: document.write('undefined');
+                    break;
+           }
+        }
+
+        function displayEncryptionStatus(encEnabled) {
+           switch(encEnabled) {
+           case 1:  document.write('Enabled'); break; 
+           case 2:  document.write('Disabled'); break;
+           default: document.write('undefined'); break;
+           } 
+        }
+
+
+		function displayChanFreq(chan)
+		{
+		var chanNo;
+		
+			if((chanNo=parseInt(chan))<20) {
+   				var freq = (2.407+((5*chanNo)/1000));
+					
+			} else {
+	   			var freq = (((5000+((chanNo/4)*20)))/1000);
+			}
+			
+ 			var ChanFreqString = chan + " - " + freq + " GHz";				
+			document.write(ChanFreqString);
+
+		}  
+
+	</SCRIPT>
+</HEAD>
+
+<SCRIPT language="javascript">
+	function DoneSetupWiz()
+	{
+		modifys(document.forms[0].finishedWizzing);
+		modifys(document.forms[0].rebootflag);
+		transmit();
+	}
+</SCRIPT>
+
+            
+				
+<BODY style="margin:0px" background="../orinoco/images/bg.gif" rightmargin="0" >
+
+<SCRIPT language="javascript" src="../orinoco/scripts/menu.js"></SCRIPT>
+
+<!-- Start Header -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0">
+	<TR height="90"><TD colspan=2>
+			<TABLE width="155" height="90" cellpadding="0" cellspacing="0">
+				<TR><TD valign="top"><IMG src="../orinoco/images/logo.gif"></TD></TR>
+			</TABLE>
+	</TD></TR>
+	<TR><TD width=10>&nbsp;</TD>
+		<TD valign="top" width=100><H5>
+			<a href="setup-intro.html" STYLE="color:#3c5580">Step 1:<br>Introduction</a><br><br>
+			<a href="setup-sysconf.html" STYLE="color:#3c5580">Step 2:<br>System Configuration</a><br><Br>
+			<a href="setup-ip.html" STYLE="color:#3c5580">Step 3:<Br>IP Configuration</a><br><br>
+			<a href="setup-pass.html" STYLE="color:#3c5580">Step 4:<Br>Password Configuration</a><br><br>
+			<a href="setup-opmode.html" STYLE="color:#3c5580">Step 5:<Br>Wireless Interfaces Configuration</a><br><br>
+            <font color="#ff6600">Step 6:<br>Summary</FONT>
+		</H5></TD>
+        <TD bgcolor="white" valign="top" width=100%>
+			<TABLE STYLE="margin:15px" CELLPADDING="0" CELLSPACING="0" BORDER="0" width="550">
+				<TR><TD class="verbiage" valign="top">
+						<p>This page provides a summary of the access point configuration that has been done via the setup wizard pages.  Please review the configured values and if any of the parameters need to reconfigured visit the appropriate configuration page by clicking the link in the navigation bar.  You may want to save and/or print this page for future reference.</p>                  
+						<p>In order for the changes to take effect, the access point will have to be rebooted.  Click the reboot button below to reboot the unit.  At this point you have successfully completed the access point setup wizard configuration.</p>                  
+						<FORM method="post" ACTION="setup-summary.html">
+						<TABLE cellpadding="2" cellspacing="0" width="100%" border="0">
+							<TR><TD><font color="#ff6600"><a href="setup-sysconf.html">System Configuration</A></FONT></TD><TD>&nbsp;</TD></TR>
+							<TR><TD>System Name</TD><TD class="readonly">AP6-P-4000MR</TD></TR>
+							<TR><TD>System Location</TD><TD class="readonly">its</TD></TR>
+							<TR><TD>Contact Name</TD><TD class="readonly">itsmanager</TD></TR>
+							<TR><TD>Contact Phone</TD><TD class="readonly">+78124045406</TD></TR>	
+							<TR><TD>Contact Email</TD><TD class="readonly"> itsmanader@wt.ifmo.ru</TD></TR>
+							<TR><TD><BR><font color="#ff6600"><a href="setup-ip.html">IP Configuration</A></FONT></TD><TD>&nbsp;</TD></TR>
+							<TR><TD>IP Address Assignment Type</TD>
+								<TD class="readonly"><SCRIPT  LANGUAGE="JavaScript">
+										var option = 1;
+										if(option == 1) { document.write(' Static'); }
+										if(option == 2) { document.write(' Dynamic'); }
+									</SCRIPT></TD></TR>	
+							<TR><TD>IP Address</TD><TD class="readonly">172.170.2.56</TD></TR>
+							<TR><TD>Subnet Mask</TD><TD class="readonly">255.255.0.0</TD></TR>
+							<TR><TD>Gateway IP Address</TD><TD class="readonly">172.170.1.1</TD></TR>
+							<TR><TD><BR><font color="#ff6600"><a href="setup-opmode.html">Wireless Interface Configuration</A></FONT></TD></TR>
+							<TR><TD><INPUT type="hidden" id="rebootflag" name="EmWeb_ns:snmp:568" value="3" class="formtext"></TD>
+					            <TD><INPUT type="hidden" id="finishedWizzing" name="EmWeb_ns:snmp:272" value="2" class="formtext"></TD></TR>
+								<SCRIPT  LANGUAGE="JavaScript">  
+                                   var optionStringA = '4';                           
+                                   var supportedmodes = 'dot11a-only';
+                                   var opMode = '4';
+
+                                   if(optionStringA==''){
+                                      document.write('<TR><TD>Wireless - A</TD><TD>&nbsp;</TD></TR><TR><TD>&nbsp;No Card Present</TD><TD>&nbsp;</TD></TR>');  
+                                   }
+                                   else{
+                                      var option = eval(optionStringA); 
+                                      document.write('<TR><TD>Wireless - A</TD>');
+                                      document.write('<TD class="readonly">');displayCardType(option, supportedmodes, opMode); document.write('</TD></TR>');   
+
+                                      var opMode = eval('4'); 
+                                      document.write('<TR><TD>&nbsp;Physical Interface Type</TD>');
+                                      document.write('<TD class="readonly">'); displayCardOperationalMode(opMode); document.write('</TD></TR>');
+
+                                      if (option>1) {                                          
+                                          document.write('<TR><TD>&nbsp;MAC Address</TD>');  
+                                          document.write('<TD class="readonly">00:20:A6:5A:6D:27 </TD></TR>');                             
+                                          document.write('<TR><TD>&nbsp;Network Name</TD>');
+                                      	document.write('<TD class="readonly">its65</TD></TR>');                              
+
+                                          var supportedmodes = 'dot11a-only'; 
+                                          var opMode = '4'; 
+					  if (((supportedmodes.indexOf("publicsafety"))!=-1) && (opMode == '6')) {
+                                             document.write('<TR><TD>&nbsp;Channel Bandwidth</TD>');
+                                      	     document.write('<TD class="readonly">20</TD></TR>');  
+                                          }
+                                          var acsEnabled =  eval('1'); 
+                                          document.write('<TR><TD>&nbsp;Auto Channel Select</TD>');
+                                          document.write('<TD class="readonly">'); displayACS(acsEnabled); document.write('</TD></TR>');
+                                          if(acsEnabled == 2) {
+                                              var option2= eval('108');
+                                              document.write('<TR><TD>&nbsp;Frequency Channel</TD>');
+                                              document.write('<TD class="readonly">'); displayChanFreq(option2); document.write('</TD></TR>');
+                                          } 
+                                        var option1 = eval('1'); 
+                                      	if(option==2 && option1!=0) {
+                                             var APdist = eval('1');
+                                             document.write('<TR><TD>&nbsp;Distance Between APs</TD>');
+                                             document.write('<TD class="readonly">'); displayDistanceBetweenAPs(APdist); document.write('</TD></TR>');
+                                             var mcastrate = eval('48');
+                                             document.write('<TR><TD>&nbsp;Multicast Rate</TD>');
+                                             document.write('<TD class="readonly">'); displayMulticastRate(mcastrate); document.write('</TD></TR>');
+                                          }
+                                      	  else {
+                                             var txrate = eval('108');
+                                             document.write('<TR><TD>&nbsp;Transmit Rate</TD>');
+                                             document.write('<TD class="readonly">'); displayTxRate(txrate); document.write('</TD></TR>'); 
+                                          }
+
+                                          var supportedmodes = '********'; 
+                                          var secMode= eval('0');
+                                          var txKey =  eval('0');
+                                          var rekeyInterval = eval('900');
+                                          if(((supportedmodes.indexOf("wpa"))!=-1) || ((supportedmodes.indexOf("wpa-psk"))!=-1) ||
+                                              ((supportedmodes.indexOf("wep"))!=-1)) { 
+                                                  document.write('<TR><TD>&nbsp;Security Mode</TD><TD>');
+                                                  if(secMode == 1) { document.write('None'); }
+                                                  if(secMode == 4) { document.write('WPA'); }
+                                                  if(secMode == 5) { document.write('WPA-PSK'); }
+                                                  if(secMode == 6) { document.write('WEP'); }
+                                                  document.write('</TD></TR>');
+
+                                                  if(secMode == 6) { 
+                                                     document.write('<TR><TD>&nbsp;Encryption Transmit Key</TD><TD>');
+                                                     if(txKey == 0) { document.write('Key 0'); }
+                                                     if(txKey == 1) { document.write('Key 1'); }
+                                                     if(txKey == 2) { document.write('Key 2'); }
+                                                     if(txKey == 3) { document.write('Key 3'); }
+                                                     document.write('</TD></TR>');
+                                                  }
+
+                                                  if(secMode == 4) { 
+                                                     document.write('<TR><TD>&nbsp;Rekeying Interval (seconds)</TD><TD>' + rekeyInterval +'</TD></TR>'); 
+                                                  }
+                                           }        
+                                      } 
+                                   }
+                                       var optionStringB = '6';
+                                       var supportedmodes = 'dot11bg,dot11g-wifi(Test-Only),dot11g-only,dot11b-only';
+                                       var opMode = '3';
+
+                                  if(optionStringB==''){
+                                     var objId  = "1.3.6.1.4.1.11898.2.4.12";						
+						             if((objId.indexOf("1.3.6.1.4.1.11898.2.4.6") !=-1)||(objId.indexOf("1.3.6.1.4.1.11898.2.4.12") !=-1)||(objId.indexOf("1.3.6.1.4.1.11898.2.4.14") !=-1))  {
+                                        document.write('<TR height=30 valign=bottom><TD>Wireless - B</TD><TD>&nbsp;</TD></TR><TR><TD>&nbsp;No Card Present</TD><TD>&nbsp;</TD></TR>');  
+                                     }
+                                  }
+                                  else {
+                                       var option = eval(optionStringB);
+                                       document.write('<TR height=30 valign=bottom><TD>Wireless - B</TD>');
+                                       document.write('<TD class="readonly">'); displayCardType(option, supportedmodes, opMode ); document.write('</TD></TR>'); 
+
+                                       var opMode = eval('3'); 
+                                       document.write('<TR><TD>&nbsp;Physical Interface Type</TD>');
+			               document.write('<TD class="readonly">'); displayCardOperationalMode(opMode);; document.write('</TD></TR>');          
+			                           if (option>1){                                            
+                                        document.write('<TR><TD>&nbsp;MAC Address</TD>');
+			                           	  document.write('<TD class="readonly">00:20:A6:5A:6D:28</TD></TR>');           
+                                        document.write('<TR><TD>&nbsp;Network Name</TD>');
+			                           	  document.write('<TD class="readonly">its62</TD></TR>');          
+                                        var acsEnabled =  eval('2');
+			                           	  document.write('<TR><TD>&nbsp;Auto Channel Select</TD>');
+                                        document.write('<TD class="readonly">'); displayACS(acsEnabled); document.write('</TD></TR>');
+                                        if(acsEnabled == 2) {
+                                           option2= eval('6');
+                                           document.write('<TR><TD>&nbsp;Frequency Channel</TD>');
+                                           document.write('<TD class="readonly">'); displayChanFreq(option2); document.write('</TD></TR>');
+                                        } 
+                                        var option1 = eval('1');
+			                           	  if(option==2 && option1!=0) {
+                                           var APdist = eval('1'); 
+			                           		 document.write('<TR><TD>&nbsp;Distance Between APs</TD>');
+                                           document.write('<TD class="readonly">'); displayDistanceBetweenAPs(APdist); document.write('</TD></TR>');
+                                           var mcastrate = eval('4');
+                                           document.write('<TR><TD>&nbsp;Multicast Rate</TD>');
+                                           document.write('<TD class="readonly">'); displayMulticastRate(mcastrate); document.write('</TD></TR>');
+			                               }
+			                               else {
+                                           var txrate = eval('0');
+			                                 document.write('<TR><TD>&nbsp;Transmit Rate</TD>');
+                                           document.write('<TD class="readonly">'); displayTxRate(txrate); document.write('</TD></TR>');
+			                               } 
+
+                                           var supportedmodes = '********'; 
+                                           var secMode= eval('0');
+                                           var txKey =  eval('0');
+                                           var rekeyInterval = eval('900');
+                                         
+                                          if(((supportedmodes.indexOf("wpa"))!=-1) || ((supportedmodes.indexOf("wpa-psk"))!=-1) ||
+                                              ((supportedmodes.indexOf("wep"))!=-1)) { 
+                                                  document.write('<TR><TD>&nbsp;Security Mode</TD><TD>');
+                                                  if(secMode == 1) { document.write('None'); }
+                                                  if(secMode == 4) { document.write('WPA'); }
+                                                  if(secMode == 5) { document.write('WPA-PSK'); }
+                                                  if(secMode == 6) { document.write('WEP'); }
+                                                  document.write('</TD></TR>');
+
+                                                  if(secMode == 6) { 
+                                                     document.write('<TR><TD>&nbsp;Encryption Transmit Key</TD><TD>');
+                                                     if(txKey == 0) { document.write('Key 0'); }
+                                                     if(txKey == 1) { document.write('Key 1'); }
+                                                     if(txKey == 2) { document.write('Key 2'); }
+                                                     if(txKey == 3) { document.write('Key 3'); }
+                                                     document.write('</TD></TR>');
+                                                  }
+
+                                                  if(secMode == 4) { 
+                                                     document.write('<TR><TD>&nbsp;Rekeying Interval (seconds)</TD><TD>' + rekeyInterval +'</TD></TR>'); 
+                                                  }
+                                          }      
+                                     } 
+
+
+                                  }   
+                                  
+							   	</SCRIPT>                
+				            <TR><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+				            <TR><TD align="center" colspan="2" class="header">
+					        <TABLE ALIGN="center" CELLSPACING="2" CELLPADDING="2" BORDER="0">
+						       <TR><TD ALIGN="center"><A href="javascript:DoneSetupWiz()"><IMG src="../orinoco/images/button-reboot.gif" alt="Reboot" border="0"></a></TD></TR>
+					        </TABLE>
+				            </TD></TR>
+			            </TABLE>
+		                </FORM>
+		        </TD></TR>
+	        </TABLE>
+	    </TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>
+

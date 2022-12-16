@@ -1,0 +1,715 @@
+<HTML>
+<HEAD>
+<!--<META HTTP-EQUIV="Refresh" content="30"> !-->
+	<TITLE>Mesh Link Statistics</TITLE><LINK rel="stylesheet" href="../orinoco/css/global.css">
+	<SCRIPT language="javascript" src="../orinoco/scripts/library.js"></SCRIPT>
+	<SCRIPT language="javascript" src="../orinoco/scripts/test.js"></SCRIPT>
+</HEAD>
+
+<BODY onload="onLoadDefaults();" style="margin:0px" background="../orinoco/images/bg.gif" rightmargin="0">
+
+<SCRIPT language="javascript">
+	grp_live = 2;
+	subgrp_live = 8;
+	tri_grp_live = 17;
+	tri_subgrp_live = 3;
+
+	 var AP2000 = "1.3.6.1.4.1.11898.2.4.6";
+	var AP600  = "1.3.6.1.4.1.11898.2.4.10";
+	var AP4000 = "1.3.6.1.4.1.11898.2.4.12";
+    var AP700  = "1.3.6.1.4.1.11898.2.4.13";
+
+    var MeshLicensed = 1;
+    if (MeshLicensed == 0) {
+        location.href="noMeshLicense.html";
+    }
+
+	// check product is mesh capable
+    var ProductId  = "1.3.6.1.4.1.11898.2.4.12";	
+	if((ProductId.indexOf(AP2000) !=-1) || (ProductId.indexOf(AP600) !=-1)) 
+	     location.href="meshinvalid.html";
+
+    // check product is mesh enabled
+	var meshMode = parseInt('1');    
+    var meshNeighborIndex = parseInt('');    
+		
+    if (meshMode == 0){
+	   // mesh not supported	
+	   location.href="meshinvalid.html";
+    }
+	
+    if (meshMode == 1){
+	   // mesh disabled 	
+       location.href="meshdisabled.html";
+    }
+
+function getSelectedRadio(buttonGroup) {
+   // returns the array number of the selected radio button or -1 if no button is selected
+   if (buttonGroup[0]) { // if the button group is an array (one button is not an array)
+      for (var i=0; i<buttonGroup.length; i++) {
+         if (buttonGroup[i].checked) {
+            return i
+         }
+      }
+   } else {
+      if (buttonGroup.checked) { return 0; } // if the one button is checked, return zero
+   }
+   // if we get to this point, no radio button is selected
+   return -1;
+} 
+
+function getButtonValue()
+{
+   // returns the value of the selected radio button or "" if no button is selected
+	var buttonGroup = document.forms[0].StationStatTableIndex;
+   if(buttonGroup == "") {
+		window.alert("No mesh access point  selected.");
+		return;
+		}
+
+  var i = getSelectedRadio(buttonGroup);
+
+   if (i == -1) {
+      return "";
+   } else {
+      if (buttonGroup[i]) { // Make sure the button group is an array (not just one button)
+         return buttonGroup[i].value;
+      } else { // The button group is just the one button, and it is checked
+         return buttonGroup.value;
+      }
+   }
+}
+
+function getTestId()
+{
+   // returns the value of the selected radio button or "" if no button is selected
+	var buttonGroup = document.forms[0].TestId;
+   if(buttonGroup == "") {
+		window.alert("No mesh access point  selected.");
+		return;
+		}
+
+  var i = getSelectedRadio(buttonGroup);
+
+   if (i == -1) {
+      return "";
+   } else {
+      if (buttonGroup[i]) { // Make sure the button group is an array (not just one button)
+         return buttonGroup[i].value;
+      } else { // The button group is just the one button, and it is checked
+         return buttonGroup.value;
+      }
+   }
+}
+
+
+function getTestResultDelete()
+{
+	var testDeleteId = document.getElementById("testDelete"); 
+	testDeleteId.value=getTestId();
+	modifys(testDeleteId);
+	transmit();
+}
+
+
+function getTestResultDetails()
+{
+   // returns the value of the selected radio button or "" if no button is selected
+	var editURL = "meshtest-detail.html#";
+        var buttonValue = getTestId();
+
+	if(buttonValue == "") {
+		window.alert("No test results has been selected for detail information.");
+		return;
+		}
+
+	editURL = editURL+buttonValue;
+	window.location.href = editURL;
+}
+
+
+	var data='';
+	var noofAPs=0;
+
+function startMeshLinkTest() {
+	var trigger = document.getElementById("trigger"); 
+	var destmacaddrId = document.getElementById("destmacaddr"); 
+
+	trigger.value=1;
+	modifys(trigger);
+	transmit();
+}	
+
+  var treeTestArray = [  	
+ 		
+		["",""]
+      ];
+
+  var neighborTestArray = [  	
+		  
+		["",""]
+      ];
+
+var selfMacAddress = "00:20:A6:5A:6D:29";
+var operatingchl = eval('140');
+
+function sysNameFromMacAddress(macaddress, testtype)
+{
+	var i=0;
+
+	for (i=0;i<1023;i++ ) {
+		if(testtype==1)  {
+					if(treeTestArray[i][0]!="") {
+						if(treeTestArray[i][0]==macaddress) {
+							document.write(treeTestArray[i][1]);
+						}
+					} else break;
+		}
+		if(testtype==2) {
+					if(neighborTestArray[i][0]!="") {
+						if(neighborTestArray[i][0]==macaddress) {
+							document.write(neighborTestArray[i][1]);
+						}
+					} else break;
+		}
+	}	
+}
+	
+function listLinkTestMacAddress()
+{
+	var destmacaddrId = document.getElementById("destmacaddr"); 
+	var testtypeId = document.getElementById("testtype"); 
+	var i=0;
+
+	for (i=0;i<1023;i++ ) {
+		if(testtypeId.value==1)  {
+					if(treeTestArray[i][0]!="") {
+						if(treeTestArray[i][0]!=selfMacAddress) {
+							document.write('<OPTION');
+							document.write(' VALUE=');
+							document.write('"');
+							document.write(treeTestArray[i][0]);
+							document.write('"');
+							document.write('>');
+							document.write(treeTestArray[i][1]);
+							document.write('</OPTION>');
+						}
+					} else break;
+		}
+		if(testtypeId.value==2) {
+					if(neighborTestArray[i][0]!="") {
+						if(neighborTestArray[i][2]==operatingchl) {
+							document.write('<OPTION');
+							document.write(' VALUE=');
+							document.write('"');
+							document.write(neighborTestArray[i][0]);
+							document.write('"');
+							document.write('>');
+							document.write(neighborTestArray[i][1]);
+							document.write('</OPTION>');
+						}
+					} else break;
+		}
+	}	
+	modifys(destmacaddrId);
+	modifys(testtypeId);
+}
+
+function onLoadDefaults()
+{
+	var framespersecId= document.getElementById("framespersec"); 
+	var framelenId= document.getElementById("framelen"); 
+	var durationId= document.getElementById("duration"); 
+	var testtypeId = document.getElementById("testtype"); 
+
+	framespersecId.value=10;
+	framelenId.value=500;
+	durationId.value=10;
+	testtypeId.value=1;
+	modifys(framespersecId);
+	modifys(framelenId);
+	modifys(durationId);
+	modifys(testtypeId);
+}
+function updatelistLinkTestMacAddress()
+{
+	var destmacaddrId = document.getElementById("destmacaddr"); 
+	var testtypeId = document.getElementById("testtype"); 
+	var i,j=0;
+
+		
+	for (i=0,j=0;i<1023;i++ ) {
+		destmacaddrId.options[j]=null;
+		if(testtypeId.value==1)  {
+					if(treeTestArray[i][0]!="") {
+						if(treeTestArray[i][0]!=selfMacAddress) {
+							destmacaddrId.options[j]= new Option(treeTestArray[i][1], treeTestArray[i][0]); 
+							j++;
+						}
+					} else {
+						break;
+					}
+		}
+		if(testtypeId.value==2) {
+					if(neighborTestArray[i][0]!="") {
+						if(neighborTestArray[i][2]==operatingchl) {
+							destmacaddrId.options[j]= new Option(neighborTestArray[i][1], neighborTestArray[i][0]);
+							j++;
+						}
+					} else {
+						break;
+					}
+		}
+	}	
+	for(;j<1023;j++) destmacaddrId.options[j]=null;
+	modifys(destmacaddrId);
+	modifys(testtypeId);
+	
+}
+
+var testResultArray = [  	
+		  
+		["","","","","0"]
+      ];
+
+function testIdCheck(testid)
+{
+var i;
+
+	for(i=0;i<testResultArray.length-1;i++) {
+		if(testResultArray[i][3]==testid) {
+			if(testResultArray[i][4]=="0") {
+				testResultArray[i][4]="1";   
+				return 1;
+			} else return 0;
+		} 
+	}
+return 1;
+}
+
+
+</SCRIPT>
+
+<SCRIPT language="javascript" src="../orinoco/scripts/menu.js"></SCRIPT>
+
+<!-- Start Header -->
+<!-- <BODY style="margin:0px"> -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0">
+	<TR>
+		<TD>
+			<TABLE width="150" height="90" cellpadding="0" cellspacing="0">
+			<TR>
+			<TD valign="top"><IMG src="../orinoco/images/logo.gif"></TD>
+			</TR>
+			<TR>
+			<TD align="right">&nbsp;</TD>
+			</TR>
+			</TABLE>
+		</TD>
+		<TD valign="bottom">
+			<TABLE cellpadding="0" cellspacing="0" width="100%"> <!-- For the table -->
+				<!-- For the first row -->
+				<TR>
+					<TD>
+						<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+							<SCRIPT language="javascript">
+		                            		var ProductId  = "1.3.6.1.4.1.11898.2.4.12";													
+                                                                var slotA = '4 ';
+		                            		        var slotB = '6 ';
+		                            		        var secModeA = '6';  
+		                            		        var secModeB = '1';  
+								InitMenu(ProductId, slotA, slotB, secModeA, secModeB);
+								var nbrTabs = subNumArray[grp_live];
+								if(nbrTabs>5)
+								{
+									var start,finish;
+									var nbrTabsDivbyTwo = (nbrTabs - (nbrTabs%2))/2;
+									if(subgrp_live >= (nbrTabsDivbyTwo + (nbrTabs%2)) )
+									{
+										start = 0;
+										finish = nbrTabsDivbyTwo -1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = nbrTabsDivbyTwo;
+											finish = nbrTabs-1;
+										}
+										else
+										{
+											start = nbrTabsDivbyTwo+1;
+										finish = nbrTabs-1;
+									}
+										
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,1,1);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+									document.write('</TABLE>');
+									document.write('</TD>');
+									document.write('</TR>');
+									<!-- For the second row -->
+									document.write('<TR>');
+									document.write('<TD>');
+									document.write('<TABLE class="tabrow" cellpadding="0" cellspacing="0">');
+									if(subgrp_live >= (nbrTabsDivbyTwo+ (nbrTabs%2)))
+									{
+										start = nbrTabsDivbyTwo;
+										finish = nbrTabs-1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = 0;
+											finish = nbrTabsDivbyTwo-1;
+										}
+										else
+										{
+										start = 0;
+											finish = nbrTabsDivbyTwo;
+										}
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,2,0);
+									document.write('<TD align="middle" background="../orinoco/images/iedge.gif">&nbsp;</TD>');
+								}
+								else
+								{
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,0,nbrTabs-1,0,0);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+								}
+							</SCRIPT>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+
+	
+	<TR>
+		<TD valign="top">
+			<TABLE align="center" cellpadding="10" cellspacing="0">
+				<SCRIPT language="javascript">
+					drawButtons(grp,grp_live);
+				</SCRIPT>
+			</TABLE>
+		</TD>
+<!-- End Header -->
+
+<TD bgcolor="white" height="95%" valign="top">
+<TABLE bgcolor="white" style="margin-left:25px; margin-bottom:25; margin-top: 5px" cellspacing="0" cellpadding="0" border="0" width="588">
+<!-- Start Subtabs -->
+
+	<TR>
+		<TD>
+			<TABLE cellpadding="0" cellspacing="0" width="95%">
+				<TR>
+					<TD>&nbsp;</TD>
+				</TR>
+				<TR>
+					<TD>
+						<TABLE cellpadding="0" cellspacing="0" width="100%">
+							<TR>
+								<TD>
+									<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+										<SCRIPT language="javascript">
+											var nbrTabs = subNumArray[tri_grp_live];
+											drawTabRow(subgrpArray[tri_grp_live],tri_grp_live,tri_subgrp_live,0,nbrTabs-1,4,0);
+										</SCRIPT>
+										<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>
+									</TABLE>
+								</TD>
+								<TD align="right" class="subtab-corner">&nbsp;</TD>
+							</TR>
+						</TABLE>
+					</TD>
+				</TR>
+				<!-- End Subtabs -->
+				<TR>					
+					<TD>
+						<TABLE bgcolor="white" cellpadding="0" cellspacing="0" border="0">
+						<TR>
+							<TD background="../orinoco/images/left_line.gif">&nbsp;</TD>
+
+
+<TD bgcolor="white" height="95%" valign="top">
+<FORM method="post" id="form1" name="form1" ACTION="/mon/meshtest.html/systemconfig">
+	<TABLE cellpadding="0" cellspacing="0" style="margin-left:25px; margin-bottom:25; margin-top:5px" border="0" width="599">
+		<TR>
+			<TD class="verbiage" colspan="2">
+				<p>This tab enables Mesh link tests and displays test results.</p>
+			</TD>
+			<TD  align="right" colspan="1"><a href="#" onclick="location.reload()"><img src="../orinoco/images/button-refresh.gif" width="32" height="32" alt="Refresh" border="0"></a></TD>
+		</TR>
+		<TR>
+			<TD colspan="2">
+				<TABLE cellpadding="0" cellspacing="0" border="0" width="100%">
+					<TR>
+						<TD colspan="2">&nbsp;</TD>
+					</TR>
+
+					<TR>
+						<TD  align="left" valign="left" colspan="2">Mesh Link Test Trigger</TD>
+					</TR>
+                    <TR>
+                    <TD>
+			            <TABLE cellpadding="0" cellspacing="0" border="0">
+	<TR>
+		<TD><IMG src="../orinoco/images/topleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+		<TD width="100%"><IMG src="../orinoco/images/top_line.gif" width="100%" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/topright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+	</TR>
+	<TR>
+		<TD background="../orinoco/images/left_line.gif">&nbsp;</TD>
+
+
+			            <TD>
+					<TABLE width="100%" cellpadding="0" cellspacing="0" BORDER="0">
+
+						<TR>
+							<TD align="middle" class="tableheader">Test Type</TD>
+							<TD>
+								<SCRIPT language="JavaScript">		
+      		      							var meshMode = parseInt('1');;      		       
+									var option = '1';
+									document.write('<SELECT class="formdropdownwide" onChange="modifys(this);updatelistLinkTestMacAddress();" name="EmWeb_ns:snmp:606" id="testtype">');
+									if(meshMode==2) {
+										document.write('<OPTION VALUE=1 ');
+										if(option == 1) {
+											document.write(' SELECTED ');
+										}
+										document.write('>Tree Type </OPTION>');
+										document.write('<OPTION VALUE=2 ');
+										if(option == 2) {
+											document.write(' SELECTED ');
+										}
+										document.write('>Neighbor Type</OPTION>');
+									}
+									if(meshMode==3) {
+										document.write('<OPTION VALUE=2 ');
+										document.write(' SELECTED ');
+										document.write('>Neighbor Type</OPTION>');
+									}
+									document.write('</SELECT>');
+								</SCRIPT>
+							</TD>
+						</TR>
+						<TR>
+							<TD align="middle" class="tableheader">Destination System Name</TD>
+							<TD>
+								<SCRIPT language="JavaScript">		
+									var option = '00:00:00:00:00:00';
+									document.write('<SELECT class="formdropdownwide" onChange="modifys(this)" name="EmWeb_ns:snmp:607" id="destmacaddr">');
+									listLinkTestMacAddress();
+									document.write('</SELECT>');  
+								</SCRIPT>
+							</TD>
+						</TR>
+						<TR>
+							<TD align="middle" class="tableheader">Test Traffic Rate</TD>
+							<TD>
+								<INPUT onChange="modifys(this)" type="text" class="formtextwide" name="EmWeb_ns:snmp:608" id="framespersec" VALUE="10"> (1 to 100 Frames per sec)
+							</TD>
+						</TR>
+						<TR>
+							<TD align="middle" class="tableheader">Frame Size</TD>
+							<TD>
+								<INPUT onChange="modifys(this)" type="text" class="formtextwide" name="EmWeb_ns:snmp:609" id="framelen" VALUE="500"> (400 to 1024 Bytes)
+							</TD>
+						</TR>
+						<TR>
+							<TD align="middle" class="tableheader">Test Duration</TD>
+							<TD>
+								<INPUT onChange="modifys(this)" type="text" class="formtextwide" name="EmWeb_ns:snmp:610" id="duration" VALUE="10"> (1 to 300 Secs)
+							</TD>
+						</TR>
+						<TR>
+							<TD colspan="2">&nbsp;</TD>
+						</TR>
+						<TR>
+							<INPUT type="hidden" id="trigger" name="EmWeb_ns:snmp:611" VALUE="1">
+							<TD  align="right" colspan="2"><A href="javascript:startMeshLinkTest()"><IMG src="../orinoco/images/linktest.gif"   alt="LinkTest" border="0"></TD>
+						</TR>
+					</TABLE>
+			            </TD>
+	  			    		<TD background="../orinoco/images/right_line.gif">&nbsp;</TD>
+	</TR>
+	<TR>
+		<TD><IMG src="../orinoco/images/bottomleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/bottom_line.gif" width="100%" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/bottomright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+	</TR>
+</TABLE>
+
+					</TR>
+
+					<TR>
+						<TD colspan="2">&nbsp;</TD>
+					</TR>
+
+						<TR>
+							<TD  align="left" valign="left" colspan="2">Currently Running Mesh Link Test(s)</TD>
+						</TR>
+                    <TR>
+                    <TD>
+			            <TABLE cellpadding="0" cellspacing="0" border="0">
+	<TR>
+		<TD><IMG src="../orinoco/images/topleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+		<TD width="100%"><IMG src="../orinoco/images/top_line.gif" width="100%" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/topright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+	</TR>
+	<TR>
+		<TD background="../orinoco/images/left_line.gif">&nbsp;</TD>
+
+
+			            <TD>
+					<TABLE width="100%" cellpadding="0" cellspacing="0" BORDER="0">
+						<TR>
+							<TD align="middle" class="tableheader">Test ID</TD>
+							<TD align="middle" class="tableheader">Test Type</TD>
+							<TD align="middle" class="tableheader">Destination</TD>
+							<TD align="middle" class="tableheader">Traffic Rate</TD>
+							<TD align="middle" class="tableheader">Frame Size</TD>
+							<TD align="middle" class="tableheader">Test Duration</TD>
+							<TD align="middle" class="tableheader">Time to Finish</TD>
+						</TR>
+						<TR>
+							<TD align="middle" class="tableheader">&nbsp;</TD>
+							<TD align="middle" class="tableheader">&nbsp;</TD>
+							<TD align="middle" class="tableheader">System Name</TD>
+							<TD align="middle" class="tableheader">(frames/sec)</TD>
+							<TD align="middle" class="tableheader">(bytes)</TD>
+							<TD align="middle" class="tableheader">(secs)</TD>
+							<TD align="middle" class="tableheader">(secs)</TD>
+						</TR>
+						<TR>
+							<TD align="middle" colspan="7">&nbsp;</TD>
+						</TR>
+							
+						<TR>
+								<TD colspan="7"><IMG src="../orinoco/images/spacer.gif" width="100%" height="15"></TD>
+						</TR>
+					</TABLE>
+			            </TD>
+	  			    		<TD background="../orinoco/images/right_line.gif">&nbsp;</TD>
+	</TR>
+	<TR>
+		<TD><IMG src="../orinoco/images/bottomleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/bottom_line.gif" width="100%" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/bottomright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+	</TR>
+</TABLE>
+
+					</TR>
+
+					
+					<TR>
+						<TD colspan="2">&nbsp;</TD>
+					</TR>
+					<TR>
+						<TD  align="left" valign="left" colspan="2">Mesh Link Test Result(s)</TD>
+					</TR>
+                    <TR>
+                    <TD>
+			            <TABLE cellpadding="0" cellspacing="0" border="0">
+	<TR>
+		<TD><IMG src="../orinoco/images/topleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+		<TD width="100%"><IMG src="../orinoco/images/top_line.gif" width="100%" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/topright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+	</TR>
+	<TR>
+		<TD background="../orinoco/images/left_line.gif">&nbsp;</TD>
+
+
+			            <TD>
+					<TABLE width="100%" cellpadding="0" cellspacing="0" BORDER="0">
+						<TR>
+							<TD align="middle" class="tableheader">&nbsp;</TD>
+							<TD align="middle" class="tableheader">Test ID </TD>
+							<TD align="middle" class="tableheader">Test Type </TD>
+							<TD align="middle" class="tableheader">Frames </TD>
+							<TD align="middle" class="tableheader">Frames </TD>
+							<TD align="middle" class="tableheader">Average Round </TD>
+							<TD align="middle" class="tableheader">Destination</TD>
+						</TR>
+						<TR>
+							<TD align="middle" class="tableheader">&nbsp;</TD>
+							<TD align="middle" class="tableheader">&nbsp;</TD>
+							<TD align="middle" class="tableheader">&nbsp;</TD>
+							<TD align="middle" class="tableheader">Sent</TD>
+							<TD align="middle" class="tableheader">Rec'd</TD>
+							<TD align="middle" class="tableheader">Trip (millisec)</TD>
+							<TD align="middle" class="tableheader">System Name</TD>
+						</TR>
+						<TR>
+							<TD align="middle" colspan="7">&nbsp;</TD>
+						</TR>
+							
+						<TR>
+							<TD colspan="7"><IMG src="../orinoco/images/spacer.gif" width="100%" height="15"></TD>
+						</TR>
+						<TR>
+							<SCRIPT language="JavaScript">
+								if(testResultArray.length>1)  {
+								document.write('<INPUT type="hidden" id="testDelete" name="EmWeb_ns:snmp:619" VALUE="0">');
+								document.write('<TD colspan="2" align="left"><A href="javascript:getTestResultDetails()"><IMG src="../orinoco/images/selectone.gif" border="0" alt="TestDetail"></A></TD>');
+								document.write('<TD colspan="5" align="left"><A href="javascript:getTestResultDelete()"><IMG src="../orinoco/images/delete.gif" border="0" alt="TestDelete"></A></TD>');
+								}
+							</SCRIPT>
+						</TR>
+					</TABLE>
+			            </TD>
+	  			    		<TD background="../orinoco/images/right_line.gif">&nbsp;</TD>
+	</TR>
+	<TR>
+		<TD><IMG src="../orinoco/images/bottomleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/bottom_line.gif" width="100%" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/bottomright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+	</TR>
+</TABLE>
+
+					</TR>
+		
+				</TABLE>
+			</TD>
+		</TR>
+	</TABLE>
+</FORM>
+</TD>
+
+
+							<TD background="../orinoco/images/right_line.gif">&nbsp;</TD>
+						</TR>
+						<TR>
+							<TD><IMG src="../orinoco/images/bottomleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+							<TD><IMG src="../orinoco/images/bottom_line.gif" width="100%" height="25" alt="" border="0"></TD>
+							<TD><IMG src="../orinoco/images/bottomright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+						</TR>
+
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+
+
+		</TD>
+	</TR>
+</TR>
+</TABLE>
+
+<!-- Start Footer -->
+	<FORM name="rebootform" method="post" ACTION="/prototail.html">
+		<INPUT type="hidden" id="rebootflag" name="EmWeb_ns:snmp:568" value="0" class="formtext">
+	</FORM>
+
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
+<!-- End Footer -->
+
+
+
+</BODY>
+</HTML>

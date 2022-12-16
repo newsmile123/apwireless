@@ -1,0 +1,66 @@
+151106  9:58:14 [Note] Plugin 'InnoDB' is disabled.
+151106  9:58:14 [Note] Plugin 'FEDERATED' is disabled.
+151106  9:58:22 [Note] Event Scheduler: Loaded 0 events
+151106  9:58:22 [Note] C:\Users\111\Desktop\TWAMP_cleared_em20151105\app\bin\mysqld.exe: ready for connections.
+Version: '5.1.36-community'  socket: ''  port: 3306  MySQL Community Server (GPL)
+151106 10:00:16 [Note] C:\Users\111\Desktop\TWAMP_cleared_em20151105\app\bin\mysqld.exe: Normal shutdown
+
+151106 10:00:16 [Note] Event Scheduler: Purging the queue. 0 events
+151106 10:00:16 [Warning] Forcing shutdown of 2 plugins
+151106 10:00:16 [Note] C:\Users\111\Desktop\TWAMP_cleared_em20151105\app\bin\mysqld.exe: Shutdown complete
+
+151106 10:00:21 [Note] Plugin 'InnoDB' is disabled.
+151106 10:00:21 [Note] Plugin 'FEDERATED' is disabled.
+151106 10:00:21 [Note] Event Scheduler: Loaded 0 events
+151106 10:00:21 [Note] C:\server\TWAMP\app\bin\mysqld.exe: ready for connections.
+Version: '5.1.36-community'  socket: ''  port: 3306  MySQL Community Server (GPL)
+151106 10:03:29 [Note] C:\server\TWAMP\app\bin\mysqld.exe: Normal shutdown
+
+151106 10:03:29 [Note] Event Scheduler: Purging the queue. 0 events
+151106 10:03:29 [Warning] Forcing shutdown of 2 plugins
+151106 10:03:29 [Note] C:\server\TWAMP\app\bin\mysqld.exe: Shutdown complete
+
+151106 10:14:25 [Note] Plugin 'InnoDB' is disabled.
+151106 10:14:25 [Note] Plugin 'FEDERATED' is disabled.
+151106 10:14:25 [Note] Event Scheduler: Loaded 0 events
+151106 10:14:25 [Note] C:\TWAMP\app\bin\mysqld.exe: ready for connections.
+Version: '5.1.36-community'  socket: ''  port: 3306  MySQL Community Server (GPL)
+151106 10:54:25 [Note] C:\TWAMP\app\bin\mysqld.exe: Normal shutdown
+
+151106 10:54:25 [Note] Event Scheduler: Purging the queue. 0 events
+151106 10:54:25 [Warning] Forcing shutdown of 2 plugins
+151106 10:54:25 [Note] C:\TWAMP\app\bin\mysqld.exe: Shutdown complete
+
+151106 10:56:50 [Note] Plugin 'InnoDB' is disabled.
+151106 10:56:50 [Note] Plugin 'FEDERATED' is disabled.
+151106 10:56:50 [Note] Event Scheduler: Loaded 0 events
+151106 10:56:50 [Note] C:\TWAMP\app\bin\mysqld.exe: ready for connections.
+Version: '5.1.36-community'  socket: ''  port: 3306  MySQL Community Server (GPL)
+151106 11:07:18 [Note] C:\TWAMP\app\bin\mysqld.exe: Normal shutdown
+
+151106 11:07:18 [Note] Event Scheduler: Purging the queue. 0 events
+151106 11:07:18 [Warning] Forcing shutdown of 2 plugins
+151106 11:07:18 [Note] C:\TWAMP\app\bin\mysqld.exe: Shutdown complete
+
+151106 11:36:57 [Note] Plugin 'InnoDB' is disabled.
+151106 11:36:57 [Note] Plugin 'FEDERATED' is disabled.
+151106 11:36:57 [Note] Event Scheduler: Loaded 0 events
+151106 11:36:57 [Note] C:\TWAMP1\app\bin\mysqld.exe: ready for connections.
+Version: '5.1.36-community'  socket: ''  port: 3306  MySQL Community Server (GPL)
+151106 11:37:32 [Note] C:\TWAMP1\app\bin\mysqld.exe: Normal shutdown
+
+151106 11:37:32 [Note] Event Scheduler: Purging the queue. 0 events
+151106 11:37:32 [Warning] Forcing shutdown of 2 plugins
+151106 11:37:32 [Note] C:\TWAMP1\app\bin\mysqld.exe: Shutdown complete
+
+151106 11:37:36 [Note] Plugin 'InnoDB' is disabled.
+151106 11:37:36 [Note] Plugin 'FEDERATED' is disabled.
+151106 11:37:36 [Note] Event Scheduler: Loaded 0 events
+151106 11:37:36 [Note] C:\TWAMP\app\bin\mysqld.exe: ready for connections.
+Version: '5.1.36-community'  socket: ''  port: 3306  MySQL Community Server (GPL)
+151106 15:42:45 [Note] C:\TWAMP\app\bin\mysqld.exe: Normal shutdown
+
+151106 15:42:45 [Note] Event Scheduler: Purging the queue. 0 events
+151106 15:42:46 [Warning] Forcing shutdown of 2 plugins
+151106 15:42:46 [Note] C:\TWAMP\app\bin\mysqld.exe: Shutdown complete
+

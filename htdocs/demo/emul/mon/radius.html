@@ -1,0 +1,895 @@
+<HTML>
+<HEAD>
+<TITLE>RADIUS Monitoring</TITLE><LINK rel="stylesheet" href="../orinoco/css/global.css">
+	<SCRIPT language="javascript" src="../orinoco/scripts/library.js"></SCRIPT>
+</HEAD>
+
+<BODY style="margin:0px" background="../orinoco/images/bg.gif" rightmargin="0">
+
+<SCRIPT language="javascript">
+	grp_live = 2;
+subgrp_live = 5;
+</SCRIPT>
+
+<SCRIPT LANGUAGE="javascript">
+
+var PriAuthClientStatTableAccessRequests=0;
+var PriAuthClientStatTableAccessAccepts=0;
+var PriAuthClientStatTableAccessRetransmissions=0;
+var PriAuthClientStatTableAccessRejects=0;
+var PriAuthClientStatTableAccessChallenges=0;
+var PriAuthClientStatTableMalformedAccessResponses=0;
+var PriAuthClientStatTableBadAuthenticators=0;
+var PriAuthClientStatTableTimeouts=0;
+var PriAcctClientStatTableAccountingRequests=0;
+var PriAcctClientStatTableAccountingRetransmissions=0;
+var PriAcctClientStatTableAccountingResponses=0;
+var PriAcctClientStatTableBadAuthenticators=0;
+
+var SecAuthClientStatTableAccessRequests=0;
+var SecAuthClientStatTableAccessAccepts=0;
+var SecAuthClientStatTableAccessRetransmissions=0;
+var SecAuthClientStatTableAccessRejects=0;
+var SecAuthClientStatTableAccessChallenges=0;
+var SecAuthClientStatTableMalformedAccessResponses=0;
+var SecAuthClientStatTableBadAuthenticators=0;
+var SecAuthClientStatTableTimeouts=0;
+var SecAcctClientStatTableAccountingRequests=0;
+var SecAcctClientStatTableAccountingRetransmissions=0;
+var SecAcctClientStatTableAccountingResponses=0;
+var SecAcctClientStatTableBadAuthenticators=0;
+
+var currentActive = -1;
+var hashValue = window.location.hash.split('#');
+var radiusPage = "../cfg/rad-radius.html"; // Return to list of profiles if no profile is selected
+
+if(hashValue == "") {
+}
+else 
+if((hashValue[1] == "") || (hashValue[1] == "0")) {
+}
+else
+{
+	currentActive= hashValue[1];
+}
+
+
+
+		var radTblInst = "1.1";
+		var RadProfIndex = radTblInst.split(".");
+
+		if(currentActive == -1) currentActive = RadProfIndex[0]; // Pick the first one
+		if(currentActive == RadProfIndex[0])
+		{
+
+			if(RadProfIndex[1] == 1) /* Primary Index */
+			{
+				PriAuthClientStatTableAccessRequests 				= "0";
+				PriAuthClientStatTableAccessAccepts 				= "0";
+				PriAuthClientStatTableAccessRetransmissions 		= "0";
+				PriAuthClientStatTableAccessRejects 				= "0";
+				PriAuthClientStatTableAccessChallenges 			= "0";
+				PriAuthClientStatTableMalformedAccessResponses 	= "0";
+				PriAuthClientStatTableBadAuthenticators 			= "0";
+				PriAuthClientStatTableTimeouts 					= "0";
+				PriAcctClientStatTableAccountingRequests 			= "0";
+				PriAcctClientStatTableAccountingRetransmissions	= "0";
+				PriAcctClientStatTableAccountingResponses 		= "0";
+				PriAcctClientStatTableBadAuthenticators 			= "0";
+			}
+			else if(RadProfIndex[1] == 2) /* Secondary Index */
+			{
+				SecAuthClientStatTableAccessRequests 			= "0";
+				SecAuthClientStatTableAccessAccepts 				= "0";
+				SecAuthClientStatTableAccessRetransmissions 		= "0";
+				SecAuthClientStatTableAccessRejects 				= "0";
+				SecAuthClientStatTableAccessChallenges 			= "0";
+				SecAuthClientStatTableMalformedAccessResponses 	= "0";
+				SecAuthClientStatTableBadAuthenticators 			= "0";
+				SecAuthClientStatTableTimeouts 					= "0";
+				SecAcctClientStatTableAccountingRequests 			= "0";
+				SecAcctClientStatTableAccountingRetransmissions	= "0";
+				SecAcctClientStatTableAccountingResponses 		= "0";
+				SecAcctClientStatTableBadAuthenticators 			= "0";
+			}
+
+		}
+
+
+
+		var radTblInst = "1.2";
+		var RadProfIndex = radTblInst.split(".");
+
+		if(currentActive == -1) currentActive = RadProfIndex[0]; // Pick the first one
+		if(currentActive == RadProfIndex[0])
+		{
+
+			if(RadProfIndex[1] == 1) /* Primary Index */
+			{
+				PriAuthClientStatTableAccessRequests 				= "0";
+				PriAuthClientStatTableAccessAccepts 				= "0";
+				PriAuthClientStatTableAccessRetransmissions 		= "0";
+				PriAuthClientStatTableAccessRejects 				= "0";
+				PriAuthClientStatTableAccessChallenges 			= "0";
+				PriAuthClientStatTableMalformedAccessResponses 	= "0";
+				PriAuthClientStatTableBadAuthenticators 			= "0";
+				PriAuthClientStatTableTimeouts 					= "0";
+				PriAcctClientStatTableAccountingRequests 			= "0";
+				PriAcctClientStatTableAccountingRetransmissions	= "0";
+				PriAcctClientStatTableAccountingResponses 		= "0";
+				PriAcctClientStatTableBadAuthenticators 			= "0";
+			}
+			else if(RadProfIndex[1] == 2) /* Secondary Index */
+			{
+				SecAuthClientStatTableAccessRequests 			= "0";
+				SecAuthClientStatTableAccessAccepts 				= "0";
+				SecAuthClientStatTableAccessRetransmissions 		= "0";
+				SecAuthClientStatTableAccessRejects 				= "0";
+				SecAuthClientStatTableAccessChallenges 			= "0";
+				SecAuthClientStatTableMalformedAccessResponses 	= "0";
+				SecAuthClientStatTableBadAuthenticators 			= "0";
+				SecAuthClientStatTableTimeouts 					= "0";
+				SecAcctClientStatTableAccountingRequests 			= "0";
+				SecAcctClientStatTableAccountingRetransmissions	= "0";
+				SecAcctClientStatTableAccountingResponses 		= "0";
+				SecAcctClientStatTableBadAuthenticators 			= "0";
+			}
+
+		}
+
+
+
+		var radTblInst = "2.1";
+		var RadProfIndex = radTblInst.split(".");
+
+		if(currentActive == -1) currentActive = RadProfIndex[0]; // Pick the first one
+		if(currentActive == RadProfIndex[0])
+		{
+
+			if(RadProfIndex[1] == 1) /* Primary Index */
+			{
+				PriAuthClientStatTableAccessRequests 				= "0";
+				PriAuthClientStatTableAccessAccepts 				= "0";
+				PriAuthClientStatTableAccessRetransmissions 		= "0";
+				PriAuthClientStatTableAccessRejects 				= "0";
+				PriAuthClientStatTableAccessChallenges 			= "0";
+				PriAuthClientStatTableMalformedAccessResponses 	= "0";
+				PriAuthClientStatTableBadAuthenticators 			= "0";
+				PriAuthClientStatTableTimeouts 					= "0";
+				PriAcctClientStatTableAccountingRequests 			= "0";
+				PriAcctClientStatTableAccountingRetransmissions	= "0";
+				PriAcctClientStatTableAccountingResponses 		= "0";
+				PriAcctClientStatTableBadAuthenticators 			= "0";
+			}
+			else if(RadProfIndex[1] == 2) /* Secondary Index */
+			{
+				SecAuthClientStatTableAccessRequests 			= "0";
+				SecAuthClientStatTableAccessAccepts 				= "0";
+				SecAuthClientStatTableAccessRetransmissions 		= "0";
+				SecAuthClientStatTableAccessRejects 				= "0";
+				SecAuthClientStatTableAccessChallenges 			= "0";
+				SecAuthClientStatTableMalformedAccessResponses 	= "0";
+				SecAuthClientStatTableBadAuthenticators 			= "0";
+				SecAuthClientStatTableTimeouts 					= "0";
+				SecAcctClientStatTableAccountingRequests 			= "0";
+				SecAcctClientStatTableAccountingRetransmissions	= "0";
+				SecAcctClientStatTableAccountingResponses 		= "0";
+				SecAcctClientStatTableBadAuthenticators 			= "0";
+			}
+
+		}
+
+
+
+		var radTblInst = "2.2";
+		var RadProfIndex = radTblInst.split(".");
+
+		if(currentActive == -1) currentActive = RadProfIndex[0]; // Pick the first one
+		if(currentActive == RadProfIndex[0])
+		{
+
+			if(RadProfIndex[1] == 1) /* Primary Index */
+			{
+				PriAuthClientStatTableAccessRequests 				= "0";
+				PriAuthClientStatTableAccessAccepts 				= "0";
+				PriAuthClientStatTableAccessRetransmissions 		= "0";
+				PriAuthClientStatTableAccessRejects 				= "0";
+				PriAuthClientStatTableAccessChallenges 			= "0";
+				PriAuthClientStatTableMalformedAccessResponses 	= "0";
+				PriAuthClientStatTableBadAuthenticators 			= "0";
+				PriAuthClientStatTableTimeouts 					= "0";
+				PriAcctClientStatTableAccountingRequests 			= "0";
+				PriAcctClientStatTableAccountingRetransmissions	= "0";
+				PriAcctClientStatTableAccountingResponses 		= "0";
+				PriAcctClientStatTableBadAuthenticators 			= "0";
+			}
+			else if(RadProfIndex[1] == 2) /* Secondary Index */
+			{
+				SecAuthClientStatTableAccessRequests 			= "0";
+				SecAuthClientStatTableAccessAccepts 				= "0";
+				SecAuthClientStatTableAccessRetransmissions 		= "0";
+				SecAuthClientStatTableAccessRejects 				= "0";
+				SecAuthClientStatTableAccessChallenges 			= "0";
+				SecAuthClientStatTableMalformedAccessResponses 	= "0";
+				SecAuthClientStatTableBadAuthenticators 			= "0";
+				SecAuthClientStatTableTimeouts 					= "0";
+				SecAcctClientStatTableAccountingRequests 			= "0";
+				SecAcctClientStatTableAccountingRetransmissions	= "0";
+				SecAcctClientStatTableAccountingResponses 		= "0";
+				SecAcctClientStatTableBadAuthenticators 			= "0";
+			}
+
+		}
+
+
+
+		var radTblInst = "3.1";
+		var RadProfIndex = radTblInst.split(".");
+
+		if(currentActive == -1) currentActive = RadProfIndex[0]; // Pick the first one
+		if(currentActive == RadProfIndex[0])
+		{
+
+			if(RadProfIndex[1] == 1) /* Primary Index */
+			{
+				PriAuthClientStatTableAccessRequests 				= "0";
+				PriAuthClientStatTableAccessAccepts 				= "0";
+				PriAuthClientStatTableAccessRetransmissions 		= "0";
+				PriAuthClientStatTableAccessRejects 				= "0";
+				PriAuthClientStatTableAccessChallenges 			= "0";
+				PriAuthClientStatTableMalformedAccessResponses 	= "0";
+				PriAuthClientStatTableBadAuthenticators 			= "0";
+				PriAuthClientStatTableTimeouts 					= "0";
+				PriAcctClientStatTableAccountingRequests 			= "0";
+				PriAcctClientStatTableAccountingRetransmissions	= "0";
+				PriAcctClientStatTableAccountingResponses 		= "0";
+				PriAcctClientStatTableBadAuthenticators 			= "0";
+			}
+			else if(RadProfIndex[1] == 2) /* Secondary Index */
+			{
+				SecAuthClientStatTableAccessRequests 			= "0";
+				SecAuthClientStatTableAccessAccepts 				= "0";
+				SecAuthClientStatTableAccessRetransmissions 		= "0";
+				SecAuthClientStatTableAccessRejects 				= "0";
+				SecAuthClientStatTableAccessChallenges 			= "0";
+				SecAuthClientStatTableMalformedAccessResponses 	= "0";
+				SecAuthClientStatTableBadAuthenticators 			= "0";
+				SecAuthClientStatTableTimeouts 					= "0";
+				SecAcctClientStatTableAccountingRequests 			= "0";
+				SecAcctClientStatTableAccountingRetransmissions	= "0";
+				SecAcctClientStatTableAccountingResponses 		= "0";
+				SecAcctClientStatTableBadAuthenticators 			= "0";
+			}
+
+		}
+
+
+
+		var radTblInst = "3.2";
+		var RadProfIndex = radTblInst.split(".");
+
+		if(currentActive == -1) currentActive = RadProfIndex[0]; // Pick the first one
+		if(currentActive == RadProfIndex[0])
+		{
+
+			if(RadProfIndex[1] == 1) /* Primary Index */
+			{
+				PriAuthClientStatTableAccessRequests 				= "0";
+				PriAuthClientStatTableAccessAccepts 				= "0";
+				PriAuthClientStatTableAccessRetransmissions 		= "0";
+				PriAuthClientStatTableAccessRejects 				= "0";
+				PriAuthClientStatTableAccessChallenges 			= "0";
+				PriAuthClientStatTableMalformedAccessResponses 	= "0";
+				PriAuthClientStatTableBadAuthenticators 			= "0";
+				PriAuthClientStatTableTimeouts 					= "0";
+				PriAcctClientStatTableAccountingRequests 			= "0";
+				PriAcctClientStatTableAccountingRetransmissions	= "0";
+				PriAcctClientStatTableAccountingResponses 		= "0";
+				PriAcctClientStatTableBadAuthenticators 			= "0";
+			}
+			else if(RadProfIndex[1] == 2) /* Secondary Index */
+			{
+				SecAuthClientStatTableAccessRequests 			= "0";
+				SecAuthClientStatTableAccessAccepts 				= "0";
+				SecAuthClientStatTableAccessRetransmissions 		= "0";
+				SecAuthClientStatTableAccessRejects 				= "0";
+				SecAuthClientStatTableAccessChallenges 			= "0";
+				SecAuthClientStatTableMalformedAccessResponses 	= "0";
+				SecAuthClientStatTableBadAuthenticators 			= "0";
+				SecAuthClientStatTableTimeouts 					= "0";
+				SecAcctClientStatTableAccountingRequests 			= "0";
+				SecAcctClientStatTableAccountingRetransmissions	= "0";
+				SecAcctClientStatTableAccountingResponses 		= "0";
+				SecAcctClientStatTableBadAuthenticators 			= "0";
+			}
+
+		}
+
+
+
+		var radTblInst = "4.1";
+		var RadProfIndex = radTblInst.split(".");
+
+		if(currentActive == -1) currentActive = RadProfIndex[0]; // Pick the first one
+		if(currentActive == RadProfIndex[0])
+		{
+
+			if(RadProfIndex[1] == 1) /* Primary Index */
+			{
+				PriAuthClientStatTableAccessRequests 				= "0";
+				PriAuthClientStatTableAccessAccepts 				= "0";
+				PriAuthClientStatTableAccessRetransmissions 		= "0";
+				PriAuthClientStatTableAccessRejects 				= "0";
+				PriAuthClientStatTableAccessChallenges 			= "0";
+				PriAuthClientStatTableMalformedAccessResponses 	= "0";
+				PriAuthClientStatTableBadAuthenticators 			= "0";
+				PriAuthClientStatTableTimeouts 					= "0";
+				PriAcctClientStatTableAccountingRequests 			= "0";
+				PriAcctClientStatTableAccountingRetransmissions	= "0";
+				PriAcctClientStatTableAccountingResponses 		= "0";
+				PriAcctClientStatTableBadAuthenticators 			= "0";
+			}
+			else if(RadProfIndex[1] == 2) /* Secondary Index */
+			{
+				SecAuthClientStatTableAccessRequests 			= "0";
+				SecAuthClientStatTableAccessAccepts 				= "0";
+				SecAuthClientStatTableAccessRetransmissions 		= "0";
+				SecAuthClientStatTableAccessRejects 				= "0";
+				SecAuthClientStatTableAccessChallenges 			= "0";
+				SecAuthClientStatTableMalformedAccessResponses 	= "0";
+				SecAuthClientStatTableBadAuthenticators 			= "0";
+				SecAuthClientStatTableTimeouts 					= "0";
+				SecAcctClientStatTableAccountingRequests 			= "0";
+				SecAcctClientStatTableAccountingRetransmissions	= "0";
+				SecAcctClientStatTableAccountingResponses 		= "0";
+				SecAcctClientStatTableBadAuthenticators 			= "0";
+			}
+
+		}
+
+
+
+		var radTblInst = "4.2";
+		var RadProfIndex = radTblInst.split(".");
+
+		if(currentActive == -1) currentActive = RadProfIndex[0]; // Pick the first one
+		if(currentActive == RadProfIndex[0])
+		{
+
+			if(RadProfIndex[1] == 1) /* Primary Index */
+			{
+				PriAuthClientStatTableAccessRequests 				= "0";
+				PriAuthClientStatTableAccessAccepts 				= "0";
+				PriAuthClientStatTableAccessRetransmissions 		= "0";
+				PriAuthClientStatTableAccessRejects 				= "0";
+				PriAuthClientStatTableAccessChallenges 			= "0";
+				PriAuthClientStatTableMalformedAccessResponses 	= "0";
+				PriAuthClientStatTableBadAuthenticators 			= "0";
+				PriAuthClientStatTableTimeouts 					= "0";
+				PriAcctClientStatTableAccountingRequests 			= "0";
+				PriAcctClientStatTableAccountingRetransmissions	= "0";
+				PriAcctClientStatTableAccountingResponses 		= "0";
+				PriAcctClientStatTableBadAuthenticators 			= "0";
+			}
+			else if(RadProfIndex[1] == 2) /* Secondary Index */
+			{
+				SecAuthClientStatTableAccessRequests 			= "0";
+				SecAuthClientStatTableAccessAccepts 				= "0";
+				SecAuthClientStatTableAccessRetransmissions 		= "0";
+				SecAuthClientStatTableAccessRejects 				= "0";
+				SecAuthClientStatTableAccessChallenges 			= "0";
+				SecAuthClientStatTableMalformedAccessResponses 	= "0";
+				SecAuthClientStatTableBadAuthenticators 			= "0";
+				SecAuthClientStatTableTimeouts 					= "0";
+				SecAcctClientStatTableAccountingRequests 			= "0";
+				SecAcctClientStatTableAccountingRetransmissions	= "0";
+				SecAcctClientStatTableAccountingResponses 		= "0";
+				SecAcctClientStatTableBadAuthenticators 			= "0";
+			}
+
+		}
+
+
+
+window.onload = enableRadiusPage
+
+function enableRadiusPage()
+{
+	enableRadiusObject("DropDownProf");
+}
+
+function enableRadiusObject(objName)
+{
+	var selectObj = document.getElementById(objName);
+	selectObj.disabled = 0;
+}
+
+function disableRadiusObject(objName)
+{
+	var selectObj = document.getElementById(objName);
+	selectObj.disabled = 1;
+}
+
+function change_index(obj)
+{
+	var value = obj.options[obj.selectedIndex].value;
+	var refreshURL = "#";
+
+	refreshURL = refreshURL+value;
+	window.location.href = refreshURL;
+	document.location.reload();
+}
+</SCRIPT>
+
+<SCRIPT language="javascript" src="../orinoco/scripts/menu.js"></SCRIPT>
+
+<!-- Start Header -->
+<!-- <BODY style="margin:0px"> -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0">
+	<TR>
+		<TD>
+			<TABLE width="150" height="90" cellpadding="0" cellspacing="0">
+			<TR>
+			<TD valign="top"><IMG src="../orinoco/images/logo.gif"></TD>
+			</TR>
+			<TR>
+			<TD align="right">&nbsp;</TD>
+			</TR>
+			</TABLE>
+		</TD>
+		<TD valign="bottom">
+			<TABLE cellpadding="0" cellspacing="0" width="100%"> <!-- For the table -->
+				<!-- For the first row -->
+				<TR>
+					<TD>
+						<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+							<SCRIPT language="javascript">
+		                            		var ProductId  = "1.3.6.1.4.1.11898.2.4.12";													
+                                                                var slotA = '4 ';
+		                            		        var slotB = '6 ';
+		                            		        var secModeA = '6';  
+		                            		        var secModeB = '1';  
+								InitMenu(ProductId, slotA, slotB, secModeA, secModeB);
+								var nbrTabs = subNumArray[grp_live];
+								if(nbrTabs>5)
+								{
+									var start,finish;
+									var nbrTabsDivbyTwo = (nbrTabs - (nbrTabs%2))/2;
+									if(subgrp_live >= (nbrTabsDivbyTwo + (nbrTabs%2)) )
+									{
+										start = 0;
+										finish = nbrTabsDivbyTwo -1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = nbrTabsDivbyTwo;
+											finish = nbrTabs-1;
+										}
+										else
+										{
+											start = nbrTabsDivbyTwo+1;
+										finish = nbrTabs-1;
+									}
+										
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,1,1);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+									document.write('</TABLE>');
+									document.write('</TD>');
+									document.write('</TR>');
+									<!-- For the second row -->
+									document.write('<TR>');
+									document.write('<TD>');
+									document.write('<TABLE class="tabrow" cellpadding="0" cellspacing="0">');
+									if(subgrp_live >= (nbrTabsDivbyTwo+ (nbrTabs%2)))
+									{
+										start = nbrTabsDivbyTwo;
+										finish = nbrTabs-1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = 0;
+											finish = nbrTabsDivbyTwo-1;
+										}
+										else
+										{
+										start = 0;
+											finish = nbrTabsDivbyTwo;
+										}
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,2,0);
+									document.write('<TD align="middle" background="../orinoco/images/iedge.gif">&nbsp;</TD>');
+								}
+								else
+								{
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,0,nbrTabs-1,0,0);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+								}
+							</SCRIPT>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+
+	
+	<TR>
+		<TD valign="top">
+			<TABLE align="center" cellpadding="10" cellspacing="0">
+				<SCRIPT language="javascript">
+					drawButtons(grp,grp_live);
+				</SCRIPT>
+			</TABLE>
+		</TD>
+<!-- End Header -->
+
+<FORM method="post" id="formRadstats" name="radstats" ACTION="/mon/radius.html">
+<TD bgcolor="white" height="95%" valign="top">
+	<TABLE bgcolor="white" style="margin-left:25px; margin-bottom:25px; margin-top:5px" cellspacing="0" cellpadding="0" border="0" width="588">
+		<TR>
+			<TD class="verbiage">
+				<P>This tab provides statistics on the primary and backup RADIUS (Authentication and Accounting) server(s) with which the access point is configured to communicate.</P>
+			</TD>
+		</TR>
+		<TR>
+			<TD width=100% align="right"><a href="javascript:location.reload()"><img src="../orinoco/images/button-refresh.gif" width="32" height="32" alt="Refresh" border="0"></a></TD>
+		</TR>
+		<TR>
+		<TD>
+		<TABLE>
+			<TR>
+	 		   <TD class="header">Select Server Profile </TD>
+	 		   <TD width="10%"> </TD>
+	 		   <TD>
+				<SELECT id="DropDownProf" onChange="change_index(this);">
+				
+				<SCRIPT  LANGUAGE="JavaScript" >
+					var IndexString="1.1";
+					var IndexSplit = IndexString.split(".");
+
+					if (IndexSplit[1] == "1")
+					{
+						document.write('<OPTION VALUE=');
+						document.write(IndexSplit[0]);
+						if(IndexSplit[0] == currentActive)
+						{
+							document.write( ' SELECTED ');
+						}
+						document.write('>');
+						document.write('MAC Authentication');
+						document.write('</OPTION>');
+					}
+					disableRadiusObject("DropDownProf");
+				</SCRIPT>
+				
+				<SCRIPT  LANGUAGE="JavaScript" >
+					var IndexString="1.2";
+					var IndexSplit = IndexString.split(".");
+
+					if (IndexSplit[1] == "1")
+					{
+						document.write('<OPTION VALUE=');
+						document.write(IndexSplit[0]);
+						if(IndexSplit[0] == currentActive)
+						{
+							document.write( ' SELECTED ');
+						}
+						document.write('>');
+						document.write('MAC Authentication');
+						document.write('</OPTION>');
+					}
+					disableRadiusObject("DropDownProf");
+				</SCRIPT>
+				
+				<SCRIPT  LANGUAGE="JavaScript" >
+					var IndexString="2.1";
+					var IndexSplit = IndexString.split(".");
+
+					if (IndexSplit[1] == "1")
+					{
+						document.write('<OPTION VALUE=');
+						document.write(IndexSplit[0]);
+						if(IndexSplit[0] == currentActive)
+						{
+							document.write( ' SELECTED ');
+						}
+						document.write('>');
+						document.write('EAP Authentication');
+						document.write('</OPTION>');
+					}
+					disableRadiusObject("DropDownProf");
+				</SCRIPT>
+				
+				<SCRIPT  LANGUAGE="JavaScript" >
+					var IndexString="2.2";
+					var IndexSplit = IndexString.split(".");
+
+					if (IndexSplit[1] == "1")
+					{
+						document.write('<OPTION VALUE=');
+						document.write(IndexSplit[0]);
+						if(IndexSplit[0] == currentActive)
+						{
+							document.write( ' SELECTED ');
+						}
+						document.write('>');
+						document.write('EAP Authentication');
+						document.write('</OPTION>');
+					}
+					disableRadiusObject("DropDownProf");
+				</SCRIPT>
+				
+				<SCRIPT  LANGUAGE="JavaScript" >
+					var IndexString="3.1";
+					var IndexSplit = IndexString.split(".");
+
+					if (IndexSplit[1] == "1")
+					{
+						document.write('<OPTION VALUE=');
+						document.write(IndexSplit[0]);
+						if(IndexSplit[0] == currentActive)
+						{
+							document.write( ' SELECTED ');
+						}
+						document.write('>');
+						document.write('Accounting');
+						document.write('</OPTION>');
+					}
+					disableRadiusObject("DropDownProf");
+				</SCRIPT>
+				
+				<SCRIPT  LANGUAGE="JavaScript" >
+					var IndexString="3.2";
+					var IndexSplit = IndexString.split(".");
+
+					if (IndexSplit[1] == "1")
+					{
+						document.write('<OPTION VALUE=');
+						document.write(IndexSplit[0]);
+						if(IndexSplit[0] == currentActive)
+						{
+							document.write( ' SELECTED ');
+						}
+						document.write('>');
+						document.write('Accounting');
+						document.write('</OPTION>');
+					}
+					disableRadiusObject("DropDownProf");
+				</SCRIPT>
+				
+				<SCRIPT  LANGUAGE="JavaScript" >
+					var IndexString="4.1";
+					var IndexSplit = IndexString.split(".");
+
+					if (IndexSplit[1] == "1")
+					{
+						document.write('<OPTION VALUE=');
+						document.write(IndexSplit[0]);
+						if(IndexSplit[0] == currentActive)
+						{
+							document.write( ' SELECTED ');
+						}
+						document.write('>');
+						document.write('Management Access');
+						document.write('</OPTION>');
+					}
+					disableRadiusObject("DropDownProf");
+				</SCRIPT>
+				
+				<SCRIPT  LANGUAGE="JavaScript" >
+					var IndexString="4.2";
+					var IndexSplit = IndexString.split(".");
+
+					if (IndexSplit[1] == "1")
+					{
+						document.write('<OPTION VALUE=');
+						document.write(IndexSplit[0]);
+						if(IndexSplit[0] == currentActive)
+						{
+							document.write( ' SELECTED ');
+						}
+						document.write('>');
+						document.write('Management Access');
+						document.write('</OPTION>');
+					}
+					disableRadiusObject("DropDownProf");
+				</SCRIPT>
+				
+				</SELECT>
+			   </TD>
+			   </TR>
+		   </TABLE>
+		 </TD>
+		</TR>
+
+		<TR>
+			<TD>&nbsp;</TD>
+		</TR>
+		<TR>
+			<TD>
+			<TABLE cellpadding="0" cellspacing="0" border="0">
+	<TR>
+		<TD><IMG src="../orinoco/images/topleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+		<TD width="100%"><IMG src="../orinoco/images/top_line.gif" width="100%" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/topright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+	</TR>
+	<TR>
+		<TD background="../orinoco/images/left_line.gif">&nbsp;</TD>
+
+
+				<!-- Dump Contents Here! -->
+				<TD valign="middle">
+					<TABLE width="100%" cellpadding="0" cellspacing="0" BORDER="0">
+						<TR>
+							<TD>
+								<TABLE width="90%" cellpadding="0" cellspacing="0" BORDER="0">
+									<TR>
+										<TD class="header" COLSPAN="2">Primary Server Authentication Statistics</TD>
+									</TR>
+									<TR>
+										<TD>Access Requests</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(PriAuthClientStatTableAccessRequests);</SCRIPT></TD>
+									</TR>
+									<TR>
+										<TD>Access Accepts</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(PriAuthClientStatTableAccessAccepts);</SCRIPT></TD>
+									</TR>
+									<TR>
+										<TD>Access Retransmissions</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(PriAuthClientStatTableAccessRetransmissions);</SCRIPT></TD>
+									</TR>
+									<TR>
+										<TD>Access Rejects</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(PriAuthClientStatTableAccessRejects);</SCRIPT></TD>
+									</TR>
+									<TR>
+										<TD>Access Challenges</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(PriAuthClientStatTableAccessChallenges);</SCRIPT></TD>
+									</TR>
+									<TR>
+										<TD>Malformed Access Responses</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(PriAuthClientStatTableMalformedAccessResponses);</SCRIPT></TD>
+									</TR>
+									<TR>
+										<TD>Authentication Bad Authenticators</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(PriAuthClientStatTableBadAuthenticators);</SCRIPT></TD>
+									</TR>
+									<TR>
+										<TD>Timeouts</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(PriAuthClientStatTableTimeouts);</SCRIPT></TD>
+									</TR>	
+								</TABLE>
+							</TD>
+							<TD>
+								<TABLE width="90%" cellpadding="0" cellspacing="0" BORDER="0">
+									<TR>
+										<TD class="header" COLSPAN="2">Backup Server Authentication Statistics</TD>
+									</TR>
+									<TR>
+										<TD>Access Requests</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(SecAuthClientStatTableAccessRequests);</SCRIPT></TD>
+									</TR>
+									<TR>
+										<TD>Access Accepts</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(SecAuthClientStatTableAccessAccepts);</SCRIPT></TD>
+									</TR>
+									<TR>
+										<TD>Access Retransmissions</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(SecAuthClientStatTableAccessRetransmissions);</SCRIPT></TD>
+									</TR>
+									<TR>
+										<TD>Access Rejects</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(SecAuthClientStatTableAccessRejects);</SCRIPT></TD>
+									</TR>
+									<TR>
+										<TD>Access Challenges</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(SecAuthClientStatTableAccessChallenges);</SCRIPT></TD>
+									</TR>
+									<TR>
+										<TD>Malformed Access Responses</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(SecAuthClientStatTableMalformedAccessResponses);</SCRIPT></TD>
+									</TR>
+									<TR>
+										<TD>Authentication Bad Authenticators</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(SecAuthClientStatTableBadAuthenticators);</SCRIPT></TD>
+									</TR>
+									<TR>
+										<TD>Timeouts</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(SecAuthClientStatTableTimeouts);</SCRIPT></TD>
+									</TR>	
+								</TABLE>
+							</TD>
+							<TR>
+								<TD>&nbsp;</TD>
+							</TR>
+						</TR>
+						<TR>
+							<TD>&nbsp;</TD>
+						</TR>
+						<TR>
+							<TD>
+								<TABLE width="90%" cellpadding="0" cellspacing="0" BORDER="0">
+									<TR>
+										<TD class="header" COLSPAN="2">Primary Server Accounting Statistics</TD>
+									</TR>
+									<TR>
+										<TD>Accounting Requests</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(PriAcctClientStatTableAccountingRequests);</SCRIPT></TD>
+									</TR>
+									
+									<TR>
+										<TD>Accounting Retransmissions</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(PriAcctClientStatTableAccountingRetransmissions);</SCRIPT></TD>
+									</TR>
+									<TR>
+										<TD>Accounting Responses</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(PriAcctClientStatTableAccountingResponses);</SCRIPT></TD>
+									</TR>
+									<TR>
+										<TD>Accounting Bad Authenticators</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(PriAcctClientStatTableBadAuthenticators);</SCRIPT></TD>
+									</TR>	
+								</TABLE>
+							</TD>
+							<TD>
+								<TABLE width="90%" cellpadding="0" cellspacing="0" BORDER="0">
+									<TR>
+										<TD class="header" COLSPAN="2">Backup  Server Accounting Statistics</TD>
+									</TR>
+									<TR>
+										<TD>Accounting Requests</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(SecAcctClientStatTableAccountingRequests);</SCRIPT></TD>
+									</TR>
+									
+									<TR>
+										<TD>Accounting Retransmissions</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(SecAcctClientStatTableAccountingRetransmissions);</SCRIPT></TD>
+									</TR>
+									<TR>
+										<TD>Accounting Responses</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(SecAcctClientStatTableAccountingResponses);</SCRIPT></TD>
+									</TR>
+									<TR>
+										<TD>Accounting Bad Authenticators</TD>
+										<TD align="right" class="readonly"><SCRIPT>document.write(SecAcctClientStatTableBadAuthenticators);</SCRIPT></TD>
+									</TR>	
+								</TABLE>
+							</TD>
+						</TR>
+					</TABLE>
+				</TD>
+				<!-- End customized table -->
+					<TD background="../orinoco/images/right_line.gif">&nbsp;</TD>
+	</TR>
+	<TR>
+		<TD><IMG src="../orinoco/images/bottomleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/bottom_line.gif" width="100%" height="25" alt="" border="0"></TD>
+		<TD><IMG src="../orinoco/images/bottomright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+	</TR>
+</TABLE>
+
+			</TD>
+		</TR>
+	</TABLE>
+</TD>
+</TR>
+</FORM>
+<!-- Start Footer -->
+	<FORM name="rebootform" method="post" ACTION="/prototail.html">
+		<INPUT type="hidden" id="rebootflag" name="EmWeb_ns:snmp:568" value="0" class="formtext">
+	</FORM>
+
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
+<!-- End Footer -->
+
+</BODY>
+</HTML>
+

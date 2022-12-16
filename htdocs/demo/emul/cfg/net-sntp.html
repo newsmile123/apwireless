@@ -1,0 +1,381 @@
+<HTML>
+<HEAD>
+	<TITLE>NTP Server Configuration</TITLE>
+	<LINK rel="stylesheet" href="../orinoco/css/global.css">
+	<SCRIPT language="javascript" src="../orinoco/scripts/library.js">
+	</SCRIPT>
+	<SCRIPT language="javascript" src="../orinoco/scripts/test.js">
+	</SCRIPT>
+
+	<SCRIPT  LANGUAGE="JavaScript">
+
+    timeZones = new Array(
+                         'dateline','samoa','hawaii','alaska','pacific-us','mountain-us','arizona','central-us','mexico-city','eastern-us',
+                         'indiana','atlantic-canada','santiago','newfoundland','brasilia','buenos-aires','mid-atlantic','azores','london','western-europe',
+                         'eastern-europe','cairo','russia-iraq','iran','arabian','afghanistan','pakistan','india','bangladesh','burma',
+                         'bangkok','australia-wt','hong-kong','beijing','japan-korea','australia-ct','australia-et','central-pacific','new-zealand','tonga',
+                         'western-samoa',"stop" );
+
+    datetimes = new Array('+2', '+1', ' 0', '-1', '-2' );
+    
+    function setStatusState() {
+/*
+       if (document.forms[0].fakeori_SNTP.checked==true) {
+          document.forms[0].primaryServer.disabled=false;
+          document.forms[0].secondaryServer.disabled=false;
+		  document.forms[0].addressFormat.disabled=false;
+          document.forms[0].timeZone.disabled=false;
+          document.forms[0].dayLight.disabled=false;
+          document.forms[0].month.disabled=true;
+          document.forms[0].day.disabled=true;
+          document.forms[0].year.disabled=true;
+		  document.forms[0].hour.disabled=true;
+		  document.forms[0].minute.disabled=true;
+		  document.forms[0].second.disabled=true;
+       }
+       else {
+          document.forms[0].primaryServer.disabled=true;
+          document.forms[0].secondaryServer.disabled=true;
+		  document.forms[0].addressFormat.disabled=true;
+          document.forms[0].timeZone.disabled=true;
+          document.forms[0].dayLight.disabled=true;
+          document.forms[0].month.disabled=false;
+          document.forms[0].day.disabled=false;
+          document.forms[0].year.disabled=false;
+		  document.forms[0].hour.disabled=false;
+		  document.forms[0].minute.disabled=false;
+		  document.forms[0].second.disabled=false;      
+       }
+*/
+	   if (document.forms[0].fakeori_SNTP.checked==true) {                   
+          document.forms[0].month.disabled=true;
+          document.forms[0].day.disabled=true;
+          document.forms[0].year.disabled=true;
+		  document.forms[0].hour.disabled=true;
+		  document.forms[0].minute.disabled=true;
+		  document.forms[0].second.disabled=true;
+       }
+       else {          
+          document.forms[0].month.disabled=false;
+          document.forms[0].day.disabled=false;
+          document.forms[0].year.disabled=false;
+		  document.forms[0].hour.disabled=false;
+		  document.forms[0].minute.disabled=false;
+		  document.forms[0].second.disabled=false;      
+       }
+    }
+
+	</SCRIPT>
+
+</HEAD>
+
+	<SCRIPT language="javascript">
+    grp_live = 1;
+    subgrp_live = 1;
+    tri_grp_live = 6;
+    tri_subgrp_live = 4;
+	</SCRIPT>
+
+	<BODY style="margin:0px" background="../orinoco/images/bg.gif" rightmargin="0" >
+
+	<SCRIPT language="javascript" src="../orinoco/scripts/menu.js"></SCRIPT>
+
+<!-- Start Header -->
+<!-- <BODY style="margin:0px"> -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0">
+	<TR>
+		<TD>
+			<TABLE width="150" height="90" cellpadding="0" cellspacing="0">
+			<TR>
+			<TD valign="top"><IMG src="../orinoco/images/logo.gif"></TD>
+			</TR>
+			<TR>
+			<TD align="right">&nbsp;</TD>
+			</TR>
+			</TABLE>
+		</TD>
+		<TD valign="bottom">
+			<TABLE cellpadding="0" cellspacing="0" width="100%"> <!-- For the table -->
+				<!-- For the first row -->
+				<TR>
+					<TD>
+						<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+							<SCRIPT language="javascript">
+		                            		var ProductId  = "1.3.6.1.4.1.11898.2.4.12";													
+                                                                var slotA = '4 ';
+		                            		        var slotB = '6 ';
+		                            		        var secModeA = '6';  
+		                            		        var secModeB = '1';  
+								InitMenu(ProductId, slotA, slotB, secModeA, secModeB);
+								var nbrTabs = subNumArray[grp_live];
+								if(nbrTabs>5)
+								{
+									var start,finish;
+									var nbrTabsDivbyTwo = (nbrTabs - (nbrTabs%2))/2;
+									if(subgrp_live >= (nbrTabsDivbyTwo + (nbrTabs%2)) )
+									{
+										start = 0;
+										finish = nbrTabsDivbyTwo -1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = nbrTabsDivbyTwo;
+											finish = nbrTabs-1;
+										}
+										else
+										{
+											start = nbrTabsDivbyTwo+1;
+										finish = nbrTabs-1;
+									}
+										
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,1,1);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+									document.write('</TABLE>');
+									document.write('</TD>');
+									document.write('</TR>');
+									<!-- For the second row -->
+									document.write('<TR>');
+									document.write('<TD>');
+									document.write('<TABLE class="tabrow" cellpadding="0" cellspacing="0">');
+									if(subgrp_live >= (nbrTabsDivbyTwo+ (nbrTabs%2)))
+									{
+										start = nbrTabsDivbyTwo;
+										finish = nbrTabs-1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = 0;
+											finish = nbrTabsDivbyTwo-1;
+										}
+										else
+										{
+										start = 0;
+											finish = nbrTabsDivbyTwo;
+										}
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,2,0);
+									document.write('<TD align="middle" background="../orinoco/images/iedge.gif">&nbsp;</TD>');
+								}
+								else
+								{
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,0,nbrTabs-1,0,0);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+								}
+							</SCRIPT>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+
+	
+	<TR>
+		<TD valign="top">
+			<TABLE align="center" cellpadding="10" cellspacing="0">
+				<SCRIPT language="javascript">
+					drawButtons(grp,grp_live);
+				</SCRIPT>
+			</TABLE>
+		</TD>
+<!-- End Header -->
+
+<TD bgcolor="white" height="95%" valign="top">
+<TABLE bgcolor="white" style="margin-left:25px; margin-bottom:25; margin-top: 5px" cellspacing="0" cellpadding="0" border="0" width="588">
+<!-- Start Subtabs -->
+
+	<TR>
+		<TD>
+			<TABLE cellpadding="0" cellspacing="0" width="95%">
+				<TR>
+					<TD>&nbsp;</TD>
+				</TR>
+				<TR>
+					<TD>
+						<TABLE cellpadding="0" cellspacing="0" width="100%">
+							<TR>
+								<TD>
+									<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+										<SCRIPT language="javascript">
+											var nbrTabs = subNumArray[tri_grp_live];
+											drawTabRow(subgrpArray[tri_grp_live],tri_grp_live,tri_subgrp_live,0,nbrTabs-1,4,0);
+										</SCRIPT>
+										<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>
+									</TABLE>
+								</TD>
+								<TD align="right" class="subtab-corner">&nbsp;</TD>
+							</TR>
+						</TABLE>
+					</TD>
+				</TR>
+				<!-- End Subtabs -->
+				<TR>					
+					<TD>
+						<TABLE bgcolor="white" cellpadding="0" cellspacing="0" border="0">
+						<TR>
+							<TD background="../orinoco/images/left_line.gif">&nbsp;</TD>
+
+
+	<!-- BEGIN CONTENT -->
+	<TD bgcolor="white" height="95%" valign="top" >
+	<TABLE>
+		<TR>
+			<TD class="verbiage">
+			<P>This page is used to configure the Simple Network Time Protocol (SNTP) feature.  If this feature is enabled, the AP will attempt to retrieve the time of day from the configured time servers (primary or secondary).  If successful, the AP will update the relevant time objects with the retrieved time of day; otherwise it will use the system uptime to update the relevant time objects.  If this feature is disabled, then you can manually configure the date and time parameters.</P>
+                        <P><I>Note: The time servers can be configured using either the host name (URL) or the IP address.  If these servers are configured with the host name, then the DNS client feature must be enabled and configured properly.</I></P>
+                        <P>If a time server is configured with a 0.0.0.0 IP address, then the SNTP client in the AP will not send a time request to that server.</P>
+                        <P><I>Note: When SNTP is enabled, it will take some time for the access point to retrieve the time of day from the configured time servers and update the relevant date and time parameters.</I></P>
+                        </TD>                         
+		</TR>
+		<TR><TD>&nbsp;</TD></TR>
+		<TR><TD>&nbsp;</TD></TR>
+	</TABLE>
+	<FORM method="post" ACTION="/cfg/net-sntp.html">
+	<TABLE cellpadding="1" cellspacing="1" border="0" width="100%">
+		<TR>
+			<TD colspan="2">
+				<TABLE cellpadding="1" cellspacing="1" border="0" width="100%" align="center">
+					<TR><INPUT type="hidden" id="ori_SNTP" name="EmWeb_ns:snmp:306" VALUE="2">
+						<SCRIPT  LANGUAGE="JavaScript" >
+                        	var option = 2;
+                            document.write('<TD>Enable SNTP Status</TD>');
+	                        document.write('<TD><INPUT type="checkbox" id="fakeori_SNTP" onClick="doCBS(this,document.forms[0].ori_SNTP);setStatusState();document.forms[0].submit()" ');
+                                if(option==1){
+		                       document.write(' CHECKED ');
+		                    }
+	                        document.write('></TD>');   
+						</SCRIPT>
+					</TR>		
+					<TR><TD>&nbsp;</TD></TR>
+					<TR><TD>Address Format</TD>
+					    <TD><SELECT class="formdropdown" name="EmWeb_ns:snmp:307" onChange="modifys(this)" width="100%" ID="addressFormat">
+							<SCRIPT  LANGUAGE="JavaScript">
+                            	var option = 1;
+                                document.write('<OPTION VALUE=1 ');
+                                if (option == 1 ) {
+                                    document.write(' SELECTED ');             
+                                }
+                                document.write('>IP Address</OPTION>');
+								document.write('<OPTION VALUE=2 ');
+                                if (option == 2 ) {
+                                   document.write(' SELECTED ');             
+                                }
+                                document.write('>Name</OPTION>');
+                            </SCRIPT>
+							</SELECT>
+						</TD>	
+					</TR>
+					<TR><TD>Primary Time Server</TD>
+						<TD><INPUT type="text" name="EmWeb_ns:snmp:308" onChange="modifys(this)" class="formtext" ID="primaryServer" VALUE="0.0.0.0"></TD>
+					</TR>
+					<TR><TD>Secondary Time Server</TD>
+						<TD><INPUT type="text" name="EmWeb_ns:snmp:309" onChange="modifys(this)" class="formtext" ID="secondaryServer" VALUE="0.0.0.0"></TD>
+					</TR>
+					<TR><TD>Time Zone</TD>
+						<TD><SELECT class="formdropdown" name="EmWeb_ns:snmp:310" onChange="modifys(this)" width="100%" ID="timeZone">
+							<SCRIPT  LANGUAGE="JavaScript">
+                                var option = 1;
+
+                                for (zone=0; timeZones[zone].indexOf("stop") == -1; zone++) {
+                                     value=zone+1;
+                                     document.write('<OPTION VALUE='+value);
+                                     if (option == value) {
+                                        document.write(' SELECTED ');             
+                                     }
+                                     document.write('>');
+                                     document.write( timeZones[zone]);
+                                     document.write('</OPTION>');
+                                }
+                                                     
+							</script>
+							</SELECT>
+						</TD>
+					</TR>
+					<TR><TD>Daylight Saving</TD>
+						<TD><SELECT class="formdropdown" name="EmWeb_ns:snmp:311" onChange="modifys(this)" ID="dayLight">
+							<SCRIPT  LANGUAGE="JavaScript">
+                                option=3;
+
+                                for (index=0; index<5; index++) {
+                                    value=index+1;
+                                    document.write( '<OPTION VALUE=' + value);
+                                    if (option == value) {
+                                        document.write(' SELECTED ');             
+                                    }
+                                    document.write('>');
+                                    document.write(datetimes[index]);
+                                    document.write('</OPTION>');
+                                }
+							</SCRIPT>
+							</SELECT>
+						</TD>
+					</TR>
+					<TR><TD>&nbsp;</TD></TR>
+					<TR><TD>Date (MM/DD/YYYY)</TD>
+					    <TD><INPUT type="text" name="EmWeb_ns:snmp:312" onChange="modifys(this)" class="formtextmini" style="width:45px" ID="month" VALUE="0">/
+										<INPUT type="text" name="EmWeb_ns:snmp:313" onChange="modifys(this)" class="formtextmini" style="width:45px" id="day" VALUE="0">/
+										<INPUT type="text" name="EmWeb_ns:snmp:314" onChange="modifys(this)" class="formtextmini" style="width:45px" id="year" VALUE="0">
+					    </TD> 
+					</TR>
+					 <TR><TD>Time (HH:MM:SS)</TD>   
+					     <TD><INPUT type="text" name="EmWeb_ns:snmp:315" onChange="modifys(this)" class="formtextmini" style="width:45px" id="hour" VALUE="0">:
+										<INPUT type="text" name="EmWeb_ns:snmp:316" onChange="modifys(this)" class="formtextmini" style="width:45px" ID="minute" VALUE="11">:
+										<INPUT type="text" name="EmWeb_ns:snmp:317" onChange="modifys(this)" class="formtextmini" style="width:45px" id="second" VALUE="42">
+                                             </TD>
+					</TR>                                                                         
+				</TABLE>
+			</TD>
+		</TR>
+		<TR><TD>&nbsp;</TD></TR>
+                <TR><TD>&nbsp;</TD></TR>            
+		<TR><TD colspan="2" align="center">
+				<TABLE cellpadding="0" cellpadding="0" border="0" width="270">
+					<TR><TD><a href="javascript:transmit()"><IMG src="../orinoco/images/ok.gif" width="93" height="25" alt="Ok" border="0"></a></TD>
+						<TD><A href="javascript:cancel()"><IMG src="../orinoco/images/cancel.gif" width="93" height="25" alt="Cancel" border="0"></A></TD>
+					</TR>
+				</TABLE>
+			</TD>
+		</TR>                   
+	</TABLE>
+	<SCRIPT  LANGUAGE="JavaScript">setStatusState();</script>
+	</FORM>
+	</TD>
+	
+							<TD background="../orinoco/images/right_line.gif">&nbsp;</TD>
+						</TR>
+						<TR>
+							<TD><IMG src="../orinoco/images/bottomleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+							<TD><IMG src="../orinoco/images/bottom_line.gif" width="100%" height="25" alt="" border="0"></TD>
+							<TD><IMG src="../orinoco/images/bottomright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+						</TR>
+
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+
+
+		</TD>
+	</TR>
+</TR>
+</TABLE>
+
+<!-- Start Footer -->
+	<FORM name="rebootform" method="post" ACTION="/prototail.html">
+		<INPUT type="hidden" id="rebootflag" name="EmWeb_ns:snmp:568" value="0" class="formtext">
+	</FORM>
+
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
+<!-- End Footer -->
+
+
+	</BODY>
+</HTML>

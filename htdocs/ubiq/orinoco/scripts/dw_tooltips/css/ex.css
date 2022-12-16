@@ -1,0 +1,46 @@
+/* Styles not related to code  */
+
+.showTip{
+	text-decoration:none;
+	color:#5691AD;
+}
+.showTip:hover{
+	text-decoration:none;
+	color:#78C063;
+}
+
+div#tipDiv {
+    font-size:13px;
+    color:#000000; 
+	background-color:#E1E5F1; 
+    border:1px solid #667295; 
+	font-family: 'Hammersmith One';
+	font-family: 'Questrial', sans-serif;
+	text-align:justify;
+}
+
+div#tipDiv div.topBar {
+    background-color:#6C86C3;
+    min-height:14px; /* for bg color if no caption (close.gif is 14px) */
+    text-align:center;  
+    }
+	
+/* used in dw_Tooltip.wrapImageOverText */
+div#tipDiv div.img { 
+    text-align:center; 
+    margin:4px 0;
+    }
+div#tipDiv div.txt { 
+    text-align:center; 
+    margin:4px 0;
+    }
+p { max-width: 60em; }
+span.news { font-weight:bold; font-style:italic; }
+span.caption{
+	font-size:13px;
+    color:#fff;
+	text-align:left;
+	font-weight:bold; 
+	font-family: 'Hammersmith One';
+	font-family: 'Questrial', sans-serif;
+}

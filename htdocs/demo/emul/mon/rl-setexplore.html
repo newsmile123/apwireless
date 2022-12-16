@@ -1,0 +1,18 @@
+<HTML>
+<HEAD>
+<TITLE>Remote Link Test</TITLE><LINK rel="stylesheet" href="../orinoco/css/global.css">
+<SCRIPT language="javascript" src="../orinoco/scripts/library.js"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+onload = CallSubmit
+function CallSubmit() {
+	modifys(document.forms[0][0])
+	document.forms[0].submit()
+	location.replace("remotelink.html")
+}
+</SCRIPT>
+</HEAD>
+<BODY>
+<FORM method="post" NAME="oriLinkTestExplore" ACTION="rl-setexplore.html">
+<INPUT type="hidden" src="/orinoco/images/explor.gif" name="EmWeb_ns:snmp:632" value="2">
+</FORM>
+</BODY>

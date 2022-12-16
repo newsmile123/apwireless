@@ -1,0 +1,658 @@
+<HTML>
+<HEAD>
+	<TITLE>QoS Priority Mapping Table</TITLE><LINK rel="stylesheet" href="../../orinoco/css/global.css">
+	<SCRIPT language="javascript" src="../../orinoco/scripts/library.js"></SCRIPT>
+	<SCRIPT language="javascript" src="../../orinoco/scripts/test.js"></SCRIPT>
+</HEAD>
+
+<SCRIPT language="javascript">
+	grp_live = 1;
+	subgrp_live = 7;
+</SCRIPT>
+
+<BODY style="margin:0px" background="../../orinoco/images/bg.gif" rightmargin="0" >
+
+<SCRIPT language="javascript" src="../../orinoco/scripts/menu.js"></SCRIPT>
+
+<!-- Start Header -->
+<!-- <BODY style="margin:0px"> -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0">
+	<TR>
+		<TD>
+			<TABLE width="150" height="90" cellpadding="0" cellspacing="0">
+			<TR>
+			<TD valign="top"><IMG src="../../orinoco/images/logo.gif"></TD>
+			</TR>
+			<TR>
+			<TD align="right">&nbsp;</TD>
+			</TR>
+			</TABLE>
+		</TD>
+		<TD valign="bottom">
+			<TABLE cellpadding="0" cellspacing="0" width="100%"> <!-- For the table -->
+				<!-- For the first row -->
+				<TR>
+					<TD>
+						<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+							<SCRIPT language="javascript">
+		                            		var ProductId  = "1.3.6.1.4.1.11898.2.4.12";													
+                                                                var slotA = '4 ';
+		                            		        var slotB = '6 ';
+		                            		        var secModeA = '6';  
+		                            		        var secModeB = '1';  
+								InitMenu(ProductId, slotA, slotB, secModeA, secModeB);
+								var nbrTabs = subNumArray[grp_live];
+								if(nbrTabs>5)
+								{
+									var start,finish;
+									var nbrTabsDivbyTwo = (nbrTabs - (nbrTabs%2))/2;
+									if(subgrp_live >= (nbrTabsDivbyTwo + (nbrTabs%2)) )
+									{
+										start = 0;
+										finish = nbrTabsDivbyTwo -1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = nbrTabsDivbyTwo;
+											finish = nbrTabs-1;
+										}
+										else
+										{
+											start = nbrTabsDivbyTwo+1;
+										finish = nbrTabs-1;
+									}
+										
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,1,1);
+									document.write('<TD align="middle" background="../../orinoco/images/edge.gif">&nbsp;</TD>');
+									document.write('</TABLE>');
+									document.write('</TD>');
+									document.write('</TR>');
+									<!-- For the second row -->
+									document.write('<TR>');
+									document.write('<TD>');
+									document.write('<TABLE class="tabrow" cellpadding="0" cellspacing="0">');
+									if(subgrp_live >= (nbrTabsDivbyTwo+ (nbrTabs%2)))
+									{
+										start = nbrTabsDivbyTwo;
+										finish = nbrTabs-1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = 0;
+											finish = nbrTabsDivbyTwo-1;
+										}
+										else
+										{
+										start = 0;
+											finish = nbrTabsDivbyTwo;
+										}
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,2,0);
+									document.write('<TD align="middle" background="../../orinoco/images/iedge.gif">&nbsp;</TD>');
+								}
+								else
+								{
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,0,nbrTabs-1,0,0);
+									document.write('<TD align="middle" background="../../orinoco/images/edge.gif">&nbsp;</TD>');
+								}
+							</SCRIPT>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+
+	
+	<TR>
+		<TD valign="top">
+			<TABLE align="center" cellpadding="10" cellspacing="0">
+				<SCRIPT language="javascript">
+					drawButtons(grp,grp_live);
+				</SCRIPT>
+			</TABLE>
+		</TD>
+<!-- End Header -->
+
+
+
+<TD colspan="2" bgcolor="white" height="100%" valign="top">
+    
+<TABLE cellpadding="0" cellspacing="0" border="0" width="50%" style="margin-left:50px; margin-bottom:25; margin-top:5px">
+ <TR><TD align="right" width="100%"><A href="javascript:window.history.back()"><IMG src="../../orinoco/images/back.gif" width="32" height="32" alt="Back" border="0"></A></TD></TR>
+ <TR><TD colspan="2" class="header">STA EDCA Table - Edit Entries</TD></TR>
+ <TR><TD class="verbiage"><p>This page is used to modify Client EDCA parameters.</P></TD></TR>
+ <TR><TD>&nbsp;</TD></TR>
+ <TR><TD align="center"><!-- *************Put the body here!*************** -->
+ <FORM method="post" ACTION="QoSEDCAClient-edit.html/edit">
+ 	<TABLE cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
+ 	<TR><TD COLSPAN="2" class="header">Wireless A</td></tr>
+ 	<SCRIPT LANGUAGE="JAVASCRIPT" >                  
+	    var currentIndex=0;
+	    var oldIndex=0;
+        var count=0;
+	</SCRIPT>    
+ 	
+		<SCRIPT LANGUAGE="JAVASCRIPT">
+             currentIndex=1
+			 if (currentIndex < oldIndex) {
+			    document.write('<TR><TD COLSPAN="2" class="header">Wireless B</td></tr>');
+             }
+			 oldIndex=currentIndex;         
+        </script>  
+ 		<TR>
+ 			<TD>Access Category</TD>
+ 			<TD class="readonly">
+			<SCRIPT LANGUAGE="JAVASCRIPT">
+                                 var accessCat=1;       
+				 switch (accessCat) { 
+                                 case 1: document.write('Best Effort'); break;
+                                 case 2: document.write('Background'); break;
+                                 case 3: document.write('Video'); break;
+                                 case 4: document.write('Voice'); break;
+                                 case 5: document.write('unknown'); break;
+                                 }
+                        </script>
+			</TD>
+ 		</TR>
+ 		<TR>
+ 			<TD>CWmin</TD>
+ 			<TD><INPUT name="EmWeb_ns:snmp:6.3.1" value="15" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+        <TR>
+ 			<TD>CWmax</TD>
+            <TD><INPUT name="EmWeb_ns:snmp:7.3.1" VALUE="1023" onChange="modify(this)" type="text" class="formtext"></TD>  
+ 		</TR>                  
+        <TR>                                  
+             <TD>AIFSN</TD>
+             <TD><INPUT name="EmWeb_ns:snmp:8.3.1" value="3" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+ 		<TR>                                  
+             <TD>Tx OP Limit</TD>
+             <TD><INPUT name="EmWeb_ns:snmp:9.3.1" value="0" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+       <!-- <TR>
+ 			<TD>MSDU Lifetime</TD>
+ 			<TD><INPUT name="EmWeb_ns:snmp:10.3.1" value="0" type="text" class="formtext" onchange="modify(this)"></TD>                
+ 		</TR> -->
+        <TR>
+ 	    <TD>Admission Control Mandatory</TD>
+	    <TD><SCRIPT LANGUAGE="JAVASCRIPT">
+             var option = 2;
+            document.write('<SELECT id="dot11EDCATableMandatory'+count+'" name="EmWeb_ns:snmp:12.3.1" onChange="modify(this)" class="formdropdown">');
+             document.write('<OPTION VALUE=1 '); if (option == 1) { document.write(' selected '); } document.write('>true</option>');
+             document.write('<OPTION VALUE=2 '); if (option == 2) { document.write(' selected '); } document.write('>false</option>'); 
+             document.write('</SELECT>');
+
+             if (currentIndex <= 2 ){
+                statusObj=document.getElementById("dot11EDCATableMandatory"+count);
+                statusObj.disabled=1;
+             }
+
+            </script>
+            </TD>
+ 	</TR>
+        <TR><TD colspan="2"><IMG src="../../orinoco/images/spacer.gif" width="340" height="30" alt="" border="0"></TD></TR>
+	  <SCRIPT LANGUAGE="JAVASCRIPT">count=count+1;</script>
+    
+		<SCRIPT LANGUAGE="JAVASCRIPT">
+             currentIndex=2
+			 if (currentIndex < oldIndex) {
+			    document.write('<TR><TD COLSPAN="2" class="header">Wireless B</td></tr>');
+             }
+			 oldIndex=currentIndex;         
+        </script>  
+ 		<TR>
+ 			<TD>Access Category</TD>
+ 			<TD class="readonly">
+			<SCRIPT LANGUAGE="JAVASCRIPT">
+                                 var accessCat=2;       
+				 switch (accessCat) { 
+                                 case 1: document.write('Best Effort'); break;
+                                 case 2: document.write('Background'); break;
+                                 case 3: document.write('Video'); break;
+                                 case 4: document.write('Voice'); break;
+                                 case 5: document.write('unknown'); break;
+                                 }
+                        </script>
+			</TD>
+ 		</TR>
+ 		<TR>
+ 			<TD>CWmin</TD>
+ 			<TD><INPUT name="EmWeb_ns:snmp:6.3.2" value="15" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+        <TR>
+ 			<TD>CWmax</TD>
+            <TD><INPUT name="EmWeb_ns:snmp:7.3.2" VALUE="1023" onChange="modify(this)" type="text" class="formtext"></TD>  
+ 		</TR>                  
+        <TR>                                  
+             <TD>AIFSN</TD>
+             <TD><INPUT name="EmWeb_ns:snmp:8.3.2" value="7" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+ 		<TR>                                  
+             <TD>Tx OP Limit</TD>
+             <TD><INPUT name="EmWeb_ns:snmp:9.3.2" value="0" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+       <!-- <TR>
+ 			<TD>MSDU Lifetime</TD>
+ 			<TD><INPUT name="EmWeb_ns:snmp:10.3.2" value="0" type="text" class="formtext" onchange="modify(this)"></TD>                
+ 		</TR> -->
+        <TR>
+ 	    <TD>Admission Control Mandatory</TD>
+	    <TD><SCRIPT LANGUAGE="JAVASCRIPT">
+             var option = 2;
+            document.write('<SELECT id="dot11EDCATableMandatory'+count+'" name="EmWeb_ns:snmp:12.3.2" onChange="modify(this)" class="formdropdown">');
+             document.write('<OPTION VALUE=1 '); if (option == 1) { document.write(' selected '); } document.write('>true</option>');
+             document.write('<OPTION VALUE=2 '); if (option == 2) { document.write(' selected '); } document.write('>false</option>'); 
+             document.write('</SELECT>');
+
+             if (currentIndex <= 2 ){
+                statusObj=document.getElementById("dot11EDCATableMandatory"+count);
+                statusObj.disabled=1;
+             }
+
+            </script>
+            </TD>
+ 	</TR>
+        <TR><TD colspan="2"><IMG src="../../orinoco/images/spacer.gif" width="340" height="30" alt="" border="0"></TD></TR>
+	  <SCRIPT LANGUAGE="JAVASCRIPT">count=count+1;</script>
+    
+		<SCRIPT LANGUAGE="JAVASCRIPT">
+             currentIndex=3
+			 if (currentIndex < oldIndex) {
+			    document.write('<TR><TD COLSPAN="2" class="header">Wireless B</td></tr>');
+             }
+			 oldIndex=currentIndex;         
+        </script>  
+ 		<TR>
+ 			<TD>Access Category</TD>
+ 			<TD class="readonly">
+			<SCRIPT LANGUAGE="JAVASCRIPT">
+                                 var accessCat=3;       
+				 switch (accessCat) { 
+                                 case 1: document.write('Best Effort'); break;
+                                 case 2: document.write('Background'); break;
+                                 case 3: document.write('Video'); break;
+                                 case 4: document.write('Voice'); break;
+                                 case 5: document.write('unknown'); break;
+                                 }
+                        </script>
+			</TD>
+ 		</TR>
+ 		<TR>
+ 			<TD>CWmin</TD>
+ 			<TD><INPUT name="EmWeb_ns:snmp:6.3.3" value="7" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+        <TR>
+ 			<TD>CWmax</TD>
+            <TD><INPUT name="EmWeb_ns:snmp:7.3.3" VALUE="15" onChange="modify(this)" type="text" class="formtext"></TD>  
+ 		</TR>                  
+        <TR>                                  
+             <TD>AIFSN</TD>
+             <TD><INPUT name="EmWeb_ns:snmp:8.3.3" value="2" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+ 		<TR>                                  
+             <TD>Tx OP Limit</TD>
+             <TD><INPUT name="EmWeb_ns:snmp:9.3.3" value="3008" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+       <!-- <TR>
+ 			<TD>MSDU Lifetime</TD>
+ 			<TD><INPUT name="EmWeb_ns:snmp:10.3.3" value="0" type="text" class="formtext" onchange="modify(this)"></TD>                
+ 		</TR> -->
+        <TR>
+ 	    <TD>Admission Control Mandatory</TD>
+	    <TD><SCRIPT LANGUAGE="JAVASCRIPT">
+             var option = 2;
+            document.write('<SELECT id="dot11EDCATableMandatory'+count+'" name="EmWeb_ns:snmp:12.3.3" onChange="modify(this)" class="formdropdown">');
+             document.write('<OPTION VALUE=1 '); if (option == 1) { document.write(' selected '); } document.write('>true</option>');
+             document.write('<OPTION VALUE=2 '); if (option == 2) { document.write(' selected '); } document.write('>false</option>'); 
+             document.write('</SELECT>');
+
+             if (currentIndex <= 2 ){
+                statusObj=document.getElementById("dot11EDCATableMandatory"+count);
+                statusObj.disabled=1;
+             }
+
+            </script>
+            </TD>
+ 	</TR>
+        <TR><TD colspan="2"><IMG src="../../orinoco/images/spacer.gif" width="340" height="30" alt="" border="0"></TD></TR>
+	  <SCRIPT LANGUAGE="JAVASCRIPT">count=count+1;</script>
+    
+		<SCRIPT LANGUAGE="JAVASCRIPT">
+             currentIndex=4
+			 if (currentIndex < oldIndex) {
+			    document.write('<TR><TD COLSPAN="2" class="header">Wireless B</td></tr>');
+             }
+			 oldIndex=currentIndex;         
+        </script>  
+ 		<TR>
+ 			<TD>Access Category</TD>
+ 			<TD class="readonly">
+			<SCRIPT LANGUAGE="JAVASCRIPT">
+                                 var accessCat=4;       
+				 switch (accessCat) { 
+                                 case 1: document.write('Best Effort'); break;
+                                 case 2: document.write('Background'); break;
+                                 case 3: document.write('Video'); break;
+                                 case 4: document.write('Voice'); break;
+                                 case 5: document.write('unknown'); break;
+                                 }
+                        </script>
+			</TD>
+ 		</TR>
+ 		<TR>
+ 			<TD>CWmin</TD>
+ 			<TD><INPUT name="EmWeb_ns:snmp:6.3.4" value="3" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+        <TR>
+ 			<TD>CWmax</TD>
+            <TD><INPUT name="EmWeb_ns:snmp:7.3.4" VALUE="7" onChange="modify(this)" type="text" class="formtext"></TD>  
+ 		</TR>                  
+        <TR>                                  
+             <TD>AIFSN</TD>
+             <TD><INPUT name="EmWeb_ns:snmp:8.3.4" value="2" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+ 		<TR>                                  
+             <TD>Tx OP Limit</TD>
+             <TD><INPUT name="EmWeb_ns:snmp:9.3.4" value="1504" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+       <!-- <TR>
+ 			<TD>MSDU Lifetime</TD>
+ 			<TD><INPUT name="EmWeb_ns:snmp:10.3.4" value="0" type="text" class="formtext" onchange="modify(this)"></TD>                
+ 		</TR> -->
+        <TR>
+ 	    <TD>Admission Control Mandatory</TD>
+	    <TD><SCRIPT LANGUAGE="JAVASCRIPT">
+             var option = 2;
+            document.write('<SELECT id="dot11EDCATableMandatory'+count+'" name="EmWeb_ns:snmp:12.3.4" onChange="modify(this)" class="formdropdown">');
+             document.write('<OPTION VALUE=1 '); if (option == 1) { document.write(' selected '); } document.write('>true</option>');
+             document.write('<OPTION VALUE=2 '); if (option == 2) { document.write(' selected '); } document.write('>false</option>'); 
+             document.write('</SELECT>');
+
+             if (currentIndex <= 2 ){
+                statusObj=document.getElementById("dot11EDCATableMandatory"+count);
+                statusObj.disabled=1;
+             }
+
+            </script>
+            </TD>
+ 	</TR>
+        <TR><TD colspan="2"><IMG src="../../orinoco/images/spacer.gif" width="340" height="30" alt="" border="0"></TD></TR>
+	  <SCRIPT LANGUAGE="JAVASCRIPT">count=count+1;</script>
+    
+		<SCRIPT LANGUAGE="JAVASCRIPT">
+             currentIndex=1
+			 if (currentIndex < oldIndex) {
+			    document.write('<TR><TD COLSPAN="2" class="header">Wireless B</td></tr>');
+             }
+			 oldIndex=currentIndex;         
+        </script>  
+ 		<TR>
+ 			<TD>Access Category</TD>
+ 			<TD class="readonly">
+			<SCRIPT LANGUAGE="JAVASCRIPT">
+                                 var accessCat=1;       
+				 switch (accessCat) { 
+                                 case 1: document.write('Best Effort'); break;
+                                 case 2: document.write('Background'); break;
+                                 case 3: document.write('Video'); break;
+                                 case 4: document.write('Voice'); break;
+                                 case 5: document.write('unknown'); break;
+                                 }
+                        </script>
+			</TD>
+ 		</TR>
+ 		<TR>
+ 			<TD>CWmin</TD>
+ 			<TD><INPUT name="EmWeb_ns:snmp:6.4.1" value="15" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+        <TR>
+ 			<TD>CWmax</TD>
+            <TD><INPUT name="EmWeb_ns:snmp:7.4.1" VALUE="1023" onChange="modify(this)" type="text" class="formtext"></TD>  
+ 		</TR>                  
+        <TR>                                  
+             <TD>AIFSN</TD>
+             <TD><INPUT name="EmWeb_ns:snmp:8.4.1" value="3" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+ 		<TR>                                  
+             <TD>Tx OP Limit</TD>
+             <TD><INPUT name="EmWeb_ns:snmp:9.4.1" value="0" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+       <!-- <TR>
+ 			<TD>MSDU Lifetime</TD>
+ 			<TD><INPUT name="EmWeb_ns:snmp:10.4.1" value="0" type="text" class="formtext" onchange="modify(this)"></TD>                
+ 		</TR> -->
+        <TR>
+ 	    <TD>Admission Control Mandatory</TD>
+	    <TD><SCRIPT LANGUAGE="JAVASCRIPT">
+             var option = 2;
+            document.write('<SELECT id="dot11EDCATableMandatory'+count+'" name="EmWeb_ns:snmp:12.4.1" onChange="modify(this)" class="formdropdown">');
+             document.write('<OPTION VALUE=1 '); if (option == 1) { document.write(' selected '); } document.write('>true</option>');
+             document.write('<OPTION VALUE=2 '); if (option == 2) { document.write(' selected '); } document.write('>false</option>'); 
+             document.write('</SELECT>');
+
+             if (currentIndex <= 2 ){
+                statusObj=document.getElementById("dot11EDCATableMandatory"+count);
+                statusObj.disabled=1;
+             }
+
+            </script>
+            </TD>
+ 	</TR>
+        <TR><TD colspan="2"><IMG src="../../orinoco/images/spacer.gif" width="340" height="30" alt="" border="0"></TD></TR>
+	  <SCRIPT LANGUAGE="JAVASCRIPT">count=count+1;</script>
+    
+		<SCRIPT LANGUAGE="JAVASCRIPT">
+             currentIndex=2
+			 if (currentIndex < oldIndex) {
+			    document.write('<TR><TD COLSPAN="2" class="header">Wireless B</td></tr>');
+             }
+			 oldIndex=currentIndex;         
+        </script>  
+ 		<TR>
+ 			<TD>Access Category</TD>
+ 			<TD class="readonly">
+			<SCRIPT LANGUAGE="JAVASCRIPT">
+                                 var accessCat=2;       
+				 switch (accessCat) { 
+                                 case 1: document.write('Best Effort'); break;
+                                 case 2: document.write('Background'); break;
+                                 case 3: document.write('Video'); break;
+                                 case 4: document.write('Voice'); break;
+                                 case 5: document.write('unknown'); break;
+                                 }
+                        </script>
+			</TD>
+ 		</TR>
+ 		<TR>
+ 			<TD>CWmin</TD>
+ 			<TD><INPUT name="EmWeb_ns:snmp:6.4.2" value="15" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+        <TR>
+ 			<TD>CWmax</TD>
+            <TD><INPUT name="EmWeb_ns:snmp:7.4.2" VALUE="1023" onChange="modify(this)" type="text" class="formtext"></TD>  
+ 		</TR>                  
+        <TR>                                  
+             <TD>AIFSN</TD>
+             <TD><INPUT name="EmWeb_ns:snmp:8.4.2" value="7" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+ 		<TR>                                  
+             <TD>Tx OP Limit</TD>
+             <TD><INPUT name="EmWeb_ns:snmp:9.4.2" value="0" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+       <!-- <TR>
+ 			<TD>MSDU Lifetime</TD>
+ 			<TD><INPUT name="EmWeb_ns:snmp:10.4.2" value="0" type="text" class="formtext" onchange="modify(this)"></TD>                
+ 		</TR> -->
+        <TR>
+ 	    <TD>Admission Control Mandatory</TD>
+	    <TD><SCRIPT LANGUAGE="JAVASCRIPT">
+             var option = 2;
+            document.write('<SELECT id="dot11EDCATableMandatory'+count+'" name="EmWeb_ns:snmp:12.4.2" onChange="modify(this)" class="formdropdown">');
+             document.write('<OPTION VALUE=1 '); if (option == 1) { document.write(' selected '); } document.write('>true</option>');
+             document.write('<OPTION VALUE=2 '); if (option == 2) { document.write(' selected '); } document.write('>false</option>'); 
+             document.write('</SELECT>');
+
+             if (currentIndex <= 2 ){
+                statusObj=document.getElementById("dot11EDCATableMandatory"+count);
+                statusObj.disabled=1;
+             }
+
+            </script>
+            </TD>
+ 	</TR>
+        <TR><TD colspan="2"><IMG src="../../orinoco/images/spacer.gif" width="340" height="30" alt="" border="0"></TD></TR>
+	  <SCRIPT LANGUAGE="JAVASCRIPT">count=count+1;</script>
+    
+		<SCRIPT LANGUAGE="JAVASCRIPT">
+             currentIndex=3
+			 if (currentIndex < oldIndex) {
+			    document.write('<TR><TD COLSPAN="2" class="header">Wireless B</td></tr>');
+             }
+			 oldIndex=currentIndex;         
+        </script>  
+ 		<TR>
+ 			<TD>Access Category</TD>
+ 			<TD class="readonly">
+			<SCRIPT LANGUAGE="JAVASCRIPT">
+                                 var accessCat=3;       
+				 switch (accessCat) { 
+                                 case 1: document.write('Best Effort'); break;
+                                 case 2: document.write('Background'); break;
+                                 case 3: document.write('Video'); break;
+                                 case 4: document.write('Voice'); break;
+                                 case 5: document.write('unknown'); break;
+                                 }
+                        </script>
+			</TD>
+ 		</TR>
+ 		<TR>
+ 			<TD>CWmin</TD>
+ 			<TD><INPUT name="EmWeb_ns:snmp:6.4.3" value="7" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+        <TR>
+ 			<TD>CWmax</TD>
+            <TD><INPUT name="EmWeb_ns:snmp:7.4.3" VALUE="15" onChange="modify(this)" type="text" class="formtext"></TD>  
+ 		</TR>                  
+        <TR>                                  
+             <TD>AIFSN</TD>
+             <TD><INPUT name="EmWeb_ns:snmp:8.4.3" value="2" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+ 		<TR>                                  
+             <TD>Tx OP Limit</TD>
+             <TD><INPUT name="EmWeb_ns:snmp:9.4.3" value="3008" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+       <!-- <TR>
+ 			<TD>MSDU Lifetime</TD>
+ 			<TD><INPUT name="EmWeb_ns:snmp:10.4.3" value="0" type="text" class="formtext" onchange="modify(this)"></TD>                
+ 		</TR> -->
+        <TR>
+ 	    <TD>Admission Control Mandatory</TD>
+	    <TD><SCRIPT LANGUAGE="JAVASCRIPT">
+             var option = 2;
+            document.write('<SELECT id="dot11EDCATableMandatory'+count+'" name="EmWeb_ns:snmp:12.4.3" onChange="modify(this)" class="formdropdown">');
+             document.write('<OPTION VALUE=1 '); if (option == 1) { document.write(' selected '); } document.write('>true</option>');
+             document.write('<OPTION VALUE=2 '); if (option == 2) { document.write(' selected '); } document.write('>false</option>'); 
+             document.write('</SELECT>');
+
+             if (currentIndex <= 2 ){
+                statusObj=document.getElementById("dot11EDCATableMandatory"+count);
+                statusObj.disabled=1;
+             }
+
+            </script>
+            </TD>
+ 	</TR>
+        <TR><TD colspan="2"><IMG src="../../orinoco/images/spacer.gif" width="340" height="30" alt="" border="0"></TD></TR>
+	  <SCRIPT LANGUAGE="JAVASCRIPT">count=count+1;</script>
+    
+		<SCRIPT LANGUAGE="JAVASCRIPT">
+             currentIndex=4
+			 if (currentIndex < oldIndex) {
+			    document.write('<TR><TD COLSPAN="2" class="header">Wireless B</td></tr>');
+             }
+			 oldIndex=currentIndex;         
+        </script>  
+ 		<TR>
+ 			<TD>Access Category</TD>
+ 			<TD class="readonly">
+			<SCRIPT LANGUAGE="JAVASCRIPT">
+                                 var accessCat=4;       
+				 switch (accessCat) { 
+                                 case 1: document.write('Best Effort'); break;
+                                 case 2: document.write('Background'); break;
+                                 case 3: document.write('Video'); break;
+                                 case 4: document.write('Voice'); break;
+                                 case 5: document.write('unknown'); break;
+                                 }
+                        </script>
+			</TD>
+ 		</TR>
+ 		<TR>
+ 			<TD>CWmin</TD>
+ 			<TD><INPUT name="EmWeb_ns:snmp:6.4.4" value="3" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+        <TR>
+ 			<TD>CWmax</TD>
+            <TD><INPUT name="EmWeb_ns:snmp:7.4.4" VALUE="7" onChange="modify(this)" type="text" class="formtext"></TD>  
+ 		</TR>                  
+        <TR>                                  
+             <TD>AIFSN</TD>
+             <TD><INPUT name="EmWeb_ns:snmp:8.4.4" value="2" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+ 		<TR>                                  
+             <TD>Tx OP Limit</TD>
+             <TD><INPUT name="EmWeb_ns:snmp:9.4.4" value="1504" type="text" class="formtext" onchange="modify(this)"></TD>
+ 		</TR>
+       <!-- <TR>
+ 			<TD>MSDU Lifetime</TD>
+ 			<TD><INPUT name="EmWeb_ns:snmp:10.4.4" value="0" type="text" class="formtext" onchange="modify(this)"></TD>                
+ 		</TR> -->
+        <TR>
+ 	    <TD>Admission Control Mandatory</TD>
+	    <TD><SCRIPT LANGUAGE="JAVASCRIPT">
+             var option = 2;
+            document.write('<SELECT id="dot11EDCATableMandatory'+count+'" name="EmWeb_ns:snmp:12.4.4" onChange="modify(this)" class="formdropdown">');
+             document.write('<OPTION VALUE=1 '); if (option == 1) { document.write(' selected '); } document.write('>true</option>');
+             document.write('<OPTION VALUE=2 '); if (option == 2) { document.write(' selected '); } document.write('>false</option>'); 
+             document.write('</SELECT>');
+
+             if (currentIndex <= 2 ){
+                statusObj=document.getElementById("dot11EDCATableMandatory"+count);
+                statusObj.disabled=1;
+             }
+
+            </script>
+            </TD>
+ 	</TR>
+        <TR><TD colspan="2"><IMG src="../../orinoco/images/spacer.gif" width="340" height="30" alt="" border="0"></TD></TR>
+	  <SCRIPT LANGUAGE="JAVASCRIPT">count=count+1;</script>
+    	
+			<TR>         
+                <TD align="center"><A href="javascript:transmit()"><IMG src="../../orinoco/images/ok.gif" width="93" height="25" alt="OK" border="0"></A></TD>
+				<TD align="center"><A href="javascript:cancel()"><IMG src="../../orinoco/images/cancel.gif" width="93" height="25" alt="Cancel" border="0"></A></TD>            
+			</TR>
+		</TABLE></FORM></TD>
+<!-- Start Footer -->
+	<FORM name="rebootform" method="post" ACTION="../../prototail.html">
+		<INPUT type="hidden" id="rebootflag" name="EmWeb_ns:snmp:568" value="0" class="formtext">
+	</FORM>
+
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
+<!-- End Footer -->
+
+</BODY>
+</HTML>
+
+
+
+

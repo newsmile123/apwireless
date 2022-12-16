@@ -1,0 +1,44 @@
+Waking up in 6 seconds...
+--- Walking the entire request list ---
+Cleaning up request 0 ID 20 with timestamp 53ae970c
+Nothing to do.  Sleeping until we see a request.
+rad_recv: Access-Request packet from host 127.0.0.1:1092, id=21, length=92
+        User-Name = "testuser"
+        NAS-IP-Address = 192.168.145.10
+        NAS-Port = 4
+        NAS-Identifier = "Vasco Radius Simulator"
+        User-Password = "testpw1"
+        Calling-Station-Id = "29513"
+  Processing the authorize section of radiusd.conf
+modcall: entering group authorize for request 1
+  modcall[authorize]: module "preprocess" returns ok for request 1
+radius_xlat:  '../var/log/radius/radacct/127.0.0.1/auth-detail-20140628.log'
+rlm_detail: ../var/log/radius/radacct/%{Client-IP-Address}/auth-detail-%Y%m%d.lo
+g expands to ../var/log/radius/radacct/127.0.0.1/auth-detail-20140628.log
+  modcall[authorize]: module "auth_log" returns ok for request 1
+  modcall[authorize]: module "chap" returns noop for request 1
+  modcall[authorize]: module "mschap" returns noop for request 1
+    rlm_realm: No '@' in User-Name = "testuser", looking up realm NULL
+    rlm_realm: No such realm "NULL"
+  modcall[authorize]: module "suffix" returns noop for request 1
+  rlm_eap: No EAP-Message, not doing EAP
+  modcall[authorize]: module "eap" returns noop for request 1
+    users: Matched entry DEFAULT at line 171
+  modcall[authorize]: module "files" returns ok for request 1
+rlm_pap: Found existing Auth-Type, not changing it.
+  modcall[authorize]: module "pap" returns noop for request 1
+modcall: leaving group authorize (returns ok) for request 1
+  rad_check_password:  Found Auth-Type Reject
+  rad_check_password: Auth-Type = Reject, rejecting user
+auth: Failed to validate the user.
+Login incorrect: [testuser/testpw1] (from client localhost port 4 cli 29513)
+Delaying request 1 for 1 seconds
+Finished request 1
+Going to the next request
+--- Walking the entire request list ---
+Waking up in 1 seconds...
+--- Walking the entire request list ---
+Waking up in 1 seconds...
+--- Walking the entire request list ---
+Sending Access-Reject of id 21 to 127.0.0.1 port 1092
+Waking up in 4 seconds...

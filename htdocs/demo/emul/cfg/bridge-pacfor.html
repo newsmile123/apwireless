@@ -1,0 +1,410 @@
+<HTML>
+<HEAD>
+	<TITLE>Packet Forwarding Configuration</TITLE><LINK rel="stylesheet" href="../orinoco/css/global.css">
+	<SCRIPT language="javascript" src="../orinoco/scripts/library.js"></SCRIPT>
+	<SCRIPT language="javascript" src="../orinoco/scripts/test.js"></SCRIPT>
+</HEAD>
+
+<SCRIPT language="javascript">
+	grp_live = 1;
+	subgrp_live = 6;
+	tri_grp_live = 11;
+	tri_subgrp_live = 3;
+</SCRIPT>
+
+<BODY style="margin:0px" background="../orinoco/images/bg.gif" onload="handlePktFwd()">
+
+<SCRIPT language="javascript" src="../orinoco/scripts/menu.js"></SCRIPT>
+
+<!-- Start Header -->
+<!-- <BODY style="margin:0px"> -->
+<TABLE width="100%" height="100%" cellpadding="0" cellspacing="0">
+	<TR>
+		<TD>
+			<TABLE width="150" height="90" cellpadding="0" cellspacing="0">
+			<TR>
+			<TD valign="top"><IMG src="../orinoco/images/logo.gif"></TD>
+			</TR>
+			<TR>
+			<TD align="right">&nbsp;</TD>
+			</TR>
+			</TABLE>
+		</TD>
+		<TD valign="bottom">
+			<TABLE cellpadding="0" cellspacing="0" width="100%"> <!-- For the table -->
+				<!-- For the first row -->
+				<TR>
+					<TD>
+						<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+							<SCRIPT language="javascript">
+		                            		var ProductId  = "1.3.6.1.4.1.11898.2.4.12";													
+                                                                var slotA = '4 ';
+		                            		        var slotB = '6 ';
+		                            		        var secModeA = '6';  
+		                            		        var secModeB = '1';  
+								InitMenu(ProductId, slotA, slotB, secModeA, secModeB);
+								var nbrTabs = subNumArray[grp_live];
+								if(nbrTabs>5)
+								{
+									var start,finish;
+									var nbrTabsDivbyTwo = (nbrTabs - (nbrTabs%2))/2;
+									if(subgrp_live >= (nbrTabsDivbyTwo + (nbrTabs%2)) )
+									{
+										start = 0;
+										finish = nbrTabsDivbyTwo -1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = nbrTabsDivbyTwo;
+											finish = nbrTabs-1;
+										}
+										else
+										{
+											start = nbrTabsDivbyTwo+1;
+										finish = nbrTabs-1;
+									}
+										
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,1,1);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+									document.write('</TABLE>');
+									document.write('</TD>');
+									document.write('</TR>');
+									<!-- For the second row -->
+									document.write('<TR>');
+									document.write('<TD>');
+									document.write('<TABLE class="tabrow" cellpadding="0" cellspacing="0">');
+									if(subgrp_live >= (nbrTabsDivbyTwo+ (nbrTabs%2)))
+									{
+										start = nbrTabsDivbyTwo;
+										finish = nbrTabs-1;
+									}
+									else
+									{
+										if ((nbrTabs %2)==0)
+										{
+											start = 0;
+											finish = nbrTabsDivbyTwo-1;
+										}
+										else
+										{
+										start = 0;
+											finish = nbrTabsDivbyTwo;
+										}
+									}
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,start,finish,2,0);
+									document.write('<TD align="middle" background="../orinoco/images/iedge.gif">&nbsp;</TD>');
+								}
+								else
+								{
+									drawTabRow(subgrpArray[grp_live],grp_live,subgrp_live,0,nbrTabs-1,0,0);
+									document.write('<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>');
+								}
+							</SCRIPT>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+
+	
+	<TR>
+		<TD valign="top">
+			<TABLE align="center" cellpadding="10" cellspacing="0">
+				<SCRIPT language="javascript">
+					drawButtons(grp,grp_live);
+				</SCRIPT>
+			</TABLE>
+		</TD>
+<!-- End Header -->
+
+<TD bgcolor="white" height="95%" valign="top">
+<TABLE bgcolor="white" style="margin-left:25px; margin-bottom:25; margin-top: 5px" cellspacing="0" cellpadding="0" border="0" width="588">
+<!-- Start Subtabs -->
+
+	<TR>
+		<TD>
+			<TABLE cellpadding="0" cellspacing="0" width="95%">
+				<TR>
+					<TD>&nbsp;</TD>
+				</TR>
+				<TR>
+					<TD>
+						<TABLE cellpadding="0" cellspacing="0" width="100%">
+							<TR>
+								<TD>
+									<TABLE class="tabrow" cellpadding="0" cellspacing="0">
+										<SCRIPT language="javascript">
+											var nbrTabs = subNumArray[tri_grp_live];
+											drawTabRow(subgrpArray[tri_grp_live],tri_grp_live,tri_subgrp_live,0,nbrTabs-1,4,0);
+										</SCRIPT>
+										<TD align="middle" background="../orinoco/images/edge.gif">&nbsp;</TD>
+									</TABLE>
+								</TD>
+								<TD align="right" class="subtab-corner">&nbsp;</TD>
+							</TR>
+						</TABLE>
+					</TD>
+				</TR>
+				<!-- End Subtabs -->
+				<TR>					
+					<TD>
+						<TABLE bgcolor="white" cellpadding="0" cellspacing="0" border="0">
+						<TR>
+							<TD background="../orinoco/images/left_line.gif">&nbsp;</TD>
+
+
+<!-- BEGIN CONTENT -  I don't believe in the sun...//-->
+<TD>
+	<FORM method="post" ACTION="/cfg/bridge-pacfor.html/protofilt">
+		<TABLE cellpadding="0" cellspacing="0" border="0" width="588">
+			<TR>
+				<Td class="verbiage">
+					<P>The Packet Forwarding feature can be used to redirect the traffic 
+					from the wireless clients to a host. The MAC address of this host 
+					should be configured below.  All the packets received by the access 
+					point from associated wireless clients would be forwarded to this host.  
+					Optionally, the interface on which the host is located (Ethernet or WDS) 
+					can be specified.  If an interface is not specified, the access point will 
+					use the port stored in the bridge learn table.</P>
+				</td>
+			</TR>
+			<TR>
+			<TD>&nbsp;</TD>
+		</TR>
+		<TR>
+			<TD>
+				<TABLE cellpadding="1" cellspacing="0" border="0" width="80%">
+					<TR><INPUT type="hidden" id="pktsts" name="EmWeb_ns:snmp:176" VALUE="2">
+						<!-make this interactive pls 0ki thx-->
+						<SCRIPT  LANGUAGE="JavaScript" >
+							var option =  2;
+							var objarray=new Array('pacint','pacmac');
+							var numobjs=2;
+							var polarity=0;
+							createInterCBScalar('Packet Forwarding','pktsts',option,objarray,numobjs,polarity);
+						</SCRIPT>
+					</TR>					
+					<TR>
+						<TD>Packet Forwarding MAC Address</TD>
+					<TD>
+					<INPUT class="formtext" onChange="modifys(this)" id="pacmac" type="text" name="EmWeb_ns:snmp:178" size="20" VALUE="00:00:00:00:00:00">
+					</TD>
+			</TR>
+			<TR>
+				<TD>Packet Forwarding Interface Port</TD>
+				<TD>
+				<SELECT onChange="modifys(this)" class="formdrop" name="EmWeb_ns:snmp:179" id="pacint">
+				<SCRIPT SCRIPT LANGUAGE="JavaScript" >
+					var option = 0;
+					var interfacetypeA = '4 '
+					var interfacetypeB = '6 '
+
+					if( (interfacetypeA == ' ' && interfacetypeB == ' ') )
+                            		{ 
+						document.write('<OPTION VALUE=0 ');
+						if(option == 0) {
+							document.write(' SELECTED ');
+						}
+			  			document.write('>Any Interface<OPTION VALUE=1 ');
+			  			if(option == 1) {
+			 				document.write(' SELECTED ');
+                            		}
+						document.write('>Ethernet');
+                            		}
+					else if ((interfacetypeA != ' ' && interfacetypeB == ' '))
+					{
+						document.write('<OPTION VALUE=0 ');
+						if(option == 0) {
+							document.write(' SELECTED ');
+						}
+			  			document.write('>Any Interface<OPTION VALUE=1 ');
+			  			if(option == 1) {
+			 				document.write(' SELECTED ');
+						}
+						document.write('>Ethernet<OPTION VALUE=3 ');
+						if(option == 3) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-A WDS 1<OPTION VALUE=4 ');
+						if(option == 4) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-A WDS 2<OPTION VALUE=5 ');
+						if(option == 5) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-A WDS 3<OPTION VALUE=6 ');
+						if(option == 6) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-A WDS 4<OPTION VALUE=7 ');
+						if(option == 7) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-A WDS 5<OPTION VALUE=8 ');
+						if(option == 8) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-A WDS 6');
+					}
+					else if ( (interfacetypeA == ' ' && interfacetypeB != ' ')  )
+					{
+						document.write('<OPTION VALUE=0 ');
+						if(option == 0) {
+							document.write(' SELECTED ');
+						}
+			  			document.write('>Any Interface<OPTION VALUE=1 ');
+			  			if(option == 1) {
+			 				document.write(' SELECTED ');
+						}
+						document.write('>Ethernet<OPTION VALUE=10 ');
+						if(option == 10) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-B WDS 1<OPTION VALUE=11 ');
+						if(option == 11) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-B WDS 2<OPTION VALUE=12 ');
+						if(option == 12) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-B WDS 3<OPTION VALUE=13 ');
+						if(option == 13) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-B WDS 4<OPTION VALUE=14 ');
+						if(option == 14) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-B WDS 5<OPTION VALUE=15 ');
+						if(option == 15) {
+						    document.write(' SELECTED ');
+						}			
+						document.write('>Wireless-B WDS 6');
+					}
+					else
+					{
+						document.write('<OPTION VALUE=0 ');
+						if(option == 0) {
+							document.write(' SELECTED ');
+						}
+			  			document.write('>Any Interface<OPTION VALUE=1 ');
+			  			if(option == 1) {
+			 				document.write(' SELECTED ');
+						}
+						document.write('>Ethernet<OPTION VALUE=3 ');
+						if(option == 3) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-A WDS 1<OPTION VALUE=4 ');
+						if(option == 4) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-A WDS 2<OPTION VALUE=5 ');
+						if(option == 5) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-A WDS 3<OPTION VALUE=6 ');
+						if(option == 6) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-A WDS 4<OPTION VALUE=7 ');
+						if(option == 7) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-A WDS 5<OPTION VALUE=8 ');
+						if(option == 8) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-A WDS 6<OPTION VALUE=10 ');
+						if(option == 10) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-B WDS 1<OPTION VALUE=11 ');
+						if(option == 11) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-B WDS 2<OPTION VALUE=12 ');
+						if(option == 12) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-B WDS 3<OPTION VALUE=13 ');
+						if(option == 13) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-B WDS 4<OPTION VALUE=14 ');
+						if(option == 14) {
+						    document.write(' SELECTED ');
+						}
+						document.write('>Wireless-B WDS 5<OPTION VALUE=15 ');
+						if(option == 15) {
+						    document.write(' SELECTED ');
+						}			
+						document.write('>Wireless-B WDS 6');
+					};
+				</SCRIPT>
+				</SELECT></TD>
+			</TR>
+
+			</TABLE>
+			</TD>
+			</TR>
+			<TR>
+				<TD>&nbsp;</TD>
+			</TR>
+			<TR>
+				<TD align="center">
+					<TABLE cellpadding="20" cellpadding="0" border="0" bordercolor="Green" width="270">
+						<TR>
+
+						<TD><A href="javascript:transmit()"><IMG src="../orinoco/images/ok.gif" width="93" height="25" alt="Ok" border="0"></TD>
+						<TD><A href="javascript:cancel()"><IMG src="../orinoco/images/cancel.gif" width="93" height="25" alt="Cancel" border="0"></A></TD>
+					</TR>
+					</TABLE>
+				</TD>
+			</TR>
+		</TABLE>
+	</FORM>
+</TD>
+<!-- END CONTENT //-->
+
+
+							<TD background="../orinoco/images/right_line.gif">&nbsp;</TD>
+						</TR>
+						<TR>
+							<TD><IMG src="../orinoco/images/bottomleft_corner.gif" width="25" height="25" alt="" border="0"></TD>
+							<TD><IMG src="../orinoco/images/bottom_line.gif" width="100%" height="25" alt="" border="0"></TD>
+							<TD><IMG src="../orinoco/images/bottomright_corner.gif" width="25" height="25" alt="" border="0"></TD>
+						</TR>
+
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+
+
+		</TD>
+	</TR>
+</TR>
+</TABLE>
+
+<!-- Start Footer -->
+	<FORM name="rebootform" method="post" ACTION="/prototail.html">
+		<INPUT type="hidden" id="rebootflag" name="EmWeb_ns:snmp:568" value="0" class="formtext">
+	</FORM>
+
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
+<!-- End Footer -->
+
+
+
+</BODY>
+</HTML>

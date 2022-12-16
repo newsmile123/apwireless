@@ -1,0 +1,23 @@
+.table-output table {
+    border-color: gray;
+    width: 100%;
+}
+
+.table-output table th {
+    color: white;
+    background: grey;
+    border: 1px solid gray;
+    text-align: left;
+    padding: 4px 6px 4px 12px;
+    font-size: 90%;
+}
+
+.table-output table td {
+    border: 1px solid #D8DCE1;
+    padding: 4px 6px 4px 12px;
+    background: lightgray;
+}
+
+.text {
+        margin-bottom: 0px;
+}
