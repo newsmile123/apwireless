@@ -41,6 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$_SESSION['ap']['ip2'] = $_POST['ip2'];
 		$_SESSION['ap']['mask2'] = $_POST['mask2'];
 		header("Location: /network.php");
-		}
+		}  
 	}
 ?>
