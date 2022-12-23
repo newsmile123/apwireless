@@ -175,7 +175,49 @@ error_reporting(0);
                                 </td>
                     </td>
                 </tr>
-		
+
+
+                <!-- <tr>
+                	<td width="400px" height="200px">
+                    	<table width="100%" height="100%" style="border: 2px solid #fff;" border="0">
+                        	<tr>
+                            	<td width="100%" valign="top" style="padding:5px;">
+                                	<div id="switcher3">
+									 
+                                    	<p>Беспроводное сетевое соединение</p>
+                                        <form action="set/psk_client_connect3.php" name="connection3" method="post">
+											<table class="gradient-style" width="100%" style="border: 2px solid #fff;"><tr> 
+											<thead>
+                                    						<th scope="col" width="25%" align="center">Название</td>
+                                                            <th scope="col" width="25%" align="center">Канал</td>
+                                                            <th scope="col" width="25%" align="center">Сигнал</td>
+                                                            <th scope="col" width="25%" align="center">Шифрование</td></tr>
+															</thead>
+                                                            <tr>
+                                                            <td align="center"><?php echo $_SESSION['ap']['SSID3'];?></td>
+                                                            <td align="center"><?php echo $_SESSION['ap']['channel3'];?></td>
+                                                            <td align="center"><?php $lev = rand(35, 50); echo $lev.'dB';?></td>
+                                                            <td align="center"><?php echo $_SESSION['ap']['enc3'];?></td></tr>
+															<tr><td height="15" colspan="4"></td></tr></table>
+                                                                       <div id="unsuccess3">
+                                                            <table class="gradient-style" style="border: 2px solid #fff; border-top:0px; margin-top:-2px;">
+															<tr>
+                                                            <td width="35%" align="center">Введите ключ</td>
+															<td align="center" colspan="2"  width="40%"><input type="password" name="connect3"></td>
+															<td align="right" width="25%"><input type="submit" value="Подключиться" id="submit3" name="submit3"></td></tr></table></div>
+                                                            <div id="connected3">
+                                                            <table class="gradient-style" style="border: 2px solid #fff; border-top:0px; margin-top:-2px;">
+															<tr>
+                                                            <td width="75%" align="center">Подключено</td>
+															<td align="right" valign="bottom"><input type="submit" value="Отключиться" name="submit3"></td></tr></table></div>
+															
+                                        </form>
+                                    </div>
+                                   
+                                </td>
+                    </td>
+                </tr>
+		 -->
             </table>
 
          </td>       		

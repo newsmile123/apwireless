@@ -149,13 +149,22 @@ body
 #switcher2{
 	display:none;
 }
+/* #switcher3{
+	display:none;
+} */
 #connected{
 	display:none;
 }
 #connected2{
 	display:none;
 }
+#connected3{
+	display:none;
+}
 #unsuccess2{
+	display:none;
+}
+#unsuccess3{
 	display:none;
 }
 #bridge{

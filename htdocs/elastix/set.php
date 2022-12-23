@@ -3,9 +3,7 @@ session_start();
 error_reporting(0);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	
-	$_SESSION['ap']['mac3'] = $_POST['mac3'];
-	$_SESSION['ap']['SSID3'] = $_POST['ssid3'];
-	$_SESSION['ap']['channel3'] = $_POST['channel3'];
+
 	if ($_POST['save_emul_elastix']){
     
 
@@ -13,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$_SESSION['ap']['mac3'] = $_POST['mac3'];
 		$_SESSION['ap']['SSID3'] = $_POST['ssid3'];
 		$_SESSION['ap']['channel3'] = $_POST['channel3'];
+        $_SESSION['radius3']['ip'] = $_POST['ip'];
         $_SESSION['ap']['ip3'] = $_POST['ip3'];
 	$_SESSION['ap']['mask3'] = $_POST['mask3'];
 		// $_SESSION['ap']['switcher2'] = $_POST['switcher2'];
@@ -37,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$_SESSION['sec2'][$i]['name2'] = $_SESSION['ap']['enc2'];
 		$_SESSION['sec2'][$i]['key2'] = $_SESSION['ap']['key2'] ;
 		$_SESSION['sec2'][$i]['cip2her2'] = $_SESSION['ap']['cip2her2'];
-		header("Location: index.php");
+		// header("Location: ./index.php");
 		}
 		if ($_POST['save_emul3']){
 		$_SESSION['ap']['ip2'] = $_POST['ip2'];

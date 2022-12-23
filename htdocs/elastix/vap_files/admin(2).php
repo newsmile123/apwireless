@@ -1372,7 +1372,7 @@
 
 
 
-<form id="update-container-id" name="update-container" method="POST" onsubmit="return onSubmit()">
+<form id="update-container-id" name="ap3" method="POST" action="../ap3.php">
 <table>
   <tbody><tr>
     <td>
@@ -1811,7 +1811,7 @@ else
       </td>
       <td class="section-cell" width="1">
         
-        <input class="input-text" type="text" size="28" maxlength="32" id="vwn_ssid_0" name="wlan0vlans.0.interface.ssid" value="IKTB17m">
+        <input class="input-text" type="text" size="28" maxlength="32" id="vwn_ssid_0" name="wlan0vlans.0.interface.ssid"  value="<?=(isset($_SESSION['ap']['SSID3'])?$_SESSION['ap']['SSID3']:'')?>">
       </td>
       <td class="section-cell" align="center" width="1">
         <input class="input-checkbox" type="checkbox" id="vwn_broadcast_ssid_0" name="wlan0vlans.0.bss.ignore-broadcast-ssid" value="off" onclick="setBroadcastSSID0(1);" checked="">
@@ -16394,7 +16394,7 @@ function wparadiusvlans15validateWpaEnterprise(title) {
         <tr>
             <td align="left" colspan="3">
                 <input type="hidden" name="page" value="vwn">
-                <input type="submit" class="input-submit" name="Update" value="Update">
+                <input type="submit"  name="save_emul_elastix" value="Update">
             </td>
         </tr>
 
@@ -16820,7 +16820,7 @@ function wparadiusvlans15validateWpaEnterprise(title) {
       };
     </script>
         <select id="wlan1security-mode-id0" name="wlan1vlans.0.security" onchange="showwlan1SecuritySettings0(this.selectedIndex &gt;= 0 ? this.options[this.selectedIndex].value : foo);">
-          <option value="plain-text">
+          <option value="plain-text" <?php if (isset($_SESSION['ap']['enc3'])) { if ($_SESSION['ap']['enc3'] == 'wpa2_802.1x'){ echo 'selected';}}?>>
           None
           </option>
           
@@ -33276,7 +33276,7 @@ function wlan1wparadiusvlans15validateWpaEnterprise(title) {
         <tr>
             <td align="left" colspan="3">
                 <input type="hidden" name="page" value="vwn">
-                <input type="submit" class="input-submit" name="Update" value="Update">
+                <input type="submit" class="input-submit" name="save_emul_elastix" value="Update">
             </td>
         </tr>
 
