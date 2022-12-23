@@ -15,22 +15,22 @@ error_reporting(0);
       <form id="wirelessB" ACTION="ap3.php" method="post">
       <div>
             <div>ip address</div>
-            <input type="text"  value="<?=(isset($_SESSION['ap']['ip3'])?$_SESSION['ap']['ip3']:'')?>">
+            <input type="text" class="formtext" name="ip3" value="<?=(isset($_SESSION['ap']['ip3'])?$_SESSION['ap']['ip3']:'')?>">
         </div>
         <div>
             <div>маска</div>
-            <input type="text"  value="<?=(isset($_SESSION['ap']['mask3'])?$_SESSION['ap']['mask3']:'')?>">
+            <input type="text" class="formtext" name="mask3" value="<?=(isset($_SESSION['ap']['mask3'])?$_SESSION['ap']['mask3']:'255.255.255.0')?>">
         </div>
         <div>
             <div>mac address</div>
-            <input type="text"  value="<?=(isset($_SESSION['ap']['mac3'])?$_SESSION['ap']['mac3']:'')?>">
+            <input type="text" class="formtext" name="mac3" value="<?=(isset($_SESSION['ap']['mac3'])?$_SESSION['ap']['mac3']:'')?>">
         </div>
         <div>
             <div>ssid</div>
-            <input type="text" value="<?=(isset($_SESSION['ap']['SSID3'])?$_SESSION['ap']['SSID3']:'')?>">
+            <input type="text" class="formtext" name="ssid3" value="<?=(isset($_SESSION['ap']['SSID3'])?$_SESSION['ap']['SSID3']:'')?>">
         </div>
         <div>
-        <input type="submit" name="save_emul_elastix" value="Change" />
+        <input value='Change' type="submit" name="save_emul_elastix"/>
         </div>
       </form>
    </div>
