@@ -43,7 +43,7 @@ $_SESSION['ap']['full3'] = '0';}
             <td>
             <table align="left" style="margin-top:10px; margin-left:10px" border="0">
             <tr>
-                <td width="400px">Настройки точки доступа 1</td>
+                <td width="400px">Настройки точки доступа Proxim ap4000</td>
                 <td><?php if (isset($_SESSION['ap']['full']) && ($_SESSION['ap']['full'] == '1')) {
 													echo '<font color="green">введены</font>';
 												}
@@ -52,14 +52,14 @@ $_SESSION['ap']['full3'] = '0';}
 													?>
                 </td></tr>
                                                     <tr>
-                                                    <td>Точка доступа 1</td>
+                                                    <td>Точка доступа Proxim ap4000</td>
                 <td><?php if (isset($_SESSION['ap']['switcher']) && ($_SESSION['ap']['switcher'] == '1')) {
 													echo '<font color="green">включена</font>';
 												}
 												else {
 													echo '<font color="red">выключена</font>';}
 													?></td></tr>
-		<td width="400px">Настройки точки доступа 2</td>
+		<td width="400px">Настройки точки доступа Nanostation</td>
                 <td><?php if (isset($_SESSION['ap']['full2']) && ($_SESSION['ap']['full2'] == '1')) {
 													echo '<font color="green">введены</font>';
 												}
@@ -68,14 +68,14 @@ $_SESSION['ap']['full3'] = '0';}
 													?>
                 </td></tr>
                                                     <tr>
-                                                    <td>Точка доступа 2</td>
+                                                    <td>Точка доступа Nanostation</td>
                 <td><?php if (isset($_SESSION['ap']['switcher2']) && ($_SESSION['ap']['switcher2'] == '1')) {
 													echo '<font color="green">включена</font>';
 												}
 												else {
 													echo '<font color="red">выключена</font>';}
 													?></td></tr>		
-                                                    <td width="400px">Настройки точки доступа 3</td>
+                                                    <td width="400px">Настройки точки доступа eltex</td>
                 <td><?php if (isset($_SESSION['ap']['full3']) && ($_SESSION['ap']['full3'] == '1')) {
 													echo '<font color="green">введены</font>';
 												}
@@ -84,7 +84,7 @@ $_SESSION['ap']['full3'] = '0';}
 													?>
                 </td></tr>
                                                     <tr>
-                                                    <td>Точка доступа 3</td>
+                                                    <td>Точка доступа eltex</td>
                 <td><?php if (isset($_SESSION['ap']['switcher3']) && ($_SESSION['ap']['switcher3'] == '1')) {
 													echo '<font color="green">включена</font>';
 												}
@@ -93,27 +93,38 @@ $_SESSION['ap']['full3'] = '0';}
 													?></td></tr>										
                 <tr>
                  <td>Настройки беспроводного клиента</td>
-                <td><?php if (isset($_SESSION['fuller']) && ($_SESSION['fuller'] == '1')) {
-													echo '<font color="green">введены</font>';
-												}
-												else {
-													echo '<font color="red">не введены</font>';}
+                <td>
+                    <?php if (isset($_SESSION['fuller']) && ($_SESSION['fuller'] == '1')) {
+                        echo '<font color="green">введены</font>';
+                                }
+                                else {
+                                    echo '<font color="red">не введены</font>';}
 													?></td></tr>
-                                                    <tr><td>Соединение между точкой доступа 1 и клиентом</td>
-            	<td><?php if (isset($_SESSION['success']) && ($_SESSION['success'] == '1'))  {
+
+
+
+                                                    <tr><td>Соединение между точкой доступа Proxim ap4000 и клиентом</td>
+            	                    <td><?php if (isset($_SESSION['success']) && ($_SESSION['success'] == '1'))  {
 													echo '<font color="green">установлено</font>';
 												}
 												else {
 													echo '<font color="red">не установлено</font>';}
 													?></td></tr>
-													<tr><td>Соединение между точкой доступа 2 и клиентом</td>
+													<tr><td>Соединение между точкой доступа Nanostation и клиентом</td>
 													<td><?php if (isset($_SESSION['success2']) && ($_SESSION['success2'] == '1'))  {
 													echo '<font color="green">установлено</font>';
 												}
 												else {
 													echo '<font color="red">не установлено</font>';}
-													?></td>
-                                                    
+													?></td>                                
+                </tr>
+                <tr><td>Соединение между точкой доступа eltex и клиентом</td>
+													<td><?php if (isset($_SESSION['ap']['success3']) && ($_SESSION['ap']['success3'] == '1'))  {
+													echo '<font color="green">установлено</font>';
+												}
+												else {
+													echo '<font color="red">не установлено</font>';}
+													?></td>                                
                 </tr>
 									<tr><td>Bridge</td>
 													<td><?php if ( (($_SESSION['success2']=='1') || ($_SESSION['success']=='1')) && isset($_SESSION['wds_mac1']) &&  isset($_SESSION['wds2_mac']) && ($_SESSION['wds_mac1']==$_SESSION['ap']['mac2'] || $_SESSION['wds_mac2']==$_SESSION['ap']['mac2'] || $_SESSION['wds_mac1']==$_SESSION['ap']['mac2'] ) && $_SESSION['wds2_mac']==$_SESSION['ap']['mac'] )  
@@ -161,11 +172,11 @@ $_SESSION['ap']['full3'] = '0';}
         </td>
         </tr>-->
         <tr><td>Эмулятор Proxim AP4000</td>
-                <td align="left"><a href="emul/index/index.html" /><img src="images/start.png"></a>
+                <td align="left"><a href="emul/index/index.html" target="_blank" /><img src="images/start.png"></a>
         </td>
         </tr>
 		 <tr><td>Эмулятор NanoStation Loco m2</td>
-                <td align="left"><a href="ubiq/index.php" /><img src="images/start.png"></a>
+                <td align="left"><a href="ubiq/index.php" target="_blank" /><img src="images/start.png"></a>
         </td>
         </tr>
         <tr><td>Эмулятор Elastix</td>

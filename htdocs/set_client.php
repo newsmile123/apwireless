@@ -250,7 +250,8 @@ error_reporting(0);
         var btnsubmit = document.getElementById('submit3click');  
         var inp = document.getElementById('inputsub');  
 
-      console.log(getSwitcherElastix)
+        
+
         elastixSuccess.className = 'testclass'
 
         elastixConnection.className = 'testclass'
@@ -266,6 +267,7 @@ error_reporting(0);
             if (inpt.value == secret) {
                 elastixUnSuccess.style.display = 'none'
                 elastixSuccess.style.display = 'block'
+                <?php $_SESSION['ap']['success3'] = 1 ?>
             } else {
                 alert(
                     'Не верный пароль'
