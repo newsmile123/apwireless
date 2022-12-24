@@ -1,0 +1,610 @@
+/**
+ * Devicescape DOM oriented methods.
+ * Copyright 2004 Instant802 Networks, Inc. All Rights Reserved.
+ *
+ * @author dkeehn
+ */
+
+
+var DomUtils = new function() { };
+
+DomUtils.isClass = function ( obj, name ) {
+	if (obj && typeof obj == 'object') {
+	  var rx = new RegExp( name, "i" );
+	  var criterion = null;
+		if( typeof obj.constructor != "undefined" ) criterion = obj.constructor.toString().match(rx);
+	  return (criterion != null);
+	}
+	return false;
+};
+
+/**
+ * Return a boolean value telling whether
+ * the first parameter is a String object.
+ */
+DomUtils.isString = function ( obj ) {
+  return ( typeof obj == 'string' || DomUtils.isClass( obj, "String" ) );
+};
+/**
+ * Return a boolean value telling whether
+ * the first parameter is an Array object.
+ */
+DomUtils.isArray = function ( obj ) {
+  return DomUtils.isClass( obj, "Array" );
+};
+
+var HtmlDomUtils = new function() { };
+
+/**
+ * Determines if given HTMLElement's class attribute contains the given name(s).
+ */
+HtmlDomUtils.hasClassAttribNames = function (obj, classNames) {
+	if( classNames ) {
+		var classes = obj.className.split( " " );
+		for( var i = 0; i < classes.length; i++ ) {
+			if( DomUtils.isArray(classNames) ) {
+				for(var j = 0; j < classNames.length; j++) {
+					if(classNames[j] == classes[i]) return true;
+				}
+			}
+			else {
+				var names = classNames.split( " " );
+				for(var j = 0; j < names.length; j++)
+					if( classes[i] == names[j] )
+						return true;
+			}
+		}
+	}
+	return false;
+}
+
+/**
+ * Adds the given class names to the HTMLElement's class attribute.
+ */
+HtmlDomUtils.addClassNames = function (obj, classNames) {
+	if( classNames ) {
+			if( DomUtils.isArray(classNames) ) {
+				for( var i = classNames.length; i--; ) {
+					obj.className = classNames[i] + ( obj.className ? " " + obj.className : "" );
+				}
+			}
+			else {
+				var names = classNames.toString().split( " " );
+				for( var i = classNames.length; i--; ) {
+				  if( names[i] && names[i].length  > 0 ) {
+					  obj.className = names[i] + ( obj.className ? " " + obj.className : "" );
+					}
+				}
+			}
+	}
+}
+
+/**
+ * Removes the given class names to the HTMLElement's class attribute.
+ */
+HtmlDomUtils.removeClassNames = function (obj, classNames) {
+	if( classNames ) {
+		if( DomUtils.isArray(classNames) ) {
+			for( var i = classNames.length; i--; ) {
+				obj.className = obj.className.replace( new RegExp( classNames[i], "g" ), "" );
+			}
+		}
+		else {
+			var names = classNames.toString().split( " " );
+			for( var i = classNames.length; i--; ) {
+				if( names[i] && names[i].length  > 0 ) {
+					obj.className = obj.className.replace( new RegExp( names[i], "g" ), "" );
+				}
+			}
+		}
+	}
+}
+
+/**
+ * Utility function to determine if a given node is a tag.
+ */
+HtmlDomUtils.isTag = function ( object, tagNames ) {
+	if(DomUtils.isArray(tagNames)) {
+		for(var i = 0; i < tagNames.length; i++) {
+			if(tagNames[i] == object.tagName) return true;
+		}
+		return false;
+	}
+	else {
+		var names = tagNames.split( " " );
+		for(var j = 0; j < names.length; j++)
+			if (object.tagName == names[j])
+				return true;
+	}
+	return false;
+}
+
+var dd_undef = "undefined";
+function utilDD()
+{
+	this.elements = new Array(0);
+	this.obj = null;
+	this.n = navigator.userAgent.toLowerCase();
+	this.db = (document.compatMode && document.compatMode.toLowerCase() != "backcompat")?
+		document.documentElement
+		: (document.body || null);
+	this.op = !!(window.opera && document.getElementById);
+	if(this.op) document.onmousedown = new Function('e',
+		'if(((e = e || window.event).target || e.srcElement).tagName == "IMAGE") return false;');
+	this.ie = !!(this.n.indexOf("msie") >= 0 && document.all && this.db && !this.op);
+	this.ie4 = !!(this.ie && !document.getElementById);
+	this.n4 = !!(document.layers && typeof document.classes != dd_undef);
+	this.n6 = !!(typeof window.getComputedStyle != dd_undef && typeof document.createRange != dd_undef);
+	this.w3c = !!(!this.op && !this.ie && !this.n6 && document.getElementById);
+}
+var dd = new utilDD();
+
+HtmlDomUtils.getElementById = function( id, doc ) {
+	doc = doc || document;
+	if(dd.n4)
+	{
+		if(doc.layers[id]) return doc.layers[id];
+		for(var i = doc.layers.length; i--;)
+		{
+			var elm = HtmlDomUtils.getElementById(id, doc.layers[i].document);
+			if(elm) return elm;
+		}
+	}
+	if(dd.ie) return doc.all[id] || null;
+	if(doc.getElementById) return doc.getElementById(id) || null;
+	return null;
+};
+
+/**
+ * Find the first instance of a node that fits the given criteria.
+ * @object
+ */
+HtmlDomUtils.findElement = function( object, tags ) {
+	var classes = arguments[2];
+	
+	if(object && object.childNodes) {
+		var children = object.childNodes;
+		for(var i = 0; i < children.length; i++ ) {
+			var child = children[i];
+			if( ( child.tagName && child.tagName.length > 0 ) && ( !tags || HtmlDomUtils.isTag( child, tags ) )   // null/undef indicates all tags.
+				&& ( !classes || HtmlDomUtils.hasClassAttribNames( child, classes ) ) ) { // null/undef indicates all classes.
+				return child;
+			}
+			HtmlDomUtils.findElement( child, tags, classes );
+		}
+	}
+}
+
+/**
+ * Find the first element matching @id starting at the DOM @object.
+ * @object the starting root of the search.
+ * @id string or RegEx.
+ */
+HtmlDomUtils.findElementById = function( object, id ) {	
+  if( typeof object == "string" ) object = HtmlDomUtils.getElementById( object );
+	
+	if(object && object.childNodes) {
+		var children = object.childNodes;
+		for(var i = 0; i < children.length; i++ ) {
+			var child = children[i];
+			if( StringUtils.isPattern( child.id, id ) ) {
+				return child;
+			}
+			HtmlDomUtils.findElementById( child, id );
+		}
+	}
+}
+
+function _findElementsById( object, id, list ) {	
+  if( !DomUtils.isArray( list ) ) Debug.logMessage( "HtmlDomUtils.findElementsById: result list is not an array." );
+  if( typeof object != "object" ) object = HtmlDomUtils.getElementById( object );
+	
+	if(object && object.childNodes) {
+		var children = object.childNodes;
+		for(var i = 0; i < children.length; i++ ) {
+			var child = children[i];
+			if( StringUtils.isPattern( child.id, id ) ) {
+				list[list.length] = child;
+			}
+			_findElementsById( child, id, list );
+		}
+	}
+}
+
+/**
+ * Find the all elements matching @id starting at the DOM @object.
+ * @object the starting root of the search.
+ * @id string or RegEx.
+ */
+HtmlDomUtils.findElementsById = function( object, id ) {
+	var list = new Array();
+	_findElementsById( object, id, list );
+	return list;
+}
+
+HtmlDomUtils.findJsfElementById = function( object, id ) {
+	var elms = HtmlDomUtils.findElementsById( object, ".*:" + id );
+	if( elms.length > 1 ) Debug.logMessage( "HtmlDomUtils.findJsfElementById, found more than one id matching " + id );
+	
+	return elms[0];
+};
+
+/**
+ * Used to apply a defined action on all children of the given element object.
+ * The children may be filtered via the tags array parameter ( e.g. { "TD", "A" }  ) and/or
+ * the classes array parameter.
+ * The action paramter defines what occurs on each visited child.  The return value of the
+ * action can be null or a function that reverts the effects of the action function.
+ */
+HtmlDomUtils.visitChildrenOfTypeAndClass = function ( object, action, tags, classes ) {
+	if( isString(object) ) {
+		object = document.getElementById( object );
+	}
+	
+	if( object && object.tagName && object.childNodes ) {
+		var children = object.childNodes;
+		for(var i = 0; i < children.length; i++ ) {
+			var child = children[i];
+			if( ( child.tagName && child.tagName.length > 0 ) && ( !tags || HtmlDomUtils.isTag( child, tags ) )   // null/undef indicates all tags.
+				&& ( !classes || HtmlDomUtils.hasClassAttribNames( child, classes ) ) ) { // null/undef indicates all classes.
+			
+			  // tbd: REVIEW!
+				var revert = action( child );
+				if( revert != null ) { // check if action should be revert-able
+					if(!child.reverts) child.reverts = new Array();
+					child.reverts[action.actionId] = revert;  // invoke action and push revert.
+				}
+			}
+			HtmlDomUtils.visitChildrenOfTypeAndClass( child, action, tags, classes );
+		}
+	}
+}
+
+HtmlDomUtils.visitChildren = function ( object, action ) {
+	HtmlDomUtils.visitChildrenOfTypeAndClass( object, action, null, null );
+}
+
+/**
+ * Reverts the last set of actions taken for every child node of the given object.
+ * The actionIds parameter may be a string or array of strings.  A null actionId
+ * implies all last actions.
+ */
+HtmlDomUtils.revertChildActions = function ( object, actionIds ) {
+	if( isString(object) ) {
+		object = document.getElementById( object );
+	}
+
+  if( object && object.tagName && object.childNodes ) {
+		var children = object.childNodes;
+		for(var i = 0; i < children.length; i++ ) {
+			var child = children[i];
+			if(child.reverts) {
+				if(actionIds) {
+					if(DomUtils.isArray(actionIds)) {
+						for(var i = 0; i < actionIds.length; i++) {
+							if(child.reverts[actionIds[i]]) {
+								child.reverts[actionIds[i]]( child );
+								child.reverts[actionIds[i]] = null;
+							}
+						}
+					}
+					else {
+						if(child.reverts[actionIds]) {
+							child.reverts[actionIds]( child );
+							child.reverts[actionIds] = null;
+						}
+					}
+				}
+				else {
+					if(child.reverts.length > 0) {
+							child.reverts[child.reverts.length-1]( child );
+							child.reverts.length--;
+					}
+				}
+			}
+			HtmlDomUtils.revertChildActions( child, actionIds );
+		}
+	}
+}
+
+
+/**
+ * Revert the effects of disableChildren for all elements that are decendents of parameter 'object'.
+ */
+HtmlDomUtils.revertDisableChildren = function ( object ) {
+	HtmlDomUtils.revertChildActions( object, "ds_disable" );
+}
+
+/**
+ * Looks for any child node with an onclick and disallows user mouse input along with visual indication.
+ * May be filtered on classes and/or tags.
+ * TBD: expand to links.
+ */
+HtmlDomUtils.disableChildren = function ( object ) {
+	var returnFalse = function() { return false };
+	
+	var actionId = "ds_disable";
+	
+	var action = function( o ) { 
+		if(!o.ds_disable) { // save the original enabled color and onclick properties.
+			o.ds_disable = new Object();
+			if( o.tagName == "INPUT" || o.tagName == "TEXTAREA" || o.tagName == "SELECT" ) {
+				o.disabled = true;
+			}
+			else {
+				if(o.style) {
+					o.ds_disable.color = o.style.color ? o.style.color : "";
+					o.style.color = "#808080";
+				}
+				if(o.onclick) {
+					o.ds_disable.onclick = o.onclick; o.onclick = returnFalse;
+				}
+			}
+		}
+		var revert = function( o ) {
+			if(!o.ds_disable) return;
+			if( o.tagName == "INPUT" || o.tagName == "TEXTAREA" || o.tagName == "SELECT" ) {
+				o.disabled = false;
+			}
+			else {
+				if(o.ds_disable.color || o.ds_disable.color == "") {
+					o.style.color = o.ds_disable.color;
+				}
+				if(o.ds_disable.onclick) {
+					o.onclick = o.ds_disable.onclick;
+				}
+			}
+			o.ds_disable = null;
+		};
+		return revert;
+	};
+	action.actionId = "ds_disable";
+	
+	var tags = arguments.length > 1 ? arguments[1] : null;
+	var classes = arguments.length > 2 ? arguments[2] : null;
+	HtmlDomUtils.visitChildrenOfTypeAndClass( object, action, tags, classes );
+}
+
+/**
+ * Revert the effects of hideChildren.
+ */
+HtmlDomUtils.revertHideChildren = function ( object ) {
+	HtmlDomUtils.revertChildActions( object, "ds_hide" );
+}
+
+/**
+ * Hides all child nodes of _object_ given class/tag filters.
+ * @see unhideChildren
+ */
+HtmlDomUtils.hideChildren = function ( object ) {
+	var actionId = "ds_hide";
+
+	var action = function( o ) { 
+		if(!o.ds_hide) { // save the original display property value.
+			o.ds_hide = new Object();
+			if(o.style) {
+				o.ds_hide.display = o.style.display ? o.style.display : "";
+				o.style.display = "none";
+			}
+		}
+		var revert = function( o ) {
+			if(!o.ds_hide) return;
+			if(o.ds_hide.display || o.ds_hide.display == "") {
+				o.style.display = o.ds_hide.display;
+			}
+			o.ds_hide = null;
+		};
+		return revert;
+	};
+	action.actionId = "ds_hide";
+	
+	var tags = arguments.length > 1 ? arguments[1] : null;
+	var classes = arguments.length > 2 ? arguments[2] : null;
+	HtmlDomUtils.visitChildrenOfTypeAndClass( object, action, tags, classes );
+}
+
+
+/**
+ * Set font size for all contained elements of _object_ to _fontSize_.
+ */
+HtmlDomUtils.sizeFonts = function ( object, fontSize ) {
+	var actionId = "ds_font_size";
+	var action = function( o ) { 
+		if( typeof( o.style ) == "undefined" ) return;
+		
+		if( !o.ds_font_size && o.ds_font_size != "" ) {
+			o.ds_font_size = new Object(); // save the original fontSize property value.
+			o.ds_font_size = o.style.fontSize ? o.style.fontSize : "";
+		}
+		o.style.fontSize = fontSize;
+		
+		var revert = function( o ) {
+			if( typeof( o.ds_font_size ) == "undefined" ) return;
+			if(o.ds_font_size || o.ds_font_size == "" ) {
+				o.style.fontSize = o.ds_font_size;
+			}
+			o.ds_font_size = null;
+		};
+		return revert;
+	};
+	action.actionId = "ds_font_size";
+	
+	HtmlDomUtils.visitChildren( object, action );	
+}
+
+/**
+ * Return the font size of all elements in _object_ to their original size.
+ * Reverts the font sizes set by sizeFonts.
+ */
+HtmlDomUtils.unsizeFonts = function ( object ) {
+	HtmlDomUtils.revertChildActions( object, "ds_font_size" );
+}
+
+/**
+ * Change the font size of all contained elements of _obj_ by _percent_.
+ * New size is relative to original font size.
+ * If percent is <= 0, the original font size will be used.
+ * note: If original font size is relative (1.2em, 120%), the resulting change will be more
+ * dramatic than expected.
+ */
+HtmlDomUtils.setFontSizeByPercent = function ( object, percent ) {
+	var actionId = "ds_font_size";
+	var action = function( o ) {
+		if( typeof( o.style ) == "undefined" ) return;
+		var fontSize;
+		if( typeof( o.ds_font_size ) == "undefined" || o.ds_font_size == null ) {
+			o.ds_font_size = new Object(); // save the original fontSize property value.
+			//o.ds_font_size = o.style.fontSize;
+			// get the actual computed font size (hopefully.)
+			o.ds_font_size = getStyle( o, "font-size" );
+			//if( o.id == "divId8a" ) alert( "id: " + o.id + ", ds font size: " + o.ds_font_size );
+			//Debug.logMessage( " ofs: " + o.ds_font_size );
+			if( typeof( o.ds_font_size ) == "undefined" || o.ds_font_size == null )
+				return;
+		}
+
+		if( percent <= 0 ) {
+			o.style.fontSize = o.ds_font_size;
+		}
+		else { // we should try to get/convert the size in px or other absolute size.
+				// With relative sizes, new font size will be exaggerated.
+			var size = parseFloat( o.ds_font_size );
+			if( typeof( size ) == "undefined" || isNaN( size ) ) return;
+			units = o.ds_font_size.substring( ("" + size).length );
+			o.style.fontSize = ( percent * size / 100 ) + (units ? units : "");
+			//Debug.logMessage( " fs: " + o.style.fontSize );
+		}
+		
+		
+		var revert = function( o ) {
+			if( typeof( o.ds_font_size ) == "undefined" ) return;
+			if(o.ds_font_size || o.ds_font_size == "" ) {
+				o.style.fontSize = o.ds_font_size;
+			}
+			o.ds_font_size = null;
+		};
+		return revert;
+	};
+	action.actionId = "ds_font_size";
+	
+	var tags = arguments.length > 2 ? arguments[2] : null;
+	var classes = arguments.length > 3 ? arguments[3] : null;
+	HtmlDomUtils.visitChildrenOfTypeAndClass( object, action, tags, classes );
+}
+
+HtmlDomUtils.revealClassNames = function() {
+	var action = function( o ) {
+		if( typeof( o.style ) == "undefined" || typeof( o.innerHTML ) == "undefined" ) return;
+		if( typeof( o.show_class_name ) == "undefined" || o.show_class_name == null ) {
+		  if( o.className && o.className != "" && o.style.visibility != "hidden" ) {
+			if( o.appendChild && o.parentNode ) {
+			  //Debug.logMessage( o.className + ", " + o.name + ", " + o.id );
+			
+			  var e = document.createElement( "SPAN" );
+			  e.style.position = "absolute";
+			  e.style.background = "#0077ff";
+			  e.style.borderColor = "#222277";
+			  e.style.borderStyle = "solid";
+			  e.style.borderWidth = "1px";
+			  e.style.color = "#ffffff";
+			  e.style.padding = "2px";
+			  e.style.fontSize = "10px";
+			  e.style.zIndex = 10;
+			  e.style.cursor = "default";
+			  e.innerHTML = o.className;
+			  if( o.canHaveChildren == false ) {
+			  	o.parentNode.appendChild( e );
+			  }
+			  else {
+			    o.appendChild( e );
+			  }
+			  e.style.filter = "alpha(opacity='65')";
+			  e.style.MozOpacity = "0.65";
+			  e.onmouseover = function() {
+				  e.style.zIndex = 99;
+				  e.style.filter = "alpha(opacity='100')";
+				  e.style.MozOpacity = "1.0";
+			  }
+			  e.onmouseout = function() {
+				  e.style.zIndex = 10;
+				  e.style.filter = "alpha(opacity='65')";
+				  e.style.MozOpacity = "0.65";
+			  }
+			  o.show_class_name = new Object();
+		    }
+		  }
+		}
+
+		var revert = function( o ) {
+		  if( typeof( o.show_class_name ) == "undefined" ) return;
+
+		  o.show_class_name = null;
+		};
+		return revert;
+	};
+	action.actionId = "show_class_name";
+	
+	var tags = arguments.length > 0 ? arguments[0] : null;
+	var classes = arguments.length > 1 ? arguments[1] : null;
+	HtmlDomUtils.visitChildrenOfTypeAndClass( document.body, action, tags, classes );
+}
+/*
+HtmlDomUtils.eventListeners = new Array();
+HtmlDomUtils.addEventListener = function( obj, eventName, listener ) {
+	if( !eventName || !handler ) return;
+	if( typeof HtmlDomUtils.eventListeners[ obj ] == "undefined" ) {
+		HtmlDomUtils.eventListeners[ obj ] = new Array();
+	}
+	var el;
+	if( typeof HtmlDomUtils.eventHandlers[ obj ][ eventName ] == "undefined" ) {
+		el = HtmlDomUtils.eventListeners[ obj ][ eventName ] = new Object();
+		el.executing = false;
+		el.listeners = new Array();
+		el.handler = function() {
+		}
+	}
+	else el = HtmlDomUtils.eventListeners[ obj ][ eventName ];
+	var e = eval ( obj + "." + eventName );
+	if( typeof e == "undefined" ) { alert( "object event does not exist" ); }
+	if( e && e != el.handler ) {
+		el.listeners[el.listeners.length] = e;
+	}
+	var ls = HtmlDomUtils.eventHandlers[ obj ][ eventName ].listeners;
+	ls[ls.length] = handler;
+	
+}
+*/
+
+HtmlDomUtils.onLoadHandler = function() {
+	if( HtmlDomUtils.onLoadHandler.executing ) return;
+	if( HtmlDomUtils.onLoadListeners ) {
+		HtmlDomUtils.onLoadHandler.executing = true;
+	  for( var i = 0; i < HtmlDomUtils.onLoadListeners.length; i++) {
+			if( HtmlDomUtils.onLoadListeners[i] != HtmlDomUtils.onLoadHandler )
+			  HtmlDomUtils.onLoadListeners[i]();
+	  }
+		HtmlDomUtils.onLoadHandler.executing = false;
+	}
+}
+HtmlDomUtils.onLoadHandler.executing = false;
+/**
+ * Add an onLoad handler.
+ * @param handler a function object to be invoked for an onLoad event.
+ */
+HtmlDomUtils.addOnLoadListener = function(handler) {
+	if( !HtmlDomUtils.onLoadListeners ) HtmlDomUtils.onLoadListeners = new Array();
+	if( window.onload && window.onload != HtmlDomUtils.onLoadHandler ) {
+		HtmlDomUtils.onLoadListeners[HtmlDomUtils.onLoadListeners.length] = window.onload;
+	}
+  
+	if(handler)
+		HtmlDomUtils.onLoadListeners[HtmlDomUtils.onLoadListeners.length] = handler;
+	
+	if( HtmlDomUtils.onLoadListeners.length > 0 )
+		window.onload = HtmlDomUtils.onLoadHandler;
+}
+
+
+
+
+

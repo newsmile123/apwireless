@@ -158,10 +158,16 @@ body
 #switcher2{
 	display:none;
 }
+/* #switcher3{
+	display:none;
+} */
 #connected{
 	display:none;
 }
 #connected2{
+	display:none;
+}
+#connected3{
 	display:none;
 }
 #unsuccess2{
@@ -175,6 +181,9 @@ body
 }
 
 #unsuccess{
+	display:none;
+}
+#unsuccess3{
 	display:none;
 }
 #rad_client{

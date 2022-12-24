@@ -1,0 +1,137 @@
+/* Copyright 2004 Instant802 Networks, Inc. All Rights Reserved. */
+
+var security_modes = new Array('static-wep', 'dot1x', 'wpa-enterprise', 'wpa-personal');
+
+var security_layers = new Array('static_wep_layer', 'one_x_layer', 'wpa_with_radius_layer', 'wpa_psk_layer');
+
+/**
+ * Cleans up the field names.
+ * For the security mode selected, renames that layer's elements
+ * to remove the layer prefix. 
+ * The elements from non-selected modes will still have a layer
+ * prefix, so they wont match any macros.
+ */
+function cleanupFieldNames(prefix) {
+    var mode = document.forms['update-container'].elements[prefix+'securityMode'].value;
+    var modeNumber = -1;
+    for (var i = 0; i < security_modes.length; i++) {
+        if (mode == security_modes[i]) {
+            modeNumber = i;
+            break;
+        }
+    }
+    if (modeNumber == -1) {
+        return;
+    }
+    var re = new RegExp(prefix+security_layers[modeNumber]);
+
+    for (var i = document.forms['update-container'].elements.length; i > 0; i--) {
+        var el = document.forms['update-container'].elements[i-1];
+
+        if (el.name.match(re)) {
+            el.name = el.name.replace(re, prefix);
+        }
+    }
+}
+
+function isValidWpaPskPassPhraseCharacter(c)
+{
+    var code = c.charCodeAt(0);
+    return code >= 32 && code <= 126;
+}
+
+function isValidWpaPskPassPhrase(s)
+{
+    if (! isStringLengthInRange(s, 8, 63)) {
+        return false;
+    }
+
+    return isStringCharsInRange(s, 32, 126);
+}
+
+function getInvalidWpaPskPassPhraseReason(s)
+{
+    var msg = "";
+
+    var lengthBad = false;
+    if (! isStringLengthInRange(s, 8, 63)) {
+        msg = msg 
+            + getStringLengthNotInRangeReason(s, 8, 63);
+        lengthBad = true;
+    }
+
+    if (! isStringCharsInRange(s, 32, 126)) {
+        if (lengthBad) {
+            msg = msg + ' ';
+        }
+			  var format = getResourceString("Messages.CharsNotAllwd");
+				msg = msg + formatResourceString( format, new Array( getStringCharsNotInRange(s, 32, 126) ) );
+    }
+    return msg;
+}
+
+function isValidKeyRefreshRate(i)
+{
+    if (! isIntInRange (i, 0, 86400)) {
+        return false;
+    }
+
+    return isStringCharsInRange(i, 48, 57);
+}
+
+function isValidSessionKeyRefreshRate(i)
+{
+    var number;
+    if (! isIntInRange (i, 30, 86400)) {
+        number =parseInt(i);
+        if(number == 0)
+          return true;
+        return false;
+    }
+
+    return isStringCharsInRange(i, 48, 57);
+}
+
+function getInvalidKeyRefreshRateReason(i)
+{
+    var msg = "";
+
+    var lengthBad = false;
+    if (! isStringLengthInRange(i, 0, 86400)) {
+        msg = msg 
+            + getStringLengthNotInRangeReason(i, 48, 57);
+        lengthBad = true;
+    }
+
+    if (! isStringCharsInRange(i, 48, 57)) {
+        if (lengthBad) {
+            msg = msg + ' ';
+        }
+			  var format = getResourceString("Messages.CharsNotAllwd");
+				msg = msg + formatResourceString( format, new Array( getStringCharsNotInRange(i, 48, 57) ) );
+    }
+    return msg;
+}
+
+function validateStaticWepKey(keyIndex, transferKeyIndex, bytes, ascii, key) {
+    if ((transferKeyIndex == keyIndex && ! isValidWepKey(key, bytes, ascii))
+        || (transferKeyIndex != keyIndex && ! isValidWepKeyOrBlank(key, bytes, ascii))) {
+			
+			  var format = getResourceString("Messages.KeyErr");
+        return " " + formatOrderedResourceString( format, new Array( keyIndex, getInvalidWepKeyReason(key, bytes, ascii) ) ) + "\n";
+    } else {
+        return "";
+    }
+}
+
+function isNotLinkLocalIpv6Addr(addr)
+{
+     var substr = addr.substring(0,3);
+     if((substr == "fe8") || (substr == "fe9") || (substr == "fea") || (substr == "feb"))
+      return false;
+
+     return true;
+
+}
+
+

@@ -13,16 +13,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	array_push($key, 'switcher2');
 	array_push($value, $switcher2);
 	}
+	if (isset($_SESSION['ap']['switcher3'])){
+		$switcher3 = $_SESSION['ap']['switcher3'];
+		array_push($key, 'switcher3');
+		array_push($value, $switcher3);
+		}
 	if (isset($_SESSION["ap"]["key"])){
 	$pass = $_SESSION["ap"]["key"];
 	array_push($key, 'pass');
 	array_push($value, $pass);
 	}
-		if (isset($_SESSION["ap"]["key2"])){
+	if (isset($_SESSION["ap"]["key2"])){
 	$pass2 = $_SESSION["ap"]["key2"];
 	array_push($key, 'pass2');
 	array_push($value, $pass2);
 	}
+	if (isset($_SESSION["ap"]["key3"])){
+		$pass3 = $_SESSION["ap"]["key3"];
+		array_push($key, 'pass3');
+		array_push($value, $pass3);
+		}
 	if (isset($_SESSION['success'])){
 		$success = $_SESSION['success'];
 		array_push($key, 'success');
@@ -43,16 +53,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		array_push($key, 'success2');
 		array_push($value, $success2);
 	}
+	if (isset($_SESSION['success3'])){
+		$success3 = $_SESSION['success3'];
+		array_push($key, 'success3');
+		array_push($value, $success3);
+	}
+	else{
+		$success3 = "0";
+		array_push($key, 'success3');
+		array_push($value, $success3);
+	}
 	if (isset($_SESSION['ap']['enc'])){
 	$enc = $_SESSION['ap']['enc'];
 	array_push($key, 'enc');
 	array_push($value, $enc);
 	}
-if (isset($_SESSION['ap']['enc2'])){
+	if (isset($_SESSION['ap']['enc2'])){
 	$enc2 = $_SESSION['ap']['enc2'];
 	array_push($key, 'enc2');
 	array_push($value, $enc2);
 	}
+	if (isset($_SESSION['ap']['enc3'])){
+		$enc3 = $_SESSION['ap']['enc3'];
+		array_push($key, 'enc3');
+		array_push($value, $enc3);
+		}
 	if (isset($_SESSION['radius']['secret'])){
 	$secret = $_SESSION['radius']['secret'];
 	array_push($key, 'secret');
@@ -63,6 +88,11 @@ if (isset($_SESSION['ap']['enc2'])){
 	array_push($key, 'secret2');
 	array_push($value, $secret2);
 	}
+	if (isset($_SESSION['radius3']['secret'])){
+		$secret3 = $_SESSION['radius3']['secret'];
+		array_push($key, 'secret3');
+		array_push($value, $secret3);
+		}
 	
 	if (isset($_SESSION['radius']['ip'])){
 	$Rip = $_SESSION['radius']['ip'];
@@ -76,6 +106,11 @@ if (isset($_SESSION['ap']['enc2'])){
 	array_push($value, $Rip2);
 	}
 	
+	if (isset($_SESSION['radius3']['ip'])){
+		$Rip3 = $_SESSION['radius3']['ip'];
+		array_push($key, 'Rip3');
+		array_push($value, $Rip3);
+		}
 	
 	if (isset($_SESSION['radius']['pass'])){
 	$user_pass = $_SESSION['radius']['pass'];

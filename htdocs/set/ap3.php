@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$_SESSION['ap']['bridge_on3']=$_POST['bridge_on3'];
 	$_SESSION['ap']['upd3'] = $_POST['upd3'];
 	$_SESSION['ap']['enc3'] = $_POST['enc3'];
+	$_SESSION['radius']['ip'] = $_POST['radius_ip'];
 	if ($_SESSION['ap']['enc3'] == 'wpa_802.1x' or $_SESSION['ap']['enc3'] == 'wpa2_802.1x' or $_SESSION['ap']['enc3'] == 'none'){
 		$_SESSION['ap']['key3'] = "";
 		$_SESSION['ap']['cip2her3'] = "";
@@ -43,6 +44,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$_SESSION['ap']['bridge_on3']=$_POST['bridge_on3'];
 	$_SESSION['ap']['upd3'] = $_POST['upd3'];
 	$_SESSION['ap']['enc3'] = $_POST['enc3'];
+	$_SESSION['radius']['ip'] = $_POST['radius_ip'];
+
+	$_SESSION['radius']['secret'] = $_POST['radius_secret'];
+
+	$_SESSION['radius']['port'] = $_POST['radius_port'];
+
 	if ($_SESSION['ap']['enc3'] == 'wpa_802.1x' or $_SESSION['ap']['enc3'] == 'wpa2_802.1x' or $_SESSION['ap']['enc3'] == 'none'){
 		$_SESSION['ap']['key3'] = "";
 		$_SESSION['ap']['cip2her3'] = "";

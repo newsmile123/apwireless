@@ -25,17 +25,23 @@ $("document").ready(function(e) {
 			posting.done(function(data) {
 				var obj = jQuery.parseJSON(data);
     			switcher = obj.switcher;
-switcher2 = obj.switcher2;
+				switcher2 = obj.switcher2;
+				switcher3 = obj.switcher3;
 				success = obj.success;
-			success2 = obj.success2;
-			Rip=obj.Rip;
+				success2 = obj.success2;
+				success3 = obj.success3;
+				Rip=obj.Rip;
 				Rip2=obj.Rip2;
-					secret=obj.secret;
+				Rip3=obj.Rip3;
+				secret=obj.secret;
 				secret2=obj.secret2;
+				secret3=obj.secret3;
 				password = obj.pass;
 				password2 = obj.pass2;
+				password3 = obj.pass3;
 				enc = obj.enc;
 				enc2 = obj.enc2;
+				enc3 = obj.enc3;
 				ready = obj.ready;
 				pass = obj.user_pass;
 				run = obj.run;
@@ -46,6 +52,9 @@ switcher2 = obj.switcher2;
 				}
 				if (switcher2 == 1){
 					$("#switcher2").show();
+				}
+				if (switcher3 == 1){
+					$('#switcher3').show()
 				}
 				if (success == 1){
 					$("#connected").show();
@@ -58,6 +67,12 @@ switcher2 = obj.switcher2;
 				}
 				else{
 					$("#unsuccess2").show();
+				}
+				if (success3 == 1){
+					$("#connected3").show();
+				}
+				else{
+					$("#unsuccess3").show();
 				}
 				
 				

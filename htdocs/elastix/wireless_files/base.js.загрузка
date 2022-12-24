@@ -1,0 +1,3238 @@
+/* Copyright 2004 Instant802 Networks, Inc. All Rights Reserved. */
+
+var UPPERCASE_LETTER_SET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+var LOWERCASE_LETTER_SET = "abcdefghijklmnopqrstuvwxyz";
+var LETTER_SET = UPPERCASE_LETTER_SET + LOWERCASE_LETTER_SET;
+var DIGIT_SET = "0123456789";
+var LETTER_DIGIT_SET = LETTER_SET + DIGIT_SET;
+var HEX_DIGIT_SET = "0123456789abcedfABCDEF";
+var LETTER_DIGIT_HYPHEN_SET = LETTER_DIGIT_SET + "-" + "_";
+
+// Select object functions.
+
+/**
+ * Sets all options of a selectBox to true.
+ * @param the selectBox to whose options should be set.
+ * @return true.
+ */
+function selectAllItems(selectBox) {
+    for (var i = selectBox.options.length-1; i > -1; i--) {
+       	selectBox.options[i].selected = true;
+    }
+    return true;
+}
+
+/**
+ * Check to see if a value appears in the list of options for
+ * a select box.
+ * @selectBox the box to check
+ * @value the value to look for
+ * @return true if value is found, false otherwise.
+ */
+function selectValueExists(selectBox, value) {
+    for (var i = selectBox.options.length-1; i > -1; i--) {
+        if (selectBox.options[i].value == value) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function selectItemExists(selectBox, item) {
+    return selectValueExists(selectBox, item.value);
+}
+
+function addSelectItem(selectBox, item) {
+    if (!selectItemExists(selectBox, item)) {
+        selectBox.options[selectBox.options.length] =
+            new Option(item.value, item.value);
+    }
+    item.value = "";
+}
+
+function insertSelectOption(selectBox, insertIndex, option) {
+    for (var i = selectBox.options.length-1; i > -1; i--) {
+        var curOption = selectBox.options[i];
+        selectBox.options[i+1] = new Option(curOption.text, curOption.value);
+        if (i == insertIndex) {
+            selectBox.options[i] = option;
+            break;
+        }
+    }
+}
+
+function removeSelectItem(selectBox, value) {
+    for (var i = selectBox.options.length-1; i > -1; i--) {
+        if (selectBox.options[i].value == value) {
+            selectBox.options[i] = null;
+        }
+    }
+}
+
+/**
+ * Removes the selected items from a selectBox, and toggles its removeButton.
+ * @param selectBox the selectBox to remove the selected items of.
+ * @param removeButton the button that removes selected items from selectBox.
+ */
+function removeSelectItems(selectBox, removeButton) {
+    if (selectBox.selectedIndex > -1) {
+        for (var i = selectBox.options.length-1; i > -1; i--) {
+            if (selectBox.options[i].selected) {
+                selectBox.options[i] = null;
+            }
+        }
+    }
+    toggleSelectRemoveButton(selectBox, removeButton);
+}
+
+function toggleSelectRemoveButton(selectBox, removeButton) {
+    if (selectBox.selectedIndex > -1) {
+        removeButton.disabled = false;
+    } else {
+        removeButton.disabled = true;
+    }
+}
+
+/**
+ * Determines if we should move to the next box.
+ * @param box    the box we're currently on.
+ * @param letter the letter that indicates this box is complete.
+ * If the last character in box is letter, delete letter, and return true;
+ * Otherwise, return false.
+ */
+function shouldMovetoNext(box, letter) {
+    var res = false;
+    var lastIndex = box.value.length - 1;
+    if (box.value.charAt(lastIndex) == letter) {
+        box.value = box.value.substring(0, lastIndex);
+        res = true;
+    }
+    return res;
+}
+
+/**
+ * Determines if we should move to the next IP box.
+ * @param box the box we're currently on.
+ * If the last character in box is '.', delete it, and return true;
+ * Otherwise, return false.
+ */
+function shouldIpMoveToNext(box) {
+    return shouldMovetoNext(box, '.');
+}
+
+/**
+ * Determines if we should move to the next MAC box.
+ * @param box the box we're currently on.
+ * If the last character in box is ':', delete it, and return true;
+ * Otherwise, return false.
+ */
+function shouldMacMoveToNext(box) {
+    return shouldMovetoNext(box, ':');
+}
+
+/**
+ * A function that can be used as an onKeyPress handler to permit only
+ * hex characters (and control characters).
+ */
+function keyPressHexOnly(evt) {
+    var e;
+    evt = (evt) ? evt : event;
+    var charCode = (evt.charCode) ? evt.charCode : ((evt.keyCode) ? evt.keyCode : ((evt.which) ? evt.which : 0));
+    if (charCode <= 31) {
+        return true;
+    }
+    var key = String.fromCharCode(charCode);
+    if (HEX_DIGIT_SET.indexOf(key) == -1) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+/**
+ * Checks if a string is a valid hex octet.
+ * @param hex the potential hex octet.
+ * @return true, if hex is composed of exactly 2 hex digits (case-insensitive);
+ *         false, otherwise.
+ */
+function hexIsValid(hex) {
+    var number;
+    number = parseInt(hex, 16);
+
+    if (number < 0 || number > 255) {
+        return false;
+    }
+    
+    var convertedBack;
+    if (number < 16) {
+        convertedBack = "0" + number.toString(16);
+    } else {
+        convertedBack = number.toString(16);
+    }
+
+    if (hex.toLowerCase() != convertedBack.toLowerCase()) {
+        return false;
+    }
+
+    return true;
+}
+
+function octetIsValid(octet) {
+    if (octet.length > 3) {
+        octet = octet.substring(0, 2);
+    }
+
+    return isIntInRange(octet, 0, 255);
+}
+
+function getInvalidOctetReason(octet) {
+    if (octet.length > 3) {
+        octet = octet.substring(0, 2);
+    }
+
+    return getIntNotInRangeReason(octet, 0, 255);
+}
+
+/**
+ * Checks if a dotted decimal is valid.
+ * @param macro elements macro[0-3] should make up the dotted decimal.
+ * @return true if each octet is between 0 and 255.
+ */
+function dottedDecimalIsValid(macro) {
+    for (var i = 0; i < 4; i++) {
+        var octet = document.forms['update-container'].elements[macro + i].value;
+        if (! octetIsValid(octet)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
+ * Checks if a dotted decimal is blank.
+ * @param macro elements macro[0-3] should make up the dotted decimal.
+ * @return true if each octet is blank.
+ */
+function dottedDecimalIsBlank(macro) {
+    for (var i = 0; i < 4; i++) {
+        var octet = document.forms['update-container'].elements[macro + i].value;
+        if (octet.length != 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
+ * Checks if a dotted decimal is valid or blank
+ * @param macro elements macro[0-3] should make up the dotted decimal.
+ * @return true if all octets are between 0 and 255 or all octets are blank.
+ */
+function dottedDecimalIsValidOrBlank(macro) {
+    if (dottedDecimalIsBlank(macro) || dottedDecimalIsValid(macro)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Gets a 32-bit integer from a dotted decimal macro.
+ * @param macro elements macro[0-3] should make up the dotted decimal.
+ * @return a 32-bit integer with macro[0-3] in each octet.
+ */
+function dottedDecimalToInt(macro) {
+    var n = 0;
+    for (var i = 0; i < 4; i++) {
+        var octet = parseInt(document.forms['update-container'].elements[macro + i].value);
+
+        n = n * 256;
+        n = n + octet;
+    }
+    return n;
+}
+
+/**
+ * Gets a textual description of why a dotted decimal is invalid.
+ * @param macro macro that returned false for dottedDecimalIsValid()
+ * @return a textual description of why a dotted decimal is invalid.
+ */
+function getInvalidDottedDecimalReason(macro) {
+    var msg = "";
+
+    if (dottedDecimalIsBlank(macro)) {
+        return getResourceString("Messages.AddrBlnk");
+    }
+
+    for (var i = 0; i < 4; i++) {
+        var octet = document.forms['update-container'].elements[macro + i].value;
+        if (! octetIsValid(octet)) {
+            if (msg.length > 0) {
+                msg = msg + " ";
+            }
+						
+						var format = getResourceString("Messages.OctInvld");
+						msg = msg + formatOrderedResourceString( format, new Array( i+1, getInvalidOctetReason(octet) ) )
+        }
+    }
+
+    return msg;
+}
+
+/**
+ * Checks if an IP address is valid.
+ * @param macro elements macro[0-3] should make up the IP address.
+ * @return true if the IP address is not on local network, a broadcast,
+ *              multicast, reserved, or an invalid dotted decimal.
+ */
+function ipIsValid(macro) {
+    if (! dottedDecimalIsValid(macro)) {
+        return false;
+    }
+
+    var octet0 = parseInt(document.forms['update-container'].elements[macro + 0].value);
+    var octet1 = parseInt(document.forms['update-container'].elements[macro + 1].value);
+    var octet2 = parseInt(document.forms['update-container'].elements[macro + 2].value);
+    var octet3 = parseInt(document.forms['update-container'].elements[macro + 3].value);
+
+    if (octet0 == 0) { return false; } // Local network
+    if (octet0 == 255 && octet1 == 255 && octet2 == 255 && octet3 == 255) {
+        return false;
+    } // Broadcast
+    if (octet0 >= 224 && octet0 <= 239) { return false; } // Multicast
+    if (octet0 >= 240 && octet0 <= 255) { return false; } // Reserved/ifconfig
+
+    return true;
+}
+
+/**
+ * Gets a textual description of why an IP address is invalid.
+ * @param macro macro that returned false for ipIsValid()
+ * @return a textual description of why macro is invalid.
+ */
+function getInvalidIpReason(macro) {
+    var msg = "";
+
+    if (! dottedDecimalIsValid(macro)) {
+        return getInvalidDottedDecimalReason(macro);
+    }
+
+    var octet0 = parseInt(document.forms['update-container'].elements[macro + 0].value);
+    var octet1 = parseInt(document.forms['update-container'].elements[macro + 1].value);
+    var octet2 = parseInt(document.forms['update-container'].elements[macro + 2].value);
+    var octet3 = parseInt(document.forms['update-container'].elements[macro + 3].value);
+
+    if (octet0 == 0) { 
+				return getResourceString( "Messages.AddrLcl" );
+    }
+
+    if (octet0 == 255 && octet1 == 255 && octet2 == 255 && octet3 == 255) {
+        return getResourceString( "Messages.AddrLmt" );
+    }
+
+    if (octet0 >= 224 && octet0 <= 239) {
+        return getResourceString( "Messages.AddrMltcst" );
+    }
+
+    if (octet0 >= 240 && octet0 <= 255) {
+        return getResourceString( "Messages.AddrRsrvd" );
+    }
+
+    return "";
+}
+
+function isNumeric_macro(macro)
+{
+   var ValidChars = "0123456789";
+   var Char;
+   var octet = [];
+   octet[0] = document.forms['update-container'].elements[macro + 0].value;
+   octet[1] = document.forms['update-container'].elements[macro + 0].value;
+   octet[2] = document.forms['update-container'].elements[macro + 0].value;
+   octet[3] = document.forms['update-container'].elements[macro + 0].value;
+   for(idx = 0;idx < 4;idx++) 
+   {
+       for (i = 0; i < octet[idx].length; i++) 
+       { 
+          Char = octet[idx].charAt(i); 
+          if (ValidChars.indexOf(Char) == -1) 
+             return false;
+       }
+   }
+   return true;
+}
+
+/**
+ * Checks if an IP address is valid and not a loopback.
+ * @param macro elements macro[0-3] should make up the IP address.
+ * @return true if the IP address is not on local network, a broadcast,
+ *              multicast, reserved, a loopback, or an invalid dotted decimal.
+ */
+function ipIsValidNotLoopback(macro) {
+    if (! ipIsValid(macro)) {
+        return false;
+    }
+
+    if(!isNumeric_macro(macro)) {
+        return false;
+    }
+
+    var octet0 = parseInt(document.forms['update-container'].elements[macro + 0].value);
+
+    if (octet0 == 127) { return false; } // Loopback
+
+    return true;
+}
+
+/**
+ * Gets a textual description of why an IP address is invalid or a loopback.
+ * @param macro macro that returned false for ipIsValidNotLoopback()
+ * @return a textual description of why macro is invalid.
+ */
+function getInvalidIpOrLoopbackReason(macro) {
+    if (! ipIsValid(macro)) {
+        return getInvalidIpReason(macro);
+    }
+
+    var octet0 = parseInt(document.forms['update-container'].elements[macro + 0].value);
+
+    if (octet0 == 127) {
+        return getResourceString( "Messages.AddrLoopBck" );
+    }
+
+    return "";
+}
+
+/**
+ * Checks if an IP address is valid and not a loopback, or blank.
+ * @param macro elements macro[0-3] should make up the IP address.
+ * @return true if the IP address is not on local network, a broadcast,
+ *              multicast, reserved, a loopback, or an invalid dotted decimal,
+ *              or all the octets are blank.
+ */
+function ipIsValidOrBlankNotLoopback(macro) {
+    if (dottedDecimalIsBlank(macro) || (dottedDecimalIsValid(macro) && ipIsValidNotLoopback(macro))) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Gets a textual description of why an IP address is invalid or a loopback.
+ * @param macro macro that returned false for ipIsValidOrBlankNotLoopback()
+ * @return a textual description of why macro is invalid.
+ */
+function getInvalidIpOrBlankNotLoopbackReason(macro) {
+    return getInvalidIpOrLoopbackReason(macro);
+}
+
+/**
+ * Checks if an network mask is valid.
+ * @param macro elements macro[0-3] should make up the network mask.
+ * @return true if the network mask is contiguous and a valid dotted decimal.
+ */
+function maskIsValid(macro) {
+    var ip = dottedDecimalToInt(macro);
+
+    if (ip == 0x00000000 || ip == 0x80000000 || ip == 0xC0000000 || ip == 0xE0000000 ||
+        ip == 0xF0000000 || ip == 0xF8000000 || ip == 0xFC000000 || ip == 0xFE000000 ||
+        ip == 0xFF000000 || ip == 0xFF800000 || ip == 0xFFC00000 || ip == 0xFFE00000 ||
+        ip == 0xFFF00000 || ip == 0xFFF80000 || ip == 0xFFFC0000 || ip == 0xFFFE0000 ||
+        ip == 0xFFFF0000 || ip == 0xFFFF8000 || ip == 0xFFFFC000 || ip == 0xFFFFE000 ||
+        ip == 0xFFFFF000 || ip == 0xFFFFF800 || ip == 0xFFFFFC00 || ip == 0xFFFFFE00 ||
+        ip == 0xFFFFFF00 || ip == 0xFFFFFF80 || ip == 0xFFFFFFC0 || ip == 0xFFFFFFE0 ||
+        ip == 0xFFFFFFF0 || ip == 0xFFFFFFF8 || ip == 0xFFFFFFFC || ip == 0xFFFFFFFE ||
+        ip == 0xFFFFFFFF) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Gets a textual description of why a mask is invalid.
+ * @param macro macro that returned false for maskIsValid()
+ * @return a textual description of why macro is invalid.
+ */
+function getInvalidMaskReason(macro) {
+    if (! maskIsValid(macro)) {
+        return getResourceString( "Messages.MskNC" );
+    } else {
+        return "";
+    }
+}
+
+function getInvalidStrMaskReason(value) {
+    var ip = 0;
+    value = value.split('.');
+    if (value.length != 4)
+        return getResourceString( "Messages.MskNC" );
+    for (var i = 0; i < 4; i++) {
+        var octet = parseInt(value[i]);
+
+        ip = ip * 256;
+        ip = ip + octet;
+    }
+    if (ip == 0x00000000 || ip == 0x80000000 || ip == 0xC0000000 || ip == 0xE0000000 ||
+        ip == 0xF0000000 || ip == 0xF8000000 || ip == 0xFC000000 || ip == 0xFE000000 ||
+        ip == 0xFF000000 || ip == 0xFF800000 || ip == 0xFFC00000 || ip == 0xFFE00000 ||
+        ip == 0xFFF00000 || ip == 0xFFF80000 || ip == 0xFFFC0000 || ip == 0xFFFE0000 ||
+        ip == 0xFFFF0000 || ip == 0xFFFF8000 || ip == 0xFFFFC000 || ip == 0xFFFFE000 ||
+        ip == 0xFFFFF000 || ip == 0xFFFFF800 || ip == 0xFFFFFC00 || ip == 0xFFFFFE00 ||
+        ip == 0xFFFFFF00 || ip == 0xFFFFFF80 || ip == 0xFFFFFFC0 || ip == 0xFFFFFFE0 ||
+        ip == 0xFFFFFFF0 || ip == 0xFFFFFFF8 || ip == 0xFFFFFFFC || ip == 0xFFFFFFFE ||
+        ip == 0xFFFFFFFF) {
+        return "";
+    } else {
+        return getResourceString( "Messages.MskNC" );
+    }
+}
+/**
+ * Checks if an IP address and network mask are valid together.
+ * They should each be validated separately first.
+ * @param ipMacro elements macro[0-3] should make up the IP address.
+ * @param maskMacro elements macro[0-3] should make up the network mask.
+ * @return true if the IP address is not on the local network, a broadcast,
+ *              or a network number.
+ */
+function ipAndMaskAreValidTogether(ipMacro, maskMacro) {
+    var ip = dottedDecimalToInt(ipMacro);
+    var mask = dottedDecimalToInt(maskMacro);
+
+    if (mask != 0 && (ip & mask) == 0) { return false; } // On local network (RFC1700)
+    if ((ip & ~mask) == ~mask) { return false; } // Broadcast
+    if (~mask != 0 && (ip & ~mask) == 0) { return false; } // Network number
+
+    return true;
+}
+
+/**
+ * Gets a textual description of why an IP address and network mask are
+ * invalid together.
+ * @param ipMacro macro that returned false for ipAndMaskAreValidTogether().
+ * @param maskMacro macro that returned false for ipAndMaskAreValidTogether().
+ * @return a textual description of why macros are invalid together.
+ */
+function getInvalidIpAndMaskTogetherReason(ipMacro, maskMacro) {
+    var ip = dottedDecimalToInt(ipMacro);
+    var mask = dottedDecimalToInt(maskMacro);
+
+    if (mask != 0 && (ip & mask) == 0) {
+        return getResourceString( "Messages.AddrLcl2" );
+    }
+
+    if ((ip & ~mask) == ~mask) {
+        return getResourceString( "Messages.AddrDBcst" );
+    }
+
+    if (~mask != 0 && (ip & ~mask) == 0) {
+        return getResourceString( "Messages.AddrNtNum" );
+    }
+
+    return "";
+}
+
+/**
+ * Checks if an IP address and gateway are valid together.
+ * They should each be validated separately first.
+ * @param ipMacro elements macro[0-3] should make up the IP address.
+ * @param maskMacro elements macro[0-3] should make up the network mask.
+ * @param gatewayMacro elements macro[0-3] should make up the gateway.
+ * @return true if the IP address and gateway are on the same subnet and
+ *              not the same address.
+ */
+function ipAndGatewayAreValidTogether(ipMacro, maskMacro, gatewayMacro) {
+    var ip = dottedDecimalToInt(ipMacro);
+    var mask = dottedDecimalToInt(maskMacro);
+    var gateway = dottedDecimalToInt(gatewayMacro);
+
+    if ((ip & mask) != (gateway & mask)) { return false; } // Not on same subnet
+    if (ip == gateway) { return false; } // Same address
+
+    return true;
+}
+
+/**
+ * Gets a textual description of why an IP address and gateway are
+ * invalid together.
+ * @param ipMacro macro that returned false for ipAndGatewayAreValidTogether().
+ * @param maskMacro macro that returned false for ipAndGatewayAreValidTogether().
+ * @param gatewayMacro macro that returned false for ipAndGatewayAreValidTogether().
+ * @return a textual description of why macros are invalid together.
+ */
+function getInvalidIpAndGatewayTogetherReason(ipMacro, maskMacro, gatewayMacro) {
+    var ip = dottedDecimalToInt(ipMacro);
+    var mask = dottedDecimalToInt(maskMacro);
+    var gateway = dottedDecimalToInt(gatewayMacro);
+
+    if ((ip & mask) != (gateway & mask)) {
+        return getResourceString( "Messages.AddrGW" );
+    }
+    if (ip == gateway) {
+        return getResourceString( "Messages.AddrGW2" );
+    }
+
+    return "";
+}
+
+/**
+ * Checks if a server address is valid, given a host ip and mask.
+ * They should each be validated separately first.
+ * @param serverMacro elements macro[0-3] should make up the server address.
+ * @param ipMacro elements macro[0-3] should make up the host IP address.
+ * @param maskMacro elements macro[0-3] should make up the network mask.
+ * @return true if the server address is on the same subnet, and not
+ *              a broadcast/network number, or if the server address is on
+ *              a different subnet.
+ */
+function serverIsValid(serverMacro, ipMacro, maskMacro) {
+    var server = dottedDecimalToInt(serverMacro);
+    var ip = dottedDecimalToInt(ipMacro);
+    var mask = dottedDecimalToInt(maskMacro);
+
+    if ((ip & mask) != (server & mask)) { return true; } // Not on same subnet
+
+    return ipAndMaskAreValidTogether(serverMacro, maskMacro);
+}
+
+/**
+ * Gets a textual description of why a server address is invalid.
+ * @param serverMacro macro that returned false for serverIsValid().
+ * @param ipMacro macro that returned false for serverIsValid().
+ * @param maskMacro macro that returned false for serverIsValid().
+ * @return a textual description of why a server address is invalid.
+ */
+function getInvalidServerReason(serverMacro, ipMacro, maskMacro) {
+    return getInvalidIpAndMaskTogetherReason(serverMacro, maskMacro);
+}
+
+function portIsValid(port) {
+    return isIntInRange(port, 0, 65535);
+}
+
+/**
+ * Tabs to an element.
+ * @elementName the name of an element to tab to or after.
+ * @after       if true, tables the element after elementName;
+ *              otherwise, tables to elementName.
+ */
+function tabTo(elementName, after) {
+    for (var i = 0; i < document.forms['update-container'].elements.length; i++) {
+        if (document.forms['update-container'].elements[i].name == elementName) {
+            if (after) {
+                i++;
+            }
+            document.forms['update-container'].elements[i].focus();
+            document.forms['update-container'].elements[i].select();
+            break;
+        }
+    }
+}
+
+function validateIpOnChange(box, lastOctet) {
+}
+
+function validateIpOnLeave(box) {
+}
+
+function onMacKeyUp(box, evt) {
+    evt = (evt) ? evt : event;
+    var charCode = (evt.charCode) ? evt.charCode : ((evt.keyCode) ? evt.keyCode : ((evt.which) ? evt.which : 0));
+    if (charCode > 31 && box.value.length == 2) {
+        tabTo(box.name, true);
+    }
+}
+
+function toggleElements(elements, disable) {
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].disabled = disable;
+    }
+}
+
+function enableElements(elements) {
+    toggleElements(elements, false);
+}
+
+function disableElements(elements) {
+    toggleElements(elements, true);
+}
+
+
+function getStyleByName(name) {
+    return getStyleByLayer(getLayer(name));
+}
+
+function getStyleByLayer(element) {
+    return element.style;
+}
+
+// this needs rework - getting by id and name are not the same!
+function getLayer(name) {
+    if (document.getElementById) {
+        return document.getElementById(name);
+    } else if (document.all) {
+        return document.all[name];
+    } else if (document.layers) {
+        return document.layers[name];
+    }
+}
+
+function getElement(id) {
+	return getLayer(id);
+}
+
+function toggleLayerVisibility(layerID){
+    var elm = getElement( layerID );
+
+    //if(style.display == "none"){
+    if(elm.style.visibility == "hidden"){
+        elm.style.display = "";
+        elm.style.visibility="visible";
+    }
+	else{
+        elm.style.display = "none";
+        elm.style.visibility="hidden";
+    }
+    // Mozilla fails to validate the layout after elements are visually removed, thus hack...
+	//layoutContent();
+}
+
+function updateLayerVisibility(layerID, visible){
+    var elm = getElement( layerID );
+
+    if (visible) {
+        elm.style.display = "";
+		revertDisableChildren( elm );
+        elm.style.visibility="visible";
+    } else {
+        elm.style.display = "none";
+		disableChildren( elm );
+        elm.style.visibility="hidden";
+    }
+    // Mozilla fails to validate the layout after elements are visually removed, thus hack...
+	//layoutContent();
+}
+
+
+function isItDfsChannel(channel)
+{
+ if((channel >=52 && channel <= 64) || (channel >= 100 && channel <= 140))
+  { 
+    return true;
+  }
+  return false;
+}
+
+function get80mhzFreqRange(channel)
+{
+    if(channel >= 36 && channel <= 48)
+        return " (5170 - 5250 MHz)";
+    else if (channel >= 52 && channel <= 64)
+        return " (5250 - 5330 MHz)";
+    else if (channel >= 100 && channel <= 112)
+        return " (5490 - 5570 MHz)";
+    else if (channel >= 116 && channel <= 128)
+        return " (5570 - 5650 MHz)";
+    else if (channel >= 132 && channel <= 144)
+        return " (5650 - 5730 MHz)";
+    else if (channel >= 149 && channel <= 161)
+        return " (5735 - 5815 MHz)";
+    else
+        return "";
+}
+
+function addArbitraryChannels(modeFieldName,channelField, channelArray,channelBandwidth,primaryChannel,dfsSupport,automode,freq_only) {
+    var frequency = {
+        '1': '2412',
+        '2': '2417',
+        '3': '2422',
+        '4': '2427',
+        '5': '2432',
+        '6': '2437',
+        '7': '2442',
+        '8': '2447',
+        '9': '2452',
+        '10': '2457',
+        '11': '2462',
+        '12': '2467',
+        '13': '2472',
+        '14': '2484',
+        '34': '5170',
+        '36': '5180',
+        '38': '5190',
+        '40': '5200',
+        '42': '5210',
+        '44': '5220',
+        '46': '5230',
+        '48': '5240',
+        '50': '5250',
+        '52': '5260',
+        '54': '5270',
+        '56': '5280',
+        '58': '5290',
+        '60': '5300',
+        '62': '5310',
+        '64': '5320',
+        '66': '5330', //?
+        '100': '5500',
+        '102': '5510',
+        '104': '5520',
+        '106': '5530',
+        '108': '5540',
+        '110': '5550',
+        '112': '5560',
+        '114': '5570',
+        '116': '5580',
+        '118': '5590',
+        '120': '5600',
+        '122': '5610',
+        '124': '5620',
+        '126': '5630',
+        '128': '5640',
+        '130': '5650',
+        '132': '5660',
+        '134': '5670',
+        '136': '5680',
+        '138': '5690',
+        '140': '5700',
+        '142': '5710',
+        '144': '5720',
+        '146': '5730', //?
+        '149': '5745',
+        '151': '5755',
+        '153': '5765',
+        '155': '5775',
+        '157': '5785',
+        '159': '5795',
+        '161': '5805',
+        '163': '5815',
+        '165': '5825',
+        '167': '5835' //?
+    };
+    var sep80mhz = {
+        '36': '80 MHz (36-48)',
+        '52': '80 MHz (52-64)',
+        '100': '80 MHz (100-112)',
+        '116': '80 MHz (116-128)',
+        '132': '80 MHz (132-144)',
+        '149': '80 MHz (149-161)'
+    };
+    var frequency40 = {
+        '1': '2422',
+        '2': '2427',
+        '3': '2432',
+        '4': '2437',
+        '5': '2442',
+        '6': '2447',
+        '7': '2452',
+        '8': '2457',
+        '9': '2462',
+        '36': '5190',
+        '44': '5230',
+        '52': '5270',
+        '60': '5310',
+        '100': '5510',
+        '108': '5550',
+        '116': '5590',
+        '124': '5630',
+        '132': '5670',
+        '140': '5710',
+        '149': '5755',
+        '157': '5795'
+    };
+    var frequency80 = {
+        '36': '5210',
+        '52': '5290',
+        '100': '5530',
+        '116': '5610',
+        '132': '5690',
+        '149': '5775'
+    };
+
+	for (var i = 0; i < channelArray.length; i++) {
+/*        if(dfsSupport == "Off" && isItDfsChannel(channelArray[i]) == true) {
+            continue;
+        }
+        if(dfsSupport == "Off" && channelArray[i] == "144" && ((channelBandwidth == "40 MHz" && primaryChannel == "Upper") || (channelBandwidth == "80 MHz") )) {
+            continue;
+        }
+*/
+        if(channelField.id.slice(0,10) != "radio.wlan" && automode == 1 && channelArray[i] == "Auto" ) {
+            continue;
+        }
+        var text = channelArray[i];
+
+        if (text == "Auto") {
+            channelField.options[channelField.options.length] = new Option(text, text);
+        }
+        else if (freq_only) {
+            if(channelBandwidth == "80 MHz" && typeof frequency80[text] != "undefined") {
+                text = frequency80[text] + " MHz";
+                channelField.options[channelField.options.length] = new Option(text, channelArray[i]);
+            }
+            else if(channelBandwidth == "40 MHz" && typeof frequency40[text] != "undefined") {
+                text = frequency40[text] + " MHz";
+                channelField.options[channelField.options.length] = new Option(text, channelArray[i]);
+            }
+            else if(channelBandwidth == "20 MHz") {
+                if (typeof frequency[text] != "undefined")
+                    text = frequency[text]+" MHz";
+                channelField.options[channelField.options.length] = new Option(text, channelArray[i]);
+            }
+        }
+        else if(channelBandwidth == "80 MHz") {
+            if(typeof sep80mhz[text] != "undefined") {
+                channelField.options[channelField.options.length] = new Option(sep80mhz[text]);
+                channelField.options[channelField.options.length - 1].disabled = true;
+                channelField.options[channelField.options.length - 1].style = "color:#08C;font-weight: bold;";
+            }
+            text += get80mhzFreqRange(text);
+            channelField.options[channelField.options.length] = new Option(text, channelArray[i]);
+        }
+        else if (typeof frequency[text] != "undefined") {
+            text += " ("+frequency[text]+" MHz)";
+            channelField.options[channelField.options.length] = new Option(text, channelArray[i]);
+        }
+    }
+}
+
+function resetChannels(channelField) {
+    for (var i = channelField.options.length-1; i >= 0; i--) {
+        channelField.options[i] = null;
+    }
+}
+
+/**
+ * Updates a channel field.
+ * @param modeField        The mode (A/B/G/Turbo) field name.
+ * @param channelField     The channel field.
+ * @param selectedValue    The currently selected channel.
+ * Sets channelField to contain the channels associated with modeField.
+ * Selects an appropriate value for channelField, trying selectedValue
+ * first.
+ */
+function getChannelList(mode, radio_value, channelBandwidth, primaryChannel) {
+    var channels = null;
+    if (mode == 'IEEE 802.11a') {
+        if (radio_value == 1)
+            channels = r1ieee80211aChannels;
+        else if (radio_value == 2)
+            channels = r2ieee80211aChannels;
+        else
+            channels = r3ieee80211aChannels;
+    } else if (mode == 'IEEE 802.11b/g') {
+        if (radio_value == 1)
+            channels = r1ieee80211gChannels;
+        else if (radio_value == 2)
+            channels = r2ieee80211gChannels;
+        else
+            channels = r3ieee80211gChannels;
+    } else if (mode == 'IEEE 802.11b') {
+        if (radio_value == 1)
+            channels = r1ieee80211bChannels;
+        else if (radio_value == 2)
+            channels = r2ieee80211bChannels;
+        else
+            channels = r3ieee80211bChannels;
+    }
+    else if ((mode == 'IEEE 802.11a/n') || (mode == '5 GHz IEEE 802.11n')) {
+        if (channelBandwidth == '20 MHz') 
+        {
+            if (radio_value == 1)
+                channels = r1ieee80211aChannels;
+            else if (radio_value == 2)
+                channels = r2ieee80211aChannels;
+            else
+                channels = r3ieee80211aChannels;
+        }
+        else if (channelBandwidth == '40 MHz')
+        {
+            if (primaryChannel == 'Upper') 
+            {
+                if (radio_value == 1)
+                    channels = r1ieee80211a40uChannels;
+                else if (radio_value == 2)
+                    channels = r2ieee80211a40uChannels;
+                else
+                    channels = r3ieee80211a40uChannels;
+            }
+            else
+            {
+                if (radio_value == 1)
+                    channels = r1ieee80211a40lChannels;
+                else if (radio_value == 2)
+                    channels = r2ieee80211a40lChannels;
+                else
+                    channels = r3ieee80211a40lChannels;
+            }
+        }
+    }
+    else if ((mode == 'IEEE 802.11a/n/ac') || (mode == 'IEEE 802.11n/ac')) {
+        if (channelBandwidth == '20 MHz') 
+        {
+            if (radio_value == 1)
+                channels = r1ieee80211aChannels;
+            else if (radio_value == 2)
+                channels = r2ieee80211aChannels;
+            else
+                channels = r3ieee80211aChannels;
+        }
+        else if (channelBandwidth == '40 MHz')
+        {
+            if (primaryChannel == 'Upper') 
+            {
+                if (radio_value == 1)
+                    channels = r1ieee80211a40uChannels;
+                else if (radio_value == 2)
+                    channels = r2ieee80211a40uChannels;
+                else
+                    channels = r3ieee80211a40uChannels;
+            }
+            else
+            {
+                if (radio_value == 1)
+                    channels = r1ieee80211a40lChannels;
+                else if (radio_value == 2)
+                    channels = r2ieee80211a40lChannels;
+                else
+                    channels = r3ieee80211a40lChannels;
+            }
+        }
+		else if (channelBandwidth == '80 MHz')
+		{
+			if (radio_value == 1)
+				channels = r1ieee80211a80Channels;
+			else if (radio_value == 2)
+				channels = r2ieee80211a80Channels;
+			else
+				channels = r3ieee80211a80Channels;
+		}
+		else
+		{
+			if (radio_value == 1)
+				channels = r1ieee80211aChannels;
+			else if (radio_value == 2)
+				channels = r2ieee80211aChannels;
+			else
+				channels = r3ieee80211aChannels;
+		}
+    }
+    else if ((mode == 'IEEE 802.11b/g/n') || (mode == '2.4 GHz IEEE 802.11n')) {
+        if (channelBandwidth == '20 MHz') 
+        {
+            if (radio_value == 1)
+                channels = r1ieee80211gChannels;
+            else if (radio_value == 2)
+                channels = r2ieee80211gChannels;
+            else
+                channels = r3ieee80211gChannels;
+        }
+        else
+        {
+            if (primaryChannel == 'Upper') 
+            {
+                if (radio_value == 1)
+                    channels = r1ieee80211g40uChannels;
+                else if (radio_value == 2)
+                    channels = r2ieee80211g40uChannels;
+                else
+                    channels = r3ieee80211g40uChannels;
+            }
+            else
+            {
+                if (radio_value == 1)
+                    channels = r1ieee80211g40lChannels;
+                else if (radio_value == 2)
+                    channels = r2ieee80211g40lChannels;
+                else
+                    channels = r3ieee80211g40lChannels;
+            }
+        }
+    }
+    return channels;
+}
+
+function resetLimitChannelsTable(radio_value, mode) {
+    if (document.getElementById('R'+radio_value+'M'+mode+'.limit-channels-table'))
+        document.getElementById('R'+radio_value+'M'+mode+'.limit-channels-table').innerHTML = "";
+}
+
+function validLimitChannels(radio, mode) {
+    var channelBandwidth = document.getElementById(mode+'radio.wlan'+(radio-1)+'.n-bandwidth').value;
+    if (channelBandwidth != '80 MHz')
+        return true;
+
+    var primaryChannel = document.getElementById(mode+'radio.wlan'+(radio-1)+'.n-primary-channel').value;
+    var channels = getChannelList(mode, radio, channelBandwidth, primaryChannel);
+
+    var bands = [['36','40','44','48'],['52','56','60','64'],['132','136','140','144'],['149','153','157','161']];
+    if (channels != null) {
+        for (var ch = 1; ch < channels.length; ch++) {
+            if (document.getElementById('LC'+channels[ch]+'R'+radio+'M'+mode).checked) {
+                for (b = 0; b < bands.length; b++) {
+                    if (bands[b].indexOf(channels[ch]) >= 0) {
+                        for (n = 0; n < bands[b].length; n++) {
+                            if (document.getElementById('LC'+bands[b][n]+'R'+radio+'M'+mode).checked == false)
+                                return false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return true;
+}
+
+
+function clickAllChannelsLimitChannelsTable(box) {
+    var found = box.id.match(/^LCAllChannelsR(\d)M(.+)$/);
+    var radio = found[1];
+    var mode = found[2];
+
+    var channelBandwidth = document.getElementById(mode+'radio.wlan'+(radio-1)+'.n-bandwidth').value;
+    var primaryChannel = document.getElementById(mode+'radio.wlan'+(radio-1)+'.n-primary-channel').value;
+    var channels = getChannelList(mode, radio, channelBandwidth, primaryChannel);
+
+    var check_all = box.checked;
+    if (channels != null) {
+        for (var ch = 1; ch < channels.length; ch++) {
+            document.getElementById('LC'+channels[ch]+'R'+radio+'M'+mode).checked = check_all;
+        }
+    }
+}
+
+function checkAllChannelsLimitChannelsTable(radio, mode, channels){
+    var checked_counter = 0;
+    if (channels != null) {
+        for (var ch = 1; ch < channels.length; ch++) {
+            if(document.getElementById('LC'+channels[ch]+'R'+radio+'M'+mode).checked)
+                checked_counter++
+        }
+    }
+    if(checked_counter == channels.length - 1)
+        document.getElementById('LCAllChannelsR'+radio+'M'+mode).checked = true;
+    else
+        document.getElementById('LCAllChannelsR'+radio+'M'+mode).checked = false;
+}
+
+function clickLimitChannel(box){
+	var found = box.id.match(/^LC(\d+)R(\d)M(.+)$/);
+	var channel = found[1];
+	var radio = found[2];
+	var mode = found[3];
+
+	var channelBandwidth = document.getElementById(mode+'radio.wlan'+(radio-1)+'.n-bandwidth').value;
+	var primaryChannel = document.getElementById(mode+'radio.wlan'+(radio-1)+'.n-primary-channel').value;
+	var channels = getChannelList(mode, radio, channelBandwidth, primaryChannel);
+
+	var bands = [['36','40','44','48'],['52','56','60','64'],['132','136','140','144'],['149','153','157','161']];
+	if (channelBandwidth == '80 MHz') {
+		for (b = 0; b < bands.length; b++) {
+			if (bands[b].indexOf(channel) >= 0) {
+				for (n = 0; n < bands[b].length; n++) {
+					document.getElementById('LC'+bands[b][n]+'R'+radio+'M'+mode).checked = box.checked;
+				}
+			}
+		}
+	}
+
+	var hidden_values = [];
+	if (channels != null) {
+		for (var ch = 1; ch < channels.length; ch++) {
+			if (document.getElementById('LC'+channels[ch]+'R'+radio+'M'+mode).checked)
+				hidden_values.push(channels[ch]);
+		}
+	}
+	var hidden_input = document.getElementById('R'+radio+'M'+mode+'.limit-channels');
+	hidden_input.value = hidden_values.join(' ');
+	checkLimitChannels (radio, mode, true);
+    checkAllChannelsLimitChannelsTable(radio, mode, channels);
+}
+
+function buildLimitChannelsTable(radio, mode, channels, channelBandwidth, default_radio_params) {
+    var table = document.getElementById('R'+radio+'M'+mode+'.limit-channels-table');
+    var radio_name = "wlan" + (radio - 1);
+    var tr_channel = document.createElement('tr');
+    tr_channel.setAttribute('style', 'text-align: center');
+    table.appendChild(tr_channel);
+    var td_channel = document.createElement('td');
+    td_channel.setAttribute('style', 'text-align: left');
+    tr_channel.appendChild(td_channel);
+    td_channel.appendChild(document.createTextNode("Channel"));
+
+    var tr_box = document.createElement('tr');
+    tr_box.setAttribute('style', 'text-align: center');
+    table.appendChild(tr_box);
+    var td_box = document.createElement('td');
+    td_box.setAttribute('style', 'text-align: left');
+    tr_box.appendChild(td_box);
+    td_box.appendChild(document.createTextNode("Use"));
+
+    for (var ch = 1; ch < channels.length; ch++) {
+        var td_channel_number = document.createElement('td');
+        tr_channel.appendChild(td_channel_number);
+        td_channel_number.appendChild(document.createTextNode(channels[ch]));
+
+        var td_channel_box = document.createElement('td');
+        tr_box.appendChild(td_channel_box);
+        var channel_box = document.createElement('input');
+        channel_box.type = 'checkbox';
+        channel_box.id = 'LC'+channels[ch]+'R'+radio+'M'+mode;
+        channel_box.setAttribute('onClick', 'clickLimitChannel(this)');
+        td_channel_box.appendChild(channel_box);
+    }
+
+    /* reset limit channels if bandwidth or mode were changed */
+    if(default_radio_params[radio_name] != undefined &&
+       (mode == 'IEEE 802.11a/n/ac' || mode == 'IEEE 802.11n/ac' || mode == 'IEEE 802.11a') &&
+       mode != default_radio_params[radio_name]["mode"] &&
+       channelBandwidth != default_radio_params[radio_name]["bandwidth"])
+    {
+        if(channelBandwidth == "80 MHz" || channelBandwidth == "20 MHz")
+        {
+            if(document.getElementById('LC'+channels[1]+'R'+radio+'M'+mode))
+                document.getElementById('LC'+channels[1]+'R'+radio+'M'+mode).checked = true;
+            if(document.getElementById('LC'+channels[2]+'R'+radio+'M'+mode))
+                document.getElementById('LC'+channels[2]+'R'+radio+'M'+mode).checked = true;
+            if(document.getElementById('LC'+channels[3]+'R'+radio+'M'+mode))
+                document.getElementById('LC'+channels[3]+'R'+radio+'M'+mode).checked = true;
+            if(document.getElementById('LC'+channels[4]+'R'+radio+'M'+mode))
+                document.getElementById('LC'+channels[4]+'R'+radio+'M'+mode).checked = true;
+            if(document.getElementById('LC'+channels[5]+'R'+radio+'M'+mode))
+                document.getElementById('LC'+channels[5]+'R'+radio+'M'+mode).checked = true;
+            if(document.getElementById('LC'+channels[6]+'R'+radio+'M'+mode))
+                document.getElementById('LC'+channels[6]+'R'+radio+'M'+mode).checked = true;
+            if(document.getElementById('LC'+channels[7]+'R'+radio+'M'+mode))
+                document.getElementById('LC'+channels[7]+'R'+radio+'M'+mode).checked = true;
+            if(document.getElementById('LC'+channels[8]+'R'+radio+'M'+mode))
+                document.getElementById('LC'+channels[8]+'R'+radio+'M'+mode).checked = true;
+        }
+        else if(channelBandwidth == "40 MHz")
+        {
+            if(document.getElementById('LC'+channels[1]+'R'+radio+'M'+mode))
+                document.getElementById('LC'+channels[1]+'R'+radio+'M'+mode).checked = true;
+            if(document.getElementById('LC'+channels[2]+'R'+radio+'M'+mode))
+                document.getElementById('LC'+channels[2]+'R'+radio+'M'+mode).checked = true;
+            if(document.getElementById('LC'+channels[3]+'R'+radio+'M'+mode))
+                document.getElementById('LC'+channels[3]+'R'+radio+'M'+mode).checked = true;
+            if(document.getElementById('LC'+channels[4]+'R'+radio+'M'+mode))
+                document.getElementById('LC'+channels[4]+'R'+radio+'M'+mode).checked = true;
+        }
+    }
+    else
+    {
+        var hidden = document.getElementById('R'+radio+'M'+mode+'.limit-channels');
+        var hidden_values = hidden.value.split(' ');
+        var next_result = "";
+        for (var ch = 0; ch < hidden_values.length; ch++) {
+            if (document.getElementById('LC'+hidden_values[ch]+'R'+radio+'M'+mode))
+            {
+                document.getElementById('LC'+hidden_values[ch]+'R'+radio+'M'+mode).checked = true;
+                next_result += hidden_values[ch] + " ";
+            }
+        }
+        hidden.value = next_result;
+    }
+
+    var td_all_channels_number = document.createElement('td');
+    tr_channel.appendChild(td_all_channels_number);
+    td_all_channels_number.appendChild(document.createTextNode('All'));
+
+    var td_all_channels_box = document.createElement('td');
+    tr_box.appendChild(td_all_channels_box);
+    var channel_box = document.createElement('input');
+    channel_box.type = 'checkbox';
+    channel_box.id = 'LCAllChannelsR'+radio+'M'+mode;
+    channel_box.setAttribute('onClick', 'clickAllChannelsLimitChannelsTable(this)');
+    td_all_channels_box.appendChild(channel_box);
+
+    enableLimitChannelsTable(radio, mode);
+    checkAllChannelsLimitChannelsTable(radio, mode, channels);
+}
+
+function updateChannelField(radio_value, modeFieldName, channelField, selectedValue, channelBandwidth, primaryChannel,dfsSupport,automode,freq_only,default_radio_params) {
+    resetChannels(channelField);
+    var mode = document.forms['update-container'].elements[modeFieldName].value;
+    resetLimitChannelsTable(radio_value, mode);
+
+    var channels = getChannelList(mode, radio_value, channelBandwidth, primaryChannel);
+
+    if (channels != null) {
+        addArbitraryChannels(modeFieldName,channelField,channels,channelBandwidth,primaryChannel,dfsSupport,automode,freq_only);
+    }
+
+    if (selectValueExists(channelField, selectedValue)) {
+        selectItem(channelField, selectedValue);
+    } else if (selectValueExists(channelField, 'Auto')) {
+        selectItem(channelField, 'Auto');
+    } else if (channelField.options.length > 0) {
+        channelField.options[0].selected = true;
+    }
+
+    if (channels != null) {
+        if (document.getElementById('R'+radio_value+'M'+mode+'.limit-channels-table'))
+            buildLimitChannelsTable(radio_value, mode, channels, channelBandwidth, default_radio_params);
+    }
+}
+
+
+function compareNumeric(a, b) {
+    return a - b;
+}
+
+function validate_vlan_id(prefix, vlan_id){
+    if (!isIntValid(vlan_id))
+        return false;
+
+    if(!isIntInRange(vlan_id, 1, 4094))
+        return false;
+
+    var vlan_list_str = document.getElementById(prefix + '.vlan_list_str').value;
+    var sep = /\s*;\s*/;
+    var vlan_list_arr = vlan_list_str.split(sep);
+    if(vlan_list_arr.length == 20)
+        return false;
+
+    if(vlan_list_arr != "")
+    {
+        for(var i = 0; i < vlan_list_arr.length; i++)
+        {
+            if(vlan_list_arr[i] == vlan_id)
+                return false;
+        }
+    }
+
+    return true;
+}
+
+function vlan_list_click_ev(prefix, el) {
+
+    var selected_vlans = document.getElementById(prefix + ".selected_vlans");
+    var selected_vlans_counter = Number(selected_vlans.value);
+    if(el.value !== "selected"){
+        el.style="background-color: #08C";
+        el.value = "selected";
+        selected_vlans.value = selected_vlans_counter + +"1";
+    }
+    else{
+        el.style="background-color: #c0c0c0;"
+        el.value = "";
+        selected_vlans.value = selected_vlans_counter- +"1";
+    }
+    if(selected_vlans.value  != +"0")
+        document.getElementById(prefix + ".remove_vlans_but").disabled = false;
+    else
+        document.getElementById(prefix + ".remove_vlans_but").disabled = true;
+}
+
+function vlan_list_over_ev(el) {
+    if(el.value !== "selected")
+        el.style="background-color: #c0c0c0;"
+}
+function vlan_list_out_ev(el) {
+    if(el.value !== "selected")
+        el.style="background-color: transparent"
+}
+
+function add_vlan(prefix) {
+    var t_row = document.getElementById(prefix + ".vlan_list_row");
+    var vlan_list_str = document.getElementById(prefix + '.vlan_list_str').value;
+    var new_elem = document.getElementById(prefix + ".vlan_input").value;
+
+    if(!validate_vlan_id(prefix, new_elem))
+        return false;
+
+    document.getElementById(prefix + ".vlan_input").value = "";
+
+    var vlan_list_arr= [];
+    if(vlan_list_str != "")
+    {
+        var sep = /\s*;\s*/;
+        vlan_list_arr = vlan_list_str.split(sep);
+        vlan_list_arr.push(new_elem);
+        vlan_list_arr.sort(compareNumeric);
+    }
+    else
+    {
+        vlan_list_arr[0] = Number(new_elem);
+    }
+
+    var idx = vlan_list_arr.indexOf(new_elem);
+    var newTR = document.createElement("td");
+    newTR.value = "";
+    newTR.innerHTML = new_elem;
+    newTR.onclick = function(prefix) { return function() {vlan_list_click_ev(prefix+'', this); }; }(prefix);
+    newTR.setAttribute('onmouseover', 'vlan_list_over_ev(this)');
+    newTR.setAttribute('onmouseout', 'vlan_list_out_ev(this)');
+    t_row.insertBefore(newTR,t_row.cells[idx]);
+    if(vlan_list_str != "")
+        document.getElementById(prefix + ".vlan_list_str").value = vlan_list_arr.join(';');
+    else
+        document.getElementById(prefix + ".vlan_list_str").value = new_elem;
+}
+
+function remove_selected_vlans(prefix, remove_vlans_but) {
+    var t_row = document.getElementById(prefix + ".vlan_list_row");
+    var vlan_list_str = document.getElementById(prefix + '.vlan_list_str').value;
+
+    var sep = /\s*;\s*/;
+    var vlan_list_arr = vlan_list_str.split(sep);
+
+    for(var i = vlan_list_arr.length - +"1"; i >= 0; i--)
+    {
+        if(t_row.cells[i].value == "selected")
+        {
+            t_row.removeChild(t_row.cells[i]);
+            vlan_list_arr.splice(i, 1);
+        }
+    }
+    document.getElementById(prefix + ".selected_vlans").value = "0";
+    if(vlan_list_arr.length != +"0")
+        document.getElementById(prefix + ".vlan_list_str").value = vlan_list_arr.join(';');
+    else
+        document.getElementById(prefix + ".vlan_list_str").value = "";
+    remove_vlans_but.disabled = true;
+}
+
+function resetVlanListTable(prefix) {
+    if (document.getElementById(prefix + '.vlan_list_row'))
+        document.getElementById(prefix + '.vlan_list_row').innerHTML = "";
+}
+
+function updateVlanList(radio_value, modeFieldName){
+    var mode = document.forms['update-container'].elements[modeFieldName].value;
+    var prefix = 'R'+radio_value+'M'+mode;
+    resetVlanListTable(prefix);
+
+    var t_row = document.getElementById(prefix + '.vlan_list_row');
+    var vlan_list_str = document.getElementById(prefix + '.vlan_list_str').value;
+
+    if(vlan_list_str == "")
+        return false;
+
+    var sep = /\s*;\s*/;
+    var vlan_list_arr = vlan_list_str.split(sep);
+    vlan_list_arr.sort(compareNumeric);
+
+    for(var i = 0; i < vlan_list_arr.length; i++)
+    {
+        var newTR = document.createElement("td");
+        newTR.value = "";
+        newTR.innerHTML = vlan_list_arr[i];
+        newTR.onclick = function(prefix) { return function() {vlan_list_click_ev(prefix+'', this); }; }(prefix);
+        newTR.setAttribute('onmouseover', 'vlan_list_over_ev(this)');
+        newTR.setAttribute('onmouseout', 'vlan_list_out_ev(this)');
+        t_row.appendChild(newTR);
+    }
+}
+
+function updateFixedMulticastRateField(fixedMulticastRateField, selectedValue)
+{
+    selectItem(fixedMulticastRateField, selectedValue);
+}
+
+function updateProtectionField(protectionField, selectedValue) 
+{
+    selectItem(protectionField, selectedValue);
+}
+
+/**
+ * Show/hide the Channel Bandwidth field/row
+ * @param modeFieldName             The hardware mode (A/B/G/Turbo) field.
+ * @param radioFieldName            Radio field
+ * @param selectedBandwidthValue    The selected bandwidth
+ *
+ */
+function updateChannelBandwidthRow(modeFieldName, radioFieldName, selectedBandwidthValue, fortyMHzSupported,eightyMHzSupported) 
+{
+    var mode = document.forms['update-container'].elements[modeFieldName].value;
+    var radio = document.forms['update-container'].elements[radioFieldName].value;
+
+    var channelBandwidthSelectId = mode + "radio.wlan" + (radio - 1) + ".n-bandwidth";
+    var channelBandwidthSelector = document.getElementById (channelBandwidthSelectId); 
+    var channelBandwidthRowSelectId = mode + "radio.wlan" + (radio - 1) + ".n-bandwidth" + "bandwidth_row";
+    var channelBandwidthRowSelector = document.getElementById (channelBandwidthRowSelectId);
+    var channelBandwidthFillerRowSelectId = mode + "radio.wlan" + (radio - 1) + ".n-bandwidth" + "bandwidth_filler_row";
+    var channelBandwidthFillerRowSelector = document.getElementById (channelBandwidthFillerRowSelectId);
+    var coexModeSelectorId = mode + "radio.wlan" + (radio - 1) + ".coex-mode";
+    var coexModeSelector = document.getElementById(coexModeSelectorId);
+
+    if ((mode == "IEEE 802.11a") || (mode == "IEEE 802.11b/g") || ((fortyMHzSupported == "N") && (eightyMHzSupported == "N")))
+    {
+        /* Hide the "Channel Bandwidth" row. and this will set to 20MHz default*/
+        channelBandwidthRowSelector.style.display = "none";
+        channelBandwidthRowSelector.visiblity = "hidden";
+        channelBandwidthFillerRowSelector.style.display = "none";
+        channelBandwidthFillerRowSelector.visiblity = "hidden";
+        coexModeSelector.disabled = true;
+    }
+    else if((eightyMHzSupported == "N") && (fortyMHzSupported == "Y"))
+    {
+        selectItem(channelBandwidthSelector, selectedBandwidthValue);
+
+        /* Enable the "Channel Bandwidth" field. */
+        channelBandwidthSelector.disabled = false;
+        // channelBandwidthSelector.options.length = 2;
+        /* Show the "Channel Bandwidth" row. */
+        channelBandwidthRowSelector.style.display = "";
+        channelBandwidthRowSelector.style.visiblity = "visible";
+        channelBandwidthFillerRowSelector.style.display = "";
+        channelBandwidthFillerRowSelector.style.visiblity = "visible";
+        coexModeSelector.disabled = (selectedBandwidthValue == "20 MHz");
+    }
+    else
+    {
+        selectItem(channelBandwidthSelector, selectedBandwidthValue);
+
+        /* Enable the "Channel Bandwidth" field. */
+        channelBandwidthSelector.disabled = false;
+
+        /* Show the "Channel Bandwidth" row. */
+        channelBandwidthRowSelector.style.display = "";
+        channelBandwidthRowSelector.style.visiblity = "visible";
+        channelBandwidthFillerRowSelector.style.display = "";
+        channelBandwidthFillerRowSelector.style.visiblity = "visible";
+        coexModeSelector.disabled = (selectedBandwidthValue == "20 MHz");
+    }
+    showAdvancedSettings(mode, radio, $("input[id='R"+radio+"M"+mode+"Advanced']").val()=="1");
+}
+
+/**
+ * Show/hide the Primary Channel field/row
+ * @param modeFieldName                  The hardware mode (A/B/G/Turbo) field.
+ * @param radioFieldName                 Radio field
+ * @param selectedPrimaryChannelValue    The selected primary channel
+ *
+ */
+function updatePrimaryChannelRow(modeFieldName, radioFieldName, selectedPrimaryChannelValue, 
+                                 selectedChannelValue, fortyMHzSupported,eightyMHzSupported) 
+{
+    var mode = document.forms['update-container'].elements[modeFieldName].value;
+    var radio = document.forms['update-container'].elements[radioFieldName].value;
+
+    var primaryChannelSelectId = mode + "radio.wlan" + (radio - 1) + ".n-primary-channel";
+    var primaryChannelSelector = document.getElementById (primaryChannelSelectId); 
+    var primaryChannelRowSelectId = mode + "radio.wlan" + (radio - 1) + ".n-primary-channel" + "primary_row";
+    var primaryChannelRowSelector = document.getElementById (primaryChannelRowSelectId);
+    var primaryChannelFillerRowSelectId = mode + "radio.wlan" + (radio - 1) + ".n-primary-channel" + "primary_filler_row";
+    var primaryChannelFillerRowSelector = document.getElementById (primaryChannelFillerRowSelectId);
+    var channelBandwidthSelectId = mode + "radio.wlan" + (radio - 1) + ".n-bandwidth";
+    var channelBandwidthSelector = document.getElementById (channelBandwidthSelectId); 
+	var channelSelectId = mode + "radio.wlan" + (radio - 1) + ".channel";
+    var channelSelector = document.getElementById (channelSelectId);
+    if ((mode == "IEEE 802.11a") || (mode == "IEEE 802.11b/g") || ((fortyMHzSupported == "N") && (eightyMHzSupported == "N")))
+    {
+        /* Disable the "Primary Channel" field. */
+        primaryChannelSelector.disabled = true;
+
+        /* Hide the "Primary Channel" row. */
+        primaryChannelRowSelector.style.display = "none";
+        primaryChannelRowSelector.visiblity = "hidden";
+        primaryChannelFillerRowSelector.style.display = "none";
+        primaryChannelFillerRowSelector.visiblity = "hidden";
+    }
+    else
+    {
+        selectItem(primaryChannelSelector, selectedPrimaryChannelValue);
+
+        /* Check to see if Channel Bandwidth is 20 MHz and 80MHz. If so, the 
+         * "Primary Channel" field should be left disabled.
+         */
+        if ((channelBandwidthSelector.value == "20 MHz") || (channelBandwidthSelector.value == "80 MHz") || 
+		((channelSelector.value == "Auto") && (channelBandwidthSelector.value == "40 MHz")))
+        {
+            /* Disable the "Primary Channel" field. */
+            primaryChannelSelector.disabled = true;
+        }
+        else
+        {
+            /* Enable the "Primary Channel" field. */
+            primaryChannelSelector.disabled = false;
+        }
+
+        /* Show the "Primary Channel" row. */
+        primaryChannelRowSelector.style.display = "";
+        primaryChannelRowSelector.style.visiblity = "visible";
+        primaryChannelFillerRowSelector.style.display = "";
+        primaryChannelFillerRowSelector.style.visiblity = "visible";
+   }
+}
+/**
+ * Show/hide the Guard Interval/STBC Mode fields/rows
+ * @param modeFieldName                  The hardware mode (A/B/G/Turbo) field.
+ * @param radioFieldName                 Radio field
+ * @param selectedGuardIntervalValue     The selected Guard Interval
+ * @param selectedSTBCModeValue          The selected STBC Mode
+ *
+ */
+function updateGuardIntervalSTBCModeRows(modeFieldName, radioFieldName, selectedGuardIntervalValue, 
+                                         selectedSTBCModeValue) 
+{
+    var mode = document.forms['update-container'].elements[modeFieldName].value;
+    var radio = document.forms['update-container'].elements[radioFieldName].value;
+
+    var guardIntervalSelectId = mode + "radio.wlan" + (radio - 1) + ".guard-interval";
+    var guardIntervalSelector = document.getElementById (guardIntervalSelectId); 
+
+    var sTBCModeSelectId = mode + "radio.wlan" + (radio - 1) + ".stbc-mode";
+    var sTBCModeSelector = document.getElementById (sTBCModeSelectId); 
+
+    if ((mode == "IEEE 802.11a") || (mode == "IEEE 802.11b/g"))
+    {
+        /* Disable the "Guard Interval" and "STBC Mode" fields. */
+        guardIntervalSelector.disabled = true;
+        sTBCModeSelector.disabled = true;
+    }
+    else
+    {
+        selectItem(guardIntervalSelector, selectedGuardIntervalValue);
+        selectItem(sTBCModeSelector, selectedSTBCModeValue);
+    }
+    showAdvancedSettings(mode, radio, $("input[id='R"+radio+"M"+mode+"Advanced']").val()=="1");
+}
+
+/**
+ * Updates the list of available hardware modes.
+ * @param modeField        The hardware mode (A/B/G/Turbo) field.
+ *
+ * Removes modes from the list of available modes if there are no
+ * channels available for that hardware mode.
+ */
+function updateModeField(radio_value,modeField,forty_mhz_supported_a,forty_mhz_supported_g,eighty_mhz_supported_a,twoGhz,fiveGhz) {
+
+    if ( fiveGhz == 'N')
+    {
+        removeSelectItem(modeField, 'IEEE 802.11a')
+            removeSelectItem(modeField, 'IEEE 802.11a/n')
+            removeSelectItem(modeField, '5 GHz IEEE 802.11n');
+        removeSelectItem(modeField, 'IEEE 802.11a/n/ac');
+        removeSelectItem(modeField, 'IEEE 802.11n/ac');
+    } 
+    else 
+    {
+        if( forty_mhz_supported_a == 'N')
+        {
+            removeSelectItem(modeField, 'IEEE 802.11a/n')
+            removeSelectItem(modeField, '5 GHz IEEE 802.11n');
+            removeSelectItem(modeField, 'IEEE 802.11a/n/ac');
+            removeSelectItem(modeField, 'IEEE 802.11n/ac');
+        }
+    }
+
+    if ( twoGhz == 'N' )
+    {
+        removeSelectItem(modeField, 'IEEE 802.11b/g');
+        removeSelectItem(modeField, 'IEEE 802.11b/g/n');
+        removeSelectItem(modeField, '2.4 GHz IEEE 802.11n');
+    }
+    else if (forty_mhz_supported_g == 'N')
+    {
+        removeSelectItem(modeField, 'IEEE 802.11b/g/n');
+        removeSelectItem(modeField, '2.4 GHz IEEE 802.11n');
+    }
+
+}
+
+function initializeCountryList(countryField, countryList) {
+    for (var i = 0; i < countryList.length; i++) {
+        countryField.options[countryField.options.length] = new Option(countryList[i].slice(5), countryList[i].slice(0,2));
+    }
+}
+
+function selectCountry(selectBox, valueToSelect) {
+    for (var i = selectBox.options.length-1; i > -1; i--) {
+        if (selectBox.options[i].value.slice(0,2) == valueToSelect) {
+            selectBox.options[i].selected = true;
+            break;
+        }
+    }
+}
+
+function selectItem(selectBox, valueToSelect) {
+    for (var i = selectBox.options.length-1; i > -1; i--) {
+        if (selectBox.options[i].value == valueToSelect) {
+            selectBox.options[i].selected = true;
+            break;
+        }
+    }
+}
+
+function getSelectedRadioItem(radio) {
+    for (var i = 0; i < radio.length; i++) {
+        if (radio[i].checked) {
+            return radio[i];
+        }
+    }
+}
+
+function addQuadElements(elements, start, prefix) {
+    for (var i = 0; i < 4; i++) {
+        var elementName =  prefix + i;
+        elements[start+i] = document.forms['update-container'].elements[elementName];
+    }
+}
+
+function addMacElements(elements, start, prefix) {
+    for (var i = 0; i < 6; i++) {
+        var elementName =  prefix + i;
+        elements[start+i] = document.forms['update-container'].elements[elementName];
+    }
+}
+
+/**
+ * Makes the selected layer visible, and unselected layers invisible.
+ * @param selectBox    the select box to base the visibility on.
+ * @param selectValues An array of values in selectBox.
+ * @param layers       An array of layer names corresponding to selectValues.
+ */
+function resetLayersBySelect(selectBox, selectValues, layers) {
+    for (var i = 0; i < layers.length; i++) {
+        if (selectBox.value == selectValues[i]) {
+            updateLayerVisibility(layers[i], true);
+        } else {
+            updateLayerVisibility(layers[i], false);
+        }
+    }
+}
+
+function hideLayers(layers) {
+    for (var i = 0; i < layers.length; i++) {
+        updateLayerVisibility(layers[i], false);
+    }
+}
+
+function findElementByNameAndValue(name, value) {
+    for (var i = 0; i < document.forms['update-container'].elements.length; i++) {
+        if (document.forms['update-container'].elements[i].name == name &&
+            document.forms['update-container'].elements[i].value == value) {
+            return document.forms['update-container'].elements[i];
+        }
+    }
+}
+
+function findElementByIdAndValue(id, value) {
+	var elm_id;
+	var elm_value;
+    for (var i = 0; i < document.forms['update-container'].elements.length; i++) {
+		elm_id = document.forms['update-container'].elements[i].id;
+		elm_value = document.forms['update-container'].elements[i].value;
+        if ( elm_id == id &&
+             elm_value == value) {
+            return document.forms['update-container'].elements[i];
+        }
+    }
+}
+
+/* solve lame IE problem where you can't access the element directly by
+ * name if the name was changed programmatically
+ */
+function getElementByName(name) {
+    for (var i = 0; i < document.forms['update-container'].elements.length; i++) {
+        if (document.forms['update-container'].elements[i].name == name) {
+            return document.forms['update-container'].elements[i];
+        }
+    }
+}
+
+function addIpElements(elements, start, prefix) {
+    addQuadElements(elements, start, prefix + 'Ip');
+    addQuadElements(elements, start+4, prefix + 'Netmask');
+}
+
+/**
+ * Returns a value representing an element's state.
+ * @param the element.
+ * @return a value representing an element's state.
+ */
+function extractElementState(element) {
+    var state;
+
+    state = element.checked + element.value;
+
+    if (element.options) {
+        for (var j = 0; j < element.options.length; j++) {
+            state = state + j + ':' + element.options[j];
+        }
+    }
+
+    return state;
+}
+
+/**
+ * Returns an Array that contains the form elements state.
+ * @param indices an Array with the indices of the form elements.
+ * @return an Array that contains the form elements state.
+ */
+function saveFormElements(indices) {
+    var oldElements = new Array(indices.length);
+    for (var j = 0; j < indices.length; j++) {
+        oldElements[j] = extractElementState(document.forms['update-container'].elements[indices[j]]);
+    }
+    return oldElements;
+}
+
+/**
+ * Checks if the elements of a form have changed.
+ * @param oldElements the old form.
+ * @param indices an Array with the indices of the form elements.
+ * @return true, if any of the elements of document.forms['update-container'].elements are
+ *               different from those in oldElements;
+ *         false, otherwise.
+ */
+function formElementsChanged(oldElements, indices) {
+    for (var j = 0; j < indices.length; j++) {
+        var state = extractElementState(document.forms['update-container'].elements[indices[j]]);
+        if (state != oldElements[j]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Returns an Array that contains the form elements state.
+ * @return an Array that contains the form elements state.
+ */
+function saveForm() {
+    var indices = Array(document.forms['update-container'].elements.length);
+    for (var i = 0; i < document.forms['update-container'].elements.length; i++) {
+        indices[i] = i;
+    }
+    return saveFormElements(indices);
+}
+
+/**
+ * Restores a page to its "oldForm". Mainly used to
+ * replace text boxes with their previous value if
+ * text that is entered causes an error.
+ */
+function restoreForm(oldForm) 
+{
+    var values, old_value, state;
+
+    for (var i = 0; i < document.forms['update-container'].elements.length; i++) 
+    {
+        state = extractElementState(document.forms['update-container'].elements[i]);
+        if (state != oldForm[i]) 
+        {
+            /* We just want the last value the element was set to, so
+             * get rid of any "options" that may exist. (There shouldn't
+             * be any options for a text-box entry, which usually causes
+             * this routine to get invoked, but add the check for ":"
+             * anyway.)
+             */
+            values = oldForm[i].split(":");
+            /* Get rid of the "checked" state. */
+            old_value = values[0].split(/false|true|undefined/);
+            document.forms['update-container'].elements[i].value = old_value[0];
+        }
+    }
+}
+
+/**
+ * Checks if a form changed.
+ * @param oldForm the old form.
+ * @return true if any of the elements of document.forms['update-container'].elements[]
+ */
+function formChanged(oldForm) {
+    var indices = Array(document.forms['update-container'].elements.length);
+    for (var i = 0; i < document.forms['update-container'].elements.length; i++) {
+        indices[i] = i;
+    }
+    return formElementsChanged(oldForm, indices);
+}
+
+function alertFormChanged(text) {
+    alert(text);
+}
+
+function printList(list) {
+    switch (list.length) {
+        case 0: return "";
+        case 1: return list[0];
+        case 2: return list[0] + " and " + list[1];
+        default:
+            var output = "";
+            for (var i = 0; i < list.length-1; i++) {
+                output = output + list[i] + ", ";
+            }
+            return output + "and " + list[list.length-1];
+    }
+}
+
+/**
+ * JavaScript Localization Support
+ * Localization is a runtime/server-side/template based process.
+ * This presents a problem for JavaScript functions defined externally
+ * to HTML templates (e.g. .js files.)  For such a function to render a localized
+ * string, the string must be defined in a template.  The naming convention
+ * for global variables that store localized strings is
+ * 'resourceDictionary.<ResourceType>.<ResourceName>
+ * For instance, in an HTML template:
+ * <script type="text/javascript" language="javascript">
+ *   ...
+ *   // global definition of variable.
+ *   // CS tag (<?cs ... ?>) is replaced (server-side) by the localization framework.
+ *   resourceDictionary.Messages.MyMsg = "<?cs var:localize("Messages.MyMsg") ?>";
+ *   ...
+ * </script>
+ *
+ * From within a .js file one would display the message:
+ * alert( resourceDictionary.Messages.MyMsg );
+ * or
+ * alert( getResourceString( "Messages.MyMsg" ) );
+ *
+ * There are two types of parameterized resource strings.
+ * The first contains printf type format codes (e.g. "%s")
+ * and the second, codes of the form %N where N is an
+ * integer >= 1 (e.g. "The radio is %1 and %2")
+ * The following illustrates the use of formatted resource
+ * strings:
+ *	format = getResourceString("Messages.MyMsg1");
+ *  alert( formatResourceString( format, new Array( var1, var2, var3 ) ) );
+ * or for %N type formats:
+ *  format = getResourceString("Messages.MyMsg2");
+ *  alert( formatOrderedResourceString( format, new Array( var1, var2, var3 ) ) );
+ *
+ * Note: Be carefull with constructing a new Array.  If you pass a single numeric
+ * object, it will be interpreted as the desired length of the array and not as
+ * it's first index value.
+ */
+// root of resource dictionary
+var resourceDictionary = new Object;
+// label type resources
+resourceDictionary.Labels = new Object();
+// message type resources
+resourceDictionary.Messages = new Object();
+
+/**
+ * Gets a resource string stored in the resource dictionary.
+ */
+function getResourceString( key ) {
+	var parts = key.split( "." );
+	if( parts.length != 2 ) {
+		alert( "Invalid resource key form: \"" + key + "\".  There are two parts to a key: <ResType>.<ResName>, e.g. \"Messages.Foo\"." );
+		
+		return "Invalid resource key \"" + key + "\".";
+	}
+	
+	var resType = eval( "resourceDictionary." + parts[0] );
+	if( typeof( resType ) == "undefined" ) {
+		alert( key + " did not resolve to a resource string (\"" + parts[0] + "\" is not a valid type).  The global 'resourceDictionary." + key + "' must be defined in the rendered HTML template." +
+								 "\nFor instance,\n resourceDictionary." + key + " = \"<?cs var:localize(\"" + key + "\") ?>\";");
+		return "Invalid resource type: \"" + parts[0] + "\".";
+	}
+	var res = eval( "resourceDictionary." + key );
+	
+	if( typeof( res ) == "undefined" ) {
+		alert( key + " did not resolve to a resource string (\"" + parts[1] + "\" is not a valid name).  The global 'resourceDictionary." + key + "' must be defined in the rendered HTML template." +
+								 "\nFor instance,\n resourceDictionary." + key + " = \"<?cs var:localize(\"" + key + "\") ?>\";");
+		return "Invalid resource name: \"" + parts[1] + "\" of type \"" + parts[0] + "\".";
+	}
+	
+	return res;
+}
+
+// String validation.
+
+/**
+ * Tests if the characters of a string are in a set.
+ * @param s   the string whose characters should be tested.
+ * @param set a string containing the set of characters.
+ * @return true, if all the characters from s are in set;
+ *         false, otherwise.
+ */
+function isStringCharsInSet(s, set) {
+    for (var i = 0; i < s.length; i++) {
+        if (set.indexOf(s.charAt(i)) == -1) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
+ * Gets a list of characters of a string that are not in a set.
+ * @param s   the string whose characters should be tested.
+ * @param set a string containing the set of characters.
+ * @return a string containing the index and value of all
+ *         the characters from s that are not in set.
+ */
+function getStringCharsNotInSet(s, set) {
+    var badChars = new Array();
+    for (var i = 0; i < s.length; i++) {
+        if (set.indexOf(s.charAt(i)) == -1) {
+            var bad = "" + (i+1) + ' (' + s.charAt(i) + ')';
+            badChars.push(bad);
+        }
+    }
+    return printList(badChars);
+}
+
+/**
+ * Tests if the characters of a string are in a range.
+ * @param s     the string whose characters should be tested.
+ * @param start an ASCII integer representing the start of the range.
+ * @param end   an ASCII integer representing the end of the range.
+ * @return true, if all the characters from s have ASCII values between
+ *               start and end;
+ *         false, otherwise.
+ */
+function isStringCharsInRange(s, start, end) {
+    for (var i = 0; i < s.length; i++) {
+        var code = s.charCodeAt(i);
+        if (code < start || code > end) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
+ * Gets a list of characters of a string that are not in a range.
+ * @param s     the string whose characters should be tested.
+ * @param start an ASCII integer representing the start of the range.
+ * @param end   an ASCII integer representing the end of the range.
+ * @return a string containing the index and value of all
+ *         the characters from s who do not have ASCII values between
+ *         start and end.
+ */
+function getStringCharsNotInRange(s, start, end) {
+    var badChars = new Array();
+    for (var i = 0; i < s.length; i++) {
+        var code = s.charCodeAt(i);
+        if (code < start || code > end) {
+            var bad = "" + (i+1) + ' (' + s.charAt(i) + ')';
+            badChars.push(bad);
+        }
+    }
+    return printList(badChars);
+}
+
+/**
+ * Tests if a string is valid in Hostapd.
+ * @param s     the string whose characters should be tested.
+ * @return true, if s does not include an ASCII 10 or 0;
+ *         false, otherwise.
+ */
+function isHostapdString(s) {
+    for (var i = 0; i < s.length; i++) {
+        var code = s.charCodeAt(i);
+        if (code == 0 || code == 10) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
+ * Gets a text reason the string is invalid in Hostapd.
+ * @param s     the string that is invalid in Hostapd.
+ * @return a string containing a text reason.
+ */
+function getInvalidHostapdStringReason(s) {
+    var nulls = 0;
+    var newlines = 0;
+
+    for (var i = 0; i < s.length; i++) {
+        var code = s.charCodeAt(i);
+        if (code == 0) {
+            nulls++;
+        } else if (code == 10) {
+            newlines++;
+        }
+    }
+
+		var format;
+
+		var msg = "";
+    if (nulls > 0 || newlines > 0) {
+      if (nulls > 0 && newlines > 0)
+				format = getResourceString( "Messages.StrCntnsAnd" );
+			else
+				format = getResourceString( "Messages.StrCntns" );
+				
+			var params = new Array();
+			
+			if (nulls == 1) {
+				  params[params.length] = getResourceString( "Messages.ANull" );
+			} else if (nulls > 1) {
+				  params[params.length] = getResourceString( "Messages.Nulls" );
+			}
+	
+			if (newlines == 1) {
+				  params[params.length] = getResourceString( "Messages.ANwLn" );
+			} else if (newlines > 1) {
+				  params[params.length] = getResourceString( "Messages.NwLns" );
+			}
+
+			msg = formatOrderedResourceString( format, params );
+    }
+		
+   
+    return msg;
+}
+
+/**
+ * Tests if the length of a string is in a range.
+ * @param s   the string whose length should be taken.
+ * @param min an integer giving the minimum length.
+ * @param max an integer giving the maximum length.
+ * @return true, if s.length is between min and max inclusive;
+ *         false, otherwise.
+ */
+function isStringLengthInRange(s, min, max) {
+    if (s.length < min || s.length > max) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+/**
+ * Gets a reason string when the length of a string is not in a range.
+ * @param s   the string whose length should be taken.
+ * @param minLen an integer giving the minimum length.
+ * @param maxLen an integer giving the maximum length.
+ * @return if s.length is between min and max inclusive, an empty string;
+ *         otherwise, a string explaining that it should be.
+ */
+function getStringLengthNotInRangeReason(s, minLen, maxLen) {
+    if (s.length < minLen || s.length > maxLen) {
+			  var format = getResourceString("Messages.StrLenRng");
+				return formatOrderedResourceString( format, new Array( s.length, minLen, maxLen ) );
+     } else {
+        return "";
+     }
+}
+
+/**
+ * Tests if a string is a specified length.
+ * @param s   the string whose length should be taken.
+ * @param len the specified length.
+ * @return true, if s.length is equal to len;
+ *         false, otherwise.
+ */
+function isStringLength(s, len) {
+    return s.length == len;
+}
+
+/**
+ * Gets a reason string when a string is not a specified length.
+ * @param s   the string whose length should be taken.
+ * @param len the specified length.
+ * @return if s.length is equal to len, an empty string;
+ *         otherwise, a string explaining that it should be.
+ */
+function getStringNotLengthReason(s, len) {
+    if (s.length != len) {
+			  var format = getResourceString("Messages.StrNotLen");
+				return formatOrderedResourceString( format, new Array( s.length, len ) );
+     } else {
+        return "";
+     }
+}
+
+// Number validation
+
+function isIntValid(i) {
+     
+    var  number;
+    number = parseInt(i);
+    if (isNaN(number) || number.toString() != i) {
+        return false;
+    } else {
+        return true;
+    }
+
+}
+
+function getIntNotValidReason(i) {
+    var number;
+    number = parseInt(i);
+    if (isNaN(number)) {
+        return getResourceString("Messages.IntNtVld");
+    } else if (number != i) {
+        return getResourceString("Messages.ValNonNum");
+    } else {
+        return '';
+    }
+}
+
+function isIntInRange(i, min, max) {
+    if(isIntValid(i))
+    {
+     if(i>= min && i <= max)
+     {
+         return true
+     }
+    }
+    return false;
+}
+
+function getIntNotInRangeReason(i, min, max) {
+	  var format;
+		var params;
+		
+    if (! isIntValid(i)) {
+        return getIntNotValidReason(i);
+    } else if (i < min) {
+				format = getResourceString("Messages.ValAtLst");
+				params = new Array(); // new Array( min ) will create an Array instance of length min.
+				params[0] = min;
+				return formatResourceString( format, params );
+    } else if (i > max) {
+        format = getResourceString("Messages.ValAtMst");
+				params = new Array(); // new Array( max ) will create an Array instance of length max.
+				params[0] = max;
+				return formatResourceString( format, params );
+    } else {
+        return '';
+    }
+}
+
+function isIntEven(i) {
+    if (! isIntValid(i) || i % 2 != 0) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function getIntNotEvenReason(i) {
+    if (! isIntValid(i)) {
+        return getIntNotValidReason(i);
+    } else if (i % 2 != 0) {
+        return getResourceString("Messages.IntNtEvn");
+    } else {
+        return '';
+    }
+}
+
+function isFloatValid(f) {
+    var number;
+    number = parseFloat(f);
+    if (isNaN(number) || (number.toFixed() != f && number.toFixed(1) != f)) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function getFloatNotValidReason(f) {
+    var number;
+    number = parseFloat(f);
+    if (isNaN(number)) {
+        return getResourceString("Messages.ValNtFloat");
+    } else if (number.toFixed() != f && number.toFixed(1) != f) {
+        return getResourceString("Messages.ValNonNum");
+    } else {
+        return '';
+
+    }
+}
+
+function isFloatInRange(f, min, max) {
+    if (! isFloatValid(f) || f < min || f > max) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function getFloatNotInRangeReason(f, min, max) {
+		var format;
+		var params;
+    if (! isFloatValid(f)) {
+        return getFloatNotValidReason(f);
+    } else if (f < min) {
+				format = getResourceString("Messages.ValAtLst");
+				params = new Array(); // new Array( min ) will create an Array instance of length min.
+				params[0] = min;
+				return formatResourceString( format, params );
+    } else if (f > max) {
+				format = getResourceString("Messages.ValAtMst");
+				params = new Array(); // new Array( max ) will create an Array instance of length max.
+				params[0] = max;
+				return formatResourceString( format, params );
+    } else {
+        return '';
+    }
+}
+
+function isValidWepKey(key, bytes, ascii) {
+    var len = wepKeyCharsRequired(bytes, ascii);
+    if (! isStringLength(key, len)) {
+        return false;
+    }
+
+    if (ascii) {
+        return isStringCharsInRange(key, 32, 126);
+    } else {
+        return isStringCharsInSet(key, "0123456789abcdefABCDEF");
+    }
+}
+
+function isValidWepKeyOrBlank(key, bytes, ascii) {
+    return key.length == 0 || isValidWepKey(key, bytes, ascii);
+}
+
+function getInvalidWepKeyReason(key, bytes, ascii) {
+    var msg = "";
+		var format;
+
+    var len = wepKeyCharsRequired(bytes, ascii);
+    var lengthBad = false;
+    if (! isStringLength(key, len)) {
+        msg = msg + getStringNotLengthReason(key, len);
+        lengthBad = true;
+    }
+
+    if (ascii) {
+        if (! isStringCharsInRange(key, 0, 255)) {
+            if (lengthBad) {
+                msg = msg + ' ';
+            }
+						format = getResourceString( "Messages.CharsNotAllwd" );
+            msg = msg + formatResourceString( format, new Array( getStringCharsNotInRange(key, 0, 255) ) );
+        }
+    } else {
+        if (! isStringCharsInSet(key, "0123456789abcdefABCDEF")) {
+            if (lengthBad) {
+                msg = msg + ' ';
+            }
+						format = getResourceString( "Messages.CharsNotAllwd" );
+            msg = msg + formatResourceString( format, new Array( getStringCharsNotInSet(key, "0123456789abcdefABCDEF") ) );
+        }
+    }
+
+    return msg;
+}
+
+function wepKeyCharsRequired(bytes, ascii) {
+    if (ascii) {
+        return bytes;
+    } else { // hex
+        return bytes * 2;
+    }
+}
+
+function isMacValid(mac) {
+    if (mac.length != 17) {
+        return false;
+    }
+
+    var temp = mac.substring(0,8);
+
+    if(temp == "01:00:5e" || temp == "01:00:5E")
+    {
+        return false;
+    }
+
+    if(mac == "00:00:00:00:00:00" )
+    {
+        return false;
+    }
+
+    if(mac == "ff:ff:ff:ff:ff:ff" ||  mac == "FF:FF:FF:FF:FF:FF" )
+    {
+        return false;
+    }
+
+    for (var i = 0; i < 6; i++) {
+        var octet = mac.substr(i*3, 2);
+
+        if (! isStringCharsInSet(octet, "0123456789abcdefABCDEF")) {
+            return false;
+        }
+    }
+
+    for (var i = 0; i < 5; i++) {
+        var colon = mac.charAt(2+i*3);
+
+        if (colon != ":") {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function getInvalidMacReason(mac) {
+    var format;
+
+    if (mac.length != 17) {
+        return getResourceString( "Messages.MACErr" );
+    }
+    var temp = mac.substring(0,8);
+
+    if(temp == "01:00:5e" || temp == "01:00:5E")
+    {
+        return getResourceString( "Messages.MulticastErr" );
+    }
+
+    if(mac == "00:00:00:00:00:00" )
+    {
+        return getResourceString( "Messages.NullErr" );
+    }
+    if(mac == "ff:ff:ff:ff:ff:ff" ||  mac == "FF:FF:FF:FF:FF:FF" )
+    {
+        return getResourceString( "Messages.BroadcastErr" );
+    }
+
+    for (var i = 0; i < 6; i++) {
+        var octet = mac.substr(i*3, 2);
+
+        if (! isStringCharsInSet(octet, "0123456789abcdefABCDEF")) {
+            format = getResourceString( "Messages.OctInvld2" );
+            return formatOrderedResourceString( format, new Array( i+1, octet ) );
+        }
+    }
+
+    for (var i = 0; i < 5; i++) {
+        var colon = mac.charAt(2+i*3);
+
+        if (colon != ":") {
+            format = getResourceString( "Messages.SepNtCln" );
+            return formatOrderedResourceString( format, new Array( i+1, colon ) );
+        }
+    }
+
+    return "";
+}
+
+function isVlanIdValid(vlanId) {
+    return isIntInRange(vlanId, 1, 4094);
+}
+
+function getInvalidVlanIdReason(vlanId) {
+    return getIntNotInRangeReason(vlanId, 1, 4094);
+}
+
+function isDomainLabelValid(label) {
+    if (label.length > 63 || label.length < 1) {
+        return false;
+    }
+
+    switch (label.length) {
+    case 1:
+        return isStringCharsInSet(label.substr(0, 1),
+                                  LETTER_DIGIT_SET);
+        break;
+    case 2:
+        return isStringCharsInSet(label.substr(0, 1),
+                                  LETTER_DIGIT_SET)
+               && isStringCharsInSet(label.substr(label.length-1, 1),
+                                     LETTER_DIGIT_SET);
+        break;
+    default:
+        return isStringCharsInSet(label.substr(0, 1),
+                                  LETTER_DIGIT_SET)
+               && isStringCharsInSet(label.substr(1, label.length-2),
+                                     LETTER_DIGIT_HYPHEN_SET)
+               && isStringCharsInSet(label.substr(label.length-1, 1),
+                                     LETTER_DIGIT_SET);
+    }
+}
+
+function isCharExist(s, set)
+{
+  for (var i = 0; i < s.length; i++) {
+   if(s.charAt(i) == set)
+   return true;
+  }
+   return false;
+}
+
+function getInvalidDomainLabelReason(label) {
+	  var format;
+		var params;
+		
+    if (label.length > 63) {
+				format = getResourceString( "Messages.StrNotLen2" );
+				params = new Array();
+				params[0] = 63;
+        return formatResourceString( format, params );
+    }
+
+    if (label.length < 1) {
+				format = getResourceString( "Messages.StrNotLen3" );
+				params = new Array();
+				params[0] = 1;
+        return formatResourceString( format, params );
+    }
+
+    switch (label.length) {
+    case 1:
+        if (isCharExist(label.substr(0,label.length), " ") == true)
+        {
+           return getResourceString( "Messages.CharNoSp" );
+        }
+        else if (! isStringCharsInSet(label.substr(0,1), LETTER_DIGIT_SET)) {
+            return getResourceString( "Messages.CharLttr" );
+        }
+        break;
+    case 2:
+        if (isCharExist(label.substr(0,label.length), " ") == true)
+        {
+           return getResourceString( "Messages.CharNoSp" );
+        }
+        else if (! isStringCharsInSet(label.substr(0,1), LETTER_DIGIT_SET)) {
+           return getResourceString( "Messages.CharLtt2" );
+        } else if (! isStringCharsInSet(label.substr(label.length-1, 1),
+                                        LETTER_DIGIT_SET)) {
+            return getResourceString( "Messages.CharLttr3" );
+        }
+        break;
+    default:
+       if (isCharExist(label.substr(0,label.length), " ") == true)
+        {
+           return getResourceString( "Messages.CharNoSp" );
+        }
+        else  if (! isStringCharsInSet(label.substr(0,1), LETTER_DIGIT_SET)) {
+           return getResourceString( "Messages.CharLttr2" );
+        } else if (! isStringCharsInSet(label.substr(1, label.length-2),
+                                        LETTER_DIGIT_HYPHEN_SET)) {
+           return getResourceString( "Messages.CharLttr4" );
+        } else if (! isStringCharsInSet(label.substr(label.length-1, 1),
+                                        LETTER_DIGIT_SET)) {
+            return getResourceString( "Messages.CharLttr3" );
+        }
+        break;
+    }
+    return "";    
+}
+
+// Cookie managment functions
+
+/**
+ * Create a cookie.
+ * @param name the name of the key for the key/value pair.
+ * @param value the value for the key/value pair.
+ * @param days number of days before cookie expires.
+ */
+function createCookie(name,value,days) {
+  if (days) {
+    var date = new Date();
+    date.setTime(date.getTime()+(days*24*60*60*1000));
+    var expires = "; expires="+date.toGMTString();
+  }
+  else expires = "";
+  document.cookie = name+"="+value+expires+"; path=/";
+}
+
+/**
+ * Read a cookie value for the given name.
+ * @param name the name of the cookie to be read.
+ */
+function readCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0;i < ca.length;i++) {
+    var c = ca[i];
+    while (c.charAt(0)==' ') c = c.substring(1,c.length);
+    if (c.indexOf(nameEQ) == 0) {
+		return c.substring(nameEQ.length,c.length);
+	}
+  }
+  return null;
+}
+
+/**
+ * Delete a cookie value for the given name.
+ * Immediately expire the cookie.
+ * @param name the name of the cookie to be read.
+ */
+function deleteCookie(name)
+{
+  var cookie_date = new Date();  // current date & time
+  cookie_date.setTime(cookie_date.getTime()-1);
+  document.cookie = name += "=; expires=" + cookie_date.toGMTString();
+}
+
+/**
+ * The following functions allow window onLoad or onUnload handlers to be added
+ * without replacing previously defined handlers.
+ */
+var onLoadListeners;
+
+var _win_onload;
+/**
+ * Add and an onLoad handler.
+ * @param handler a function object to be invoked for an onLoad event.
+ */
+function addOnLoadHandler(handler) {
+	if( !onLoadListeners ) onLoadListeners = new Array();
+	if( window.onload && window.onload != onLoadHandler ) {
+		onLoadListeners[onLoadListeners.length] = window.onload;
+    _win_onload = window.onload;
+	}
+  
+	if(handler)
+		onLoadListeners[onLoadListeners.length] = handler;
+	
+	if( onLoadListeners.length > 0 )
+		window.onload = onLoadHandler;
+}
+
+var _olh = false;
+function onLoadHandler()
+{
+	if( _olh ) return;
+	if( onLoadListeners ) {
+		_olh = true;
+	  for( var i = 0; i < onLoadListeners.length; i++) {
+			if( onLoadListeners[i] != onLoadHandler )
+			  onLoadListeners[i]();
+	  }
+		_olh = false;
+	}
+}
+
+var onUnLoadListeners;
+
+var _win_onunload;
+
+/**
+ * Add and an onUnload handler.
+ * @param handler a function object to be invoked for an onLoad event.
+ */
+function addOnUnLoadHandler(handler) {
+	if( !onUnLoadListeners ) onUnLoadListeners = new Array();
+	if( window.onunload && window.onunload != onUnLoadListeners ) {
+		onUnLoadListeners[onUnLoadListeners.length] = window.onunload;
+    _win_onunload = window.onunload;
+	}		
+
+	if(handler)
+		onUnLoadListeners[onUnLoadListeners.length] = handler;
+	if( onUnLoadListeners.length > 0 )
+	  window.onunload = onUnLoadHandler;
+}
+
+var _oulh = false;
+function onUnLoadHandler()
+{
+	if( _oulh ) return;
+	if( onUnLoadListeners ) {
+		_oulh = true;
+	  for( var i = 0; i < onUnLoadListeners.length; i++) {
+			if( onUnLoadListeners[i] != onUnLoadHandler )
+				onUnLoadListeners[i]();
+	  }
+		_oulh = true;
+	}
+}
+
+
+/**
+ * The following methods allow you to disable/enable mouse clicks.
+ */
+ 
+var _preventMouseClickMessage;
+
+function clickHandler (evt) {
+  if(_preventMouseClickMessage) alert(_preventMouseClickMessage);
+  if (document.layers)
+    return false;
+  else if (evt.stopPropagation) {
+    evt.stopPropagation();
+    evt.preventDefault();
+  }
+  else if (window.event)
+    return false;
+}
+
+function preventMouseClickEvents (message) {
+  if (document.layers) {
+    window.captureEvents(Event.CLICK);
+    window.onclick = clickHandler;
+  }
+  else if (document.all && !document.getElementById)
+    document.onclick = clickHandler;
+  else if (document.all)
+    document.attachEvent('onclick', clickHandler);
+  else if (document.addEventListener)
+    document.addEventListener('click', clickHandler, true);
+
+  _preventMouseClickMessage = message;
+}
+
+function reenableMouseClickEvents () {
+  if (document.layers) {
+    window.releaseEvents(Event.CLICK);
+    window.onclick = null;
+  }
+  else if (document.all && !document.getElementById)
+    document.onclick = null;
+  else if (document.all)
+    document.detachEvent('onclick', clickHandler);
+  else if (document.addEventListener)
+    document.removeEventListener('click', clickHandler, true);
+}
+
+function toggleVisibility( id ) {
+	var elm = document.getElementById( id );
+	if( elm ) {
+		if( elm.style.display == 'none' )
+			elm.style.display = '';
+		else
+			elm.style.display = 'none';
+	}
+}
+
+function isValidOid(buf)
+{
+  var num = buf;
+  if (num.length == 0)
+    return false;
+    
+  for(var j=0; j < num.length; j++)
+  {
+    var alpha = num.charAt(j);
+    var hh = alpha.charCodeAt(0);
+    if(!((hh > 47 && hh < 58) || (hh==42) || (hh==46)))
+      return false;
+      
+    /* Dont allow chars with consecutive '.' or '*' */
+    if (j+1 != num.length)
+    {
+      var nxtAlpha = num.charAt (j+1);
+      var nxthh = nxtAlpha.charCodeAt(0);
+      if (hh == 46 || hh == 42)
+        if (nxthh == hh)
+          return false;
+    }
+    
+    /* If '*' char is present check whether '.' is present before/after '*' */
+    if (j != 0 && hh == 42)
+    {
+      var prvAlpha = num.charAt (j-1);
+      var prvhh = prvAlpha.charCodeAt(0);
+      if (prvhh != 46)
+        return false;
+      
+      if (j+1 != num.length)
+      {
+        var nxtAlpha = num.charAt (j+1);
+        var nxthh = nxtAlpha.charCodeAt(0);
+        if (nxthh != 46)
+          return false;
+      }
+    }
+  }
+}
+
+function isValidOidMask(buf)
+{
+  var num = buf;
+
+  if (num.length == 0)
+    return false;
+    
+  /* length should be in the multiples of (n+1)/3 */
+  if (!( (num.length == 2) || ((num.length > 2) && ((num.length + 1)%3 == 0))))
+  {
+    return false;
+  }
+    
+  var firstSep = num.charAt (2);
+  var firstSepChar = firstSep.charCodeAt(0);
+
+  for(var j=0; j < num.length; j++)
+  {
+    var alpha = num.charAt(j);
+    var hh = alpha.charCodeAt(0);
+      
+    /* if the n * 3 position is not '.' or ':' */
+    if ((j+1)%3 == 0)
+    {
+      if (!(hh == 58 || hh == 46))
+      {
+        return false;
+      }
+  
+      if (firstSepChar != hh)
+      {
+        return false;
+      }
+    }
+  
+    else if(!((hh > 47 && hh < 58) || (hh > 64 && hh < 71) || (hh > 96 && hh < 103)))
+    {
+      return false;
+    }
+  }
+}
+
+function checkForDuplicateMACs(elements, element_to_skip) 
+{
+    for (var i = 0; i < elements.length; i++) 
+    {
+        if (elements[i] != "" && (i != element_to_skip))
+        {
+            if (elements[i] == elements[element_to_skip]) 
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+
+
+function isValidHost(host) {
+        if(/^([a-zA-Z])([a-zA-Z0-9\\.\\_-]{0,253})([a-zA-Z0-9\\.])*$/.test(host)){
+                return true;
+        }
+        return false;
+}
+
+
+
+/************************************************************************
+* Function:    isValidRADIUSKey
+* Description: isValidRADIUSKey function is a validator for RADIUS Keys
+************************************************************************/
+function isValidRADIUSKey(radius_key)
+{
+    /* Let null strings pass as valid. */
+    if ((radius_key == null) || (radius_key.length == 0))
+    {
+      return true; 
+    }
+
+    if ((radius_key.indexOf(" ") == 0) || (radius_key.lastIndexOf(" ") == (radius_key.length - 1)))
+    {
+        return false;
+    }
+    return true; 
+}
+
+
+/************************************************************************
+* Function:    checkIpv4DomainIpv6
+* Description: checkIpv4DomainIpv6 function is a validator for Server address
+************************************************************************/
+function checkIpv4DomainIpv6(value)
+{
+        var msg = "";
+        if(value != null && value.length > 0)
+        {
+        	 msg = isValidIPAddress(value);
+       		 if(msg != "")
+        	 {       
+                	msg = checkDomainName(value);
+	                if(msg!= "")
+        	        {
+                	        msg = isValidIpv6Address(value);
+                        	if(msg != "")
+                        	{
+	                           msg = "Invalid Server IPv4/IPv6 Address/Name."; 
+        	                }
+                	}
+        	}
+        }
+        else 
+        {
+             msg = "Invalid Server IPv4/IPv6 Address/Name.";
+        }
+
+        return msg;
+}
+
+function isValidIPAddress(ipaddr)
+{
+    var msg="";
+    if(ipaddr != null && ipaddr.length>0)
+    {
+        var re = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/;
+        if (re.test(ipaddr))
+        {
+                var parts = ipaddr.split(".");
+                for (var i=0; i<parts.length; i++)
+                {
+                        if (parseInt(parseFloat(parts[i])) > 255) {
+                            msg = "Each octet of IPv4 address should be with in (0-255).";
+                            break; }
+                }
+                
+
+        } else {
+                msg = " The valid IPv4 Address should be in the form of xxx.xxx.xxx.xxx.";
+        }
+    }
+    else
+    {
+     msg =  "The valid IPv4 Address should be in the form of xxx.xxx.xxx.xxx.";
+    }
+    return msg;
+ 
+}
+
+function isValidNetMask(ipaddr)
+{
+    var msg="";
+    if(ipaddr != null && ipaddr.length>0)
+    {
+        var re = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/;
+        if (re.test(ipaddr))
+        {
+                var parts = ipaddr.split(".");
+                var binars = [];
+                for (var i=0; i<parts.length; i++)
+                {
+                        var dig = parseInt(parseFloat(parts[i]));
+                        if (dig > 255) {
+                            msg = "Each octet of Netmask should be with in (0-255).";
+                            break;
+                        }
+                        binars.push(['00000000', dig.toString(2)].join('').slice(-8));
+                }
+                var mask = binars.join('');
+                var remask = /^1*0*$/;
+                if (!remask.test(mask)) {
+                    msg = "Each octet of Netmask should be the number 0, 128, 192, 224, 248, 252, 254, 255.";
+                }
+        } else {
+                msg = "The valid Netmask should be in the form of xxx.xxx.xxx.xxx.";
+        }
+    }
+    else
+    {
+     msg =  "The valid Netmask should be in the form of xxx.xxx.xxx.xxx.";
+    }
+    return msg;
+}
+
+function checkDomainName(nname, extended)
+{
+  var msg = "";
+  var need_cut = extended || false;
+  if(nname != null && nname.length >0 )
+  {
+        if (need_cut) {
+            nname = nname.split("/")[0];
+            var port = nname.split(":").pop();
+            if (nname.split(":").length == 2 && isIntInRange(port, 0, 65535))
+                nname = nname.split(":").slice(0,-1).join(":");
+            if (isValidIPAddress(nname) == "")
+                return msg;
+        }
+        var i, j;
+        var labels = nname.split('.');
+        var ipv6label = nname.split(':');
+        var count1 = 0;
+        var count2 = 0;
+        var count3 = 0;
+        var count4 = 0;
+        if(labels[0] == "")
+        {       
+           msg = "Invalid Domain Name.";
+           return msg;
+        }
+
+        for (count1 = 0; count1 < labels.length; count1++)
+        {
+                if (labels[count1] == "")
+                {
+                  count2++;
+                }
+                else
+                {
+                  count3++;
+                }
+        }
+
+        if (count2 >= count3)
+        {
+                msg = "Invalid Domain Name.";
+                return msg;
+        }
+
+        for(count4 = 0;count4 < nname.length-1; count4++)
+        {
+                if(nname[count4]=='.')
+                {
+                        if(nname[count4 + 1]=='.')
+                        {
+                            msg = "Invalid Domain Name.";
+                            return msg;
+                        }
+                }
+        }
+
+        if(ipv6label.length > 1)
+        {
+           msg = "Invalid Domain Name.";
+           return msg;
+        }
+
+        if (nname.length > 253)
+        {
+             msg = "Domain name cannot exceed more than 253 characters.";
+             return msg;
+
+        }
+
+        for (i = 0; i < labels.length; i++)
+        {
+                if (labels[i].length > 63)
+                {
+                        msg = "Individual domain name cannot exceed more than 63 characters.";
+                        return msg;
+                }
+
+                for (j = 0; j < labels[i].length; j++)
+                {
+                        var dh = labels[i].charAt(j);
+                        var hh = dh.charCodeAt(0);
+                        if ((hh > 47 && hh<59) || (hh > 64 && hh<91) || (hh > 96 && hh<123) || hh == 45 || hh == 46 || hh == 95)
+                        {
+                                if ((j == 0 || j == labels[i].length-1) && (hh == 45 || hh == 95))
+                                {
+                                    msg = "Domain name should not begin or end with '-' or '_'.";
+                                    return msg;
+                                }
+                        }
+                        else
+                        {
+                           msg = "Domain name should not contain special characters.";
+                           return msg;
+                        }
+                }
+        }
+
+  }
+  else
+  {
+    msg ="Invalid Domain Name.";
+  }
+ return msg;
+}
+
+
+function isValidIpv6Address(host)
+{
+        var msg="";
+        if(host != null && host.length > 0)
+        { 
+	        if(isIPv6Address(host))
+        	{
+                	msg = checkIsValidIpv6(host);  
+	        }
+        	else
+        	{
+                	msg  = "IPv6 Address should be in the form of xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx"; 
+        	}
+        }
+        else
+        {
+                msg = msg  = "IPv6 Address should be in the form of xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx";
+        }
+
+      return msg;
+}
+
+
+function isIPv6Address(address)
+{
+        return (/^(^(([0-9A-Fa-f]{1,4}(((:[0-9A-Fa-f]{1,4}){5}::[0-9A-Fa-f]{1,4})|((:[0-9A-Fa-f]{1,4}){4}::[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){0,1})|((:[0-9A-Fa-f]{1,4}){3}::[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){0,2})|((:[0-9A-Fa-f]{1,4}){2}::[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){0,3})|(:[0-9A-Fa-f]{1,4}::[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){0,4})|(::[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){0,5})|(:[0-9A-Fa-f]{1,4}){7}))$|^(::[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){0,6})$)|^::$)|^((([0-9A-Fa-f]{1,4}(((:[0-9A-Fa-f]{1,4}){3}::([0-9A-Fa-f]{1,4}){1})|((:[0-9A-Fa-f]{1,4}){2}::[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){0,1})|((:[0-9A-Fa-f]{1,4}){1}::[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){0,2})|(::[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){0,3})|((:[0-9A-Fa-f]{1,4}){0,5})))|([:]{2}[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){0,4})):|::)((25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{0,2})\.){3}(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{0,2})$$/).test(address);
+}
+
+
+
+function checkIsValidIpv6(ipv6_address)
+{
+        var temp;
+        var msg = "";
+
+        temp = ipv6_address.substring(0,2);
+
+        if((temp == "ff") || (temp == "FF"))
+        {
+                  if((ipv6_address.substring(3,2)) != ":")
+                  {
+                         msg = "Multicast address cannot be configured";
+                         return msg;
+                  }
+        }
+       
+        temp = ipv6_address.substring(0,4);
+        if((temp == "fe80") || (temp == "FE80"))
+        {
+                  msg = "Link Local address cannot be configured";
+                  return msg;
+        }
+
+        if((temp == "fec0") || (temp == "FEC0"))
+        {
+                  msg = "Site-Local address cannot be configured";
+                  return msg;
+        }
+
+        if( ipv6_address == "::1")
+        {
+                   msg = "Loopback address cannot be configured";
+                   return msg;
+        }
+
+        temp = ipv6_address.split(':');
+
+        for( var count = 0; count < temp.length; count++)
+        {
+                if(count != temp.length-1)
+                        if(temp[count] != 0)
+                        {
+                                break;
+                        }
+
+                if(count == temp.length-1)
+                        if(temp[count] == 1)
+                        {
+                               msg = "Loopback address cannot be configured";
+                               return msg;
+                        }
+                        else if(temp[count] > 1)
+                        {
+                               msg = "Ipv4 compatible Ipv6 address cannot be configured.";
+                               return msg;
+                        }
+
+        }
+
+        temp = ipv6_address.substring(0,2);
+
+        if(temp == "::")
+        {        if(!((ipv6_address.split(':')).length > 3))
+                {
+                        temp = ipv6_address.split('::');
+                        temp = temp[1].split('.');
+                        if(temp.length == 4 )
+                        {
+                                msg = "Ipv4 compatible Ipv6 address cannot be configured.";
+                                return msg;
+                        }
+                }
+        }
+
+        temp = ipv6_address.substring(0,7);
+
+        if(temp == "::ffff:" || temp == "::FFFF:")
+        {
+                temp = ipv6_address.split(':');
+                temp = temp[3].split('.');
+                if(temp.length == 4 )
+                {
+                        msg = "Ipv4 mapped Ipv6 address cannot be configured.";
+                        return msg;
+                }
+        }
+
+        return msg;
+}
+
+
+ function validFileName(configFileName,ext)
+       {
+
+         var spChar =(/[\s:#&;\?\(\)<>,\|\\\*]/);
+
+         if(spChar.test(configFileName))
+         {
+          alert("Following characters are not allowed in File name: spaces, <, >, |, \, : , (, ), &, ; , #, ? , *");
+          return false;
+         }
+         else
+         {
+
+          if(/(\.{2,})/.test(configFileName))
+          {
+           alert ("File name should not contain successive '.'");
+           return false;
+          }
+          else
+          {
+           if(!check_ext(configFileName,ext))
+           {
+             var index;
+             var alert_str = "File name extension should be ." + ext[0];
+             for (index = 1; index < ext.length; ++index) {
+               alert_str += "/." + ext[index];
+             }
+             alert(alert_str);
+             return false;
+           }
+          }
+        }
+       return true;
+
+      }
+
+
+function check_ext (filename,extn)
+{
+     if(extn =="")
+     {
+        return true;
+     }
+     var ext = /^.+\.([^.]+)$/.exec(filename);
+     var index;
+     for (index = 0; index < extn.length; ++index) {
+        if (ext != null && ext[1] == extn[index])
+        {
+          return true;
+        }
+     }
+     return false;
+}
+function format_mode(value)
+{
+     if(value=="a") 
+        value="IEEE 802.11a";
+     if(value=="b")
+        value="IEEE 802.11b";
+     if(value=="g") 
+        value="IEEE 802.11g";
+     if(value=="bg")
+        value="IEEE 802.11b/g";
+     if(value=="a-n")
+        value="IEEE 802.11a/n";
+     if(value=="bg-n")
+        value="IEEE 802.11b/g/n";
+     if(value=="n-only-a")
+        value="5 GHz IEEE 802.11n";
+     if(value=="n-only-g")        value="2.4 GHz IEEE 802.11n";
+     if(value=="a-n-ac")        value="IEEE 802.11a/n/ac";
+     if(value=="n-ac")
+        value="IEEE 802.11n/ac";
+    return value ;
+}
+function addOption(selectbox,text,value,mode_selected)
+{
+var optn = document.createElement("OPTION");
+optn.text = text;
+optn.value = value;
+if(value == mode_selected)
+ optn.selected=true;
+
+ selectbox.options.add(optn);
+}
+function selectItemMode(selectBox, valueToSelect) {
+    for (var i = selectBox.options.length-1; i > -1; i--) {
+        if (selectBox.options[i].value == valueToSelect) {
+            selectBox.options[i].selected = true;
+            break;
+        }
+    }
+}
+function hasLeadingOrTrailingSpace(text)
+{   
+    if ((text.indexOf(" ") == 0) || (text.lastIndexOf(" ") == (text.length - 1)))
+    {
+        return true;
+    }
+    return false;
+}

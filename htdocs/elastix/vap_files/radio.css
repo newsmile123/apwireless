@@ -1,0 +1,55 @@
+/* Copyright 2004 Instant802 Networks, Inc. All Rights Reserved. */
+
+/* Constains tab styles for the radio page. */
+
+
+.radio-layer {
+	background: #FFFFFF;
+	border:1px solid #acb2c0; 
+	padding: 3px;
+}
+
+table.rate {
+	border-width: thin thin thin thin;
+	border-spacing: 2px;
+	border-style: solid solid solid solid;
+	border-color: gray gray gray gray;
+	border-collapse: collapse;
+	background-color: white;
+}
+table.rate th {
+	border-width: 1px 1px 1px 1px;
+	padding: 1px 1px 1px 1px;
+	border-style: solid solid solid solid;
+	border-color: gray gray gray gray;
+	background-color: white;
+	-moz-border-radius: 0px 0px 0px 0px;
+}
+table.rate td {
+	border-width: 1px 1px 1px 1px;
+	padding: 1px 1px 1px 1px;
+	border-style: solid solid solid solid;
+	border-color: gray gray gray gray;
+	background-color: white;
+	-moz-border-radius: 0px 0px 0px 0px;
+}
+
+.vlan_list_table {
+	border-collapse:collapse;
+	padding:5px;
+	table-layout:fixed;
+}
+.vlan_list_table th {
+	border:1px solid #C0C0C0;
+	padding:5px;
+}
+.vlan_list_table td {
+	border:1px solid #C0C0C0;
+	border-radius: 3px;
+	padding:5px;
+	display: inline-block;
+	vertical-align: top;
+	overflow: hidden;
+	width: 32px;
+	text-align:center;
+}
