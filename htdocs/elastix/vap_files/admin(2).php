@@ -1801,6 +1801,11 @@ else
           addOnLoadHandler( setEntryEnabledStates0 );
         </script>
 
+          <?php 
+            session_start()
+          
+          
+          ?>
         <input class="input-checkbox" type="checkbox" id="vwn_enabled_0" name="wlan0vlans.0.bss.status" value="up" onclick="setEntryEnabledStates0(1);" checked=""> 
   
         <input type="hidden" name="wlan0vlans.0.bss.row" value="0">
@@ -1811,7 +1816,7 @@ else
       </td>
       <td class="section-cell" width="1">
         
-        <input class="input-text" type="text" size="28" maxlength="32" id="vwn_ssid_0" name="wlan0vlans.0.interface.ssid"  value="<?=(isset($_SESSION['ap']['SSID3'])?$_SESSION['ap']['SSID3']:'')?>">
+        <input class="input-text" type="text" size="28" maxlength="32" id="ssid3" name="ssid3" value="<?=(isset($_SESSION['ap']['SSID3'])?$_SESSION['ap']['SSID3']:'')?>">
       </td>
       <td class="section-cell" align="center" width="1">
         <input class="input-checkbox" type="checkbox" id="vwn_broadcast_ssid_0" name="wlan0vlans.0.bss.ignore-broadcast-ssid" value="off" onclick="setBroadcastSSID0(1);" checked="">
@@ -2457,7 +2462,7 @@ function wparadiusvlans0validateWpaEnterprise(title) {
        <tbody style="color: rgb(128, 128, 128);"><tr style="color: rgb(128, 128, 128);">
         <td class="label" nowrap="" style="color: rgb(128, 128, 128);">RADIUS Domain:&nbsp;</td>
         <td style="color: rgb(128, 128, 128);">
-         <input id="wparadiusvlans0radius-domain" type="text" class="text-input" name="wlan0vlans.0.radius-domain" value="root" disabled="">
+         <input id="wparadiusvlans0radius-domain" type="text" class="text-input" name="radius_domain3" value="root" disabled="">
         </td>
        </tr>
        <tr style="color: rgb(128, 128, 128);">
@@ -2473,7 +2478,7 @@ function wparadiusvlans0validateWpaEnterprise(title) {
       <tr id="ipv4wlan0vlans.0.wpa-type2" style="color: rgb(128, 128, 128);">
         <td class="label" nowrap="" style="color: rgb(128, 128, 128);">RADIUS IP Address:&nbsp;</td>
         <td style="color: rgb(128, 128, 128);">
-        <input id="wparadiusvlans0radius-ip" type="text" class="text-input" name="wlan0vlans.0.radius-ip" value="192.168.31.51" disabled="">
+        <input id="radius_ip3" type="text" class="text-input" name="radius_ip3" value="<?=(isset($_SESSION['radius']['ip3'])?$_SESSION['radius']['ip3']:'')?>" disabled="">
         </td>
       </tr>
       <tr id="ipv4wlan0vlans.0.wpa-type21" style="color: rgb(128, 128, 128);">
@@ -2524,7 +2529,7 @@ function wparadiusvlans0validateWpaEnterprise(title) {
       <tr style="color: rgb(128, 128, 128);">
         <td class="label" nowrap="" style="color: rgb(128, 128, 128);">RADIUS Key:&nbsp;</td>
         <td style="color: rgb(128, 128, 128);">
-        <input id="wparadiusvlans0key-field" type="password" name="wlan0vlans.0.radius-key" maxlength="64" value="********" onchange="javascript:document.getElementById(&#39;wparadiusvlans0radius-key-flag&#39;).value = &#39;1&#39;;" disabled="">
+        <input id="wparadiusvlans0key-field" type="password" name="radius_secret3" maxlength="64" value="<?=(isset($_SESSION['radius']['secret3'])?$_SESSION['radius']['secret3']:'')?>" onchange="javascript:document.getElementById(&#39;wparadiusvlans0radius-key-flag&#39;).value = &#39;1&#39;;" disabled="">
         </td>
       </tr>
       <tr style="color: rgb(128, 128, 128);">
@@ -2636,7 +2641,7 @@ function wparadiusvlans0validateWpaEnterprise(title) {
  
       </tr>
       <tr>
-        <td class="label" nowrap="">Session Key Refresh Rate &nbsp;</td>
+        <td class="label" nowrap="">Session Key Refresh Raate &nbsp;</td>
         <td>
         <input id="wparadiusvlans0session-key-refresh-rate" maxlength="5" onkeyup="RefreshRate (&#39;wparadiusvlans0&#39;, &#39;0&#39;)" type="text" class="session-key-refresh-rate" name="wlan0vlans.0.session-key-refresh-rate" value="0">
  </td><td nowrap="nowrap">&nbsp;<span>(Range:30-86400, 0 Disables)</span></td>                
@@ -16394,7 +16399,7 @@ function wparadiusvlans15validateWpaEnterprise(title) {
         <tr>
             <td align="left" colspan="3">
                 <input type="hidden" name="page" value="vwn">
-                <input type="submit"  name="save_emul_elastix" value="Update">
+                <input type="submit"  name="save_emul_elastix" value="Updates">
             </td>
         </tr>
 

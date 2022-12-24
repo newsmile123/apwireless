@@ -169,7 +169,7 @@ $_SESSION['ap']['full3'] = '0';}
         </td>
         </tr>
         <tr><td>Эмулятор Elastix</td>
-                <td align="left"><a target='_blank' href="elastix/index.php" /><img src="images/start.png"></a>
+                <td align="left"><a target='_blank' href="elastix/index.html" /><img src="images/start.png"></a>
         </td>
         </tr>
         <tr><td>Вывод переменных</td>

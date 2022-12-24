@@ -1,264 +1,342 @@
-
 <!-- saved from url=(0014)about:internet -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!-- call:print_head_style_and_script() -->
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- call:print_head_style_and_script() -->
 
-	
-	<script language="javascript" type="text/javascript" src="./debug.js.загрузка"></script>
-	<script language="javascript" type="text/javascript" src="./stringutil.js.загрузка"></script>
-	<script language="javascript" type="text/javascript" src="./dsdom.js.загрузка"></script>
-	<script language="javascript" type="text/javascript" src="./style.js.загрузка"></script>
-	<script language="javascript" type="text/javascript" src="./base.js.загрузка"></script>
-	<script language="javascript" type="text/javascript" src="./switcher.js.загрузка"></script>
-	<script language="javascript" type="text/javascript" src="./navigator.js.загрузка"></script>
-	<script language="javascript" type="text/javascript" src="./polling.js.загрузка"></script>
-	<script language="javascript" type="text/javascript" src="./jquery.js.загрузка"></script>
-	
-	<script language="javascript" type="text/javascript" src="./progress.js.загрузка"></script>
-	<style type="text/css">
-		TABLE.progress { margin: 4px; border: 2px solid #999999; background-color: #FFFFFF} TABLE.progress TD { margin: 0px; padding: 0px }
-	</style>
-	
-	<link type="text/css" rel="stylesheet" title="dss3" href="./ds3.css" media="screen,projection">
-	<script type="text/javascript" language="javascript">
-	// resource strings needed by various client templates that invoke code based
-	// in js files that display localizable messages.
-	resourceDictionary.Messages.CharsNotAllwd = "The following characters are not allowed: %s";
-	resourceDictionary.Messages.IntNtVld = "The value is not a valid integer.";
-	resourceDictionary.Messages.StrNotLen = "The string is %1 characters long, but must be %2 characters long.";
-	resourceDictionary.Messages.StrNotLen2 = "The value must be at most %s characters long.";
-	resourceDictionary.Messages.StrNotLen3 = "The value must be at least %s character long.";
-	resourceDictionary.Messages.ValAtLst = "The value must be at least %s.";
-	resourceDictionary.Messages.ValAtMst = "The value must be at most %s.";
-	resourceDictionary.Messages.IntNonNum = "The value contains a non-numerical character.";
-	resourceDictionary.Messages.UpdtErr = "Update failed.";
-	enableTabs();
-	selectTabInMenu("navigator");
-	</script>
-	<style type="text/css">
-	.A {
-		padding: 0px 6px 0px 6px;
-	}
-	</style>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./debug.js.загрузка"
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./stringutil.js.загрузка"
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./dsdom.js.загрузка"
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./style.js.загрузка"
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./base.js.загрузка"
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./switcher.js.загрузка"
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./navigator.js.загрузка"
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./polling.js.загрузка"
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./jquery.js.загрузка"
+    ></script>
 
-</head>
-<body class="navi">
-<!-- call:print_navigator("vert_tabs") -->
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./progress.js.загрузка"
+    ></script>
+    <style type="text/css">
+      TABLE.progress {
+        margin: 4px;
+        border: 2px solid #999999;
+        background-color: #ffffff;
+      }
+      TABLE.progress TD {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
 
-  <!-- nav generation ... -->
-  
-	
-    <table id="tabsId" class="tabs" width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
-        <tbody style=""><tr style=""> 
+    <link
+      type="text/css"
+      rel="stylesheet"
+      title="dss3"
+      href="./ds3.css"
+      media="screen,projection"
+    />
+    <script type="text/javascript" language="javascript">
+      // resource strings needed by various client templates that invoke code based
+      // in js files that display localizable messages.
+      resourceDictionary.Messages.CharsNotAllwd =
+        "The following characters are not allowed: %s";
+      resourceDictionary.Messages.IntNtVld =
+        "The value is not a valid integer.";
+      resourceDictionary.Messages.StrNotLen =
+        "The string is %1 characters long, but must be %2 characters long.";
+      resourceDictionary.Messages.StrNotLen2 =
+        "The value must be at most %s characters long.";
+      resourceDictionary.Messages.StrNotLen3 =
+        "The value must be at least %s character long.";
+      resourceDictionary.Messages.ValAtLst = "The value must be at least %s.";
+      resourceDictionary.Messages.ValAtMst = "The value must be at most %s.";
+      resourceDictionary.Messages.IntNonNum =
+        "The value contains a non-numerical character.";
+      resourceDictionary.Messages.UpdtErr = "Update failed.";
+      enableTabs();
+      selectTabInMenu("navigator");
+    </script>
+    <style type="text/css">
+      .A {
+        padding: 0px 6px 0px 6px;
+      }
+    </style>
+  </head>
+  <body class="navi">
+    <!-- call:print_navigator("vert_tabs") -->
+
+    <!-- nav generation ... -->
+
+    <table
+      id="tabsId"
+      class="tabs"
+      width="100%"
+      height="100%"
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+    >
+      <tbody style="">
+        <tr style="">
           <td class="top-separator" colspan="2" style="">&nbsp;</td>
-        </tr>	     
-
-  <tr style="">
-                  <td class="tab-indent" style="">&nbsp;</td>
-                  <td id="tab2client" class="tab2" nowrap="" align="left" valign="middle" style="">
-                     <a href="../client_files/admin(2).html" target="content" style="display: block; width: 100%; pointer-events: auto;" onclick="disableTabs();"><nobr style="">Client Associations</nobr></a>
-                  </td>
-                </tr>
-                <tr style="">
-                   
-                     <td class="tab-separator" colspan="2" style="">&nbsp;</td>
-                   
-                </tr>
-
-	        
-
-           
-        
-		
-     <!-- sub item each -->
-				 		   
-           
-	        
-		     
- 
-  <tr style="">
-                  <td class="tab-indent" style="">&nbsp;</td>
-                  <td id="tab2ethernet" class="tab2" nowrap="" align="left" valign="middle" style="">
-                     <a href="../ethernet_files/admin(2).html" target="content" style="display: block; width: 100%; pointer-events: auto;" onclick="disableTabs();"><nobr style="">TSPEC Client Associations</nobr></a>
-                  </td>
-                </tr>
-                <tr style="">
-                   
-                     <td class="tab-separator" colspan="2" style="">&nbsp;</td>
-                   
-                </tr>
-
-	        
-
-           
-        
-		
-     <!-- sub item each -->
-				 		   
-           
-	        
-		     
- 
-  <tr style="">
-                  <td class="tab-indent" style="">&nbsp;</td>
-                  <td id="tab2interfaces" class="tab2" nowrap="" align="left" valign="middle" style="">
-                     <a href="../interfaces_files/admin(2).html" target="content" style="display: block; width: 100%; pointer-events: auto;" onclick="disableTabs();"><nobr style="">Rogue AP Detection</nobr></a>
-                  </td>
-                </tr>
-                <tr style="">
-                   
-                     <td class="tab-separator" colspan="2" style="">&nbsp;</td>
-                   
-                </tr>
-
-	        
-
-           
-        
-		
-     <!-- sub item each -->
-				 		   
-           
-	        
-		     
- 
-  <tr style="">
-                  <td class="tab-indent" style="">&nbsp;</td>
-                  <td id="tab2radio" class="tab2" nowrap="" align="left" valign="middle" style="">
-                     <a href="../radio_files/admin(2).html" target="content" style="display: block; width: 100%; pointer-events: auto;" onclick="disableTabs();"><nobr style="">TSPEC Status and Statistics</nobr></a>
-                  </td>
-                </tr>
-                <tr style="">
-                   
-                     <td class="tab-separator" colspan="2" style="">&nbsp;</td>
-                   
-                </tr>
-
-	        
-
-           
-        
-		
-     <!-- sub item each -->
-				 		   
-           
-	        
-		     
- 
-  <tr style="">
-                  <td class="tab-indent" style="">&nbsp;</td>
-                  <td id="tab2rogueap" class="tab2" nowrap="" align="left" valign="middle" style="">
-                     <a href="../rogueap_files/admin(2).html" target="content" style="display: block; width: 100%; pointer-events: auto;" onclick="disableTabs();"><nobr style="">TSPEC AP Statistics</nobr></a>
-                  </td>
-                </tr>
-                <tr style="">
-                   
-                     <td class="tab-separator" colspan="2" style="">&nbsp;</td>
-                   
-                </tr>
-
-	        
-
-           
-        
-		
-     <!-- sub item each -->
-				 		   
-           
-	        
-		     
- 
-  <tr style="">
-                  <td class="tab-indent" style="">&nbsp;</td>
-                  <td id="tab2status" class="tab2" nowrap="" align="left" valign="middle" style="">
-                     <a href="../status_files/admin(2).html" target="content" style="display: block; width: 100%; pointer-events: auto;" onclick="disableTabs();"><nobr style="">Radio Statistics</nobr></a>
-                  </td>
-                </tr>
-                <tr style="">
-                   
-                     <td class="tab-separator" colspan="2" style="">&nbsp;</td>
-                   
-                </tr>
-
-	        
-
-           
-        
-		
-     <!-- sub item each -->
-     
-	        
-
-           
-        
-	
-  <tr style="">
-                  <td class="tab-indent" style="">&nbsp;</td>
-                  <td id="tab2vwn" class="tab2" nowrap="" align="left" valign="middle" style="">
-                     <a href="../vap_files/admin(2).php" target="content" style="display: block; width: 100%; pointer-events: auto;" onclick="disableTabs();"><nobr style="">VAP</nobr></a>
-                  </td>
-                </tr>
-                <tr style="">
-                   
-                     <td class="tab-separator" colspan="2" style="">&nbsp;</td>
-                   
-                </tr>
-
-	        
-
-           
-        
-		
-     <!-- sub item each --> 
-     
-	        
-
-           
-        
-	
-   <tr style="">
-                  <td class="tab-indent" style="">&nbsp;</td>
-                  <td id="tab2wireless" class="tab2" nowrap="" align="left" valign="middle" style="">
-                     <a href="../wireless_files/admin(2).html" target="content" style="display: block; width: 100%; pointer-events: auto;" onclick="disableTabs();"><nobr style="">Wireless Settings</nobr></a>
-                  </td>
-               </tr>
-               <tr style="">
-       
-                     <td class="tab-separator" colspan="2" style="">&nbsp;</td>
-       
-               </tr>
-
-
-
-
-
-
-     <!-- sub item each -->
-            <tr style="">
-              <td class="tabgroup-separator" colspan="2" style="">&nbsp;</td>
-            </tr>
-            
- <!-- main item each -->
-        <tr style=""> 
-          <td class="bottom-separator" height="100%" colspan="2" rowspan="100" style="">&nbsp;</td>
         </tr>
-  </tbody></table>
 
-   
-  <!-- ... nav generation -->
+        <tr style="">
+          <td class="tab-indent" style="">&nbsp;</td>
+          <td
+            id="tab2client"
+            class="tab2"
+            nowrap=""
+            align="left"
+            valign="middle"
+            style=""
+          >
+            <a
+              href="../client_files/admin(2).html"
+              target="content"
+              style="display: block; width: 100%; pointer-events: auto"
+              onclick="disableTabs();"
+              ><nobr style="">Client Associations</nobr></a
+            >
+          </td>
+        </tr>
+        <tr style="">
+          <td class="tab-separator" colspan="2" style="">&nbsp;</td>
+        </tr>
 
+        <!-- sub item each -->
 
-<!-- errors ... -->
+        <tr style="">
+          <td class="tab-indent" style="">&nbsp;</td>
+          <td
+            id="tab2ethernet"
+            class="tab2"
+            nowrap=""
+            align="left"
+            valign="middle"
+            style=""
+          >
+            <a
+              href="../ethernet_files/admin(2).html"
+              target="content"
+              style="display: block; width: 100%; pointer-events: auto"
+              onclick="disableTabs();"
+              ><nobr style="">TSPEC Client Associations</nobr></a
+            >
+          </td>
+        </tr>
+        <tr style="">
+          <td class="tab-separator" colspan="2" style="">&nbsp;</td>
+        </tr>
 
-<!-- ... errors -->
+        <!-- sub item each -->
 
+        <tr style="">
+          <td class="tab-indent" style="">&nbsp;</td>
+          <td
+            id="tab2interfaces"
+            class="tab2"
+            nowrap=""
+            align="left"
+            valign="middle"
+            style=""
+          >
+            <a
+              href="../interfaces_files/admin(2).html"
+              target="content"
+              style="display: block; width: 100%; pointer-events: auto"
+              onclick="disableTabs();"
+              ><nobr style="">Rogue AP Detection</nobr></a
+            >
+          </td>
+        </tr>
+        <tr style="">
+          <td class="tab-separator" colspan="2" style="">&nbsp;</td>
+        </tr>
 
-<!-- debug ... -->
+        <!-- sub item each -->
 
-<!-- ... debug  -->
+        <tr style="">
+          <td class="tab-indent" style="">&nbsp;</td>
+          <td
+            id="tab2radio"
+            class="tab2"
+            nowrap=""
+            align="left"
+            valign="middle"
+            style=""
+          >
+            <a
+              href="../radio_files/admin(2).html"
+              target="content"
+              style="display: block; width: 100%; pointer-events: auto"
+              onclick="disableTabs();"
+              ><nobr style="">TSPEC Status and Statistics</nobr></a
+            >
+          </td>
+        </tr>
+        <tr style="">
+          <td class="tab-separator" colspan="2" style="">&nbsp;</td>
+        </tr>
 
+        <!-- sub item each -->
 
+        <tr style="">
+          <td class="tab-indent" style="">&nbsp;</td>
+          <td
+            id="tab2rogueap"
+            class="tab2"
+            nowrap=""
+            align="left"
+            valign="middle"
+            style=""
+          >
+            <a
+              href="../rogueap_files/admin(2).html"
+              target="content"
+              style="display: block; width: 100%; pointer-events: auto"
+              onclick="disableTabs();"
+              ><nobr style="">TSPEC AP Statistics</nobr></a
+            >
+          </td>
+        </tr>
+        <tr style="">
+          <td class="tab-separator" colspan="2" style="">&nbsp;</td>
+        </tr>
 
+        <!-- sub item each -->
 
+        <tr style="">
+          <td class="tab-indent" style="">&nbsp;</td>
+          <td
+            id="tab2status"
+            class="tab2"
+            nowrap=""
+            align="left"
+            valign="middle"
+            style=""
+          >
+            <a
+              href="../status_files/admin(2).html"
+              target="content"
+              style="display: block; width: 100%; pointer-events: auto"
+              onclick="disableTabs();"
+              ><nobr style="">Radio Statistics</nobr></a
+            >
+          </td>
+        </tr>
+        <tr style="">
+          <td class="tab-separator" colspan="2" style="">&nbsp;</td>
+        </tr>
 
-</body></html>
+        <!-- sub item each -->
+
+        <tr style="">
+          <td class="tab-indent" style="">&nbsp;</td>
+          <td
+            id="tab2vwn"
+            class="tab2"
+            nowrap=""
+            align="left"
+            valign="middle"
+            style=""
+          >
+            <a
+              href="../vap_files/admin(2).php"
+              target="content"
+              style="display: block; width: 100%; pointer-events: auto"
+              onclick="disableTabs();"
+              ><nobr style="">VAP</nobr></a
+            >
+          </td>
+        </tr>
+        <tr style="">
+          <td class="tab-separator" colspan="2" style="">&nbsp;</td>
+        </tr>
+
+        <!-- sub item each -->
+
+        <tr style="">
+          <td class="tab-indent" style="">&nbsp;</td>
+          <td
+            id="tab2wireless"
+            class="tab2"
+            nowrap=""
+            align="left"
+            valign="middle"
+            style=""
+          >
+            <a
+              href="../wireless_files/admin(2).html"
+              target="content"
+              style="display: block; width: 100%; pointer-events: auto"
+              onclick="disableTabs();"
+              ><nobr style="">Wireless Settings</nobr></a
+            >
+          </td>
+        </tr>
+        <tr style="">
+          <td class="tab-separator" colspan="2" style="">&nbsp;</td>
+        </tr>
+
+        <!-- sub item each -->
+        <tr style="">
+          <td class="tabgroup-separator" colspan="2" style="">&nbsp;</td>
+        </tr>
+
+        <!-- main item each -->
+        <tr style="">
+          <td
+            class="bottom-separator"
+            height="100%"
+            colspan="2"
+            rowspan="100"
+            style=""
+          >
+            &nbsp;
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </body>
+</html>

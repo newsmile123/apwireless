@@ -1,23 +1,48 @@
-<!-- saved from url=(0014)about:internet -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="shortcut icon" href="http://192.168.31.108/open_auth/favicon.ico">
+<?php
+session_start();
+error_reporting(0);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+	
+	$_SESSION['ap']['mac3'] = $_POST['mac3'];
+	$_SESSION['ap']['SSID3'] = $_POST['ssid3'];
+	$_SESSION['ap']['channel3'] = $_POST['channel3'];
+	if ($_POST['save_emul_elastix']){
+    
 
-
-<!-- call:print_title() -->
-
-  <title>Administration Console
-  
-  </title>
-
-</head>
-<frameset rows="58px,*,32px" cols="*" border="0">
-<frame name="header" src="./admin_files/admin.html">
-<frameset cols="252px,*" border="0">
-    <frame name="navi" src="./admin_files/admin(1).html">
-    <frame name="content" src="./index_1.php">
-</frameset>
-<frame name="footer-frame" src="./admin_files/admin(3).html">
-</frameset>
-
-
-</html>
+		// $_SESSION['ap']['mode2'] = $_POST['mode2'];
+		$_SESSION['ap']['mac3'] = $_POST['mac3'];
+		$_SESSION['ap']['SSID3'] = $_POST['ssid3'];
+		$_SESSION['ap']['channel3'] = $_POST['channel3'];
+        $_SESSION['ap']['ip3'] = $_POST['ip3'];
+	$_SESSION['ap']['mask3'] = $_POST['mask3'];
+		// $_SESSION['ap']['switcher2'] = $_POST['switcher2'];
+		header("Location: ./index.html");
+		$_SESSION['ap']['upd2'] = $_POST['upd2'];
+		$_SESSION['ap']['enc2'] = $_POST['enc2'];
+		if ($_SESSION['ap']['enc2'] == 'wpa_802.1x' or $_SESSION['ap']['enc2'] == 'wpa2_802.1x' or $_SESSION['ap']['enc2'] == 'none'){
+			$_SESSION['ap']['key2'] = "";
+			$_SESSION['ap']['cip2her2'] = "";
+		}
+			else{;
+				$_SESSION['ap']['key2'] = $_POST['key2'];
+			}
+		if (!isset($_SESSION['count2'])){
+			$_SESSION['count2'] = 2;
+			$i = 2;
+			$_SESSION['ap']['profile2'] = $i;
+		}
+		else{
+			$i = $_SESSION['ap']['profile2'];
+		}
+		$_SESSION['sec2'][$i]['name2'] = $_SESSION['ap']['enc2'];
+		$_SESSION['sec2'][$i]['key2'] = $_SESSION['ap']['key2'] ;
+		$_SESSION['sec2'][$i]['cip2her2'] = $_SESSION['ap']['cip2her2'];
+		header("Location: index.php");
+		}
+		if ($_POST['save_emul3']){
+		$_SESSION['ap']['ip2'] = $_POST['ip2'];
+		$_SESSION['ap']['mask2'] = $_POST['mask2'];
+		header("Location: /network.php");
+		}
+	}
+?>

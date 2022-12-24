@@ -403,10 +403,10 @@ input, select, option {
     	<td colspan="2" class="tableheader">Радиус</td></tr>
 		<tr height="10"></tr>
 		<tr>
-			<td>Radius IP Address</td><td><input  type="text" class="formtext" name="radius_ip" align="left" width="150" value="<?=(isset($_SESSION['radius']['ip'])?$_SESSION['radius']['ip']:'')?>"/></td></tr>
+			<td>Radius IP Address</td><td><input  type="text" class="formtext" name="radius_ip" align="left" width="150" value="<?=(isset($_SESSION['radius']['ip3'])?$_SESSION['radius']['ip3']:'')?>"/></td></tr>
 		<tr>
 		<tr>
-			<td>Radius Key</td><td><input  type="text" class="formtext" name="radius_secret" align="left" width="150" value="<?=(isset($_SESSION['radius']['secret'])?$_SESSION['radius']['secret']:'')?>"/></td></tr>
+			<td>Radius Key</td><td><input  type="text" class="formtext" name="radius_secret" align="left" width="150" value="<?=(isset($_SESSION['radius']['secret3'])?$_SESSION['radius']['secret3']:'')?>"/></td></tr>
 		<tr>
 		<tr><td>Radius port</td><td><input  type="text" class="formtext" name="radius_port" align="left" width="150" value="<?=(isset($_SESSION['radius']['port'])?$_SESSION['radius']['port']:'')?>"/></td></tr>
 		<tr>
