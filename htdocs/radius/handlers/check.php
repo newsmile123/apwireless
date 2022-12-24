@@ -7,6 +7,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$ap_ip = $_SESSION['ap']['ip'];
 	array_push($key, 'ap_ip');
 	array_push($value, $ap_ip);
+	} else {
+		if (isset($_SESSION['ap']['ip3'])){
+			$ap_ip = $_SESSION['ap']['ip3'];
+			array_push($key, 'ap_ip');
+			array_push($value, $ap_ip);
+			}
 	}
 	if (isset($_SESSION['ClientMAC'])){
 	$mac = $_SESSION['ClientMAC'];
