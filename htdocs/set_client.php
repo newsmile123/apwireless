@@ -92,13 +92,13 @@ error_reporting(0);
 <tr>
 <td width="50%" bgcolor="white" valign="top" align="left">
 <table cellpadding="1" cellspacing="1" style="margin-top:10px; margin-left:40px; " width="100%" border="0">
-	<tr>
-    	<td class="tableheader">Доступные подключения</td></tr>
+	    <tr>
+    	    <td class="tableheader">Доступные подключениия</td></tr>
         <tr>
         <td>
         	<table border="0">
             	<tr>
-                	<td width="400px" height="200px">
+                	<td width="400px" height="600px">
                     	<table width="100%" height="100%" style="border: 2px solid #fff;" border="0">
                         	<tr>
                             	<td width="100%" valign="top" style="padding:5px;">
@@ -174,15 +174,15 @@ error_reporting(0);
                                    
                                 </td>
                     </td>
+                    
                 </tr>
 
-
-                <!-- <tr>
+                <tr>
                 	<td width="400px" height="200px">
                     	<table width="100%" height="100%" style="border: 2px solid #fff;" border="0">
                         	<tr>
                             	<td width="100%" valign="top" style="padding:5px;">
-                                	<div id="switcher3">
+                                	<div id="switcher3" style="<?php (isset($_SESSION['ap']['switcher3'])?'':'display: none') ?>">
 									 
                                     	<p>Беспроводное сетевое соединение</p>
                                         <form action="set/psk_client_connect3.php" name="connection3" method="post">
@@ -217,11 +217,38 @@ error_reporting(0);
                                 </td>
                     </td>
                 </tr>
-		 -->
+
+
+
+           
+		 
             </table>
 
-         </td>       		
+         </td>   
+         		
     </tr>
+    <script>
+        var getSwitcherElastix = "<?php echo $_SESSION['ap']['switcher3']; ?>"
+
+        var getSuccessElastix = "<?php echo $_SESSION['ap']['success3']; ?>"
+
+        console.log(getSwitcherElastix)
+
+        var elastixConnection = document.getElementById('switcher3');    
+        var elastixSuccess = document.getElementById('connected3');   
+
+        if (getSwitcherElastix == 1) {
+            elastixConnection.style.display = 'block'
+        } else {
+            elastixConnection.style.display = 'none'
+        }
+
+        if (getSuccessElastix === 1) {
+            elastixSuccess.style.display = 'block'
+        } else {
+            elastixSuccess.style.display = 'none'
+        }
+    </script>
 </table>
 </table>
 </td>
@@ -262,7 +289,7 @@ error_reporting(0);
 </table>
 </table>
 </div>
- <div id="tabs-2">
+ <div>
      <table align="left" cellpadding="1" width="100%" border="0">
     <tr><td width="40%">
     	<table align="left" cellpadding="1" style="margin-top:-123px; margin-left:20px" width="100%" border="0">

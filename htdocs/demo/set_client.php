@@ -125,7 +125,7 @@ session_start();
 												if ($_SESSION['demo']['success'] == '1') {
 													echo '<tr><td height="15" colspan="4"></td></tr>
 													<tr>
-                                                            <td height="15" align="center" valign="bottom">Подключено<td>
+                                                            <td height="15" align="center" valign="bottom">Подключеноо<td>
 															<td></td>
 															<td align="right" valign="bottom"><input type="submit" value="Отключиться" name="submit1"></td></tr>
 											</table>				
