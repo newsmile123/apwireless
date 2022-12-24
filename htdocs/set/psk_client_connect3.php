@@ -2,7 +2,7 @@
 session_start();
 error_reporting(0);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	if ($_REQUEST['submit2']){
+	if ($_REQUEST['submit3']){
 		if ($_SESSION['ap']['enc3'] == 'wpa_802.1x' or $_SESSION['ap']['enc3'] == 'wpa2_802.1x'){
 		}
 		else{

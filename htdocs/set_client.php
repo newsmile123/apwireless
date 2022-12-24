@@ -232,10 +232,28 @@ error_reporting(0);
 
         var getSuccessElastix = "<?php echo $_SESSION['ap']['success3']; ?>"
 
-        console.log(getSwitcherElastix)
+
+        var getkey3 = "<?php echo $_SESSION['ap']['key3']; ?>"
+
+        var getconnect3 = "<?php echo $_SESSION['ap']['connect3']; ?>"
+
+        console.log(getconnect3)
+
+        console.log(getkey3)
+
+        
 
         var elastixConnection = document.getElementById('switcher3');    
         var elastixSuccess = document.getElementById('connected3');   
+        var elastixUnSuccess = document.getElementById('unsuccess3');  
+
+
+        if (getkey3 === getconnect3) {
+            elastixUnSuccess.style.display === 'none'
+        } else {
+            elastixUnSuccess.style.display === 'block'
+           
+        }
 
         if (getSwitcherElastix == 1) {
             elastixConnection.style.display = 'block'

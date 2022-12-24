@@ -409,22 +409,10 @@ input, select, option {
 			<td>Radius Key</td><td><input  type="text" class="formtext" name="radius_secret" align="left" width="150" value="<?=(isset($_SESSION['radius']['secret3'])?$_SESSION['radius']['secret3']:'')?>"/></td></tr>
 		<tr>
 		<tr><td>Radius port</td><td><input  type="text" class="formtext" name="radius_port" align="left" width="150" value="<?=(isset($_SESSION['radius']['port'])?$_SESSION['radius']['port']:'')?>"/></td></tr>
-		<tr>
-		<tr>
-			<td>Radius domain</td><td><input  type="text" class="formtext" name="mac3" align="left" width="150" value="<?=(isset($_SESSION['ap']['mac3'])?$_SESSION['ap']['mac3']:'')?>"/></td></tr>
-		<tr>
+		
+		
 
-		<tr>
-   		<td width="180">Active server</td>
-  	 	<td width="134">
-			<select name="enc3" class="formdropdown">
-        		<option value="none" <?php if (isset($_SESSION['ap']['enc3'])) { if ($_SESSION['ap']['enc3'] == 'none'){ echo 'selected';}}?>>none</option>
-        		<option value="wep" <?php if (isset($_SESSION['ap']['enc3'])) { if ($_SESSION['ap']['enc3'] == 'wep'){ echo 'selected';}}?>>WEP (RC4)</option>
-   				<option value="wpa_psk" <?php if (isset($_SESSION['ap']['enc3'])) { if ($_SESSION['ap']['enc3'] == 'wpa_psk'){ echo 'selected';}}?>>WPA-PSK (TKIP)</option>
-            	<option value="wpa_802.1x" <?php if (isset($_SESSION['ap']['enc3'])) { if ($_SESSION['ap']['enc3'] == 'wpa_802.1x'){ echo 'selected';}}?>>WPA-Enterprise (TKIP+802.1x)</option>
-				<option value="wpa2_psk" <?php if (isset($_SESSION['ap']['enc3'])) { if ($_SESSION['ap']['enc3'] == 'wpa2_psk'){ echo 'selected';}}?>>WPA2 (CCMP)</option>
-            	<option value="wpa2_802.1x" <?php if (isset($_SESSION['ap']['enc3'])) { if ($_SESSION['ap']['enc3'] == 'wpa2_802.1x'){ echo 'selected';}}?>>WPA2-Enterprise (CCMP+802.1x)</option>
-		</td>
+   		
    	</tr>
    <tr height="15"></tr>
     <tr>
