@@ -47,6 +47,8 @@ $("document").ready(function(e) {
 				run = obj.run;
 				nas_secret = obj.nas_secret;
 				radius_secret = obj.radius_secret;
+
+				console.log('pidor')
 				
 				if (switcher == 1){
 					$("#switcher").show();

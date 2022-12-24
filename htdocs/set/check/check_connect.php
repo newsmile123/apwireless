@@ -7,6 +7,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$switcher = $_SESSION['ap']['switcher'];
 	array_push($key, 'switcher');
 	array_push($value, $switcher);
+	} else {
+		if (isset($_SESSION['ap']['switcher3'])){
+			$switcher3 = $_SESSION['ap']['switcher3'];
+			array_push($key, 'switcher3');
+			array_push($value, $switcher3);
+			}
 	}
 	if (isset($_SESSION['ap']['switcher2'])){
 	$switcher2 = $_SESSION['ap']['switcher2'];
@@ -22,17 +28,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$pass = $_SESSION["ap"]["key"];
 	array_push($key, 'pass');
 	array_push($value, $pass);
+	} else {
+		if (isset($_SESSION["ap"]["key3"])){
+			$pass3 = $_SESSION["ap"]["key3"];
+			array_push($key, 'pass3');
+			array_push($value, $pass3);
+			}
 	}
 	if (isset($_SESSION["ap"]["key2"])){
 	$pass2 = $_SESSION["ap"]["key2"];
 	array_push($key, 'pass2');
 	array_push($value, $pass2);
 	}
-	if (isset($_SESSION["ap"]["key3"])){
-		$pass3 = $_SESSION["ap"]["key3"];
-		array_push($key, 'pass3');
-		array_push($value, $pass3);
-		}
+
 	if (isset($_SESSION['success'])){
 		$success = $_SESSION['success'];
 		array_push($key, 'success');

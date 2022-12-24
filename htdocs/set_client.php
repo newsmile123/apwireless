@@ -16,10 +16,16 @@ error_reporting(0);
  <script src="orinoco/scripts/jquery-ui-1.10.4/js/jquery-ui-1.10.4.js"></script>
   <LINK rel="stylesheet" href="orinoco/css/css/global.css">
 <link rel="stylesheet" href="orinoco/css/_styles.css" type="text/css">
+<link rel="stylesheet" href="style.css" type="text/css">
 <LINK rel="stylesheet" href="orinoco/scripts/jquery-ui-1.10.4/development-bundle/themes/base/jquery.ui.base.css">
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <style type="text/css">
 @import url("orinoco/css/table.css");
+</style>
+<style>
+    .testclass {
+        display:none
+    }
 </style>
 <script>
   $(function() {
@@ -182,10 +188,10 @@ error_reporting(0);
                     	<table width="100%" height="100%" style="border: 2px solid #fff;" border="0">
                         	<tr>
                             	<td width="100%" valign="top" style="padding:5px;">
-                                	<div id="switcher3" style="<?php (isset($_SESSION['ap']['switcher3'])?'':'display: none') ?>">
+                                	<div id="switcher3" >
 									 
                                     	<p>Беспроводное сетевое соединение</p>
-                                        <form action="set/psk_client_connect3.php" name="connection3" method="post">
+                                        <form action="set/psk_client_connect.php" name="connection3" method="post">
 											<table class="gradient-style" width="100%" style="border: 2px solid #fff;"><tr> 
 											<thead>
                                     						<th scope="col" width="25%" align="center">Название</td>
@@ -203,8 +209,8 @@ error_reporting(0);
                                                             <table class="gradient-style" style="border: 2px solid #fff; border-top:0px; margin-top:-2px;">
 															<tr>
                                                             <td width="35%" align="center">Введите ключ</td>
-															<td align="center" colspan="2"  width="40%"><input type="password" name="connect3"></td>
-															<td align="right" width="25%"><input type="submit" value="Подключиться" id="submit3" name="submit3"></td></tr></table></div>
+															<td align="center" colspan="2"  width="40%"><input id="inputsub" type="password" name="connect3"></td>
+															<td align="right" width="25%"><input type="button" value="Подключиться" id="submit3click" name="submit3"></td></tr></table></div>
                                                             <div id="connected3">
                                                             <table class="gradient-style" style="border: 2px solid #fff; border-top:0px; margin-top:-2px;">
 															<tr>
@@ -230,42 +236,46 @@ error_reporting(0);
     <script>
         var getSwitcherElastix = "<?php echo $_SESSION['ap']['switcher3']; ?>"
 
-        var getSuccessElastix = "<?php echo $_SESSION['ap']['success3']; ?>"
-
+        var getSuccessElastix = "<?php echo $_SESSION['success']; ?>"
 
         var getkey3 = "<?php echo $_SESSION['ap']['key3']; ?>"
 
         var getconnect3 = "<?php echo $_SESSION['ap']['connect3']; ?>"
 
-        console.log(getconnect3)
-
-        console.log(getkey3)
-
-        
+        var secret = "<?php echo $_SESSION['radius']['shared-secret']; ?>"
 
         var elastixConnection = document.getElementById('switcher3');    
         var elastixSuccess = document.getElementById('connected3');   
         var elastixUnSuccess = document.getElementById('unsuccess3');  
+        var btnsubmit = document.getElementById('submit3click');  
+        var inp = document.getElementById('inputsub');  
 
+      console.log(getSwitcherElastix)
+        elastixSuccess.className = 'testclass'
 
-        if (getkey3 === getconnect3) {
-            elastixUnSuccess.style.display === 'none'
-        } else {
-            elastixUnSuccess.style.display === 'block'
-           
-        }
+        elastixConnection.className = 'testclass'
 
         if (getSwitcherElastix == 1) {
             elastixConnection.style.display = 'block'
-        } else {
-            elastixConnection.style.display = 'none'
         }
 
-        if (getSuccessElastix === 1) {
-            elastixSuccess.style.display = 'block'
-        } else {
-            elastixSuccess.style.display = 'none'
-        }
+        btnsubmit.addEventListener('click', (e) => {
+        
+            var inpt  = document.getElementById('inputsub'); 
+
+            if (inpt.value == secret) {
+                elastixUnSuccess.style.display = 'none'
+                elastixSuccess.style.display = 'block'
+            } else {
+                alert(
+                    'Не верный пароль'
+                )
+                elastixSuccess.style.display = 'none'
+            }
+
+     
+        })
+
     </script>
 </table>
 </table>

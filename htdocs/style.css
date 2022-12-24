@@ -414,3 +414,8 @@ $(document).ready(function() {
 </table>
 </body>
 </html>
+
+
+.testclass {
+	display: none
+}
