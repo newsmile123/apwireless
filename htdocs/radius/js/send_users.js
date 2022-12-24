@@ -11,6 +11,7 @@ $("document").ready(function(e) {
 				var service = $('input[name*="service"]').val();
 				var ip = $('input[name*="ip"]').val();
 				var priority = $('input[name*="priority"]').val();
+				console.log(user)
 				if ($ap_ip == ip && user == $mac){
 					$.post("handlers/users.php", { user: user, auth: auth, pass: pass, service: service, ip: ip, priority: priority})
 					.done(function(data) {
@@ -19,7 +20,8 @@ $("document").ready(function(e) {
 				}
 				else{
 					if ($mac != user){
-						alert("Такого пользователя не существует");
+						
+						alert("Такого пользователя не существffует");
 					}
 					if ($ap_ip != ip){
 						alert("Такого NAS не существет");

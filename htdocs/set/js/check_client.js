@@ -47,6 +47,7 @@ $("document").ready(function(e) {
 				run = obj.run;
 				nas_secret = obj.nas_secret;
 				radius_secret = obj.radius_secret;
+				
 				if (switcher == 1){
 					$("#switcher").show();
 				}
@@ -54,7 +55,8 @@ $("document").ready(function(e) {
 					$("#switcher2").show();
 				}
 				if (switcher3 == 1){
-					$('#switcher3').show()
+					$('#switcher3').show();
+
 				}
 				if (success == 1){
 					$("#connected").show();
@@ -134,7 +136,7 @@ $("document").ready(function(e) {
 					}
 					else{
                     if (key != password){
-						alert("Вы ввели неправильный пароль");
+						alert("Вы ввели неправильный парольи");
 						return false;
 					}
 					else{
@@ -190,4 +192,52 @@ $("document").ready(function(e) {
 					}
                 });
 			});
+
+			$("#submit3").click(function(e) {
+				var key3 = $('input[name="connect3"]').val();
+				if (enc3 == 'wpa_802.1x' || enc3 == 'wpa2_802.1x'){
+					if (run != '1'){
+						alert("Запустите RADIUS-сервер");
+					}
+					else{
+					if (ready == '0'){
+					alert("Вы выбрали режим безопасности, использующий аутентификацию по стандарту 802.1x. Осуществите настройки сервера аутентификации.");
+					window.location = "set_client.php#tabs-2";
+					return false;
+					}
+					else{
+						if (key3 != pass3){
+							$.post("set/radius_client_connect.php", { output: "pass_wrong"});
+							window.location = "set_client.php#tabs-2";
+							location.reload();
+							return false;
+						}
+						else{
+							if (nas_secret != radius_secret){
+								$.post("set/radius_client_connect.php", { output: "secret_wrong"});
+								window.location = "set_client.php#tabs-2";
+								location.reload();
+								return false;
+							}
+							else{
+								$.post("set/radius_client_connect.php", { output: "secret_ok"});
+								window.location = "set_client.php#tabs-2";
+								location.reload();
+								return false;
+							}
+						}
+					}
+					}
+				}
+				else{
+				if (key3 != password3){
+					alert("Вы ввели неправильный пароль");
+					return false;
+				}
+				else{
+					return true;
+				}
+				}
+			});
+	
 })
