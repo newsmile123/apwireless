@@ -24,5 +24,16 @@ if ($_POST['Radius_Emul']){
 
 header("Location: ../emul/cfg/rad-radius.html");
 }
+
+if ($_POST['radius_emul_elastix']){	
+
+		$_SESSION['radius']['ip3'] = $_POST['radius_ip3'];
+
+		$_SESSION['radius']['port3'] = $_POST['radius_port3'];
+		$_SESSION['radius']['secret3'] = $_POST['radius_pass3'];
+		
+
+header("Location: ../elastix/vap_files/admin(2).php");
+}
 }
 ?>
