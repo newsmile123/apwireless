@@ -1513,7 +1513,7 @@ else
   <tr>
     <td class="label" nowrap="">RADIUS Key:&nbsp;</td>
       <td>
-         <input type="text" class="formtext" name="radius_pass3" value="<?=(isset($_SESSION['radius']['secret3'])?$_SESSION['radius']['secret3']:'')?>" required="required"/>
+         <input type="text" class="formtext" name="radius_secret3" value="<?=(isset($_SESSION['radius']['secret3'])?$_SESSION['radius']['secret3']:'')?>" required="required"/>
       </td>
   </tr>
   
@@ -2464,7 +2464,6 @@ function wparadiusvlans0validateWpaEnterprise(title) {
       <tr style="color: rgb(128, 128, 128);">
         <td class="label" nowrap="" style="color: rgb(128, 128, 128);">RADIUS Key:&nbsp;</td>
         <td style="color: rgb(128, 128, 128);">
-        <input id="wparadiusvlans0key-field" type="password" name="radius_secret3" maxlength="64" value="<?=(isset($_SESSION['radius']['secret3'])?$_SESSION['radius']['secret3']:'')?>" onchange="javascript:document.getElementById(&#39;wparadiusvlans0radius-key-flag&#39;).value = &#39;1&#39;;" disabled="">
         </td>
       </tr>
       <tr style="color: rgb(128, 128, 128);">

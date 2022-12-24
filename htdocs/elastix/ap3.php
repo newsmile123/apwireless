@@ -6,6 +6,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$_SESSION['ap']['mac3'] = $_POST['mac3'];
 	$_SESSION['ap']['SSID3'] = $_POST['ssid3'];
 	$_SESSION['ap']['channel3'] = $_POST['channel3'];
+	$_SESSION['radius']['ip3'] = $_POST['radius_ip3'];
+        $_SESSION['radius']['secret3'] = $_POST['radius_secret3'];
+        $_SESSION['radius']['port3'] = $_POST['radius_port3'];
 	if ($_POST['save_emul_elastix']){
     
 
