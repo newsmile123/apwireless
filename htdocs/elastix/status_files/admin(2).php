@@ -663,7 +663,10 @@ function ajaxUpdateCpuMemoryUsage()
               <td> </td>
               <td class="label">IP Address:</td>
               <td align="left" class="label">
-                192.168.0.9
+                <?php
+                  session_start();
+                  echo $_SESSION['ap']['ip3'];
+                ?>
               </td>
             </tr>
           
@@ -673,7 +676,10 @@ function ajaxUpdateCpuMemoryUsage()
               <td> </td>
               <td class="label">MAC Address:</td>
               <td align="left" class="label"> 
-                A8:F9:4B:16:AF:60
+                <?php
+                  session_start();
+                  echo $_SESSION['ap']['mac3'];
+                ?>
               </td>
             </tr>
             <tr> 
@@ -688,7 +694,7 @@ function ajaxUpdateCpuMemoryUsage()
               <td class="label">Uptime:</td>
               <td align="left" class="label">
                 <div id="system_uptime">
-                20 days, 22 hours, 55 minutes
+                
                 </div>
               </td>
             </tr>
@@ -697,7 +703,7 @@ function ajaxUpdateCpuMemoryUsage()
               <td class="label">CPU Usage:</td>
               <td align="left" class="label">
                 <div id="cpu_usage">
-                56.90%
+                
                 </div>
               </td>
             </tr>
@@ -705,7 +711,7 @@ function ajaxUpdateCpuMemoryUsage()
               <td> </td>
               <td class="label">Memory Usage:</td>
               <td align="left" class="label" id="memory_usage">
-                114MB/248MB (45%)
+                
               </td>
             </tr>
             <tr>

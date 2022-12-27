@@ -694,7 +694,11 @@ function validateMgmtVlanId() {
       <td class="label">MAC Address
       </td>
       <td>&nbsp;</td>
-      <td>A8:F9:4B:16:AF:60
+      <td>
+        <?php
+            session_start();
+            echo $_SESSION['ap']['mac3'];
+        ?>
       </td>
     
 	</tr><tr>
