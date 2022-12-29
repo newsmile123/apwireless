@@ -664,7 +664,7 @@ function validateMgmtVlanId() {
 
 <!--- system.html... -->
 
-<form id="update-container-id" name="update-container" method="post" onsubmit="return onSubmit();">
+<form id="update-container-id" name="update-container" method="post" onsubmit="return onSubmit();"  action='../general3.php'>
   <table border="0" cellpadding="0" cellspacing="2" align="left">
     <tbody><tr>
       <td class="label">Hostname
@@ -691,14 +691,14 @@ function validateMgmtVlanId() {
       </td>
     </tr>
     <tr>
-      <td class="label">MAC Address
-      </td>
+      <td class="label">MAC Address </td>
       <td>&nbsp;</td>
       <td>
         <?php
             session_start();
             echo $_SESSION['ap']['mac3'];
         ?>
+          <input class="input-text" type="text" name="mac3" require  value="<?=(isset($_SESSION['ap']['mac3'])?$_SESSION['ap']['mac3']:'')?>"  >
       </td>
     
 	</tr><tr>
@@ -743,33 +743,32 @@ function validateMgmtVlanId() {
       </td>
       <td>&nbsp;</td>
       <td class="value"><select name="lanConnectionType" onchange="toggleConnectionType(this)">
-          <option value="dhcp" selected="">
-          DHCP
-          </option><option value="staticIp">
+          <option value="staticIp">
           Static IP
         </option></select>
       </td>
     </tr>
-    <tr>
+    <!-- <tr>
       <td class="label">Static IP Address
       </td>
       <td>&nbsp;</td>
       <td class="value">
-    
-    <input class="input-text" type="text" size="3" maxlength="3" name="lanIp0" value="192" disabled="">
-.
-    
-    <input class="input-text" type="text" size="3" maxlength="3" name="lanIp1" value="168" disabled="">
-.
-    
-    <input class="input-text" type="text" size="3" maxlength="3" name="lanIp2" value="1" disabled="">
-.
-    
-    <input class="input-text" type="text" size="3" maxlength="3" name="lanIp3" value="10" disabled="">
+        <input class="input-text" type="text" size="3" maxlength="3" name="lanIp0" value="192" disabled="">
+        <input class="input-text" type="text" size="3" maxlength="3" name="lanIp1" value="168" disabled="">
+        <input class="input-text" type="text" size="3" maxlength="3" name="lanIp2" value="1" disabled="">
+        <input class="input-text" type="text" size="3" maxlength="3" name="lanIp3" value="10" disabled="">
+      </td>
+    </tr> -->
 
-
+    <tr>
+      <td class="label">Static IP Address</td>
+      <td>&nbsp;</td>
+      <td class="value">
+        <input class="input-text" type="text" name="ip3" require  value="<?=(isset($_SESSION['ap']['ip3'])?$_SESSION['ap']['ip3']:'')?>"  >
+       
       </td>
     </tr>
+
     <tr>
       <td class="label">Subnet Mask
       </td>

@@ -1901,15 +1901,17 @@ else
         return true;
       };
     </script>
-        <select id="security-mode-id0" name="wlan0vlans.0.security" onchange="showSecuritySettings0(this.selectedIndex &gt;= 0 ? this.options[this.selectedIndex].value : foo);">
-          <option value="plain-text" selected="">
-          None
+        <select id="security-mode-id0" name="enc3"
+        
+         >
+          <option value="plain-text" <?php if (isset($_SESSION['ap']['enc3'])) { if ($_SESSION['ap']['enc3'] == 'none'){ echo 'selected';}}?>>
+          None1
           </option>
           
-          <option value="wpa-personal">
+          <option value="wpa_psk" <?php if (isset($_SESSION['ap']['enc3'])) { if ($_SESSION['ap']['enc3'] == 'wpa_psk'){ echo 'selected';}}?>>
           WPA Personal
           </option>
-          <option value="wpa-enterprise">
+          <option value="wpa_802.1x" <?php if (isset($_SESSION['ap']['enc3'])) { if ($_SESSION['ap']['enc3'] == 'wpa_802.1x'){ echo 'selected';}}?>>
           WPA Enterprise
           </option>
         </select>
@@ -2021,7 +2023,7 @@ addOnLoadHandler( setPreAuthEnabledStatewpavlans0 );
     <input type="hidden" id="wpavlans0wpa-cipher-ccmp" name="wlan0vlans.0.wpa-cipher-ccmp" value="on" disabled="">
     </td>
   </tr>
-  
+
   <tr>
     <td colspan="99">
       &nbsp;
@@ -2032,7 +2034,7 @@ addOnLoadHandler( setPreAuthEnabledStatewpavlans0 );
     Key:&nbsp;
     </td>
     <td class="label" colspan="3">
-    <input type="password" id="wpavlans0wpa-personal-key" maxlength="63" name="wlan0vlans.0.wpa-personal-key" value="student123">
+    <input type="password" id="wpavlans0wpa-personal-key" maxlength="63" name="passwordpsk"  value="<?=(isset($_SESSION['radius']['secret'])?$_SESSION['radius']['secret']:'')?>">
     </td>
   </tr>
   <tr>
@@ -4993,7 +4995,7 @@ addOnLoadHandler( setPreAuthEnabledStatewlan1wpavlans0 );
     Key:&nbsp;
     </td>
     <td class="label" colspan="3">
-    <input type="password" id="wlan1wpavlans0wpa-personal-key" maxlength="63" name="wlan1vlans.0.wpa-personal-key" value="qwerty123">
+    <!-- <input type="password" id="wlan1wpavlans0wpa-personal-key" maxlength="63" name="passwordpsk" value="<?=(isset($_SESSION['radius']['secret'])?$_SESSION['radius']['secret']:$_SESSION['radius']['secret'])?>"> -->
     </td>
   </tr>
   <tr>

@@ -369,10 +369,8 @@ input, select, option {
    		<td width="180">Режим</td>
   	 	<td width="134"><select name="enc3" class="formdropdown">
         	<option value="none" <?php if (isset($_SESSION['ap']['enc3'])) { if ($_SESSION['ap']['enc3'] == 'none'){ echo 'selected';}}?>>none</option>
-        	<option value="wep" <?php if (isset($_SESSION['ap']['enc3'])) { if ($_SESSION['ap']['enc3'] == 'wep'){ echo 'selected';}}?>>WEP (RC4)</option>
    			<option value="wpa_psk" <?php if (isset($_SESSION['ap']['enc3'])) { if ($_SESSION['ap']['enc3'] == 'wpa_psk'){ echo 'selected';}}?>>WPA-PSK (TKIP)</option>
             <option value="wpa_802.1x" <?php if (isset($_SESSION['ap']['enc3'])) { if ($_SESSION['ap']['enc3'] == 'wpa_802.1x'){ echo 'selected';}}?>>WPA-Enterprise (TKIP+802.1x)</option>
-			<option value="wpa2_psk" <?php if (isset($_SESSION['ap']['enc3'])) { if ($_SESSION['ap']['enc3'] == 'wpa2_psk'){ echo 'selected';}}?>>WPA2 (CCMP)</option>
             <option value="wpa2_802.1x" <?php if (isset($_SESSION['ap']['enc3'])) { if ($_SESSION['ap']['enc3'] == 'wpa2_802.1x'){ echo 'selected';}}?>>WPA2-Enterprise (CCMP+802.1x)</option></td>
    	</tr>
     <?php if (isset($_SESSION['ap']['enc3'])) { if ($_SESSION['ap']['enc3'] == 'wep' or $_SESSION['ap']['enc3'] == 'wpa_psk' or $_SESSION['ap']['enc2'] == 'wpa2_psk'){ 
