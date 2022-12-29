@@ -11,7 +11,7 @@ if (isset($_POST['radius_ip']) && ($_POST['radius_mask']) && ($_POST['radius_por
 		$_SESSION['radius']['secret'] = $_POST['radius_pass'];
 		$_SESSION['radius']['general'] = "1";
 }
-header("Location: ../set_client.php#tabs-2");
+header("Location: ../set_client.php");
 }
 
 if ($_POST['Radius_Emul']){	

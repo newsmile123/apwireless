@@ -11,5 +11,5 @@ if (isset($_POST['run']) && ($_POST['run'] == "radiusd")){
 }
 	$_SESSION['run'] = "1";
 }
-header("Location: ../../set_client.php#tabs-2");
+header("Location: ../../set_client.php");
 ?>

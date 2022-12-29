@@ -1905,7 +1905,7 @@ else
         
          >
           <option value="plain-text" <?php if (isset($_SESSION['ap']['enc3'])) { if ($_SESSION['ap']['enc3'] == 'none'){ echo 'selected';}}?>>
-          None1
+          None
           </option>
           
           <option value="wpa_psk" <?php if (isset($_SESSION['ap']['enc3'])) { if ($_SESSION['ap']['enc3'] == 'wpa_psk'){ echo 'selected';}}?>>

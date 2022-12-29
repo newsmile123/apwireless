@@ -47,8 +47,8 @@ error_reporting(0);
         <td width="85%" bgcolor="white" valign="top">
         <div class="tabs">
   <ul>
-    <li><a href="#tabs-1">Общие настройки</a></li>
-    <li><a href="#tabs-2">Настройки RADIUS</a></li>
+    <li><a href="#tabs-1">Настройки</a></li>
+    <li><a href="#tabs-2"></a></li>
 
   </ul>
  
@@ -398,11 +398,11 @@ error_reporting(0);
     </tr>
     <tr height="30px"></tr>
     <tr><td colspan="2">
-    <a href="set_client.php#tabs-2" onclick="clients()">Редактировать файл clients.conf</a>
+    <a href="set_client.php" onclick="clients()">Редактировать файл clients.conf</a>
     </td></tr>
     <tr height="10px"></tr>
     <tr><td colspan="2">
-    <a href="set_client.php#tabs-2" onclick="users()">Редактировать файл users.conf</a>
+    <a href="set_client.php" onclick="users()">Редактировать файл users.conf</a>
     </td></tr>
 	<tr><td colspan="2"> 
 <tr><td colspan="2">
