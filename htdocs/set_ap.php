@@ -397,7 +397,7 @@ input, select, option {
 			  </td></tr>
 			  <tr height="5"></tr>
 	<tr>
-   <tr>
+   <!-- <tr>
     	<td colspan="2" class="tableheader">Радиус</td></tr>
 		<tr height="10"></tr>
 		<tr>
@@ -414,7 +414,7 @@ input, select, option {
 		
 
    		
-   	</tr>
+   	</tr> -->
    <tr height="15"></tr>
     <tr>
     <td colspan="2" align="right"><input value='Сохранить' type="submit" name="save_ap3"/>

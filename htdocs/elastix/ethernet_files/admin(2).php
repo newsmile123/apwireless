@@ -770,49 +770,23 @@ function validateMgmtVlanId() {
     </tr>
 
     <tr>
-      <td class="label">Subnet Mask
-      </td>
+      <td class="label">Subnet Mask</td>
       <td>&nbsp;</td>
       <td class="value">
-    
-    <input class="input-text" type="text" size="3" maxlength="3" name="lanNetmask0" value="255" disabled="">
-.
-    
-    <input class="input-text" type="text" size="3" maxlength="3" name="lanNetmask1" value="255" disabled="">
-.
-    
-    <input class="input-text" type="text" size="3" maxlength="3" name="lanNetmask2" value="255" disabled="">
-.
-    
-    <input class="input-text" type="text" size="3" maxlength="3" name="lanNetmask3" value="0" disabled="">
-
-
+      <input class="input-text" type="text" name="mask3" require  value="<?=(isset($_SESSION['ap']['mask3'])?$_SESSION['ap']['mask3']:'')?>"  >
       </td>
     </tr>
     
     <!-- default gateway fields ... -->
-        <tr>
-            <td class="label">
-                Default Gateway
-            </td>
-            <td>&nbsp;</td>
-            <td class="value">
-                
-    
-    <input class="input-text" type="text" size="3" maxlength="3" name="gateway0" value="192" disabled="">
-.
-    
-    <input class="input-text" type="text" size="3" maxlength="3" name="gateway1" value="168" disabled="">
-.
-    
-    <input class="input-text" type="text" size="3" maxlength="3" name="gateway2" value="1" disabled="">
-.
-    
-    <input class="input-text" type="text" size="3" maxlength="3" name="gateway3" value="254" disabled="">
-
-
-            </td>
-        </tr>
+    <tr>
+        <td class="label">
+            Default Gateway
+        </td>
+        <td>&nbsp;</td>
+        <td class="value">
+        <input class="input-text" type="text" name="gateway3" require  value="<?=(isset($_SESSION['ap']['gateway3'])?$_SESSION['ap']['gateway3']:'')?>"  >
+        </td>
+    </tr>
   <!-- ... default gateway fields
 
     

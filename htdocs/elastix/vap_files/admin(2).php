@@ -1493,7 +1493,7 @@
   <tr id="v4row">
     <td class="label" nowrap="">RADIUS IP Address:&nbsp;</td>
       <td>
-      <input type="text" class="formtext" name="radius_ip3" value="<?=(isset($_SESSION['radius']['ip3'])?$_SESSION['radius']['ip3']:$_SESSION['radius']['ip3'])?>" required="required"/>
+      <input type="text" class="formtext" name="radius_ip3" value="<?=(isset($_SESSION['radius']['ip3'])?$_SESSION['radius']['ip3']:$_SESSION['radius']['ip3'])?>" />
       </td>
   </tr>
 
@@ -1514,14 +1514,14 @@ else
   <tr>
     <td class="label" nowrap="">RADIUS Key:&nbsp;</td>
       <td>
-         <input type="text" class="formtext" name="radius_secret3" value="<?=(isset($_SESSION['radius']['secret3'])?$_SESSION['radius']['secret3']:'')?>" required="required"/>
+         <input type="text" class="formtext" name="radius_secret3" value="<?=(isset($_SESSION['radius']['secret3'])?$_SESSION['radius']['secret3']:'')?>"/>
       </td>
   </tr>
   
   <tr>
     <td class="label" nowrap="">RADIUS Port:&nbsp;</td>
       <td>
-         <input type="text" class="formtext" name="radius_port3" value="<?=(isset($_SESSION['radius']['port3'])?$_SESSION['radius']['port3']:'')?>" required="required"/>
+         <input type="text" class="formtext" name="radius_port3" value="<?=(isset($_SESSION['radius']['port3'])?$_SESSION['radius']['port3']:'')?>"/>
       </td>
   </tr>
 

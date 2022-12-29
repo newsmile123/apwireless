@@ -80,8 +80,12 @@ error_reporting(0);
     <td class="section-header-super" align="center">SSID</td>
     <td class="section-header-super" align="center">Station</td>
     <td class="section-header-super" align="center">IP Address</td>
+    <td class="section-header-super" align="center">Mask</td>
+    <td class="section-header-super" align="center">Default Gateway</td>
   </tr>
   <tr class="section-row">
+    <td class="section-header"></td>
+    <td class="section-header"></td>
     <td class="section-header"></td>
     <td class="section-header"></td>
     <td class="section-header"></td>
@@ -106,6 +110,18 @@ error_reporting(0);
         <?php
           session_start();
           echo $_SESSION['ap']['ip3'];
+        ?>
+    </td>
+    <td width="200" class="section-cell" align="center">
+        <?php
+          session_start();
+          echo $_SESSION['ap']['mask3'];
+        ?>
+    </td>
+    <td width="200" class="section-cell" align="center">
+        <?php
+          session_start();
+          echo $_SESSION['ap']['gateway3'];
         ?>
     </td>
   </tr>

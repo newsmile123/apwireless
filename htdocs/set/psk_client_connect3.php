@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if ($_SESSION['ap']['enc3'] == 'wpa_802.1x' or $_SESSION['ap']['enc3'] == 'wpa2_802.1x'){
 			$_SESSION['keyinput'] = $_POST['connect3'];
 
-			if ($_SESSION['keyinput'] == $_SESSION['radius']['secret3']) {
+			if ($_SESSION['keyinput'] == $_SESSION['radius']['secret3'] && $_SESSION['run'] == '1') {
 				$_SESSION['ap']['successxui'] = '1';
 			}
 			else {

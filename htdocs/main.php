@@ -9,7 +9,7 @@ if (isset($_SESSION['ap']['mode2']) && isset($_SESSION['ap']['SSID2']) && isset(
 $_SESSION['ap']['full2'] = '1';}
 else{
 $_SESSION['ap']['full2'] = '0';}
-if (isset($_SESSION['ap']['mode3']) && isset($_SESSION['ap']['SSID3']) && isset($_SESSION['ap']['mac3']) && isset($_SESSION['ap']['enc3']) && isset($_SESSION['ap']['key3']) && isset($_SESSION['ap']['channel3'])){
+if ( isset($_SESSION['ap']['SSID3']) && isset($_SESSION['ap']['ip3']) && isset($_SESSION['ap']['mac3']) && isset($_SESSION['ap']['enc3'])){
 $_SESSION['ap']['full3'] = '1';}
 else{
 $_SESSION['ap']['full3'] = '0';}
@@ -179,7 +179,7 @@ $_SESSION['ap']['full3'] = '0';}
                 <td align="left"><a href="ubiq/index.php" target="_blank" /><img src="images/start.png"></a>
         </td>
         </tr>
-        <tr><td>Эмулятор Elastix</td>
+        <tr><td>Эмулятор Eltex</td>
                 <td align="left"><a target='_blank' href="elastix/index.html" /><img src="images/start.png"></a>
         </td>
         </tr>

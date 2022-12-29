@@ -23,28 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$_SESSION['radius']['secret3'] = $_POST['radius_secret3'];
 		$_SESSION['radius']['secret'] = $_POST['passwordpsk'];
 	
-	$_SESSION['ap']['mask3'] = $_POST['mask3'];
+		$_SESSION['ap']['mask3'] = $_POST['mask3'];
 	
-	
-		
-		if ($_SESSION['ap']['enc2'] == 'wpa_802.1x' or $_SESSION['ap']['enc2'] == 'wpa2_802.1x' or $_SESSION['ap']['enc2'] == 'none'){
-			$_SESSION['ap']['key2'] = "";
-			$_SESSION['ap']['cip2her2'] = "";
-		}
-			else{;
-				$_SESSION['ap']['key2'] = $_POST['key2'];
-			}
-		if (!isset($_SESSION['count2'])){
-			$_SESSION['count2'] = 2;
-			$i = 2;
-			$_SESSION['ap']['profile2'] = $i;
-		}
-		else{
-			$i = $_SESSION['ap']['profile2'];
-		}
-		$_SESSION['sec2'][$i]['name2'] = $_SESSION['ap']['enc2'];
-		$_SESSION['sec2'][$i]['key2'] = $_SESSION['ap']['key2'] ;
-		$_SESSION['sec2'][$i]['cip2her2'] = $_SESSION['ap']['cip2her2'];
+
 	
 		header("Location: index_1.php");
 		}
