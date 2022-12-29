@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				unset($_SESSION['options_wrong']);
 			header("Location: ../set_client.php#tabs-2");
 		}
+		
 		if ($_POST['output'] == 'secret_wrong'){
 			unset($_SESSION['wrong_pass']);
 			unset($_SESSION['secret_ok']);
@@ -26,6 +27,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				unset($_SESSION['options_wrong']);
 			header("Location: ../set_client.php#tabs-2");
 		}
+
+
+
+		if ($_POST['output'] == 'secret_ok'){
+			unset($_SESSION['ap']['successxui'])
+			$_SESSION['ap']['pidor']
+			header("Location: ../set_client.php");
+		}
+
+		
 		
 		if ($_POST['output'] == 'options_wrong'){
 			unset($_SESSION['wrong_pass']);

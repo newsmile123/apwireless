@@ -119,7 +119,7 @@ $_SESSION['ap']['full3'] = '0';}
 													?></td>                                
                 </tr>
                 <tr><td>Соединение между точкой доступа eltex и клиентом</td>
-													<td><?php if (isset($_SESSION['ap']['success3']) && ($_SESSION['ap']['success3'] == '1'))  {
+													<td><?php if (isset($_SESSION['ap']['successxui']))  {
 													echo '<font color="green">установлено</font>';
 												}
 												else {

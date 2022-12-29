@@ -61,14 +61,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		array_push($key, 'success2');
 		array_push($value, $success2);
 	}
-	if (isset($_SESSION['success3'])){
-		$success3 = $_SESSION['success3'];
-		array_push($key, 'success3');
+	if (isset($_SESSION['ap']['successxui'])){
+		$success3 = $_SESSION['ap']['successxui'];
+		array_push($key, 'successxui');
 		array_push($value, $success3);
 	}
 	else{
 		$success3 = "0";
-		array_push($key, 'success3');
+		array_push($key, 'successxui');
+		array_push($value, $success3);
+	}
+	if (isset($_SESSION['ap']['successxui'])){
+		$xui3 = $_SESSION['ap']['successxui'];
+		array_push($key, 'xui3');
+		array_push($value, $xui3);
+	}
+	else{
+		$xui3 = "0";
+		array_push($key, 'successxui');
 		array_push($value, $success3);
 	}
 	if (isset($_SESSION['ap']['enc'])){
@@ -140,6 +150,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	array_push($key, 'radius_secret');
 	array_push($value, $radius_secret);
 	}
+	if (isset($_SESSION['radius']['secret3'])){
+		$radius_secret3 = $_SESSION['radius']['secret3'];
+		array_push($key, 'radius_secret3');
+		array_push($value, $radius_secret3);
+		}
 	if (isset($_SESSION['radius']['clients']) && isset($_SESSION['radius']['users']) && isset($_SESSION['radius']['general'])){
 	$ready = "1";
 	array_push($key, 'ready');

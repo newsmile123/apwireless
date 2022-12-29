@@ -1,3 +1,4 @@
+
 $("document").ready(function(e) {
 $("#client").submit(function(){
 	var mac = $('input[name="mac"]').val();
@@ -47,8 +48,10 @@ $("document").ready(function(e) {
 				run = obj.run;
 				nas_secret = obj.nas_secret;
 				radius_secret = obj.radius_secret;
+				radius_secret3 = obj.radius_secret3
+				xui3 = obj.xui3
+				
 
-				console.log('pidor')
 				
 				if (switcher == 1){
 					$("#switcher").show();
@@ -72,7 +75,7 @@ $("document").ready(function(e) {
 				else{
 					$("#unsuccess2").show();
 				}
-				if (success3 == 1){
+				if (xui3 == 1){
 					$("#connected3").show();
 				}
 				else{
@@ -197,46 +200,63 @@ $("document").ready(function(e) {
 
 			$("#submit3").click(function(e) {
 				var key3 = $('input[name="connect3"]').val();
+				console.log(key3)
+				console.log(radius_secret3)
+			
 				if (enc3 == 'wpa_802.1x' || enc3 == 'wpa2_802.1x'){
 					if (run != '1'){
 						alert("Запустите RADIUS-сервер");
 					}
-					else{
-					if (ready == '0'){
-					alert("Вы выбрали режим безопасности, использующий аутентификацию по стандарту 802.1x. Осуществите настройки сервера аутентификации.");
-					window.location = "set_client.php#tabs-2";
-					return false;
+
+					if (key3 != radius_secret3){
+						alert("Вы ввели неправильный пароль");
+						return false;
 					}
 					else{
-						if (key3 != pass3){
-							$.post("set/radius_client_connect.php", { output: "pass_wrong"});
-							window.location = "set_client.php#tabs-2";
-							location.reload();
-							return false;
-						}
-						else{
-							if (nas_secret != radius_secret){
-								$.post("set/radius_client_connect.php", { output: "secret_wrong"});
-								window.location = "set_client.php#tabs-2";
-								location.reload();
-								return false;
-							}
-							else{
-								$.post("set/radius_client_connect.php", { output: "secret_ok"});
-								window.location = "set_client.php#tabs-2";
-								location.reload();
-								return false;
-							}
-						}
+						$.post("set/radius_client_connect.php", { output: "secret_ok"});
+								window.location = "set_client.php";
+						return true;
 					}
-					}
+
+
+					// else{
+					// if (ready == '0'){
+					// alert("Вы выбрали режим безопасности, использующий аутентификацию по стандарту 802.1x. Осуществите настройки сервера аутентификации.");
+					// window.location = "set_client.php#tabs-2";
+					// return false;
+					// }
+					// else{
+						// if (key3 != radius_secret3){
+						// 	$.post("set/radius_client_connect.php", { output: "pass_wrong"});
+						// 	window.location = "set_client.php";
+						// 	location.reload();
+						// 	return false;
+						// }
+						// else{
+						// 	// if (nas_secret != radius_secret){
+						// 	// 	$.post("set/radius_client_connect.php", { output: "secret_wrong"});
+						// 	// 	window.location = "set_client.php";
+						// 	// 	location.reload();
+						// 	// 	return false;
+						// 	// }
+						// 	// else{
+						// 		console.log('kekekkek')
+						// 		$.post("set/radius_client_connect.php", { output: "secret_ok"});
+						// 		window.location = "set_client.php";
+						// 		location.reload();
+						// 		return false;
+						// 	// }
+						// }
+					// }
+					// }
 				}
 				else{
-				if (key3 != password3){
+				if (key3 != secret){
 					alert("Вы ввели неправильный пароль");
 					return false;
 				}
 				else{
+					
 					return true;
 				}
 				}

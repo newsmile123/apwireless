@@ -1481,6 +1481,7 @@
      
     }
   </script>
+  <?php session_start() ?>
 <input class="value" type="radio" name="update.device.global-radius-server.radius-ip-network" id="update.device.global-radius-server.radius-ip-network-ipv4" value="ipv4" checked="" onclick="grsRadioEnable(this.value)">
         IPv4
         
@@ -1492,7 +1493,7 @@
   <tr id="v4row">
     <td class="label" nowrap="">RADIUS IP Address:&nbsp;</td>
       <td>
-      <input type="text" class="formtext" name="radius_ip3" value="<?=(isset($_SESSION['radius']['ip3'])?$_SESSION['radius']['ip3']:'')?>" required="required"/>
+      <input type="text" class="formtext" name="radius_ip3" value="<?=(isset($_SESSION['radius']['ip3'])?$_SESSION['radius']['ip3']:$_SESSION['radius']['ip3'])?>" required="required"/>
       </td>
   </tr>
 
@@ -5374,7 +5375,7 @@ function wlan1wparadiusvlans0validateWpaEnterprise(title) {
       <tr id="ipv4wlan1vlans.0.wpa-type2">
         <td class="label" nowrap="">RADIUS IP Address:&nbsp;</td>
         <td>
-        <input id="wlan1wparadiusvlans0radius-ip" type="text" class="text-input" name="wlan1vlans.0.radius-ip" value="192.168.31.90">
+        <input id="wlan1wparadiusvlans0radius-ip" type="text" class="text-input" name="wlan1vlans.0.radius-ip" value="192.168.31.90"> 
         </td>
       </tr>
       <tr id="ipv4wlan1vlans.0.wpa-type21">

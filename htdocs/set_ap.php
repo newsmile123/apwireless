@@ -408,6 +408,9 @@ input, select, option {
 		<tr>
 			<td>Radius Key</td><td><input  type="text" class="formtext" name="radius_secret" align="left" width="150" value="<?=(isset($_SESSION['radius']['secret3'])?$_SESSION['radius']['secret3']:'')?>"/></td></tr>
 		<tr>
+		<tr>
+			<td>Key</td><td><input  type="text" class="formtext" name="radius_secret" align="left" width="150" value="<?=(isset($_SESSION['ap']['key3'])?$_SESSION['ap']['key3']:'')?>"/></td></tr>
+		<tr>
 		<tr><td>Radius port</td><td><input  type="text" class="formtext" name="radius_port" align="left" width="150" value="<?=(isset($_SESSION['radius']['port'])?$_SESSION['radius']['port']:'')?>"/></td></tr>
 		
 		

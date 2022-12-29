@@ -5,3 +5,8 @@
 221217  6:43:27 [Note] Event Scheduler: Loaded 0 events
 221217  6:43:27 [Note] C:\emulTWAMP20151106\app\bin\mysqld.exe: ready for connections.
 Version: '5.1.36-community'  socket: ''  port: 3306  MySQL Community Server (GPL)
+221229  1:17:15 [Note] Plugin 'InnoDB' is disabled.
+221229  1:17:15 [Note] Plugin 'FEDERATED' is disabled.
+221229  1:17:15 [Note] Event Scheduler: Loaded 0 events
+221229  1:17:15 [Note] C:\emulTWAMP20151106\app\bin\mysqld.exe: ready for connections.
+Version: '5.1.36-community'  socket: ''  port: 3306  MySQL Community Server (GPL)

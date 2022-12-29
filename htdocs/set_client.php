@@ -191,7 +191,7 @@ error_reporting(0);
                                 	<div id="switcher3" >
 									 
                                     	<p>Беспроводное сетевое соединение</p>
-                                        <form action="set/psk_client_connect.php" name="connection3" method="post">
+                                        <form action="set/psk_client_connect3.php" name="connection3" method="post">
 											<table class="gradient-style" width="100%" style="border: 2px solid #fff;"><tr> 
 											<thead>
                                     						<th scope="col" width="25%" align="center">Название</td>
@@ -209,8 +209,8 @@ error_reporting(0);
                                                             <table class="gradient-style" style="border: 2px solid #fff; border-top:0px; margin-top:-2px;">
 															<tr>
                                                             <td width="35%" align="center">Введите ключ</td>
-															<td align="center" colspan="2"  width="40%"><input id="inputsub" type="password" name="connect3"></td>
-															<td align="right" width="25%"><input type="button" value="Подключиться" id="submit3click" name="submit3"></td></tr></table></div>
+															<td align="center" colspan="2"  width="40%"><input id="inputsub" type="password" name="connect3"  value="<?=(isset($_SESSION['xui'])?$_SESSION['xui']:'')?>" ></td>
+															<td align="right" width="25%"><input type="submit" value="Подключиться" id="submit3" name="submit4"></td></tr></table></div>
                                                             <div id="connected3">
                                                             <table class="gradient-style" style="border: 2px solid #fff; border-top:0px; margin-top:-2px;">
 															<tr>
@@ -233,16 +233,23 @@ error_reporting(0);
          </td>   
          		
     </tr>
-    <script>
-        var getSwitcherElastix = "<?php echo $_SESSION['ap']['switcher3']; ?>"
+    <!-- <script>
+        var getSwitcherElastix = "<?php # echo $_SESSION['ap']['switcher3']; ?>"
 
-        var getSuccessElastix = "<?php echo $_SESSION['success']; ?>"
+        var getSuccessElastix = "<?php # echo $_SESSION['success']; ?>"
 
-        var getkey3 = "<?php echo $_SESSION['ap']['key3']; ?>"
 
-        var getconnect3 = "<?php echo $_SESSION['ap']['connect3']; ?>"
+        var getSuccessElastix1 = "<?php # echo $_SESSION['ap']['success3']; ?>"
 
-        var secret = "<?php echo $_SESSION['radius']['shared-secret']; ?>"
+        var getkey3 = "<?php # echo $_SESSION['ap']['key3']; ?>"
+
+        var getconnect3 = "<?php # echo $_SESSION['ap']['connect3']; ?>"
+
+        var enc3 = "<?php # echo $_SESSION['ap']['enc3']; ?>"
+
+        var run = "<?php # echo $_SESSION['run']; ?>"
+
+        var secret = "<?php # echo $_SESSION['radius']['shared-secret']; ?>"
 
         var elastixConnection = document.getElementById('switcher3');    
         var elastixSuccess = document.getElementById('connected3');   
@@ -260,25 +267,52 @@ error_reporting(0);
             elastixConnection.style.display = 'block'
         }
 
+        console.log(getSuccessElastix1 == '1')
+
         btnsubmit.addEventListener('click', (e) => {
+
         
             var inpt  = document.getElementById('inputsub'); 
 
-            if (inpt.value == secret) {
+
+            if (getSuccessElastix1 == '1') {
                 elastixUnSuccess.style.display = 'none'
                 elastixSuccess.style.display = 'block'
-                <?php $_SESSION['ap']['success3'] = 1 ?>
             } else {
-                alert(
-                    'Не верный пароль'
-                )
+                elastixUnSuccess.style.display = 'block'
                 elastixSuccess.style.display = 'none'
             }
 
-     
+            if (enc3 === 'wpa2_802.1x') {
+                if (run !== '1') {
+                    alert("Запустите RADIUS-server")
+                } else {
+                    if (inpt.value == secret) {
+                        elastixUnSuccess.style.display = 'none'
+                        elastixSuccess.style.display = 'block'
+                        <?php inpt.value == secret ? $_SESSION['ap']['success3'] = 1 : '' ?>
+                    } else {
+                        alert('Не верный пароль')
+                        elastixSuccess.style.display = 'none'
+                    }
+                }
+            } else {
+                if (inpt.value == secret) {
+                    console.log(inpt.value == secret)
+                        elastixUnSuccess.style.display = 'none'
+                        elastixSuccess.style.display = 'block'
+                        <?php inpt.value == secret ? $_SESSION['ap']['success3'] = 1 :  $_SESSION['ap']['success3'] = 0?>
+
+                    } else {
+                        alert(
+                            'Не верный пароль'
+                        )
+                        elastixSuccess.style.display = 'none'
+                    }
+            }
         })
 
-    </script>
+    </script> -->
 </table>
 </table>
 </td>

@@ -2,6 +2,7 @@
 session_start();
 error_reporting(0);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
 	
 	$_SESSION['ap']['mac3'] = $_POST['mac3'];
 	$_SESSION['ap']['SSID3'] = $_POST['ssid3'];
